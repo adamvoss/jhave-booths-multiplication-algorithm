@@ -1,0 +1,26 @@
+
+
+boothMultiply(multiplicand, multiplier){
+    Register M=multiplicand
+    Register A=0
+    Register Q=multiplier
+    Bit prevLastBitQ=0
+    Integer count=bitLength(M) //all registers have the same length
+
+    while (count > 0) {
+
+      if ([leastSignificanBit(Q),Q_{-1}] == [1,0]){
+        A=A-M
+      }
+
+      else if (leastSignificantBit(Q),Q_{-1} == [0,1]){
+        A=A+M
+      }
+
+      //[0,0] and [1,1] cases only shift
+
+      signPreservinRightShift(1, A, Q, Q_{-1})
+
+      count--
+    }
+}
