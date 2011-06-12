@@ -1,0 +1,8 @@
+while (count >0){
+    if (Q_0 Q_{-1} == 10)
+        a <-- (A-M)
+    else if (Q_0,Q_{-1} == 01)
+        A <-- A+M
+    right Aithmetic sift A Q Q_{-1}
+    count--
+}
