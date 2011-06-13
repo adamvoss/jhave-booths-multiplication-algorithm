@@ -2,7 +2,7 @@
 <pseudocode>
   <code>
     <signature>boothMultiply(multiplicand, multiplier){</signature>
-      <line num="1">
+    <line num="1">
         Register M=multiplicand 
         Register A=0 
         Register Q=multiplier 
