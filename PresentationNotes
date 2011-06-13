@@ -1,3 +1,115 @@
 "Exploring the Role of Visualization and Engagement in Computer Science Education"
 
 Points 1 (give them material to understand) and 5 (show execution history)
+
+---------------------------------------------------------------------------
+First Visualization
+
+David:
+	Make the number of bits an input
+	Response: Input generator handles register size "automagically"
+	Counter : Fixed register size crucial idea in thinking about hardware
+
+Kim  :
+	Further annotation
+	response: pseudo code will give enough information, not too much annotation
+
+Eric :
+	1: History of registers, if stays on screen can be distracting. JHAVE's back/forward be used to same effect
+	2: Show this also in assembly?
+	Response (2) (David): would reading assembly actually help a student understand?
+	Response (1) (Kim/David): History helps a little, especially at the end. Also, need some history with shift to make it visible.
+
+JT   : User might think the history would be used later, so possibly confusing. However, it is a useful way to keep track of operations
+
+Alex : Perhaps 'grey out' to show inactive.
+
+//No noise..... boooo
+
+David/Erik : Columns of history would indeed be confusing
+
+David: Generate examples that are more / less efficient
+
+Adam : Where is this notion of "it's on screen, it will be used" coming from? JHAVE experience or more general
+	Response (Eric): Never seen visualizations with history on the screen.
+	Counter (Tom): Other visualizations don't have the luxury of keeping history on screen, like the B+ tree. Might be a good thing?
+
+Kim  : Maybe make a note in info tab, greyed out numbers are for reference only
+
+JT   : Annotate with steps: Step 1, 2
+
+David: Show that the vertical motion down correlates to moving time
+
+Kim  : Keep the math done in math pane as you go along.
+
+Eric : Move headings of column right above step so that active row is labeled
+
+David: Even put the label on the left?
+
+Shauna:Newer steps on top, I don't want to have to scroll down the page to find the active step.
+
+---------------------------------------------------------------------------
+VISUALIZATION 2
+
+Chris: Envisioned the first as a stand-alone, meant only for someone who wanted to know how it's done on hardware. In info pane or elsewhere would be a link to hypertext book, which explains the mathematics behind it.
+
+Adam: A way to show Booth with pencil and paper, as a way to show the math.
+
+Chris: If you actually try to code multiplication, it isn't trivial, so we used english as the pseudo code to 'inherit' understanding of multiplication.
+
+David: You need to extend all the way to 2 * n
+	Response: No you don't
+	Counter : You don't want them sign extending to the wrong partial product
+	Response: We're explicit with that step ("Calculate all the partial products")
+
+Kim  : Where did the partial products come from
+	Response (shows where they came from)
+
+David: What is the goal of this visualization?
+	Response: Go from visualization 1 to the hypertext book, learn about the mathematics of booth's algorithm and link it to booth's encoding, using that to further demonstrate the math
+
+David: Why show the multiplication?
+	Response: It's not enough to show just the encoding. Give them a way to use it and see why it works out.
+
+David: There should be a connection between the way shift works and this algorithm
+
+Shauna: Pseudo code should go to definitely go to different pages. Also, no 'may want to'
+
+Eric : Don't do elipse expansion, just expand. Also, just calculate, that's the way it is, no 'you may want to'. There's never any question about what will happen.
+
+David: Psuedo code expanding is pretty confusing, if it changes as I view it. Might be helpful not to show zeros.
+	Response: We grey out zeros, but show them later when we add it. We write the zeros to make sure columns are added up.
+	Counter: Easy to get confusing if implement both. This isn't what's done in hardware, must make that explicit. Show that these are two different goals, keep them seperate.
+	Response: That is where the hypertextbook comes in, thanks for reminding. The first would be seperate from this.
+	Counter:  This is the 'why', the other is 'how'
+
+Kim: Beneficial to do this first, we did opposite and the other visualization was confusing without this context.
+
+Eric: I would like it opposite way. If I learned this, I would expect to do it in hardware similarly. They're very different. Which one comes first should be up to student or instructor.
+
+David: Possibly do this in hypertextbook only. This might be confusing.
+
+Adam : The goal of 1 is how to do it in registers, 2 is the why. They have different goals.
+
+David: The two together might hurt.
+
+Eric : This could go in a different section, expansion. Does this need to be visualized. You have to do one or the other, not both. There is a value, but we only want to learn the 'how'
+
+Tom  : Without knowing why?
+
+Chris: If you have the goal of just understanding how booth's algorithm works, all you need is the first visualization. If you want to know why it works, this kind of discussion is required.
+
+Adam : This is a different algorithm, so it's not even in the same visualization.
+
+Kim  : Wherever you put this, you should cover the math. It doesn't make sense otherwise - what is multiplication without math.
+
+David: So the question is, is it a visualization or just in the book? It might be too different, with shifts in different places, so is confusing to students. I would never test them on Booth's Encoding, just maybe ask them to explain the math. This might help them understand that, though.
+
+Eric : Make modules as small as possible so that professors can use it as they want.
+	Response: These were meant to be seperate so the proffessor can use them as they like. Also, it's good to question the connection between where this algorithm and the register one would work.
+
+JT  : So these are two seperate visualizations?
+	Response: Yes
+
+David:
+	All discussion has been really helpful. I've changed my mind about things. Some of this contradicts what we had previously discussed.
