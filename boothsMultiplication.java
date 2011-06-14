@@ -39,6 +39,8 @@ public class boothsMultiplication {
 	fillDummyRegister(RegQ);
 	fillDummyRegister(Q_1);
 
+//	System.out.println(numLines("0111010") );
+
 	RegM.setLabel("M:   ");
 	RegA.setLabel("A:   ");
 	RegQ.setLabel("Q:   ");
@@ -66,7 +68,14 @@ public class boothsMultiplication {
 	show.writeSnap("ps", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
 	boothsAlgorithmStep(RegM, RegA, RegQ, Q_1);
 	show.writeSnap("curtail", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
-	
+
+	GAIGStrace trace = new GAIGStrace();
+	trace.add("RegM", RegM);
+	trace.add("RegA", RegA);
+	trace.add("RegQ", RegQ);
+	trace.add("Q_1" , Q_1);
+
+	show.writeSnap("GAIG me with a spoon", docURI.toASCIIString(), pseudoURI, trace); 
 
         show.close();
     }
@@ -119,7 +128,21 @@ public class boothsMultiplication {
 	else if (partCalc == -1) addIntoRegA(A, M);
 
 	rightShift(A, Q, Q_1);
-    }	 
+    }
+
+    public static int numLines(String binNum) {
+	int sum = 0;
+	char prev = '0';
+
+	for (int i = binNum.length()-1; i >= 0; --i) {
+	    if (binNum.charAt(i) == '0') sum += (prev == '0' ? 1 : 2);
+	    else sum += (prev == '1' ? 1 : 2);
+
+	    prev = binNum.charAt(i); 
+	}
+
+	return sum;
+    } 
 
     public static void fillDummyRegister(GAIGSregister dummy) {
 	Random rand = new Random();
