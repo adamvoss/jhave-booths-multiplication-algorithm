@@ -2,6 +2,7 @@ package exe.boothsMultiplication;
 
 import java.io.*;
 import java.util.*;
+import java.util.ArrayList;
 import java.net.*;
 
 import org.jdom.*;
@@ -12,6 +13,7 @@ import exe.boothsMultiplication.*;
 
 public class boothsMultiplication {
     static PseudoCodeDisplay pseudo;    // The pseudocode
+    static GAIGSregister RegM;
     static GAIGSregister RegA;    // the array of RegA (stick display)
     static GAIGSregister RegQ;
     static GAIGSregister Q_1;
@@ -27,13 +29,20 @@ public class boothsMultiplication {
             e.printStackTrace();
         }
 
+	RegM= new ProtoRegister(4, "", "#999999", 0.05, 0.1, 0.3, 0.5, 0.07);
+        RegA= new ProtoRegister(4, "", "#999999", 0.3,  0.1, 0.55,  0.5, 0.07);
+	RegQ= new ProtoRegister(4, "", "#999999", 0.5, 0.1, 0.75, 0.5, 0.07);
+	Q_1 = new ProtoRegister(1, "", "#999999", 0.7,  0.1, 0.9,  0.5, 0.07);
 
-        RegA= new ProtoRegister(4, "", "#999999", 0.05, 0.1, 0.5, 0.9, 0.07);
-	RegQ= new ProtoRegister(4, "", "#999999", 0.4, 0.1, 0.8, 0.9, 0.07);
-	Q_1 = new ProtoRegister(1, "", "#999999", 0.6, 0.1, 0.95, 0.9, 0.07);
-	fillDummyRegister(RegA, RegA.getSize() );
-	fillDummyRegister(RegQ, RegQ.getSize() );
-	fillDummyRegister(Q_1, Q_1.getSize() );
+	fillDummyRegister(RegM);
+	fillDummyRegister(RegA);
+	fillDummyRegister(RegQ);
+	fillDummyRegister(Q_1);
+
+	RegM.setLabel("M:   ");
+	RegA.setLabel("A:   ");
+	RegQ.setLabel("Q:   ");
+	Q_1.setLabel("Q(-1):");
 	//System.out.println("Size of registers: " + RegA.getSize() );
 	//System.out.println(RegA.getBit(0));
 
@@ -50,11 +59,13 @@ public class boothsMultiplication {
         e.printStackTrace();
     }
 
-        show.writeSnap("Hi", docURI.toASCIIString(), pseudoURI, RegA, RegQ, Q_1);
+        show.writeSnap("Hi", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
 	rightShift(RegA, RegQ, Q_1);
-	show.writeSnap("Bye", docURI.toASCIIString(), pseudoURI, RegA, RegQ, Q_1);
+	show.writeSnap("Bye", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
 	addIntoRegA(RegA, RegQ);
-	show.writeSnap("ps", docURI.toASCIIString(), pseudoURI, RegA, RegQ, Q_1);
+	show.writeSnap("ps", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
+	boothsAlgorithmStep(RegM, RegA, RegQ, Q_1);
+	show.writeSnap("curtail", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
 	
 
         show.close();
@@ -84,14 +95,40 @@ public class boothsMultiplication {
 	}
     }
 
-    public static void fillDummyRegister(GAIGSregister dummy, int length) {
+    public static GAIGSregister negateValue(GAIGSregister M) {
+	GAIGSregister ret = new ProtoRegister(M.getSize() );
+	int carry = 1;
+
+	for (int i = M.getSize()-1; i >= 0; --i) {
+	    int negPart = 0;
+
+	    if (M.getBit(i) == 0) negPart = 1;
+	    else negPart = 0;
+
+	    ret.setBit((negPart + carry) % 2, i);
+	    carry = (negPart + carry) / 2;
+	}
+
+	return ret;
+    }
+
+    public static void boothsAlgorithmStep(GAIGSregister M, GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
+	int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
+
+	if      (partCalc == 1)  addIntoRegA(A, negateValue(M) );
+	else if (partCalc == -1) addIntoRegA(A, M);
+
+	rightShift(A, Q, Q_1);
+    }	 
+
+    public static void fillDummyRegister(GAIGSregister dummy) {
 	Random rand = new Random();
 	for (int i = 0; i < dummy.getSize(); ++i) {
 	    Integer val = new Integer(Math.abs(rand.nextInt() ) % 2);
 	    //System.out.println("Added " + val + " in fillDummyArray");
 	    dummy.setBit(val, i);
 	}
-    }	 
+    }
 }
 
 class ProtoRegister implements GAIGSregister{
