@@ -2,15 +2,15 @@
 <pseudocode>
   <code>
     <signature>Booth's Multiplication Algorithm</signature>
-    <line num="1" indent="0">boothMultiply(multiplicand, multiplier){</line>
-    <line num="2" indent="1">Register M=multiplicand</line>
-    <line num="3" indent="1">Register A=0</line>
-    <line num="4" indent="1">Register Q=multiplier</line>
-    <line num="5" indent="1">Bit prevLastBitQ=0</line>
-    <line num="6" indent="1">Integer count=bitLength(M) //all registers have the same length</line>
-    <line num="7" indent="1"></line>
-    <line num="8" indent="1">while (count > 0) {</line>
-    <line num="9" indent="2"></line>
+    <line num="01" indent="0">boothMultiply(multiplicand, multiplier){</line>
+    <line num="02" indent="1">Register M=multiplicand</line>
+    <line num="03" indent="1">Register A=0</line>
+    <line num="04" indent="1">Register Q=multiplier</line>
+    <line num="05" indent="1">Bit prevLastBitQ=0</line>
+    <line num="06" indent="1">Integer count=bitLength(M) //all registers have the same length</line>
+    <line num="07" indent="1"></line>
+    <line num="08" indent="1">while (count > 0) {</line>
+    <line num="09" indent="2"></line>
     <line num="10" indent="2">if ([leastSignificanBit(Q),Q_{-1}] == [1,0]){</line>
     <line num="11" indent="3">A=A-M</line>
     <line num="12" indent="2">}</line>
