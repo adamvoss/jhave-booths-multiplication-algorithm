@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pseducocode>
+  <code>
+    <signature>Multiply two binary numbers<br /> using Booth's encoding</signature>
+    <line num="1" indent="0">Leave the multiplicand unchanged.</line>
+    <line num="1" indent="0">You may want to calculate the two's complement of the multiplicand.</line>
+    <line num="1" indent="0">Encode the multiplier using Booth's encoding</line>
+    <line num="1" indent="0">Multiply the multiplicand using the encoded multiplier.</line>
+
+    <line num="1" indent="0">Booth Encode a Binary Number</line>
+
+    <line num="1" indent="0">Scan the digits from right to left:</line>
+    <line num="1" indent="0">Copy down zeros as 0.</line>
+    <line num="1" indent="0">At the first 1 encountered, copy down ī.</line>
+    <line num="1" indent="0">Continue on, flipping all 1s to 0s.</line>
+    <line num="1" indent="0">When the first 0 is encountered copy down 1.</line>
+    <line num="1" indent="0">Go to line 2</line>
+
+
+    <line num="1" indent="0">Multiplying using a booth-encoded multiplier</line>
+    <line num="1" indent="0"></line>
+    <line num="1" indent="0">Multiply by digit as with regular multiplication.</line>
+    <line num="1" indent="0">If the digit is ī, the result of the multiplication is the two's complement of M</line>
+Before summing the partial products</line>
+    <line num="1" indent="0">Sign extend all the partial products so they have the same number of digits as the last partial product.</line>
+    <line num="1" indent="0">Sum the partial products.</line>
+  </code>
+</pseudocode>
