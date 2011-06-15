@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.ArrayList;
 import java.net.*;
+import java.lang.Integer;
 
 import org.jdom.*;
 
@@ -12,41 +13,62 @@ import exe.pseudocode.*;
 import exe.boothsMultiplication.*;
 
 public class boothsMultiplication {
-    static PseudoCodeDisplay pseudo;    // The pseudocode
+    static PseudoCodeDisplay pseudo; 
     static GAIGSregister RegM;
-    static GAIGSregister RegA;    // the array of RegA (stick display)
+    static GAIGSregister RegA;
     static GAIGSregister RegQ;
     static GAIGSregister Q_1;
     static URI docURI;
     static String pseudoURI;
 
     public static void main(String args[]) throws IOException {
+        //JHAVÉ Stuff
         ShowFile show = new ShowFile(args[0]);
-        
+
         try{
         pseudo = new PseudoCodeDisplay("exe/boothsMultiplication/pseudocode.xml");
         } catch (JDOMException e){
             e.printStackTrace();
         }
 
-        RegM= new ProtoRegister(4, "", "#999999", 0.05, 0.1, 0.3, 0.5, 0.07);
-        RegA= new ProtoRegister(4, "", "#999999", 0.3,  0.1, 0.55,  0.5, 0.07);
-        RegQ= new ProtoRegister(4, "", "#999999", 0.5, 0.1, 0.75, 0.5, 0.07);
+
+        //Our Stuff
+        String multiplicand = toBinary(Integer.parseInt(args[1]));
+        String multiplier   = toBinary(Integer.parseInt(args[2]));
+
+        final int regSize;
+        if (multiplicand.length() > multiplier.length()){
+        //    regSize=multiplicand.length();
+        }
+        else {
+        //    regSize=multiplier.length();
+        }
+        regSize=4; //Because Chris likes it Random
+
+        RegM= new ProtoRegister(regSize, "", "#999999", 0.05, 0.1, 0.3, 0.5, 0.07);
+        RegA= new ProtoRegister(regSize, "", "#999999", 0.3,  0.1, 0.55,  0.5, 0.07);
+        RegQ= new ProtoRegister(regSize, "", "#999999", 0.5, 0.1, 0.75, 0.5, 0.07);
         Q_1 = new ProtoRegister(1, "", "#999999", 0.7,  0.1, 0.9,  0.5, 0.07);
 
-        fillDummyRegister(RegM);
-        fillDummyRegister(RegA);
-        fillDummyRegister(RegQ);
-        fillDummyRegister(Q_1);
+        RegM.set(multiplicand);
+        RegA.set("0");
+        RegQ.set(multiplier);
+        Q_1.set("0");
 
-//      System.out.println(numLines("0111010") );
+        //Give Chris back his random behavior
+        Random rand = new Random();
+        RegM.set(toBinary(rand.nextInt()));
+        RegA.set(toBinary(rand.nextInt()));
+        RegQ.set(toBinary(rand.nextInt()));
+        Q_1.set(toBinary(rand.nextInt()));
+        
+
+        //System.out.println(numLines("0111010") );
 
         RegM.setLabel("M:   ");
         RegA.setLabel("A:   ");
         RegQ.setLabel("Q:   ");
         Q_1.setLabel("Q(-1):");
-        //System.out.println("Size of registers: " + RegA.getSize() );
-        //System.out.println(RegA.getBit(0));
 
         try{
         docURI = new URI("str", "<html>hi</html>", "");
@@ -55,11 +77,10 @@ public class boothsMultiplication {
 
         try {
         pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(), new int[0], new int[0]);
-    } catch (JDOMException e) {
-        // TODO Auto-generated catch block
-        // TODO delete line above
-        e.printStackTrace();
-    }
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
+
 
         show.writeSnap("Hi", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
         rightShift(RegA, RegQ, Q_1);
@@ -75,7 +96,7 @@ public class boothsMultiplication {
         trace.add("RegQ", RegQ);
         trace.add("Q_1" , Q_1);
 
-        show.writeSnap("GAIG me with a spoon", docURI.toASCIIString(), pseudoURI, trace); 
+        show.writeSnap("GAIGS me with a spoon", docURI.toASCIIString(), pseudoURI, trace); 
 
         show.close();
     }
@@ -130,6 +151,9 @@ public class boothsMultiplication {
         rightShift(A, Q, Q_1);
     }
 
+    /**
+    * What is ths supposed to be used for?
+    */
     public static int numLines(String binNum) {
         int sum = 0;
         char prev = '0';
@@ -142,17 +166,30 @@ public class boothsMultiplication {
         }
 
         return sum;
-    } 
-
-    public static void fillDummyRegister(GAIGSregister dummy) {
-        Random rand = new Random();
-        for (int i = 0; i < dummy.getSize(); ++i) {
-            Integer val = new Integer(Math.abs(rand.nextInt() ) % 2);
-            //System.out.println("Added " + val + " in fillDummyArray");
-            dummy.setBit(val, i);
+    }
+ 
+    /**
+    * Converts an int to its shortest-length two's complement binary represntative
+    */
+    public static String toBinary(int a){
+        if (a<0){
+            return Integer.toBinaryString(a).replaceFirst("11*", "1");
         }
+        //positive numbers are already shortest length 
+       return "0"+Integer.toBinaryString(a);
+    }
+
+    /**
+    * Sign extends binStr by i bits
+    */
+    public static String signExtend(String binStr, int i){
+        String firstBit = String.valueOf(binStr.charAt(0));
+        String extension = "";
+        while (i>0){extension = extension.concat(firstBit); i--;}
+        return extension.concat(binStr);
     }
 }
+
 
 class ProtoRegister implements GAIGSregister{
     private GAIGSarray wrapped;
@@ -201,4 +238,21 @@ class ProtoRegister implements GAIGSregister{
     public String getLabel() {return wrapped.getRowLabel(0);}
 
     public void setColor(int loc, String cl) {wrapped.setColor(0, loc, cl);}
+
+    public void set(String binStr){
+        //Empty String == 0
+        if (binStr.isEmpty()){binStr="0";}
+        
+        //Expand string to register size
+        if (binStr.length() < this.getSize()){
+            binStr = boothsMultiplication.signExtend(binStr,this.getSize()-binStr.length());
+        }
+
+        //If string too big, cut off most significant bits
+        binStr = binStr.substring(binStr.length()-this.getSize());
+        for (int count = (this.getSize()-1); count >= 0; count--){
+            this.setBit(Character.getNumericValue(binStr.charAt(count)), count);
+        }
+
+    }
 }

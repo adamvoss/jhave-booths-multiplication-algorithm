@@ -67,4 +67,10 @@ public interface GAIGSregister extends GAIGSdatastr {
     *
     */
     public void setColor(int loc, String cl);
+
+    /**
+    * Set the value in the register, discarding overflow
+    *
+    */
+    public void set(String binaryString);
 }

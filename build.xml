@@ -18,7 +18,8 @@
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.boothsMultiplication">
       <arg value="foo.sho" />  <!--  Name of the output visualization script-->
-      <arg value="10" />
+      <arg value="7" />
+      <arg value="-7" />
     </java> 
   </target>
 
