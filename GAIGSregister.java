@@ -69,8 +69,21 @@ public interface GAIGSregister extends GAIGSdatastr {
     public void setColor(int loc, String cl);
 
     /**
+    * Sets every bit in the register to the color
+    * given by cl
+    */
+    public void setAllToColor(String cl);
+
+    /**
     * Set the value in the register, discarding overflow
     *
     */
     public void set(String binaryString);
+
+    /**
+    * Create a new GAIGSregister with the same data, at a new position.
+    *
+    */
+    public GAIGSregister copyTo(double x1, double y1, double x2, double y2, 
+        double fontSize);
 }

@@ -10,7 +10,7 @@ import org.jdom.*;
 
 import exe.*;
 import exe.pseudocode.*;
-import exe.boothsMultiplication.*;
+//import exe.boothsMultiplication.GAIGSregister.*;
 
 public class boothsMultiplication {
     static PseudoCodeDisplay pseudo; 
@@ -20,6 +20,15 @@ public class boothsMultiplication {
     static GAIGSregister Q_1;
     static URI docURI;
     static String pseudoURI;
+
+//Shortcuts
+    public static final String DEFAULT = "#FFFFFF";
+    public static final String WHITE   = "#FFFFFF";
+    public static final String BLACK   = "#000000";
+    public static final String GREY    = "#555555";
+    public static final String RED     = "#999999";
+    public static final String GREEN   = "#009900";
+    public static final String BLUE    = "#000099";
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -45,10 +54,10 @@ public class boothsMultiplication {
         }
         regSize=4; //Because Chris likes it Random
 
-        RegM= new ProtoRegister(regSize, "", "#999999", 0.05, 0.1, 0.3, 0.5, 0.07);
-        RegA= new ProtoRegister(regSize, "", "#999999", 0.3,  0.1, 0.55,  0.5, 0.07);
-        RegQ= new ProtoRegister(regSize, "", "#999999", 0.5, 0.1, 0.75, 0.5, 0.07);
-        Q_1 = new ProtoRegister(1, "", "#999999", 0.7,  0.1, 0.9,  0.5, 0.07);
+        RegM= new ProtoRegister(regSize, "", DEFAULT, 0.05, 0.1, 0.3,  0.5, 0.07);
+        RegA= new ProtoRegister(regSize, "", DEFAULT, 0.3,  0.1, 0.55, 0.5, 0.07);
+        RegQ= new ProtoRegister(regSize, "", DEFAULT, 0.5,  0.1, 0.75, 0.5, 0.07);
+        Q_1 = new ProtoRegister(1,       "", DEFAULT, 0.7,  0.1, 0.9,  0.5, 0.07);
 
         RegM.set(multiplicand);
         RegA.set("0");
@@ -61,19 +70,24 @@ public class boothsMultiplication {
         RegA.set(toBinary(rand.nextInt()));
         RegQ.set(toBinary(rand.nextInt()));
         Q_1.set(toBinary(rand.nextInt()));
-        
+
+        GAIGSregister RegM2= RegM.copyTo(0.05, 0.2, 0.3 , 0.6, 0.07);
+        GAIGSregister RegA2= RegA.copyTo(0.3 , 0.2, 0.55, 0.6, 0.07);
+        GAIGSregister RegQ2= RegQ.copyTo(0.5,  0.2, 0.75, 0.6, 0.07);
+        GAIGSregister Q_12 = Q_1.copyTo( 0.7,  0.2, 0.9 , 0.6, 0.07);
+
+        //System.out.println(RegM + "-" + RegM2 + "\n" + RegA + "-" + RegA2 + "\n" + RegQ + "-" + RegQ2 + "\n" + Q_1);
 
         //System.out.println(numLines("0111010") );
 
-        RegM.setLabel("M:   ");
-        RegA.setLabel("A:   ");
-        RegQ.setLabel("Q:   ");
-        Q_1.setLabel("Q(-1):");
+        RegM.setLabel("M:    ");
+        RegA.setLabel("A:    ");
+        RegQ.setLabel("Q:    ");
+        Q_1.setLabel( "Q(-1):");
 
         try{
-        docURI = new URI("str", "<html>hi</html>", "");
-        } catch (java.net.URISyntaxException e) {
-        }
+            docURI = new URI("str", "<html>hi</html>", "");
+        } catch (java.net.URISyntaxException e) {}
 
         try {
         pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(), new int[0], new int[0]);
@@ -91,12 +105,14 @@ public class boothsMultiplication {
         show.writeSnap("curtail", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
 
         GAIGStrace trace = new GAIGStrace();
-        trace.add("RegM", RegM);
-        trace.add("RegA", RegA);
-        trace.add("RegQ", RegQ);
-        trace.add("Q_1" , Q_1);
+        trace.add("RegM", RegM2);
+        trace.add("RegA", RegA2);
+        trace.add("RegQ", RegQ2);
+        trace.add("Q_1" , Q_12);
 
-        show.writeSnap("GAIGS me with a spoon", docURI.toASCIIString(), pseudoURI, trace); 
+        trace.setLineColor(BLACK);
+
+        show.writeSnap("GAIGS me with a spoon", docURI.toASCIIString(), pseudoURI, trace, RegM, RegA, RegQ, Q_1); 
 
         show.close();
     }
@@ -239,13 +255,18 @@ class ProtoRegister implements GAIGSregister{
 
     public void setColor(int loc, String cl) {wrapped.setColor(0, loc, cl);}
 
+    public void setAllToColor(String cl) {
+        for (int i = 0; i < getSize(); ++i)
+            this.setColor(i, cl); 
+    }
+
     public void set(String binStr){
         //Empty String == 0
         if (binStr.isEmpty()){binStr="0";}
         
         //Expand string to register size
-        if (binStr.length() < this.getSize()){
-            binStr = boothsMultiplication.signExtend(binStr,this.getSize()-binStr.length());
+        if (binStr.length() < getSize() ){
+            binStr = boothsMultiplication.signExtend(binStr, getSize()-binStr.length());
         }
 
         //If string too big, cut off most significant bits
@@ -254,5 +275,23 @@ class ProtoRegister implements GAIGSregister{
             this.setBit(Character.getNumericValue(binStr.charAt(count)), count);
         }
 
+    }
+
+    public GAIGSregister copyTo(double x1, double y1, double x2, double y2,
+ double fontSize) {
+        GAIGSregister ret = new ProtoRegister(getSize(), "", boothsMultiplication.DEFAULT, x1, y1, x2, y2, fontSize);
+ 
+       for (int i = 0; i < this.getSize(); ++i) 
+            ret.setBit(getBit(i), i);
+
+        return ret;
+    }
+
+    public String toString() {
+        String ret = "";
+
+        for (int i = 0; i < getSize(); ++i) ret = ret + getBit(i);
+
+        return ret;
     }
 }

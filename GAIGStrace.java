@@ -39,6 +39,21 @@ public class GAIGStrace implements GAIGSdatastr {
         trace.add(new HashMap<String, GAIGSdatastr>() );
     }
 
+    public void setLineColor(String cl) {
+        setLineColor(trace.size()-1, cl);
+    }
+
+    public void setLineColor(int loc, String cl) {
+        for (HashMap<String, GAIGSdatastr> hm : trace) {
+            Collection<GAIGSdatastr> coll = hm.values();
+
+            for (GAIGSdatastr gds : coll) {
+                if (gds instanceof GAIGSregister) ((GAIGSregister) gds).setAllToColor(cl);
+            }
+        }
+    
+    }
+
     public String getName() {return "Unnamed";}
 
     public void setName(String newName) {}
