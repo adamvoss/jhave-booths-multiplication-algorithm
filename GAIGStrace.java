@@ -39,6 +39,8 @@ public class GAIGStrace implements GAIGSdatastr {
         trace.add(new HashMap<String, GAIGSdatastr>() );
     }
 
+    public int size() {return trace.size();}
+
     public void setLineColor(String cl) {
         setLineColor(trace.size()-1, cl);
     }
