@@ -2,9 +2,9 @@ package exe.boothsMultiplication;
 
 import java.io.*;
 import java.util.*;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.net.*;
-import java.lang.Integer;
+//import java.lang.Integer;
 
 import org.jdom.*;
 
@@ -21,14 +21,14 @@ public class boothsMultiplication {
     static URI docURI;
     static String pseudoURI;
 
-//Shortcuts
+    //Definitions
     public static final String DEFAULT = "#FFFFFF";
     public static final String WHITE   = "#FFFFFF";
     public static final String BLACK   = "#000000";
-    public static final String GREY    = "#555555";
-    public static final String RED     = "#999999";
-    public static final String GREEN   = "#009900";
-    public static final String BLUE    = "#000099";
+    public static final String GREY    = "#888888";
+    public static final String RED     = "#FF0000";
+    public static final String GREEN   = "#00FF00";
+    public static final String BLUE    = "#0000FF";
 
     public static final double XLEFT   =  0.1;
     public static final double XWIDTH  =  0.25;
@@ -45,27 +45,28 @@ public class boothsMultiplication {
             e.printStackTrace();
         }
 
-
         //Our Stuff
-        String multiplicand = toBinary(Integer.parseInt(args[1]));
+/*      String multiplicand = toBinary(Integer.parseInt(args[1]));
         String multiplier   = toBinary(Integer.parseInt(args[2]));
+*/
+        //Random number generation
+        //TODO Fix positions to accept more than four bits.
+        Random rand = new Random();
+        String multiplicand = toBinary(rand.nextInt() % 16);
+        String multiplier   = toBinary(rand.nextInt() % 16);
 
         final int regSize;
         if (multiplicand.length() > multiplier.length()){
-        //    regSize=multiplicand.length();
+            regSize=multiplicand.length();
+            multiplier = signExtend(multiplier, regSize-multiplier.length() );
         }
         else {
-        //    regSize=multiplier.length();
+            regSize=multiplier.length();
+            multiplicand = signExtend(multiplicand, regSize-multiplicand.length() );
         }
-        regSize=4; //Because Chris likes it Random
-
-/*        RegM= new ProtoRegister(regSize, "", DEFAULT, 0.1, 0.5, 0.35, 0.9, 0.07);
-        RegA= new ProtoRegister(regSize, "", DEFAULT, 0.3, 0.5, 0.55, 0.9, 0.07);
-        RegQ= new ProtoRegister(regSize, "", DEFAULT, 0.5, 0.5, 0.75, 0.9, 0.07);
-        Q_1 = new ProtoRegister(1,       "", DEFAULT, 0.7, 0.5, 0.95, 0.9, 0.07);*/
+//      System.out.println("Multiplier:\t\t" + multiplier + "\n" + "Multiplicand:\t" + multiplicand);
 
         int lines = numLines(multiplier);
-//      System.out.println("Numlines: " + lines);
         GAIGSpoints[] mypoints = getPositions(0, lines);
 
         RegM= new ProtoRegister(regSize, "", DEFAULT, mypoints[0].x1, mypoints[0].y1,
@@ -82,18 +83,6 @@ public class boothsMultiplication {
         RegQ.set(multiplier);
         Q_1.set("0");
 
-        //Give Chris back his random behavior
-        Random rand = new Random();
-        RegM.set(toBinary(rand.nextInt()));
-        RegA.set("0");
-        RegQ.set(toBinary(rand.nextInt()));
-//      Q_1.set(toBinary(rand.nextInt()));
-
-/*      GAIGSregister RegM2= RegM.copyTo(0.1, 0.4, 0.35, 0.8, 0.07);
-        GAIGSregister RegA2= RegA.copyTo(0.3, 0.4, 0.55, 0.8, 0.07);
-        GAIGSregister RegQ2= RegQ.copyTo(0.5, 0.4, 0.75, 0.8, 0.07);
-        GAIGSregister Q_12 = Q_1.copyTo( 0.7, 0.4, 0.95, 0.8, 0.07);*/
-
         mypoints = getPositions(1, lines);
 
         GAIGSregister RegM2= RegM.copyTo(mypoints[0].x1, mypoints[0].y1, 
@@ -104,9 +93,6 @@ public class boothsMultiplication {
             mypoints[2].x2, mypoints[2].y2, 0.07);
         GAIGSregister Q_12 = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1, 
             mypoints[3].x2, mypoints[3].y2, 0.07);
-        //System.out.println(RegM + "-" + RegM2 + "\n" + RegA + "-" + RegA2 + "\n" + RegQ + "-" + RegQ2 + "\n" + Q_1);
-
-        //System.out.println(numLines("0111010") );
 
         RegM.setLabel("M:    ");
         RegA.setLabel("A:    ");
@@ -123,28 +109,14 @@ public class boothsMultiplication {
             e.printStackTrace();
         }
 
-/*
-        show.writeSnap("Hi", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
-        rightShift(RegA, RegQ, Q_1);
-        show.writeSnap("Bye", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
-        addIntoRegA(RegA, RegQ);
-        show.writeSnap("ps", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
-        boothsAlgorithmStep(RegM, RegA, RegQ, Q_1);
-        show.writeSnap("curtail", docURI.toASCIIString(), pseudoURI, RegM, RegA, RegQ, Q_1);
-*/
         GAIGStrace trace = new GAIGStrace();
         trace.add("RegM", RegM);
         trace.add("RegA", RegA);
         trace.add("RegQ", RegQ);
         trace.add("Q_1" , Q_1);
 
-//        trace.setLineColor(BLACK);
-
-//        show.writeSnap("GAIGS me with a spoon", docURI.toASCIIString(), pseudoURI, trace, RegM, RegA, RegQ, Q_1); 
-        System.out.println("NumLines: " + lines);
         boothsAlgorithm(RegM2, RegA2, RegQ2, Q_12, trace, 0, numLines(RegQ.toString() ), show);
         
-
         show.close();
     }
 
@@ -192,8 +164,8 @@ public class boothsMultiplication {
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
         GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show) throws 
         IOException {
-        System.out.println("Iter: " + iter);
-        if (iter >= numLines-1) return;
+//      System.out.println("Iter: " + iter);
+        if (iter >= numLines) return;
 
         int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
 
@@ -213,64 +185,61 @@ public class boothsMultiplication {
 
             show.writeSnap(title, docURI.toASCIIString(), pseudoURI, trace, M, A, Q, Q_1);
 
-            //add a new line when finished
-            trace.newLine();
-            trace.add("RegM", M);
-            trace.add("RegA", A);
-            trace.add("RegQ", Q);
-            trace.add("Q_1" , Q_1);
-            
             ++iter;
-            GAIGSpoints[] mypoints = getPositions(iter+1, numLines); 
+            GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, trace, iter, numLines);
+
             OldQ   = Q;
             OldQ_1 = Q_1;
+            M = ret[0];
+            A = ret[1];
+            Q = ret[2];
+            Q_1=ret[3];
 
-            M   = M.copyTo(mypoints[0].x1, mypoints[0].y1, 
-                mypoints[0].x2, mypoints[0].y2, 0.07);
-            A   = A.copyTo(mypoints[1].x1, mypoints[1].y1, 
-                mypoints[1].x2, mypoints[1].y2, 0.07);
-            Q   = Q.copyTo(mypoints[2].x1, mypoints[2].y1, 
-                mypoints[2].x2, mypoints[2].y2, 0.07);
-            Q_1 = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1, 
-                mypoints[3].x2, mypoints[3].y2, 0.07);
-            
         }
         
         rightShift(A, Q, Q_1);    
         show.writeSnap("Sign Preserving Shift", docURI.toASCIIString(), pseudoURI, 
             trace, M, A, Q, Q_1);
 
-        //add a new line when finished
+        ++iter;
+        GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, trace, iter, numLines);
+
+        OldQ   = Q;
+        OldQ_1 = Q_1;
+        M = ret[0];
+        A = ret[1];
+        Q = ret[2];
+        Q_1=ret[3];
+
+        boothsAlgorithm(M, A, Q, Q_1, trace, iter, numLines, show); 
+    }
+
+    /**
+    * Helper function to reduce copy pasta
+    * Adds the GAIGSregisters to the GAIGStrace and generate the next 4.
+    */
+    public static GAIGSregister[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1, GAIGStrace trace,
+        int iter, int numLines) {
+        GAIGSregister[] ret = new GAIGSregister[4];
+
         trace.newLine();
         trace.add("RegM", M);
         trace.add("RegA", A);
         trace.add("RegQ", Q);
         trace.add("Q_1" , Q_1);
-           
-        ++iter;
-        GAIGSpoints[] mypoints = getPositions(iter+1, numLines); 
-        OldQ   = Q;
-        OldQ_1 = Q_1;
 
-        M   = M.copyTo(mypoints[0].x1, mypoints[0].y1, 
+        GAIGSpoints[] mypoints = getPositions(iter+1, numLines);
+
+        ret[0] = M.copyTo(mypoints[0].x1, mypoints[0].y1, 
             mypoints[0].x2, mypoints[0].y2, 0.07);
-        A   = A.copyTo(mypoints[1].x1, mypoints[1].y1, 
+        ret[1] = A.copyTo(mypoints[1].x1, mypoints[1].y1, 
             mypoints[1].x2, mypoints[1].y2, 0.07);
-        Q   = Q.copyTo(mypoints[2].x1, mypoints[2].y1, 
+        ret[2] = Q.copyTo(mypoints[2].x1, mypoints[2].y1, 
             mypoints[2].x2, mypoints[2].y2, 0.07);
-        Q_1 = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1, 
+        ret[3] = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1, 
             mypoints[3].x2, mypoints[3].y2, 0.07);
- 
-        boothsAlgorithm(M, A, Q, Q_1, trace, iter, numLines, show); 
-    }
 
-    public static void boothsAlgorithmStep(GAIGSregister M, GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
-        int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
-
-        if      (partCalc == 1)  addIntoRegA(A, negateValue(M) );
-        else if (partCalc == -1) addIntoRegA(A, M);
-
-        rightShift(A, Q, Q_1);
+        return ret;
     }
 
     /**
