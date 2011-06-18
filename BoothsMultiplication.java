@@ -12,8 +12,8 @@ import exe.*;
 import exe.pseudocode.*;
 //import exe.boothsMultiplication.GAIGSregister.*;
 
-public class boothsMultiplication {
-    static PseudoCodeDisplay pseudo; 
+public class BoothsMultiplication {
+    static PseudoCodeDisplay pseudo;
     static GAIGSregister RegM;
     static GAIGSregister RegA;
     static GAIGSregister RegQ;
@@ -64,18 +64,17 @@ public class boothsMultiplication {
             regSize=multiplier.length();
             multiplicand = signExtend(multiplicand, regSize-multiplicand.length() );
         }
-//      System.out.println("Multiplier:\t\t" + multiplier + "\n" + "Multiplicand:\t" + multiplicand);
 
-        int lines = numLines(multiplier);
-        GAIGSpoints[] mypoints = getPositions(0, lines);
+        int numRows = numLines(multiplier);
+        GAIGSpoints[] mypoints = getPositions(0, numRows);
 
-        RegM= new ProtoRegister(regSize, "", DEFAULT, mypoints[0].x1, mypoints[0].y1,
+        RegM= new GAIGSarrayRegister.java(regSize, "", DEFAULT, mypoints[0].x1, mypoints[0].y1,
             mypoints[0].x2, mypoints[0].y2, 0.07);
-        RegA= new ProtoRegister(regSize, "", DEFAULT, mypoints[1].x1, mypoints[1].y1, 
+        RegA= new GAIGSarrayRegister.java(regSize, "", DEFAULT, mypoints[1].x1, mypoints[1].y1,
             mypoints[1].x2, mypoints[1].y2, 0.07);
-        RegQ= new ProtoRegister(regSize, "", DEFAULT, mypoints[2].x1, mypoints[2].y1, 
+        RegQ= new GAIGSarrayRegister.java(regSize, "", DEFAULT, mypoints[2].x1, mypoints[2].y1,
             mypoints[2].x2, mypoints[2].y2, 0.07);
-        Q_1 = new ProtoRegister(1,       "", DEFAULT, mypoints[3].x1, mypoints[3].y1, 
+        Q_1 = new GAIGSarrayRegister.java(1,       "", DEFAULT, mypoints[3].x1, mypoints[3].y1,
             mypoints[3].x2, mypoints[3].y2, 0.07);
 
         RegM.set(multiplicand);
@@ -83,15 +82,15 @@ public class boothsMultiplication {
         RegQ.set(multiplier);
         Q_1.set("0");
 
-        mypoints = getPositions(1, lines);
+        mypoints = getPositions(1, numRows);
 
-        GAIGSregister RegM2= RegM.copyTo(mypoints[0].x1, mypoints[0].y1, 
+        GAIGSregister RegM2= RegM.copyTo(mypoints[0].x1, mypoints[0].y1,
             mypoints[0].x2, mypoints[0].y2, 0.07);
-        GAIGSregister RegA2= RegA.copyTo(mypoints[1].x1, mypoints[1].y1, 
+        GAIGSregister RegA2= RegA.copyTo(mypoints[1].x1, mypoints[1].y1,
             mypoints[1].x2, mypoints[1].y2, 0.07);
-        GAIGSregister RegQ2= RegQ.copyTo(mypoints[2].x1, mypoints[2].y1, 
+        GAIGSregister RegQ2= RegQ.copyTo(mypoints[2].x1, mypoints[2].y1,
             mypoints[2].x2, mypoints[2].y2, 0.07);
-        GAIGSregister Q_12 = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1, 
+        GAIGSregister Q_12 = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1,
             mypoints[3].x2, mypoints[3].y2, 0.07);
 
         RegM.setLabel("M:    ");
@@ -116,7 +115,7 @@ public class boothsMultiplication {
         trace.add("Q_1" , Q_1);
 
         boothsAlgorithm(RegM2, RegA2, RegQ2, Q_12, trace, 0, numLines(RegQ.toString() ), show);
-        
+
         show.close();
     }
 
@@ -145,8 +144,8 @@ public class boothsMultiplication {
     }
 
     public static GAIGSregister negateValue(GAIGSregister M) {
-        GAIGSregister ret = new ProtoRegister(M.getSize() );
         int carry = 1;
+        GAIGSregister ret = new GAIGSarrayRegister.java(M.getSize() );
 
         for (int i = M.getSize()-1; i >= 0; --i) {
             int negPart = 0;
@@ -162,7 +161,7 @@ public class boothsMultiplication {
     }
 
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
-        GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show) throws 
+        GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show) throws
         IOException {
 //      System.out.println("Iter: " + iter);
         if (iter >= numLines) return;
@@ -196,9 +195,9 @@ public class boothsMultiplication {
             Q_1=ret[3];
 
         }
-        
-        rightShift(A, Q, Q_1);    
-        show.writeSnap("Sign Preserving Shift", docURI.toASCIIString(), pseudoURI, 
+
+        rightShift(A, Q, Q_1);
+        show.writeSnap("Sign Preserving Shift", docURI.toASCIIString(), pseudoURI,
             trace, M, A, Q, Q_1);
 
         ++iter;
@@ -211,7 +210,7 @@ public class boothsMultiplication {
         Q = ret[2];
         Q_1=ret[3];
 
-        boothsAlgorithm(M, A, Q, Q_1, trace, iter, numLines, show); 
+        boothsAlgorithm(M, A, Q, Q_1, trace, iter, numLines, show);
     }
 
     /**
@@ -230,13 +229,13 @@ public class boothsMultiplication {
 
         GAIGSpoints[] mypoints = getPositions(iter+1, numLines);
 
-        ret[0] = M.copyTo(mypoints[0].x1, mypoints[0].y1, 
+        ret[0] = M.copyTo(mypoints[0].x1, mypoints[0].y1,
             mypoints[0].x2, mypoints[0].y2, 0.07);
-        ret[1] = A.copyTo(mypoints[1].x1, mypoints[1].y1, 
+        ret[1] = A.copyTo(mypoints[1].x1, mypoints[1].y1,
             mypoints[1].x2, mypoints[1].y2, 0.07);
-        ret[2] = Q.copyTo(mypoints[2].x1, mypoints[2].y1, 
+        ret[2] = Q.copyTo(mypoints[2].x1, mypoints[2].y1,
             mypoints[2].x2, mypoints[2].y2, 0.07);
-        ret[3] = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1, 
+        ret[3] = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1,
             mypoints[3].x2, mypoints[3].y2, 0.07);
 
         return ret;
@@ -254,7 +253,7 @@ public class boothsMultiplication {
             if (binNum.charAt(i) == '0') sum += (prev == '0' ? 0 : 1);
             else sum += (prev == '1' ? 0 : 1);
 
-            prev = binNum.charAt(i); 
+            prev = binNum.charAt(i);
         }
 
         return sum;
@@ -274,7 +273,7 @@ public class boothsMultiplication {
 
         return ret;
     }
- 
+
     /**
     * Converts an int to its shortest-length two's complement binary represntative
     */
@@ -282,7 +281,7 @@ public class boothsMultiplication {
         if (a<0){
             return Integer.toBinaryString(a).replaceFirst("11*", "1");
         }
-        //positive numbers are already shortest length 
+        //positive numbers are already shortest length
        return "0"+Integer.toBinaryString(a);
     }
 
@@ -294,95 +293,5 @@ public class boothsMultiplication {
         String extension = "";
         while (i>0){extension = extension.concat(firstBit); i--;}
         return extension.concat(binStr);
-    }
-}
-
-
-class ProtoRegister implements GAIGSregister{
-    private GAIGSarray wrapped;
-    private int size;
-
-    public ProtoRegister(GAIGSarray w, int len) {
-        super();
-        wrapped = w;
-        size = len;
-    }
-
-    public ProtoRegister(int length) {
-        super();
-        wrapped = new GAIGSarray(1, length);
-        size = length;
-    }
-
-    public ProtoRegister(int length, String name, String color, double x1, double y1, double x2, double y2, double fontSize) {
-        super();
-        wrapped = new GAIGSarray(1, length, name, color, x1, y1, x2, y2, fontSize);
-        size = length;
-    }
-
-    public String getName() {
-        return wrapped.getName();
-    }
-
-    public void setName(String name) {
-        wrapped.setName(name);
-    }
-
-    public String toXML() {
-        return wrapped.toXML();
-    }
-
-    public int getSize() {return size;}
-
-    public int getBit(int loc) {return ((Integer) wrapped.get(0, loc));}
-
-    public void setBit(int value, int loc) {wrapped.set(new Integer(value), 0, loc);}
-
-    public void setBit(int value, int loc, String cl) {wrapped.set(new Integer(value), 0, loc, cl);}
-
-    public void setLabel(String label) {wrapped.setRowLabel(label, 0);}
-
-    public String getLabel() {return wrapped.getRowLabel(0);}
-
-    public void setColor(int loc, String cl) {wrapped.setColor(0, loc, cl);}
-
-    public void setAllToColor(String cl) {
-        for (int i = 0; i < getSize(); ++i)
-            this.setColor(i, cl); 
-    }
-
-    public void set(String binStr){
-        //Empty String == 0
-        if (binStr.isEmpty()){binStr="0";}
-        
-        //Expand string to register size
-        if (binStr.length() < getSize() ){
-            binStr = boothsMultiplication.signExtend(binStr, getSize()-binStr.length());
-        }
-
-        //If string too big, cut off most significant bits
-        binStr = binStr.substring(binStr.length()-this.getSize());
-        for (int count = (this.getSize()-1); count >= 0; count--){
-            this.setBit(Character.getNumericValue(binStr.charAt(count)), count);
-        }
-
-    }
-
-    public GAIGSregister copyTo(double x1, double y1, double x2, double y2,
- double fontSize) {
-        GAIGSregister ret = new ProtoRegister(getSize(), "", boothsMultiplication.DEFAULT, x1, y1, x2, y2, fontSize);
- 
-       for (int i = 0; i < this.getSize(); ++i) 
-            ret.setBit(getBit(i), i);
-
-        return ret;
-    }
-
-    public String toString() {
-        String ret = "";
-
-        for (int i = 0; i < getSize(); ++i) ret = ret + getBit(i);
-
-        return ret;
     }
 }
