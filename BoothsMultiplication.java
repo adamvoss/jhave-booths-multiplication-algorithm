@@ -29,15 +29,16 @@ public class BoothsMultiplication {
     public static final String GREEN   = "#00FF00";
     public static final String BLUE    = "#0000FF";
 
-    public static final double XLEFT   =  0.1;
-    public static final double XWIDTH  =  0.25;
-    public static final double XSPACE  = -0.05;
-    public static final double YWIDTH  =  0.1;
+    public static final double LEFT_MARGIN   =  0.1;
+    public static final double REG_WIDTH  =  0.25;
+    public static final double X_PAD  = -0.05;
+    public static final double REG_HEIGHT  =  0.1;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
         ShowFile show = new ShowFile(args[0]);
 
+        //Load the Pseudocode
         try{
         pseudo = new PseudoCodeDisplay("exe/boothsMultiplication/pseudocode.xml");
         } catch (JDOMException e){
@@ -260,8 +261,8 @@ public class BoothsMultiplication {
         double frac = 1.0 / numLines;
 
         for (int i = 0; i<4; ++i)
-            ret[i] = new GAIGSpoints(XLEFT+(i*(XWIDTH+XSPACE)), 1.0-(iter+1)*frac,
-                 XLEFT+((i+1)*XWIDTH)+(i*XSPACE),  (1.0-iter*frac)+YWIDTH);
+            ret[i] = new GAIGSpoints(LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)), 1.0-(iter+1)*frac,
+                 LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),  (1.0-iter*frac)+REG_HEIGHT);
 
         return ret;
     }
