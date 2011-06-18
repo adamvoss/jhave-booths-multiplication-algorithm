@@ -2,15 +2,12 @@ package exe.boothsMultiplication;
 
 import java.io.*;
 import java.util.*;
-//import java.util.ArrayList;
 import java.net.*;
-//import java.lang.Integer;
 
 import org.jdom.*;
 
 import exe.*;
 import exe.pseudocode.*;
-//import exe.boothsMultiplication.GAIGSregister.*;
 
 public class BoothsMultiplication {
     static PseudoCodeDisplay pseudo;
@@ -22,6 +19,8 @@ public class BoothsMultiplication {
     static String pseudoURI;
 
     //Definitions
+    private static final boolean DEBUG = false;
+
     public static final String DEFAULT = "#FFFFFF";
     public static final String WHITE   = "#FFFFFF";
     public static final String BLACK   = "#000000";
@@ -46,14 +45,8 @@ public class BoothsMultiplication {
         }
 
         //Our Stuff
-/*      String multiplicand = toBinary(Integer.parseInt(args[1]));
+        String multiplicand = toBinary(Integer.parseInt(args[1]));
         String multiplier   = toBinary(Integer.parseInt(args[2]));
-*/
-        //Random number generation
-        //TODO Fix positions to accept more than four bits.
-        Random rand = new Random();
-        String multiplicand = toBinary(rand.nextInt() % 16);
-        String multiplier   = toBinary(rand.nextInt() % 16);
 
         final int regSize;
         if (multiplicand.length() > multiplier.length()){
@@ -68,13 +61,13 @@ public class BoothsMultiplication {
         int numRows = numLines(multiplier);
         GAIGSpoints[] mypoints = getPositions(0, numRows);
 
-        RegM= new GAIGSarrayRegister.java(regSize, "", DEFAULT, mypoints[0].x1, mypoints[0].y1,
+        RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0].x1, mypoints[0].y1,
             mypoints[0].x2, mypoints[0].y2, 0.07);
-        RegA= new GAIGSarrayRegister.java(regSize, "", DEFAULT, mypoints[1].x1, mypoints[1].y1,
+        RegA= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[1].x1, mypoints[1].y1,
             mypoints[1].x2, mypoints[1].y2, 0.07);
-        RegQ= new GAIGSarrayRegister.java(regSize, "", DEFAULT, mypoints[2].x1, mypoints[2].y1,
+        RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[2].x1, mypoints[2].y1,
             mypoints[2].x2, mypoints[2].y2, 0.07);
-        Q_1 = new GAIGSarrayRegister.java(1,       "", DEFAULT, mypoints[3].x1, mypoints[3].y1,
+        Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT, mypoints[3].x1, mypoints[3].y1,
             mypoints[3].x2, mypoints[3].y2, 0.07);
 
         RegM.set(multiplicand);
@@ -145,7 +138,7 @@ public class BoothsMultiplication {
 
     public static GAIGSregister negateValue(GAIGSregister M) {
         int carry = 1;
-        GAIGSregister ret = new GAIGSarrayRegister.java(M.getSize() );
+        GAIGSregister ret = new GAIGSarrayRegister(M.getSize() );
 
         for (int i = M.getSize()-1; i >= 0; --i) {
             int negPart = 0;
@@ -161,9 +154,8 @@ public class BoothsMultiplication {
     }
 
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
-        GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show) throws
-        IOException {
-//      System.out.println("Iter: " + iter);
+        GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show)
+            throws IOException {
         if (iter >= numLines) return;
 
         int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
@@ -245,7 +237,7 @@ public class BoothsMultiplication {
     * Calculates the number of lines the final display will occupy
     */
     public static int numLines(String binNum) {
-//      System.out.println("BinNum is: ")
+    if (DEBUG){System.out.println("BinNum is: ");}
         int sum = binNum.length();
         char prev = '0';
 
