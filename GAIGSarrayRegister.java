@@ -22,6 +22,11 @@ class GAIGSarrayRegister implements GAIGSregister{
         size = length;
     }
 
+    public GAIGSarrayRegister(int length, String name, String color,
+                              Bounds b, double fontSize) {
+        this(length, name, color, b.x1, b.y1, b.x2, b.y2, fontSize);
+    }
+
     public String getName() {
         return wrapped.getName();
     }
@@ -70,11 +75,12 @@ class GAIGSarrayRegister implements GAIGSregister{
 
     }
 
-    public GAIGSregister copyTo(double x1, double y1, double x2, double y2,
- double fontSize) {
-        GAIGSregister ret = new GAIGSarrayRegister(getSize(), "", boothsMultiplication.DEFAULT, x1, y1, x2, y2, fontSize);
+    public GAIGSregister copyTo(Bounds bounds) {
+        GAIGSregister ret = new GAIGSarrayRegister(getSize(), "",
+            boothsMultiplication.DEFAULT, bounds.x1, bounds.y1,
+            bounds.x2, bounds.y2, this.wrapped.getFontSize());
 
-       for (int i = 0; i < this.getSize(); ++i)
+        for (int i = 0; i < this.getSize(); ++i)
             ret.setBit(getBit(i), i);
 
         return ret;

@@ -21,6 +21,7 @@ public class BoothsMultiplication {
     //Definitions
     private static final boolean DEBUG = false;
 
+    private static final double FONT_SIZE = 0.07;
     public static final String DEFAULT = "#FFFFFF";
     public static final String WHITE   = "#FFFFFF";
     public static final String BLACK   = "#000000";
@@ -62,14 +63,10 @@ public class BoothsMultiplication {
         int numRows = numLines(multiplier);
         Bounds[] mypoints = getPositions(0, numRows);
 
-        RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0].x1, mypoints[0].y1,
-            mypoints[0].x2, mypoints[0].y2, 0.07);
-        RegA= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[1].x1, mypoints[1].y1,
-            mypoints[1].x2, mypoints[1].y2, 0.07);
-        RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[2].x1, mypoints[2].y1,
-            mypoints[2].x2, mypoints[2].y2, 0.07);
-        Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT, mypoints[3].x1, mypoints[3].y1,
-            mypoints[3].x2, mypoints[3].y2, 0.07);
+        RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0], FONT_SIZE);
+        RegA= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[1], FONT_SIZE);
+        RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[2], FONT_SIZE);
+        Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT, mypoints[3], FONT_SIZE);
 
         RegM.set(multiplicand);
         RegA.set("0");
@@ -78,14 +75,10 @@ public class BoothsMultiplication {
 
         mypoints = getPositions(1, numRows);
 
-        GAIGSregister RegM2= RegM.copyTo(mypoints[0].x1, mypoints[0].y1,
-            mypoints[0].x2, mypoints[0].y2, 0.07);
-        GAIGSregister RegA2= RegA.copyTo(mypoints[1].x1, mypoints[1].y1,
-            mypoints[1].x2, mypoints[1].y2, 0.07);
-        GAIGSregister RegQ2= RegQ.copyTo(mypoints[2].x1, mypoints[2].y1,
-            mypoints[2].x2, mypoints[2].y2, 0.07);
-        GAIGSregister Q_12 = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1,
-            mypoints[3].x2, mypoints[3].y2, 0.07);
+        GAIGSregister RegM2= RegM.copyTo(mypoints[0]);
+        GAIGSregister RegA2= RegA.copyTo(mypoints[1]);
+        GAIGSregister RegQ2= RegQ.copyTo(mypoints[2]);
+        GAIGSregister Q_12 = Q_1.copyTo(mypoints[3]);
 
         RegM.setLabel("M:    ");
         RegA.setLabel("A:    ");
@@ -222,14 +215,10 @@ public class BoothsMultiplication {
 
         Bounds[] mypoints = getPositions(iter+1, numLines);
 
-        ret[0] = M.copyTo(mypoints[0].x1, mypoints[0].y1,
-            mypoints[0].x2, mypoints[0].y2, 0.07);
-        ret[1] = A.copyTo(mypoints[1].x1, mypoints[1].y1,
-            mypoints[1].x2, mypoints[1].y2, 0.07);
-        ret[2] = Q.copyTo(mypoints[2].x1, mypoints[2].y1,
-            mypoints[2].x2, mypoints[2].y2, 0.07);
-        ret[3] = Q_1.copyTo(mypoints[3].x1, mypoints[3].y1,
-            mypoints[3].x2, mypoints[3].y2, 0.07);
+        ret[0] = M.copyTo(mypoints[0]);
+        ret[1] = A.copyTo(mypoints[1]);
+        ret[2] = Q.copyTo(mypoints[2]);
+        ret[3] = Q_1.copyTo(mypoints[3]);
 
         return ret;
     }

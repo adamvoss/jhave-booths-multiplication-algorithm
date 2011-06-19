@@ -1,0 +1,102 @@
+Index: GAIGSbase.java
+===================================================================
+--- GAIGSbase.java	(revision 303)
++++ GAIGSbase.java	(working copy)
+@@ -36,41 +36,42 @@
+     /**
+      * Display name.
+      */
+-    String name;
++    protected String name;
+     
+         /**
+      * Display color.
+      */
+-    String color;
++    protected String color;
+     
+     /**
+      * Left bound for display.
+      */
+-    double x1;
++    protected double x1;
+     
+     /**
+      * Bottom bound for display.
+      */
+-    double y1;
++    protected double y1;
+     
+     /**
+      * Right bound for display.
+      */
+-    double x2;
++    protected double x2;
+     
+     /**
+      * Top bound for display.
+      */
+-    double y2;
++    protected double y2;
+     
+     /**
+      * Font size for display.
+      */
+-    double fontSize;
++    protected double fontSize;
+ 
+ //---------------------- Display Setter/Getter Methods ---------------------------------
+ 
+ 
++    //----------- Name -----------
+     /**
+      * Set the value of the name to be displayed.
+      * 
+@@ -88,4 +89,47 @@
+     public String getName () {
+         return name;
+     } 
++
++    //----------- Bounds -----------
++    /**
++     * Returns the bounds of the <code>GAIGS</code> Structure.
++     * @return      Array of coordinates.
++     */
++    public double[] getBounds(){
++        return new double[] {this.x1, this.y1, this.x2, this.y2};
++    }
++
++    /**
++     * Set the position of the <code>GAIGS</code> Structure.
++     * @param     x1     Typically the x-coordinate of lower left corner.
++     * @param     y1     Typically the y-coordinate of the lower left corner.
++     * @param     x2     Typically the x-coordinate of the upper right corner.
++     * @param     y2     Typically the y-coordinate of the upper right corner.
++     */
++    public void setBounds(double x1, double y1, double x2, double y2){
++        this.x1 = x1;
++        this.y1 = y1;
++        this.x2 = x2;
++        this.y2 = y2;
++    }
++
++    //----------- Font Size -----------
++    /**
++     * Returns the value of the font size.
++     * @return  The current font size.
++     */
++    public double getFontSize(){
++        return this.fontSize;
++    }
++
++    /**
++     * Sets the font size for display.
++     * @param      fontSize     The desired font size.
++     */
++    public void setFontSize(double fontSize){
++        this.fontSize = fontSize;
++    }
++
++    // Color methods omitted because a brief survey of extending classes
++    // Found color was often ignored, or handled independently
+ }

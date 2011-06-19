@@ -84,6 +84,5 @@ public interface GAIGSregister extends GAIGSdatastr {
     * Create a new GAIGSregister with the same data, at a new position.
     *
     */
-    public GAIGSregister copyTo(double x1, double y1, double x2, double y2, 
-        double fontSize);
+    public GAIGSregister copyTo(Bounds bounds);
 }
