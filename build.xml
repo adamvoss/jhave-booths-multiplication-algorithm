@@ -7,7 +7,10 @@
            classpath=".:../../../build/classes:../../../lib/jdom.jar"
            includes="*.java" includeantruntime="false"/>
     <copy todir="../../../build/classes/exe/BoothsMultiplication" overwrite="true">
-      <fileset file="pseudocode.xml"/> 
+      <fileset file="pseudocode.xml"/>
+    </copy>
+    <copy todir="../../../../html_root/ingen" overwrite="true">
+      <fileset file="boothsMultiplication.igs"/> 
     </copy>
   </target>
 
@@ -27,6 +30,9 @@
   <target name="clean" description="Remove 'compile' files. Does not clean up after 'run'">
     <delete verbose="true" includeemptydirs="true" failonerror="false"> 
       <fileset dir="../../../build/classes/exe/BoothsMultiplication"/>
+    </delete>
+    <delete verbose="true" failonerror="false"> 
+      <fileset file="../../../../html_root/ingen/boothsMultiplication.igs"/>
     </delete>
   </target>
 

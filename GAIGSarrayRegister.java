@@ -64,7 +64,7 @@ class GAIGSarrayRegister implements GAIGSregister{
 
         //Expand string to register size
         if (binStr.length() < getSize() ){
-            binStr = boothsMultiplication.signExtend(binStr, getSize()-binStr.length());
+            binStr = BoothsMultiplication.signExtend(binStr, getSize()-binStr.length());
         }
 
         //If string too big, cut off most significant bits
@@ -77,7 +77,7 @@ class GAIGSarrayRegister implements GAIGSregister{
 
     public GAIGSregister copyTo(Bounds bounds) {
         GAIGSregister ret = new GAIGSarrayRegister(getSize(), "",
-            boothsMultiplication.DEFAULT, bounds.x1, bounds.y1,
+            BoothsMultiplication.DEFAULT, bounds.x1, bounds.y1,
             bounds.x2, bounds.y2, this.wrapped.getFontSize());
 
         for (int i = 0; i < this.getSize(); ++i)
