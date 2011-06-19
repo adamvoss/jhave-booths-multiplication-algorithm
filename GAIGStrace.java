@@ -4,6 +4,7 @@ import java.util.*;
 
 import exe.*;
 
+//TODO Chris, document this class using Javadocs
 public class GAIGStrace implements GAIGSdatastr {
     ArrayList<HashMap<String, GAIGSdatastr> > trace;
 
