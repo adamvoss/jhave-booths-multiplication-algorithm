@@ -11,12 +11,7 @@ import exe.pseudocode.*;
 
 public class BoothsMultiplication {
     static PseudoCodeDisplay pseudo;
-    static GAIGSregister RegM;
-    static GAIGSregister RegA;
-    static GAIGSregister RegQ;
-    static GAIGSregister Q_1;
     static URI docURI;
-    static String pseudoURI;
 
     //Definitions
     private static final boolean DEBUG = false;
@@ -36,6 +31,7 @@ public class BoothsMultiplication {
     public static final double REG_HEIGHT  =  0.1;
 
     public static void main(String args[]) throws IOException {
+
         //JHAVÉ Stuff
         ShowFile show = new ShowFile(args[0]);
 
@@ -45,6 +41,11 @@ public class BoothsMultiplication {
         } catch (JDOMException e){
             e.printStackTrace();
         }
+
+        try{
+            docURI = new URI("str", "<html>hi</html>", "");
+        } catch (java.net.URISyntaxException e) {}
+
 
         //Our Stuff
         String multiplicand = toBinary(Integer.parseInt(args[1]));
@@ -63,45 +64,36 @@ public class BoothsMultiplication {
         int numRows = numLines(multiplier);
         Bounds[] mypoints = getPositions(0, numRows);
 
-        RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0], FONT_SIZE);
-        RegA= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[1], FONT_SIZE);
-        RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[2], FONT_SIZE);
-        Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT, mypoints[3], FONT_SIZE);
+        GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0], FONT_SIZE);
+        GAIGSregister RegA= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[1], FONT_SIZE);
+        GAIGSregister RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[2], FONT_SIZE);
+        GAIGSregister Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT, mypoints[3], FONT_SIZE);
 
         RegM.set(multiplicand);
         RegA.set("0");
         RegQ.set(multiplier);
         Q_1.set("0");
 
-        mypoints = getPositions(1, numRows);
-
-        GAIGSregister RegM2= RegM.copyTo(mypoints[0]);
-        GAIGSregister RegA2= RegA.copyTo(mypoints[1]);
-        GAIGSregister RegQ2= RegQ.copyTo(mypoints[2]);
-        GAIGSregister Q_12 = Q_1.copyTo(mypoints[3]);
+        GAIGStrace trace = new GAIGStrace();
 
         RegM.setLabel("M:    ");
         RegA.setLabel("A:    ");
         RegQ.setLabel("Q:    ");
         Q_1.setLabel( "Q(-1):");
 
-        try{
-            docURI = new URI("str", "<html>hi</html>", "");
-        } catch (java.net.URISyntaxException e) {}
-
-        try {
-        pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(), new int[0], new int[0]);
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        }
-
-        GAIGStrace trace = new GAIGStrace();
         trace.add("RegM", RegM);
         trace.add("RegA", RegA);
         trace.add("RegQ", RegQ);
         trace.add("Q_1" , Q_1);
 
-        boothsAlgorithm(RegM2, RegA2, RegQ2, Q_12, trace, 0, numLines(RegQ.toString() ), show);
+        mypoints = getPositions(1, numRows);
+    
+        RegM= RegM.copyTo(mypoints[0]);
+        RegA= RegA.copyTo(mypoints[1]);
+        RegQ= RegQ.copyTo(mypoints[2]);
+        Q_1 = Q_1.copyTo(mypoints[3]);
+
+        boothsAlgorithm(RegM, RegA, RegQ, Q_1, trace, 0, numLines(RegQ.toString() ), show);
 
         show.close();
     }
@@ -147,17 +139,35 @@ public class BoothsMultiplication {
         return ret;
     }
 
+    // TODO Chris, document this method with Javadocs
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
         GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show)
             throws IOException {
         if (iter >= numLines) return;
 
+        String pseudoURI = "<html>It is important to initialize the Pseudocode</html>";
+
         int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
+
+        try {
+           pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(),
+                                            new int[0], new int[0]);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
 
         GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
         GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
         OldQ.setColor(OldQ.getSize()-1, BLUE);
         OldQ_1.setColor(0, BLUE);
+
+    
+        try {
+           pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(),
+                                            new int[0], new int[0]);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
         show.writeSnap("Comparison", docURI.toASCIIString(), pseudoURI, trace);
 
         OldQ.setColor(OldQ.getSize()-1, DEFAULT);
@@ -167,7 +177,13 @@ public class BoothsMultiplication {
             String title = "";
             if (partCalc == 1) {addIntoRegA(A, negateValue(M) ); title="Added -M to A";}
             else               {addIntoRegA(A, M)              ; title="Added  M to A";}
-
+             
+            try {
+               pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(),
+                                                new int[0], new int[0]);
+            } catch (JDOMException e) {
+                e.printStackTrace();
+            }
             show.writeSnap(title, docURI.toASCIIString(), pseudoURI, trace, M, A, Q, Q_1);
 
             ++iter;
@@ -183,6 +199,15 @@ public class BoothsMultiplication {
         }
 
         rightShift(A, Q, Q_1);
+
+
+        try {
+           pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(),
+                                            new int[0], new int[0]);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
+
         show.writeSnap("Sign Preserving Shift", docURI.toASCIIString(), pseudoURI,
             trace, M, A, Q, Q_1);
 
@@ -202,9 +227,10 @@ public class BoothsMultiplication {
     /**
     * Helper function to reduce copy pasta
     * Adds the GAIGSregisters to the GAIGStrace and generate the next 4.
+    * TODO @param @return
     */
-    public static GAIGSregister[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1, GAIGStrace trace,
-        int iter, int numLines) {
+    public static GAIGSregister[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A,
+                        GAIGSregister Q, GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines) {
         GAIGSregister[] ret = new GAIGSregister[4];
 
         trace.newLine();
