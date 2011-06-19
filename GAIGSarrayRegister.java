@@ -16,7 +16,8 @@ class GAIGSarrayRegister implements GAIGSregister{
         size = length;
     }
 
-    public GAIGSarrayRegister(int length, String name, String color, double x1, double y1, double x2, double y2, double fontSize) {
+    public GAIGSarrayRegister(int length, String name, String color,
+                              double x1, double y1, double x2, double y2, double fontSize) {
         wrapped = new GAIGSarray(1, length, name, color, x1, y1, x2, y2, fontSize);
         size = length;
     }

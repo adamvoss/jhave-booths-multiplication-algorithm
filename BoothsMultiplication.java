@@ -60,7 +60,7 @@ public class BoothsMultiplication {
         }
 
         int numRows = numLines(multiplier);
-        GAIGSpoints[] mypoints = getPositions(0, numRows);
+        Bounds[] mypoints = getPositions(0, numRows);
 
         RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0].x1, mypoints[0].y1,
             mypoints[0].x2, mypoints[0].y2, 0.07);
@@ -220,7 +220,7 @@ public class BoothsMultiplication {
         trace.add("RegQ", Q);
         trace.add("Q_1" , Q_1);
 
-        GAIGSpoints[] mypoints = getPositions(iter+1, numLines);
+        Bounds[] mypoints = getPositions(iter+1, numLines);
 
         ret[0] = M.copyTo(mypoints[0].x1, mypoints[0].y1,
             mypoints[0].x2, mypoints[0].y2, 0.07);
@@ -256,12 +256,12 @@ public class BoothsMultiplication {
     * Calculate the appropriate positions of the current line, based on interation
     * number and passed values, defaults.
     */
-    public static GAIGSpoints[] getPositions(int iter, int numLines) {
-        GAIGSpoints[] ret = new GAIGSpoints[4];
+    public static Bounds[] getPositions(int iter, int numLines) {
+        Bounds[] ret = new Bounds[4];
         double frac = 1.0 / numLines;
 
         for (int i = 0; i<4; ++i)
-            ret[i] = new GAIGSpoints(LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)), 1.0-(iter+1)*frac,
+            ret[i] = new Bounds(LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)), 1.0-(iter+1)*frac,
                  LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),  (1.0-iter*frac)+REG_HEIGHT);
 
         return ret;
