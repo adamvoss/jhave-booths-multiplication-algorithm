@@ -102,47 +102,6 @@ public class BoothsMultiplication {
         show.close();
     }
 
-    public static void rightShift(GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
-        if (A.getSize() < 1) return;
-
-        Q_1.setBit(Q.getBit(Q.getSize()-1), 0);
-        int shiftOverToQ = A.getBit(Q.getSize()-1);
-
-        for (int i = A.getSize() - 1; i >= 1; --i) {
-            A.setBit(A.getBit(i-1), i);
-            Q.setBit(Q.getBit(i-1), i);
-        }
-
-            Q.setBit(shiftOverToQ, 0);
-    }
-
-    public static void addIntoRegA(GAIGSregister A, GAIGSregister toAdd) {
-        int carry = 0;
-        int sum = 0;
-        for (int i = A.getSize()-1; i >= 0; --i) {
-            sum = carry + A.getBit(i) + toAdd.getBit(i);
-            A.setBit(sum % 2, i);
-            carry = sum / 2;
-        }
-    }
-
-    public static GAIGSregister negateValue(GAIGSregister M) {
-        int carry = 1;
-        GAIGSregister ret = new GAIGSarrayRegister(M.getSize() );
-
-        for (int i = M.getSize()-1; i >= 0; --i) {
-            int negPart = 0;
-
-            if (M.getBit(i) == 0) negPart = 1;
-            else negPart = 0;
-
-            ret.setBit((negPart + carry) % 2, i);
-            carry = (negPart + carry) / 2;
-        }
-
-        return ret;
-    }
-
     // TODO All the color logic goes in here.
     /**
     * A recursive method which steps through Booth's Multiplication Algorithm, making the
@@ -257,6 +216,47 @@ public class BoothsMultiplication {
         ret[1] = A.copyTo(mypoints[1]);
         ret[2] = Q.copyTo(mypoints[2]);
         ret[3] = Q_1.copyTo(mypoints[3]);
+
+        return ret;
+    }
+
+    public static void rightShift(GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
+        if (A.getSize() < 1) return;
+
+        Q_1.setBit(Q.getBit(Q.getSize()-1), 0);
+        int shiftOverToQ = A.getBit(Q.getSize()-1);
+
+        for (int i = A.getSize() - 1; i >= 1; --i) {
+            A.setBit(A.getBit(i-1), i);
+            Q.setBit(Q.getBit(i-1), i);
+        }
+
+            Q.setBit(shiftOverToQ, 0);
+    }
+
+    public static void addIntoRegA(GAIGSregister A, GAIGSregister toAdd) {
+        int carry = 0;
+        int sum = 0;
+        for (int i = A.getSize()-1; i >= 0; --i) {
+            sum = carry + A.getBit(i) + toAdd.getBit(i);
+            A.setBit(sum % 2, i);
+            carry = sum / 2;
+        }
+    }
+
+    public static GAIGSregister negateValue(GAIGSregister M) {
+        int carry = 1;
+        GAIGSregister ret = new GAIGSarrayRegister(M.getSize() );
+
+        for (int i = M.getSize()-1; i >= 0; --i) {
+            int negPart = 0;
+
+            if (M.getBit(i) == 0) negPart = 1;
+            else negPart = 0;
+
+            ret.setBit((negPart + carry) % 2, i);
+            carry = (negPart + carry) / 2;
+        }
 
         return ret;
     }
