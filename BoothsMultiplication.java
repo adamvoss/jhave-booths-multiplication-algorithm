@@ -139,7 +139,20 @@ public class BoothsMultiplication {
         return ret;
     }
 
-    // TODO Chris, document this method with Javadocs
+    // TODO All the color logic goes in here.
+    /**
+    * A recursive method which steps through Booth's Multiplication Algorithm, making the
+    * appropriate calls to show's writeSnap through each iteration.
+    * 
+    * At each iteration, Q(0) and Q(-1) are evaluated. If there is an add/subtract, iter will be incremented
+    * by 2, or else it will be incremented by 1. The function exits when iter is no longer less than or equal
+    * to numLines.
+    *
+    * @param trace The GAIGStrace object to keep the run history of the algorithm.
+    * @param iter The active "line" in the visualization.
+    * @param numLines The total number of lines that will be displayed during the run of the visualization.
+    * @param show The ShowFile object where the xml of the GAIGSregisters will be written.
+    */
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
         GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show)
             throws IOException {
