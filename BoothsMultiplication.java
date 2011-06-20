@@ -8,10 +8,14 @@ import org.jdom.*;
 
 import exe.*;
 import exe.pseudocode.*;
+import exe.question.*;
 
 public class BoothsMultiplication {
     static PseudoCodeDisplay pseudo;
     static URI docURI;
+
+    private static Random rand     = new Random();
+    private static UniqueIDGen gen = new UniqueIDGen();
 
     //Definitions
     private static final boolean DEBUG = false;
@@ -181,7 +185,9 @@ public class BoothsMultiplication {
         } catch (JDOMException e) {
             e.printStackTrace();
         }
-        show.writeSnap("Comparison", docURI.toASCIIString(), pseudoURI, trace);
+        question quest1 = getType1Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), show); 
+
+        show.writeSnap("Comparison", docURI.toASCIIString(), pseudoURI, quest1, trace);
 
         OldQ.setColor(OldQ.getSize()-1, DEFAULT);
         OldQ_1.setColor(0, DEFAULT);
@@ -263,6 +269,59 @@ public class BoothsMultiplication {
     }
 
     /**
+    * Returns a random question of the "Which operation will occur next?" flavor.
+    * Call at the beginnig of a loop iteration.
+    *
+    */
+    public static question getType1Question(int Q0, int Q_1, ShowFile show) {
+        int select = ((int)Math.abs(rand.nextInt() )) % 3;
+        question ret = null;
+        int pcalc = Q0 - Q_1;
+
+        if (select == 0) {
+            XMLmsQuestion ret1 = new XMLmsQuestion(show, gen.getID() );
+            ret1.setQuestionText("Q(0) and Q(-1) are " + Q0 + " and " + Q_1 + 
+                " respectively. Select all the operations that will occur on this iteration of the loop.");
+
+            ret1.addChoice("Addition");
+            ret1.addChoice("Subtraction");
+
+            if (pcalc != 0) {
+                ret1.setAnswer(pcalc == -1 ? 1 : 2);
+            }
+
+            ret1.addChoice("Arithmetic Right Shift");
+            ret1.setAnswer(3);
+
+            ret = ret1;
+            
+        }
+        else if (select == 1) {
+            XMLmcQuestion ret1 = new XMLmcQuestion(show, gen.getID() );
+            ret1.setQuestionText("Which operation will occur on the next slide?");
+            ret1.addChoice("Addition");
+            ret1.addChoice("Subtraction");
+            ret1.addChoice("Arithmetic Right Shift");
+            ret1.addChoice("None of the above.");
+
+            ret1.setAnswer(pcalc == 0 ? 3 : (pcalc == 1 ? 2 : 1) );
+
+            ret = ret1;
+        }
+        else {
+            XMLtfQuestion ret1 = new XMLtfQuestion(show, gen.getID() );
+            ret1.setQuestionText("Both an addition (+M) and an arithmetic right shift will occur in the next iteration of the loop.");
+            ret1.setAnswer(pcalc != 0 && pcalc != 1);
+
+            ret = ret1;
+        }
+
+//      ret.shuffle();
+
+        return ret;
+    }
+
+    /**
     * Calculates the number of lines the final display will occupy
     */
     public static int numLines(String binNum) {
@@ -314,5 +373,15 @@ public class BoothsMultiplication {
         String extension = "";
         while (i>0){extension = extension.concat(firstBit); i--;}
         return extension.concat(binStr);
+    }
+
+    private static class UniqueIDGen {
+        private int id;
+
+        public UniqueIDGen() {
+            id = 0;
+        }
+
+        public String getID() {return ("" + id++);}
     }
 }
