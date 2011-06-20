@@ -121,8 +121,6 @@ public class BoothsMultiplication {
             throws IOException {
         if (iter >= numLines) return;
 
-        String pseudoURI = "<html>It is important to initialize the Pseudocode</html>";
-
         int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
 
         GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
@@ -130,14 +128,9 @@ public class BoothsMultiplication {
         OldQ.setColor(OldQ.getSize()-1, BLUE);
         OldQ_1.setColor(0, BLUE);
 
-    
-        try {
-           pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(),
-                                            new int[0], new int[0]);
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        }
         question quest1 = getType1Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), show); 
+
+        String pseudoURI = easyPseudo(new int[0], new int[0]);
 
         show.writeSnap("Comparison", docURI.toASCIIString(), pseudoURI, quest1, trace);
 
@@ -149,12 +142,7 @@ public class BoothsMultiplication {
             if (partCalc == 1) {addIntoRegA(A, negateValue(M) ); title="Added -M to A";}
             else               {addIntoRegA(A, M)              ; title="Added  M to A";}
              
-            try {
-               pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(),
-                                                new int[0], new int[0]);
-            } catch (JDOMException e) {
-                e.printStackTrace();
-            }
+            pseudoURI = easyPseudo(new int[0], new int[0]);
             show.writeSnap(title, docURI.toASCIIString(), pseudoURI, trace, M, A, Q, Q_1);
 
             ++iter;
@@ -171,13 +159,7 @@ public class BoothsMultiplication {
 
         rightShift(A, Q, Q_1);
 
-
-        try {
-           pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(),
-                                            new int[0], new int[0]);
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        }
+        pseudoURI = easyPseudo(new int[0], new int[0]);
 
         show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), pseudoURI,
             trace, M, A, Q, Q_1);
@@ -376,5 +358,15 @@ public class BoothsMultiplication {
         }
 
         public String getID() {return ("" + id++);}
+    }
+
+    private static String easyPseudo(int[] selected, int[] lineColors){
+        try {
+           return pseudo.pseudo_uri(new HashMap<String, String>(),
+                                        selected, lineColors);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
+        return "Something went wrong";
     }
 }
