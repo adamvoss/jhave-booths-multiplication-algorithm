@@ -162,13 +162,6 @@ public class BoothsMultiplication {
 
         int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
 
-        try {
-           pseudoURI = pseudo.pseudo_uri(new HashMap<String, String>(),
-                                            new int[0], new int[0]);
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        }
-
         GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
         GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
         OldQ.setColor(OldQ.getSize()-1, BLUE);
@@ -221,7 +214,7 @@ public class BoothsMultiplication {
             e.printStackTrace();
         }
 
-        show.writeSnap("Sign Preserving Shift", docURI.toASCIIString(), pseudoURI,
+        show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), pseudoURI,
             trace, M, A, Q, Q_1);
 
         ++iter;

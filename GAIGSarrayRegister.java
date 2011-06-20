@@ -76,12 +76,9 @@ class GAIGSarrayRegister implements GAIGSregister{
     }
 
     public GAIGSregister copyTo(Bounds bounds) {
-        GAIGSregister ret = new GAIGSarrayRegister(getSize(), "",
-            BoothsMultiplication.DEFAULT, bounds.x1, bounds.y1,
-            bounds.x2, bounds.y2, this.wrapped.getFontSize());
-
-        for (int i = 0; i < this.getSize(); ++i)
-            ret.setBit(getBit(i), i);
+        GAIGSregister ret = new GAIGSarrayRegister(new GAIGSarray(this.wrapped), this.size);
+        ((GAIGSarrayRegister)ret).wrapped.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+        
 
         return ret;
     }
