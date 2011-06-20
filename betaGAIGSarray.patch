@@ -1,0 +1,94 @@
+Index: GAIGSarray.java
+===================================================================
+--- GAIGSarray.java	(revision 303)
++++ GAIGSarray.java	(working copy)
+@@ -160,8 +160,35 @@
+                        double x1, double y1, double x2, double y2, double fontSize) {
+         setInstanceVariables (rows, cols, false, name, color, x1, y1, x2, y2, fontSize);
+     }
+-    
++    // ---------- Copy Constructor -----------
++
+     /**
++     * Creates a copy of the array suitable for editing; however, items in the array are shallow copies.
++     *
++     * @param       source          The GAIGSarray to be copied.
++     */
++    public GAIGSarray (GAIGSarray source){
++        //GAIGSarray variables
++        this.isBar = source.isBar;
++        this.colLabels = source.colLabels.clone();
++        this.rowLabels = source.rowLabels.clone();
++        this.theArray = source.theArray.clone();
++        for (int row=0; row < theArray.length; row++){
++            this.theArray[row] = this.theArray[row].clone();}
++        this.theColorArray = source.theColorArray.clone();
++        for (int row=0; row < theColorArray.length; row++){
++            this.theColorArray[row] = this.theColorArray[row].clone();}
++        //GAIGSbase variables
++        this.name = source.name;
++        this.color = source.color;
++        this.x1 = source.x1;
++        this.y1 = source.y1;
++        this.x2 = source.x2;
++        this.y2 = source.y2;
++        this.fontSize = source.fontSize;
++    }
++
++    /**
+      * Helper method for constructors which explicitly sets all the instance variables
+      * 
+      * @param       rows            The length of this array.
+@@ -209,6 +236,52 @@
+     
+     //---------------------- Array Methods -----------------------------------
+ 
++
++    // ---------- Size Getter Methods -----------
++    /**
++     * Get the number of rows in the Array.
++     * @return The number of rows
++     */
++    public int getRowCount(){
++        return theArray.length;
++    }
++
++    /**
++     * Get the number of columns in the Array.
++     * @return The number of columns
++     */
++    public int getColumnCount(){
++        return theArray[0].length;
++    }
++
++    /* 
++      Java Array's don't support resizing, should we?
++      If so remember there are 3 variables affected
++      May be better to change to an internal ArrayList
++    // ---------- Size Setter Methods -----------
++    public void setRowCount(){
++    }
++
++    public void setColumnCount(){
++    }
++    */
++
++    // ---------- Display Mode Methods ----------
++    /**
++     * Display the Array in Array or "Box" view.
++     * This is the default view of an array.
++     */
++    public void setArrayDisplay(){
++        this.isBar = false;
++    }
++
++    /**
++     * Display the Array in Bar or "Stick" view.
++     */
++    public void setBarDisplay(){
++        this.isBar = true;
++    }
++
+     // ---------- Item Getter Methods -----------
+     
+     /**
