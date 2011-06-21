@@ -21,13 +21,16 @@ public class BoothsMultiplication {
     private static final boolean DEBUG = false;
 
     private static final double FONT_SIZE = 0.07;
-    public static final String DEFAULT = "#FFFFFF";
     public static final String WHITE   = "#FFFFFF";
     public static final String BLACK   = "#000000";
     public static final String GREY    = "#888888";
     public static final String RED     = "#FF0000";
     public static final String GREEN   = "#00FF00";
     public static final String BLUE    = "#0000FF";
+    public static final String DEFAULT_COLOR = WHITE;
+    
+    public static final double WINDOW_HEIGHT = 1.0;
+    public static final double WINDOW_WIDTH = 1.0;
 
     public static final double LEFT_MARGIN   =  0.1;
     public static final double REG_WIDTH  =  0.25;
@@ -71,21 +74,21 @@ public class BoothsMultiplication {
         GAIGStrace trace = new GAIGStrace();
 
         //Reg M
-        GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0], FONT_SIZE);
+        GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[0], FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         trace.add("RegM", RegM);
         show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trace);
 
         //Reg A
-        GAIGSregister RegA= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[1], FONT_SIZE);
+        GAIGSregister RegA= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         trace.add("RegA", RegA);
         show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trace);
 
         //Reg Q
-        GAIGSregister RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[2], FONT_SIZE);
+        GAIGSregister RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[2], FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         trace.add("RegQ", RegQ);
@@ -93,7 +96,7 @@ public class BoothsMultiplication {
             docURI.toASCIIString(), easyPseudo(4), trace);
 
         //Bit Q_1
-        GAIGSregister Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT, mypoints[3], FONT_SIZE);
+        GAIGSregister Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT_COLOR, mypoints[3], FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         trace.add("Q_1" , Q_1);
@@ -127,35 +130,45 @@ public class BoothsMultiplication {
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
         GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show)
             throws IOException {
+    	//This name is deceptive because iter is not actually an iteration 
         if (iter >= numLines) return;
 
+        //Difference of the comparison bits
         int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
+        // 00 => 0 // 01 => -1 // 10 => 1 //
 
+        //Why are we passing registers as parameters when you just get past ones off the trace
+        //This seems messy
         GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
         GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
         OldQ.setColor(OldQ.getSize()-1, BLUE);
         OldQ_1.setColor(0, BLUE);
 
+        //The following function call means nothing.
         question quest1 = getType1Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), show); 
 
-        String pseudoURI = easyPseudo(new int[0], new int[0]);
+        //There is already a frame missing
+        
+        show.writeSnap("Comparison", docURI.toASCIIString(),
+        		easyPseudo(new int[] {10, 14}), quest1, trace);
 
-        show.writeSnap("Comparison", docURI.toASCIIString(), pseudoURI, quest1, trace);
+        //Reset Color
+        OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
+        OldQ_1.setColor(0, DEFAULT_COLOR);
 
-        OldQ.setColor(OldQ.getSize()-1, DEFAULT);
-        OldQ_1.setColor(0, DEFAULT);
-
+        //This does more comparisons than necessary and does not support pseudocode.
         if (partCalc == 1 || partCalc == -1) {
             String title = "";
-            if (partCalc == 1) {addIntoRegA(A, negateValue(M) ); title="Added -M to A";}
-            else               {addIntoRegA(A, M)              ; title="Added  M to A";}
-             
-            pseudoURI = easyPseudo(new int[0], new int[0]);
-            show.writeSnap(title, docURI.toASCIIString(), pseudoURI, trace, M, A, Q, Q_1);
+            if (partCalc == 1) {add(A, negateValue(M) ); title="Added -M to A";}
+            else               {add(A, M)              ; title="Added  M to A";}
+            
+            show.writeSnap(title, docURI.toASCIIString(), easyPseudo(new int[] {11,15}), trace, M, A, Q, Q_1);
 
             ++iter;
             GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, trace, iter, numLines);
 
+            //This is turning into variable soup, note the function seems to be straddling
+            //Two different states of the registers
             OldQ   = Q;
             OldQ_1 = Q_1;
             M = ret[0];
@@ -164,24 +177,25 @@ public class BoothsMultiplication {
             Q_1=ret[3];
 
         }
-
+        //Gosh this function is getting long
         rightShift(A, Q, Q_1);
 
-        pseudoURI = easyPseudo(new int[0], new int[0]);
-
-        show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), pseudoURI,
+        //This frame needs to exclude count.
+        show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), easyPseudo(20),
             trace, M, A, Q, Q_1);
 
         ++iter;
+        //Another missing frame
         GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, trace, iter, numLines);
 
-        OldQ   = Q;
-        OldQ_1 = Q_1;
+        OldQ   = Q; //<-- Pointless
+        OldQ_1 = Q_1; //<-- Pointless
         M = ret[0];
         A = ret[1];
         Q = ret[2];
         Q_1=ret[3];
 
+        //Finally Recurse
         boothsAlgorithm(M, A, Q, Q_1, trace, iter, numLines, show);
     }
 
@@ -224,7 +238,12 @@ public class BoothsMultiplication {
             Q.setBit(shiftOverToQ, 0);
     }
 
-    public static void addIntoRegA(GAIGSregister A, GAIGSregister toAdd) {
+    /**
+     * Adds two registers, storing the result in the first register (a la Intel Syntax).
+     * @param A	Destination Register and addend.
+     * @param toAdd other addend, not modified by function.
+     */
+    public static void add(GAIGSregister A, GAIGSregister toAdd) {
         int carry = 0;
         int sum = 0;
         for (int i = A.getSize()-1; i >= 0; --i) {
@@ -323,22 +342,26 @@ public class BoothsMultiplication {
     }
 
     /**
-    * Calculate the appropriate positions of the current line, based on interation
+    * Calculate the appropriate positions of the current line, based on iteration
     * number and passed values, defaults.
+    * 
+    * @return ret Array of bounds
     */
-    public static Bounds[] getPositions(int iter, int numLines) {
+    private static Bounds[] getPositions(int iter, int numLines) {
         Bounds[] ret = new Bounds[4];
-        double frac = 1.0 / numLines;
+        double frac = WINDOW_HEIGHT / numLines;
 
         for (int i = 0; i<4; ++i)
-            ret[i] = new Bounds(LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)), 1.0-(iter+1)*frac,
-                 LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),  (1.0-iter*frac)+REG_HEIGHT);
-
+            ret[i] = new Bounds(
+            		LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)),
+            		WINDOW_HEIGHT-(iter+1)*frac,
+            		LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),
+            		(WINDOW_HEIGHT-iter*frac)+REG_HEIGHT);
         return ret;
     }
 
     /**
-    * Converts an int to its shortest-length two's complement binary represntative
+    * Converts an int to its shortest-length two's complement binary representative
     */
     public static String toBinary(int a){
         if (a<0){
