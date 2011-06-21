@@ -6,7 +6,7 @@
     <javac srcdir="." destdir="../../../build/classes"
            classpath=".:../../../build/classes:../../../lib/jdom.jar"
            includes="*.java" includeantruntime="false"/>
-    <copy todir="../../../build/classes/exe/BoothsMultiplication" overwrite="true">
+    <copy todir="../../../build/classes/exe/boothsMultiplication" overwrite="true">
       <fileset file="pseudocode.xml"/>
     </copy>
     <copy todir="../../../../html_root/ingen" overwrite="true">

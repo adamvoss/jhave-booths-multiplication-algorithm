@@ -68,29 +68,37 @@ public class BoothsMultiplication {
         int numRows = numLines(multiplier);
         Bounds[] mypoints = getPositions(0, numRows);
 
-        GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0], FONT_SIZE);
-        GAIGSregister RegA= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[1], FONT_SIZE);
-        GAIGSregister RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[2], FONT_SIZE);
-        GAIGSregister Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT, mypoints[3], FONT_SIZE);
-
-        RegM.set(multiplicand);
-        RegA.set("0");
-        RegQ.set(multiplier);
-        Q_1.set("0");
-
         GAIGStrace trace = new GAIGStrace();
 
+        //Reg M
+        GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[0], FONT_SIZE);
         RegM.setLabel("M:    ");
-        RegA.setLabel("A:    ");
-        RegQ.setLabel("Q:    ");
-        Q_1.setLabel( "Q(-1):");
-
+        RegM.set(multiplicand);
         trace.add("RegM", RegM);
-        trace.add("RegA", RegA);
-        trace.add("RegQ", RegQ);
-        trace.add("Q_1" , Q_1);
+        show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trace);
 
+        //Reg A
+        GAIGSregister RegA= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[1], FONT_SIZE);
+        RegA.set("0");
+        RegA.setLabel("A:    ");
+        trace.add("RegA", RegA);
+        show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trace);
+
+        //Reg Q
+        GAIGSregister RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT, mypoints[2], FONT_SIZE);
+        RegQ.set(multiplier);
+        RegQ.setLabel("Q:    ");
+        trace.add("RegQ", RegQ);
+        show.writeSnap("Q is the Multiplier\nThe final product will span A and Q",
+            docURI.toASCIIString(), easyPseudo(4), trace);
+
+        //Bit Q_1
+        GAIGSregister Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT, mypoints[3], FONT_SIZE);
+        Q_1.set("0");
+        Q_1.setLabel( "Q(-1):");
+        trace.add("Q_1" , Q_1);
         mypoints = getPositions(1, numRows);
+        show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
     
         RegM= RegM.copyTo(mypoints[0]);
         RegA= RegA.copyTo(mypoints[1]);
@@ -364,6 +372,26 @@ public class BoothsMultiplication {
         try {
            return pseudo.pseudo_uri(new HashMap<String, String>(),
                                         selected, lineColors);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
+        return "Something went wrong";
+    }
+
+    private static String easyPseudo(int[] selected){
+        try {
+           return pseudo.pseudo_uri(new HashMap<String, String>(),
+                                        selected);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
+        return "Something went wrong";
+    }
+
+    private static String easyPseudo(int selected){
+        try {
+           return pseudo.pseudo_uri(new HashMap<String, String>(),
+                                        selected);
         } catch (JDOMException e) {
             e.printStackTrace();
         }
