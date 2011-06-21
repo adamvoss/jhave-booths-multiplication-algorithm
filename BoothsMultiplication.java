@@ -103,19 +103,25 @@ public class BoothsMultiplication {
         show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
 
         //Count
-        GAIGSregister count = new GAIGSarrayRegister(1,     "", DEFAULT_COLOR, mypoints[4], FONT_SIZE);
+/*        GAIGSregister count = new GAIGSarrayRegister(1,     "", DEFAULT_COLOR, mypoints[4], FONT_SIZE);
         count.set("" + RegQ.getSize() );
         count.setLabel("Count:");
         trace.add("Count", count);
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
+*/
 
-        //TODO make copy to independent or part of higher class, because it's needed for count which SHOULD NOT BE A REGISTER!    
+        //Count, take 2
+        CountBox count = new CountBox(RegQ.getSize(), DEFAULT_COLOR, mypoints[4], FONT_SIZE);
+        count.setLabel("Count");
+        trace.add("Count", count);
+        show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
+
         mypoints = getPositions(1, numRows);
         RegM= RegM.copyTo(mypoints[0]);
         RegA= RegA.copyTo(mypoints[1]);
         RegQ= RegQ.copyTo(mypoints[2]);
         Q_1 = Q_1.copyTo(mypoints[3]);
-        count=count.copyTo(mypoints[4]);
+        count=count.copyTo(mypoints[4]); //don't be fooled, not the same method.
 
         boothsAlgorithm(RegM, RegA, RegQ, Q_1, count, trace, 0, numRows, show);
 
@@ -142,15 +148,15 @@ public class BoothsMultiplication {
     * @param show The ShowFile object where the xml of the GAIGSregisters will be written.
     */
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
-        GAIGSregister Q_1, GAIGSregister count, GAIGStrace trace, int curLine, int numLines, ShowFile show)
+        GAIGSregister Q_1, CountBox count, GAIGStrace trace, int curLine, int numLines, ShowFile show)
             throws IOException {
 
-        GAIGSregister OldCount=(GAIGSregister)trace.get("Count");
+        CountBox OldCount=(CountBox)trace.get("Count");
 
-        OldCount.setColor(0, YELLOW);
+        OldCount.setColor(YELLOW);
         show.writeSnap("Check the Value of Count", docURI.toASCIIString(), easyPseudo(8), trace);
-        OldCount.setColor(0, DEFAULT_COLOR);
-    	//This name is deceptive because iter is not actually an iteration 
+        OldCount.setColor(DEFAULT_COLOR);
+
         if (curLine >= numLines) return;
 
         //Difference of the comparison bits
@@ -184,23 +190,21 @@ public class BoothsMultiplication {
             A.setAllToColor(DEFAULT_COLOR);
 
             ++curLine;
-            GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
+            GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
 
             //This is turning into variable soup, note the function seems to be straddling
             //Two different states of the registers
-            OldQ   = Q;
-            OldQ_1 = Q_1;
-            
-            M = ret[0];
-            A = ret[1];
-            Q = ret[2];
-            Q_1=ret[3];
-            count=ret[4];
+            M    = (GAIGSregister)ret[0];
+            A    = (GAIGSregister)ret[1];
+            Q    = (GAIGSregister)ret[2];
+            Q_1  = (GAIGSregister)ret[3];
+            count= (CountBox)ret[4];
 
         }
         //Gosh this function is getting long
         rightShift(A, Q, Q_1);
 
+        //Shift color logic
         Q_1.setColor(0, BLUE);
         ((GAIGSregister)trace.get("RegQ")).setAllToColor(BLUE);
         Q.setAllToColor(BLUE);
@@ -208,10 +212,11 @@ public class BoothsMultiplication {
         A.setAllToColor(GREEN);
         Q.setColor(0, GREEN);
 
-        //This frame needs to exclude count.
+        //This frame excludes count.
         show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), easyPseudo(20),
             trace, M, A, Q, Q_1);
 
+        //Reset colors
         ((GAIGSregister)trace.get("RegA")).setAllToColor(DEFAULT_COLOR);
         ((GAIGSregister)trace.get("RegQ")).setAllToColor(DEFAULT_COLOR);
         A.setAllToColor(DEFAULT_COLOR);
@@ -221,19 +226,17 @@ public class BoothsMultiplication {
         ++curLine;
 
         //TODO: Ugly hack is ugly
-        count.set("" + (count.getBit(0) - 1) );
+        //count.set("" + (count.getBit(0) - 1) );
+        count.decrement();
         show.writeSnap("Decrement count", docURI.toASCIIString(), easyPseudo(22), trace, M, A, Q, Q_1, count);
 
-        GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
+        GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
 
-        OldQ   = Q; //<-- Pointless
-        OldQ_1 = Q_1; //<-- Pointless
-        M = ret[0];
-        A = ret[1];
-        Q = ret[2];
-        Q_1=ret[3];
-        count=ret[4];
-
+        M    = (GAIGSregister)ret[0];
+        A    = (GAIGSregister)ret[1];
+        Q    = (GAIGSregister)ret[2];
+        Q_1  = (GAIGSregister)ret[3];
+        count= (CountBox)ret[4];
 
         //Finally Recurse
         boothsAlgorithm(M, A, Q, Q_1, count, trace, curLine, numLines, show);
@@ -244,9 +247,9 @@ public class BoothsMultiplication {
     * Adds the GAIGSregisters to the GAIGStrace and generate the next 4.
     * TODO @param @return
     */
-    public static GAIGSregister[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A,
-                        GAIGSregister Q, GAIGSregister Q_1, GAIGSregister count, GAIGStrace trace, int curLine, int numLines) {
-        GAIGSregister[] ret = new GAIGSregister[5];
+    public static GAIGSdatastr[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A,
+                        GAIGSregister Q, GAIGSregister Q_1, CountBox count, GAIGStrace trace, int curLine, int numLines) {
+        GAIGSdatastr[] ret = new GAIGSdatastr[5];
 
         trace.newLine();
         trace.add("RegM", M);
