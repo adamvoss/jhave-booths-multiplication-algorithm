@@ -26,6 +26,16 @@
     </java> 
   </target>
 
+  <target name="math" depends="compile" description="Runs Booth's Arithmetic">
+    <!-- Run from the classes dir -->
+    <java fork="true" dir="../../../build/classes"
+          classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
+          classname="exe.boothsMultiplication.GAIGSArithmetic">
+      <arg value="foo.sho" />  <!--  Name of the output visualization script-->
+      <arg value="7" />
+      <arg value="-7" />
+    </java> 
+  </target>
 
   <target name="clean" description="Remove 'compile' files. Does not clean up after 'run'">
     <delete verbose="true" includeemptydirs="true" failonerror="false"> 
