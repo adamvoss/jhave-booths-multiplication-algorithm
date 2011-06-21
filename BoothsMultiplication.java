@@ -20,6 +20,8 @@ public class BoothsMultiplication {
     //Definitions
     private static final boolean DEBUG = false;
 
+    private static enum RegisterName {REGM, REGA, REGQ, REGQ_1}
+
     private static final double FONT_SIZE = 0.07;
     public static final String WHITE   = "#FFFFFF";
     public static final String BLACK   = "#000000";
@@ -159,8 +161,8 @@ public class BoothsMultiplication {
         //This does more comparisons than necessary and does not support pseudocode.
         if (partCalc == 1 || partCalc == -1) {
             String title = "";
-            if (partCalc == 1) {add(A, negateValue(M) ); title="Added -M to A";}
-            else               {add(A, M)              ; title="Added  M to A";}
+            if (partCalc == 1) {addIntoReg(A, negateValue(M) ); title="Added -M to A";}
+            else               {addIntoReg(A, M)              ; title="Added  M to A";}
             
             show.writeSnap(title, docURI.toASCIIString(), easyPseudo(new int[] {11,15}), trace, M, A, Q, Q_1);
 
@@ -243,7 +245,7 @@ public class BoothsMultiplication {
      * @param A	Destination Register and addend.
      * @param toAdd other addend, not modified by function.
      */
-    public static void add(GAIGSregister A, GAIGSregister toAdd) {
+    public static void addIntoReg(GAIGSregister A, GAIGSregister toAdd) {
         int carry = 0;
         int sum = 0;
         for (int i = A.getSize()-1; i >= 0; --i) {
@@ -252,6 +254,7 @@ public class BoothsMultiplication {
             carry = sum / 2;
         }
     }
+//TODO add method which does addition logic on Strings.
 
     public static GAIGSregister negateValue(GAIGSregister M) {
         int carry = 1;
@@ -304,7 +307,7 @@ public class BoothsMultiplication {
             ret1.addChoice("Addition");
             ret1.addChoice("Subtraction");
             ret1.addChoice("Arithmetic Right Shift");
-            ret1.addChoice("None of the above.");
+            ret1.addChoice("None of the other choices.");
 
             ret1.setAnswer(pcalc == 0 ? 3 : (pcalc == 1 ? 2 : 1) );
 
@@ -319,6 +322,37 @@ public class BoothsMultiplication {
         }
 
 //      ret.shuffle();
+
+        return ret;
+    }
+
+    public static question getType3Question(int Q0, int Q_1, GAIGSregister oldReg, GAIGSregister newReg, GAIGSregister phony, 
+        RegisterName regName, ShowFile show) {
+
+        int select = ((int)Math.abs(rand.nextInt() )) % 4;
+        question ret = null;
+        int pcalc = Q0 - Q_1;
+
+        if (select == 0) {
+            XMLfibQuestion ret1 = new XMLfibQuestion(show, gen.getID() );
+            ret1.setQuestionText("What will the value in register " + regName + " be on the next slide?");
+            ret1.setAnswer(newReg.toString() );
+
+            ret = ret1;
+        }
+        else if (select == 1) {
+            XMLmcQuestion ret1 = new XMLmcQuestion(show, gen.getID() );
+            ret1.setQuestionText("What will the value in register " + regName + " be on the next slide?");
+            ret1.addChoice(newReg.toString() );
+            ret1.setAnswer(1);
+            ret1.addChoice(oldReg.toString() );
+            ret1.addChoice(phony.toString()  );
+            //TODO add final choice
+        }
+        else if (select == 2) {
+        }
+        else {
+        }
 
         return ret;
     }
