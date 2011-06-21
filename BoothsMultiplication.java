@@ -11,16 +11,12 @@ import exe.pseudocode.*;
 import exe.question.*;
 
 public class BoothsMultiplication {
-    static PseudoCodeDisplay pseudo;
-    static URI docURI;
-
-    private static Random rand     = new Random();
-    private static UniqueIDGen gen = new UniqueIDGen();
+    private static PseudoCodeDisplay pseudo;
+    private static URI docURI;
+    private static QuestionGenerator quest;
 
     //Definitions
     private static final boolean DEBUG = false;
-
-    private static enum RegisterName {REGM, REGA, REGQ, REGQ_1}
 
     private static final double FONT_SIZE = 0.07;
     public static final String WHITE   = "#FFFFFF";
@@ -35,13 +31,12 @@ public class BoothsMultiplication {
     public static final double WINDOW_HEIGHT = 1.0;
     public static final double WINDOW_WIDTH = 1.0;
 
-    public static final double LEFT_MARGIN   =  0.1;
+    public static final double LEFT_MARGIN   =  0.0;
     public static final double REG_WIDTH  =  0.25;
     public static final double X_PAD  = -0.05;
     public static final double REG_HEIGHT  =  0.1;
 
     public static void main(String args[]) throws IOException {
-
         //JHAVÉ Stuff
         ShowFile show = new ShowFile(args[0]);
 
@@ -75,6 +70,8 @@ public class BoothsMultiplication {
         Bounds[] mypoints = getPositions(0, numRows);
 
         GAIGStrace trace = new GAIGStrace();
+        //Trace finally defined, can now make the QuestionGenerator
+    	quest = new QuestionGenerator(show, trace);
 
         //Reg M
         GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[0], FONT_SIZE);
@@ -122,6 +119,11 @@ public class BoothsMultiplication {
 
         boothsAlgorithm(RegM, RegA, RegQ, Q_1, count, trace, 0, numRows, show);
 
+        //Hack to show we are done.
+        ((GAIGSregister)trace.get("RegA")).setAllToColor(YELLOW);
+        ((GAIGSregister)trace.get("RegQ")).setAllToColor(YELLOW);
+        show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trace);
+
         show.close();
     }
 
@@ -142,6 +144,12 @@ public class BoothsMultiplication {
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
         GAIGSregister Q_1, GAIGSregister count, GAIGStrace trace, int curLine, int numLines, ShowFile show)
             throws IOException {
+
+        GAIGSregister OldCount=(GAIGSregister)trace.get("Count");
+
+        OldCount.setColor(0, YELLOW);
+        show.writeSnap("Check the Value of Count", docURI.toASCIIString(), easyPseudo(8), trace);
+        OldCount.setColor(0, DEFAULT_COLOR);
     	//This name is deceptive because iter is not actually an iteration 
         if (curLine >= numLines) return;
 
@@ -153,19 +161,12 @@ public class BoothsMultiplication {
         //This seems messy
         GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
         GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
-        GAIGSregister OldCount=(GAIGSregister)trace.get("Count");
 
-        OldCount.setColor(0, YELLOW);
-        show.writeSnap("Top of the loop", docURI.toASCIIString(), easyPseudo(8), trace);
-
-        OldCount.setColor(0, DEFAULT_COLOR);
         OldQ.setColor(OldQ.getSize()-1, BLUE);
         OldQ_1.setColor(0, BLUE);
 
-        question quest1 = getType1Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), show); 
-
         show.writeSnap("Comparison", docURI.toASCIIString(),
-        		easyPseudo(new int[] {10, 14}), quest1, trace);
+        		easyPseudo(new int[] {10, 14}), quest.getQuestion(1), trace);
 
         //Reset Color
         OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
@@ -199,6 +200,9 @@ public class BoothsMultiplication {
         //Gosh this function is getting long
         rightShift(A, Q, Q_1);
 
+        Q_1.setColor(0, BLUE);
+        ((GAIGSregister)trace.get("RegQ")).setAllToColor(BLUE);
+        Q.setAllToColor(BLUE);
         ((GAIGSregister)trace.get("RegA")).setAllToColor(GREEN);
         A.setAllToColor(GREEN);
         Q.setColor(0, GREEN);
@@ -208,8 +212,10 @@ public class BoothsMultiplication {
             trace, M, A, Q, Q_1);
 
         ((GAIGSregister)trace.get("RegA")).setAllToColor(DEFAULT_COLOR);
+        ((GAIGSregister)trace.get("RegQ")).setAllToColor(DEFAULT_COLOR);
         A.setAllToColor(DEFAULT_COLOR);
-        Q.setColor(0, DEFAULT_COLOR);
+        Q.setAllToColor(DEFAULT_COLOR);
+        Q_1.setColor(0, DEFAULT_COLOR);
 
         ++curLine;
 
@@ -307,90 +313,6 @@ public class BoothsMultiplication {
     }
 
     /**
-    * Returns a random question of the "Which operation will occur next?" flavor.
-    * Call at the beginnig of a loop iteration.
-    *
-    */
-    public static question getType1Question(int Q0, int Q_1, ShowFile show) {
-        int select = ((int)Math.abs(rand.nextInt() )) % 3;
-        question ret = null;
-        int pcalc = Q0 - Q_1;
-
-        if (select == 0) {
-            XMLmsQuestion ret1 = new XMLmsQuestion(show, gen.getID() );
-            ret1.setQuestionText("Q(0) and Q(-1) are " + Q0 + " and " + Q_1 + 
-                " respectively. Select all the operations that will occur on this iteration of the loop.");
-
-            ret1.addChoice("Addition");
-            ret1.addChoice("Subtraction");
-
-            if (pcalc != 0) {
-                ret1.setAnswer(pcalc == -1 ? 1 : 2);
-            }
-
-            ret1.addChoice("Arithmetic Right Shift");
-            ret1.setAnswer(3);
-
-            ret = ret1;
-            
-        }
-        else if (select == 1) {
-            XMLmcQuestion ret1 = new XMLmcQuestion(show, gen.getID() );
-            ret1.setQuestionText("Which operation will occur on the next slide?");
-            ret1.addChoice("Addition");
-            ret1.addChoice("Subtraction");
-            ret1.addChoice("Arithmetic Right Shift");
-            ret1.addChoice("None of the other choices.");
-
-            ret1.setAnswer(pcalc == 0 ? 3 : (pcalc == 1 ? 2 : 1) );
-
-            ret = ret1;
-        }
-        else {
-            XMLtfQuestion ret1 = new XMLtfQuestion(show, gen.getID() );
-            ret1.setQuestionText("Both an addition (+M) and an arithmetic right shift will occur in the next iteration of the loop.");
-            ret1.setAnswer(pcalc != 0 && pcalc != 1);
-
-            ret = ret1;
-        }
-
-//      ret.shuffle();
-
-        return ret;
-    }
-
-    public static question getType3Question(int Q0, int Q_1, GAIGSregister oldReg, GAIGSregister newReg, GAIGSregister phony, 
-        RegisterName regName, ShowFile show) {
-
-        int select = ((int)Math.abs(rand.nextInt() )) % 4;
-        question ret = null;
-        int pcalc = Q0 - Q_1;
-
-        if (select == 0) {
-            XMLfibQuestion ret1 = new XMLfibQuestion(show, gen.getID() );
-            ret1.setQuestionText("What will the value in register " + regName + " be on the next slide?");
-            ret1.setAnswer(newReg.toString() );
-
-            ret = ret1;
-        }
-        else if (select == 1) {
-            XMLmcQuestion ret1 = new XMLmcQuestion(show, gen.getID() );
-            ret1.setQuestionText("What will the value in register " + regName + " be on the next slide?");
-            ret1.addChoice(newReg.toString() );
-            ret1.setAnswer(1);
-            ret1.addChoice(oldReg.toString() );
-            ret1.addChoice(phony.toString()  );
-            //TODO add final choice
-        }
-        else if (select == 2) {
-        }
-        else {
-        }
-
-        return ret;
-    }
-
-    /**
     * Calculates the number of lines the final display will occupy
     */
     public static int numLines(String binNum) {
@@ -446,16 +368,6 @@ public class BoothsMultiplication {
         String extension = "";
         while (i>0){extension = extension.concat(firstBit); i--;}
         return extension.concat(binStr);
-    }
-
-    private static class UniqueIDGen {
-        private int id;
-
-        public UniqueIDGen() {
-            id = 0;
-        }
-
-        public String getID() {return ("" + id++);}
     }
 
     private static String easyPseudo(int[] selected, int[] lineColors){
