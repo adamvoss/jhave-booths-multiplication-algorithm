@@ -175,11 +175,12 @@ public class BoothsMultiplication {
         //This does more comparisons than necessary and does not support pseudocode.
         if (partCalc == 1 || partCalc == -1) {
             String title = "";
-            if (partCalc == 1) {addIntoReg(A, negateValue(M) ); title="Added -M to A";}
-            else               {addIntoReg(A, M)              ; title="Added  M to A";}
+            int line = 0;
+            if (partCalc == 1) {addIntoReg(A, negateValue(M) ); title="Added -M to A"; line = 11;}
+            else               {addIntoReg(A, M)              ; title="Added  M to A"; line = 15;}
             
             A.setAllToColor(GREEN);
-            show.writeSnap(title, docURI.toASCIIString(), easyPseudo(new int[] {11,15}), trace, M, A, Q, Q_1, count);
+            show.writeSnap(title, docURI.toASCIIString(), easyPseudo(line), trace, M, A, Q, Q_1, count);
             A.setAllToColor(DEFAULT_COLOR);
 
             ++curLine;
