@@ -29,6 +29,7 @@ public class BoothsMultiplication {
     public static final String RED     = "#FF0000";
     public static final String GREEN   = "#00FF00";
     public static final String BLUE    = "#0000FF";
+    public static final String YELLOW  = "#FFFF00";
     public static final String DEFAULT_COLOR = WHITE;
     
     public static final double WINDOW_HEIGHT = 1.0;
@@ -102,15 +103,24 @@ public class BoothsMultiplication {
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         trace.add("Q_1" , Q_1);
-        mypoints = getPositions(1, numRows);
         show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
-    
+
+        //Count
+        GAIGSregister count = new GAIGSarrayRegister(1,     "", DEFAULT_COLOR, mypoints[4], FONT_SIZE);
+        count.set("" + RegQ.getSize() );
+        count.setLabel("Count:");
+        trace.add("Count", count);
+        show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
+
+        //TODO make copy to independent or part of higher class, because it's needed for count which SHOULD NOT BE A REGISTER!    
+        mypoints = getPositions(1, numRows);
         RegM= RegM.copyTo(mypoints[0]);
         RegA= RegA.copyTo(mypoints[1]);
         RegQ= RegQ.copyTo(mypoints[2]);
         Q_1 = Q_1.copyTo(mypoints[3]);
+        count=count.copyTo(mypoints[4]);
 
-        boothsAlgorithm(RegM, RegA, RegQ, Q_1, trace, 0, numLines(RegQ.toString() ), show);
+        boothsAlgorithm(RegM, RegA, RegQ, Q_1, count, trace, 0, numRows, show);
 
         show.close();
     }
@@ -120,20 +130,20 @@ public class BoothsMultiplication {
     * A recursive method which steps through Booth's Multiplication Algorithm, making the
     * appropriate calls to show's writeSnap through each iteration.
     * 
-    * At each iteration, Q(0) and Q(-1) are evaluated. If there is an add/subtract, iter will be incremented
-    * by 2, or else it will be incremented by 1. The function exits when iter is no longer less than or equal
+    * At each iteration, Q(0) and Q(-1) are evaluated. If there is an add/subtract, curLine will be incremented
+    * by 2, or else it will be incremented by 1. The function exits when curLine is no longer less than or equal
     * to numLines.
     *
     * @param trace The GAIGStrace object to keep the run history of the algorithm.
-    * @param iter The active "line" in the visualization.
+    * @param curLine The active "line" in the visualization.
     * @param numLines The total number of lines that will be displayed during the run of the visualization.
     * @param show The ShowFile object where the xml of the GAIGSregisters will be written.
     */
     public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
-        GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines, ShowFile show)
+        GAIGSregister Q_1, GAIGSregister count, GAIGStrace trace, int curLine, int numLines, ShowFile show)
             throws IOException {
     	//This name is deceptive because iter is not actually an iteration 
-        if (iter >= numLines) return;
+        if (curLine >= numLines) return;
 
         //Difference of the comparison bits
         int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
@@ -143,14 +153,17 @@ public class BoothsMultiplication {
         //This seems messy
         GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
         GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
+        GAIGSregister OldCount=(GAIGSregister)trace.get("Count");
+
+        OldCount.setColor(0, YELLOW);
+        show.writeSnap("Top of the loop", docURI.toASCIIString(), easyPseudo(8), trace);
+
+        OldCount.setColor(0, DEFAULT_COLOR);
         OldQ.setColor(OldQ.getSize()-1, BLUE);
         OldQ_1.setColor(0, BLUE);
 
-        //The following function call means nothing.
         question quest1 = getType1Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), show); 
 
-        //There is already a frame missing
-        
         show.writeSnap("Comparison", docURI.toASCIIString(),
         		easyPseudo(new int[] {10, 14}), quest1, trace);
 
@@ -164,31 +177,47 @@ public class BoothsMultiplication {
             if (partCalc == 1) {addIntoReg(A, negateValue(M) ); title="Added -M to A";}
             else               {addIntoReg(A, M)              ; title="Added  M to A";}
             
-            show.writeSnap(title, docURI.toASCIIString(), easyPseudo(new int[] {11,15}), trace, M, A, Q, Q_1);
+            A.setAllToColor(GREEN);
+            show.writeSnap(title, docURI.toASCIIString(), easyPseudo(new int[] {11,15}), trace, M, A, Q, Q_1, count);
+            A.setAllToColor(DEFAULT_COLOR);
 
-            ++iter;
-            GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, trace, iter, numLines);
+            ++curLine;
+            GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
 
             //This is turning into variable soup, note the function seems to be straddling
             //Two different states of the registers
             OldQ   = Q;
             OldQ_1 = Q_1;
+            
             M = ret[0];
             A = ret[1];
             Q = ret[2];
             Q_1=ret[3];
+            count=ret[4];
 
         }
         //Gosh this function is getting long
         rightShift(A, Q, Q_1);
 
+        ((GAIGSregister)trace.get("RegA")).setAllToColor(GREEN);
+        A.setAllToColor(GREEN);
+        Q.setColor(0, GREEN);
+
         //This frame needs to exclude count.
         show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), easyPseudo(20),
             trace, M, A, Q, Q_1);
 
-        ++iter;
-        //Another missing frame
-        GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, trace, iter, numLines);
+        ((GAIGSregister)trace.get("RegA")).setAllToColor(DEFAULT_COLOR);
+        A.setAllToColor(DEFAULT_COLOR);
+        Q.setColor(0, DEFAULT_COLOR);
+
+        ++curLine;
+
+        //TODO: Ugly hack is ugly
+        count.set("" + (count.getBit(0) - 1) );
+        show.writeSnap("Decrement count", docURI.toASCIIString(), easyPseudo(22), trace, M, A, Q, Q_1, count);
+
+        GAIGSregister[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
 
         OldQ   = Q; //<-- Pointless
         OldQ_1 = Q_1; //<-- Pointless
@@ -196,9 +225,11 @@ public class BoothsMultiplication {
         A = ret[1];
         Q = ret[2];
         Q_1=ret[3];
+        count=ret[4];
+
 
         //Finally Recurse
-        boothsAlgorithm(M, A, Q, Q_1, trace, iter, numLines, show);
+        boothsAlgorithm(M, A, Q, Q_1, count, trace, curLine, numLines, show);
     }
 
     /**
@@ -207,21 +238,23 @@ public class BoothsMultiplication {
     * TODO @param @return
     */
     public static GAIGSregister[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A,
-                        GAIGSregister Q, GAIGSregister Q_1, GAIGStrace trace, int iter, int numLines) {
-        GAIGSregister[] ret = new GAIGSregister[4];
+                        GAIGSregister Q, GAIGSregister Q_1, GAIGSregister count, GAIGStrace trace, int curLine, int numLines) {
+        GAIGSregister[] ret = new GAIGSregister[5];
 
         trace.newLine();
         trace.add("RegM", M);
         trace.add("RegA", A);
         trace.add("RegQ", Q);
         trace.add("Q_1" , Q_1);
+        trace.add("Count", count);
 
-        Bounds[] mypoints = getPositions(iter+1, numLines);
+        Bounds[] mypoints = getPositions(curLine+1, numLines);
 
         ret[0] = M.copyTo(mypoints[0]);
         ret[1] = A.copyTo(mypoints[1]);
         ret[2] = Q.copyTo(mypoints[2]);
         ret[3] = Q_1.copyTo(mypoints[3]);
+        ret[4] = count.copyTo(mypoints[4]);
 
         return ret;
     }
@@ -381,16 +414,16 @@ public class BoothsMultiplication {
     * 
     * @return ret Array of bounds
     */
-    private static Bounds[] getPositions(int iter, int numLines) {
-        Bounds[] ret = new Bounds[4];
+    private static Bounds[] getPositions(int curLine, int numLines) {
+        Bounds[] ret = new Bounds[5];
         double frac = WINDOW_HEIGHT / numLines;
 
-        for (int i = 0; i<4; ++i)
+        for (int i = 0; i<ret.length; ++i)
             ret[i] = new Bounds(
             		LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)),
-            		WINDOW_HEIGHT-(iter+1)*frac,
+            		WINDOW_HEIGHT-(curLine+1)*frac,
             		LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),
-            		(WINDOW_HEIGHT-iter*frac)+REG_HEIGHT);
+            		(WINDOW_HEIGHT-curLine*frac)+REG_HEIGHT);
         return ret;
     }
 
