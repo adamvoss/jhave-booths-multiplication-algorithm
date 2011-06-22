@@ -3,6 +3,9 @@ package exe.boothsMultiplication;
 import exe.GAIGStext;
 
 /**
+ * Behaves the same as <code>GAIGStext</code> except providing
+ * monospaced output.
+ * 
  * @author Adam Voss <vossad01@luther.edu>
  *
  */
@@ -11,30 +14,57 @@ public class GAIGSmonospacedText extends GAIGStext {
 	private double charWidth;
 	private int charHalign;
 
+	/**
+	 * Default constructor that assigns default values to all fields.
+	 */
 	public GAIGSmonospacedText() {
 		super();
 		charWidth = getFontsize();
 		charHalign = this.getHalign();
 	}
 
+	/**
+	 * Constuctor that only sets the location of the text.
+	 */
 	public GAIGSmonospacedText(double x, double y) {
 		super(x, y);
 		charWidth = getFontsize();
 		charHalign = this.getHalign();
 	}
 
+	/**
+	 * Constructor that sets the text and its location.
+	 */
 	public GAIGSmonospacedText(double x, double y, String text) {
 		super(x, y, text);
 		charWidth = getFontsize();
 		charHalign = this.getHalign();
 	}
 
+	/**
+	 * Constructor that provides parity with
+	 * the all-fields constructor of GAIGStext.
+	 */
 	public GAIGSmonospacedText(double x, double y, int halign, int valign,
 			double fontsize, String color, String text) {
 		super(x, y, halign, valign, fontsize, color, text);
 		charWidth = getFontsize();
 		charHalign = this.getHalign();
 	}
+	
+	/**
+	 * Constructor that also allows setting of the character width.
+	 * 
+	 * @param charWidth Width of each character,
+	 * shares the same scale as fontSize.
+	 */
+	public GAIGSmonospacedText(double x, double y, int halign, int valign,
+			double fontsize, double charWidth, String color, String text) {
+		super(x, y, halign, valign, fontsize, color, text);
+		this.charWidth = charWidth;
+		this.charHalign = this.getHalign();
+	}
+
 
 	/**
 	 * Returns the horizontal alignment of each character within its
@@ -77,6 +107,7 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 	/**
+	 * This outputs ever character as an equally spaced GAIGS text element.
 	 * This is the lazy way to accomplish this, but it is 
 	 * less efficient (because processing has to be redone every draw).
 	 * The alternative would be to calculate all this information ahead
@@ -96,8 +127,8 @@ public class GAIGSmonospacedText extends GAIGStext {
 		double fontsize = getFontsize();
 		String color = getColor();
 		String[] lines = getText().split("\n");
-		char[][] texts = new char[lines.length][];
 		
+		char[][] texts = new char[lines.length][];
 		for (int i = 0 ; i < lines.length; i++){
 			texts[i] = lines[i].toCharArray();
 		}
@@ -155,7 +186,7 @@ public class GAIGSmonospacedText extends GAIGStext {
 							System.err.println("Invalid Color Escape in " +
 									"monospaced Text; read: "+ colorBuffer);
 							
-							//Continue anyway, something upstream will thrown an exception
+							//Continue anyway, something upstream may thrown an exception
 							//We aren't going to try to fix the user's mistake.
 						}
 						color = colorBuffer.substring(1);
