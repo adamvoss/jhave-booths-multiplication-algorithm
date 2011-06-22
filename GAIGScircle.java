@@ -42,10 +42,11 @@ public class GAIGScircle implements GAIGSdatastr, Primitive {
 	@Override
 	public String toXML() {
         GAIGScircle c = this;
-        return "\t<circle x=\"" + c.x + "\" y=\"" + c.y + "\" " +
+        return "<primitivecollection>\n\t<name>" + name +
+        "</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + "\t<circle x=\"" + c.x + "\" y=\"" + c.y + "\" " +
           "r=\"" + c.r + "\" fcolor=\"" + c.fcolor + "\" " +
           "ocolor=\"" + c.ocolor + "\" text=\"" + c.label + "\" lcolor=\"" + c.lcolor + "\" height=\"" +
-          c.height + "\" width=\""+ c.width +"\"/>\n";
+          c.height + "\" width=\""+ c.width +"\"/>\n" + "</primitivecollection>\n";
 	}
 	
 	private String computeBounds() {

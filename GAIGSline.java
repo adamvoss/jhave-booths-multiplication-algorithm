@@ -42,13 +42,14 @@ public class GAIGSline implements GAIGSdatastr, Primitive {
 	@Override
 	public String toXML() {
 		GAIGSline l = this;
-		String xml = "<polygon nSides=\"" + 2;
+		String xml = "<primitivecollection>\n\t<name>" + name +
+	    "</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + "<polygon nSides=\"" + 2;
 		for(int j=0; j<2 ; ++j) {
 			xml += "\" ptsX"+ j + "=\"" + l.x[j] + "\" ptsY"+ j + "=\"" + l.y[j];
 		}
 		xml += "\" fcolor=\"" + l.color + "\" " +
 		"ocolor=\"" + l.color + "\" text=\"" + l.label + "\" lcolor=\"" + l.lcolor +
-		"\" height=\"" + l.height + "\" width=\"" + l.width + "\"/>\n";
+		"\" height=\"" + l.height + "\" width=\"" + l.width + "\"/>\n" + "</primitivecollection>\n";
 		return xml;
 	}
 

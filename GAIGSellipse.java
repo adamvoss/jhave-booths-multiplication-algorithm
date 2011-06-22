@@ -45,9 +45,10 @@ public class GAIGSellipse implements GAIGSdatastr, Primitive {
 	}
 	@Override
 	public String toXML() {
-		return "\t<ellipse x=\"" + e.x + "\" y=\"" + e.y + "\" " +
+		return "<primitivecollection>\n\t<name>" + name +
+	    "</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + "\t<ellipse x=\"" + e.x + "\" y=\"" + e.y + "\" " +
 		"sa=\"" + e.stAngle + "\" ea=\"" + e.endAngle + "\" rx=\"" + e.xR + "\" ry=\"" + e.yR + "\" color=\"" + e.color + "\" " +
-		"text=\"" + e.label + "\" lcolor=\"" + e.lcolor + "\" height=\"" + e.height + "\" width=\"" + e.width + "\"/>\n";
+		"text=\"" + e.label + "\" lcolor=\"" + e.lcolor + "\" height=\"" + e.height + "\" width=\"" + e.width + "\"/>\n" + "</primitivecollection>\n";
 	}
 
 	private String computeBounds() {

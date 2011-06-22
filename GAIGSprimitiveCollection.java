@@ -91,13 +91,12 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
   */
   public String toXML() {
     String xml;
-    xml = "<primitivecollection>\n\t<name>" + name +
-      "</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t";
-
+    xml = "";
+    
     for(int i = 0; i < primitives.size(); ++i) {
       xml += primitives.get(i).toXML();
     }
-    xml += "</primitivecollection>\n";
+    
     return xml;
   }
 

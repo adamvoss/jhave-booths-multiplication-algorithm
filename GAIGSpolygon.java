@@ -50,13 +50,14 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 	@Override
 	public String toXML() {
 		GAIGSpolygon pl = this;
-		String xml = "<polygon nSides=\"" + pl.nSides;
+		String xml = "<primitivecollection>\n\t<name>" + name +
+	      "</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" +"<polygon nSides=\"" + pl.nSides;
 		for(int j=0; j<pl.nSides ; ++j) {
 			xml += "\" ptsX"+ j + "=\"" + pl.ptsX[j] + "\" ptsY"+ j + "=\"" + pl.ptsY[j];
 		}
 		xml += "\" fcolor=\"" + pl.fcolor + "\" " +
 		"ocolor=\"" + pl.ocolor + "\" text=\"" + pl.label + "\" lcolor=\"" + pl.lcolor + "\" height=\"" +
-		pl.height + "\" width=\"" + pl.width + "\"/>\n";
+		pl.height + "\" width=\"" + pl.width + "\"/>\n" + "</primitivecollection>\n";
 		return xml;
 	}
 

@@ -39,6 +39,8 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		this.term2=term2.toCharArray();
 		draw.add(new GAIGSmonospacedText(.5,.5, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1));
 		draw.add(new GAIGSmonospacedText(.5,(.5-.07), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term2));
+		draw.add(new GAIGSline(new double[] {0,0}, new double[] {1,1}, "#FFFFFF", "#FFFFFF", "", .1, 1));
+		draw.add(new GAIGScircle(.5, .5, .5, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_NAME, 1, 1));
 	}
 	
 	@Override
