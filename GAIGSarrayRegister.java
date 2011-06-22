@@ -89,5 +89,15 @@ class GAIGSarrayRegister implements GAIGSregister{
 
         return ret;
     }
+
+    public int[] toIntArray() {
+        int[] ret = new int[this.getSize()];
+
+        for (int i = 0; i < ret.length; ++i) {
+            ret[i] = this.getBit(i);
+        }
+
+        return ret;
+    }
 }
 

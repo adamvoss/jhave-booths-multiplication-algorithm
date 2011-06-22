@@ -77,6 +77,13 @@ public class GAIGStrace implements GAIGSdatastr {
         return trace.get(loc).get(ref);
     }
 
+    public HashMap<String, GAIGSdatastr> popLine() {
+        return trace.remove(trace.size()-1);
+    }
+
+    public void pushLine(HashMap<String, GAIGSdatastr> line) {
+        trace.add(line);
+    }
 
     /**
     * Creates a new line for objects to be stored in, and switches the current line to the newly created one.

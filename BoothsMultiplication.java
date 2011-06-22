@@ -135,7 +135,8 @@ public class BoothsMultiplication {
         show.close();
     }
 
-    // TODO All the color logic goes in here.
+    //We can now safely say that only Chris is capable of safely modifying this method.
+    //Oh god oh god oh god...
     /**
     * A recursive method which steps through Booth's Multiplication Algorithm, making the
     * appropriate calls to show's writeSnap through each iteration.
@@ -173,12 +174,6 @@ public class BoothsMultiplication {
         OldQ.setColor(OldQ.getSize()-1, BLUE);
         OldQ_1.setColor(0, BLUE);
 
-        show.writeSnap("Comparison", docURI.toASCIIString(),
-        		easyPseudo(new int[] {10, 14}), quest.getQuestion(1), trace);
-
-        //Reset Color
-        OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
-        OldQ_1.setColor(0, DEFAULT_COLOR);
 
         //This does more comparisons than necessary and does not support pseudocode.
         if (partCalc == 1 || partCalc == -1) {
@@ -187,12 +182,12 @@ public class BoothsMultiplication {
             if (partCalc == 1) {addIntoReg(A, negateValue(M) ); title="Added -M to A"; line = 11;}
             else               {addIntoReg(A, M)              ; title="Added  M to A"; line = 15;}
             
-            A.setAllToColor(GREEN);
-            show.writeSnap(title, docURI.toASCIIString(), easyPseudo(line), trace, M, A, Q, Q_1, count);
-            A.setAllToColor(DEFAULT_COLOR);
-
+            //AddToTrace logic
             ++curLine;
             GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
+
+            //Set color of RegA when add/sub happens.
+            A.setAllToColor(GREEN);
 
             //This is turning into variable soup, note the function seems to be straddling
             //Two different states of the registers
@@ -202,21 +197,56 @@ public class BoothsMultiplication {
             Q_1  = (GAIGSregister)ret[3];
             count= (CountBox)ret[4];
 
+            //This goes before addToTrace is called
+            //Or hop around...
+            question que = null;
+            if ((Q.getSize() - count.getCount()) % 2 == 0) que = quest.getQuestion(3);
+            HashMap<String, GAIGSdatastr> temp = trace.popLine();
+            if ((Q.getSize() - count.getCount() )% 2 == 1) que = quest.getQuestion(1);
+
+            show.writeSnap("Comparison", docURI.toASCIIString(),
+                    easyPseudo(new int[] {10, 14}), que, trace);
+            trace.pushLine(temp);
+
+            //Reset Color
+            OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
+            OldQ_1.setColor(0, DEFAULT_COLOR);
+
+
+            show.writeSnap(title, docURI.toASCIIString(), easyPseudo(line), trace);
+
+        } else {
+            //This goes before addToTrace is called
+            show.writeSnap("Comparison", docURI.toASCIIString(),
+                    easyPseudo(new int[] {10, 14}), quest.getQuestion(1), trace);
+
+            //Reset Color
+            OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
+            OldQ_1.setColor(0, DEFAULT_COLOR);
         }
         //Gosh this function is getting long
         rightShift(A, Q, Q_1);
 
+        //Begin count logic
+        count.decrement();
+
+        ++curLine;
+        GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
+        
         //Shift color logic
         Q_1.setColor(0, BLUE);
-        ((GAIGSregister)trace.get("RegQ")).setAllToColor(BLUE);
+        ((GAIGSregister)trace.get(trace.size()-2,"RegQ")).setAllToColor(BLUE);
         Q.setAllToColor(BLUE);
-        ((GAIGSregister)trace.get("RegA")).setAllToColor(GREEN);
+        ((GAIGSregister)trace.get(trace.size()-2,"RegA")).setAllToColor(GREEN);
         A.setAllToColor(GREEN);
         Q.setColor(0, GREEN);
 
         //This frame excludes count.
+        //Another hop
+        question que = quest.getQuestion(7);
+        HashMap<String, GAIGSdatastr> temp = trace.popLine();
         show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), easyPseudo(20),
-            trace, M, A, Q, Q_1);
+            que, trace, M, A, Q, Q_1);
 
         //Reset colors
         ((GAIGSregister)trace.get("RegA")).setAllToColor(DEFAULT_COLOR);
@@ -224,21 +254,16 @@ public class BoothsMultiplication {
         A.setAllToColor(DEFAULT_COLOR);
         Q.setAllToColor(DEFAULT_COLOR);
         Q_1.setColor(0, DEFAULT_COLOR);
-
-        ++curLine;
-
-        //TODO: Ugly hack is ugly
-        //count.set("" + (count.getBit(0) - 1) );
-        count.decrement();
-        show.writeSnap("Decrement count", docURI.toASCIIString(), easyPseudo(22), trace, M, A, Q, Q_1, count);
-
-        GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
+        trace.pushLine(temp);
+        //Finish hop
 
         M    = (GAIGSregister)ret[0];
         A    = (GAIGSregister)ret[1];
         Q    = (GAIGSregister)ret[2];
         Q_1  = (GAIGSregister)ret[3];
         count= (CountBox)ret[4];
+
+        show.writeSnap("Decrement count", docURI.toASCIIString(), easyPseudo(22), trace);
 
         //Finally Recurse
         boothsAlgorithm(M, A, Q, Q_1, count, trace, curLine, numLines, show);
@@ -299,8 +324,12 @@ public class BoothsMultiplication {
             carry = sum / 2;
         }
     }
-//TODO add method which does addition logic on Strings.
 
+    /**
+     * Negates the value of a register, in two's complement.
+     * @param M The register to negate
+     * @return A new register with the negated value.
+     */
     public static GAIGSregister negateValue(GAIGSregister M) {
         int carry = 1;
         GAIGSregister ret = new GAIGSarrayRegister(M.getSize() );

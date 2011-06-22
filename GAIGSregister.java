@@ -85,4 +85,11 @@ public interface GAIGSregister extends GAIGSdatastr {
     *
     */
     public GAIGSregister copyTo(Bounds bounds);
+
+    /**
+    * Return an array of ints with the values in the GAIGSregister
+    *
+    */
+    public int[] toIntArray();
+    
 }
