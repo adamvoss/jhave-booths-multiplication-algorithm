@@ -37,7 +37,9 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 	/**
-	 * Uses same constants as parent's Halign
+	 * Returns the horizontal alignment of each character within its
+	 * "monospace box".
+	 * Uses same constants as the inherited Halign.
 	 * 
 	 * @return the charHalign
 	 */
@@ -46,6 +48,9 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 	/**
+	 * Set the horizontal alignment of each character
+	 * Default is HCENTER. Uses same constants as parent's Halign.
+	 * 
 	 * @param charHalign the charHalign to set
 	 */
 	public void setCharHalign(int charHalign) {
@@ -53,6 +58,9 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 	/**
+	 * Sets the width of all characters.
+	 * Defaults to the fontsize
+	 * 
 	 * @param width the desired character_width
 	 */
 	public void setCharacterWidth(double width){
@@ -60,6 +68,8 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 	/**
+	 * Returns the width of all characters.
+	 *  
 	 * @return the character_width
 	 */
 	public double getCharacterWidth() {
@@ -67,8 +77,10 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 	/**
-	 * This is the lazy method but it is less efficient
-	 * (because processing has to be redone every draw).
+	 * This is the lazy way to accomplish this, but it is 
+	 * less efficient (because processing has to be redone every draw).
+	 * The alternative would be to calculate all this information ahead
+	 * of time, so that multiple draws would be quicker.
 	 * 
 	 * @return ret The XML string.
 	 */
@@ -99,18 +111,32 @@ public class GAIGSmonospacedText extends GAIGStext {
 				Y+=(((lines.length-1)/2.0) * fontsize);
 			}
 		}
-		for (char[] text : texts){
+		for (int line = 0; line < texts.length ; line++){
+			char[] text = texts[line];
 			X=getX();
+			
+			//Annoyingly we also have to strip out the Color Escapes
+			String cleanedText = lines[line].replaceAll("\\\\#[0-9A-Fa-f]{6}", "");
 			switch (Halign){ //We want the flow through behavior
 			case HRIGHT:
-				X=X-(((text.length-1)/2.0) * charWidth);
+				X=X-(((cleanedText.length()-1)/2.0) * charWidth);
 			case HCENTER:
-				X=X-(((text.length-1)/2.0) * charWidth);
+				X=X-(((cleanedText.length()-1)/2.0) * charWidth);
 			}
 			
-			for (char chr : text){
+			for (int i = 0 ; i < text.length ; i++){
+				char chr = text[i];
 				if (colorBuffer.equals("")){
-					//TODO Check for Color Escapes,
+					if (chr == '\\'){
+						//Avoid Null Pointer
+						if (text.length > (i+1)){
+							//We are starting a color escape
+							if (text[i+1] == '#'){
+								colorBuffer += String.valueOf(chr);
+								continue;
+							}
+						}
+					}
 					ret +=  "<text x=\"" + X + "\" y=\"" + Y + "\" halign=\"" + charHalign +
 					"\" valign=\"" + Valign + "\" fontsize=\"" + fontsize + 
 					"\" color=\"" + color + "\">" + String.valueOf(chr) + "</text>\n";
@@ -118,12 +144,21 @@ public class GAIGSmonospacedText extends GAIGStext {
 				}
 				else{
 					//We don't have the full color string
-					if (colorBuffer.length() < 6){
+					if (colorBuffer.length() <= 6){
 						colorBuffer = colorBuffer + String.valueOf(chr);
 					}
 					//We have the full color string
 					else{
-						color = colorBuffer;
+						colorBuffer = colorBuffer + String.valueOf(chr);
+						//User-Error checking
+						if (!colorBuffer.matches("\\\\#[0-9A-Fa-f]{6}")){
+							System.err.println("Invalid Color Escape in " +
+									"monospaced Text; read: "+ colorBuffer);
+							
+							//Continue anyway, something upstream will thrown an exception
+							//We aren't going to try to fix the user's mistake.
+						}
+						color = colorBuffer.substring(1);
 						colorBuffer = "";
 					}
 				}

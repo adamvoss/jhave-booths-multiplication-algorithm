@@ -74,8 +74,7 @@ public class BoothsMultiplication {
     	quest = new QuestionGenerator(show, trace);
 
     	show.writeSnap("Hello Dave", docURI.toASCIIString(), easyPseudo(0),
-    			new GAIGSmonospacedText(.5, .5, "It looks  like you've\nimproved a great deal"));
-//    			new GAIGStext(.5, .5, "It looks like you've\nimproved great deal"));
+    			new GAIGSmonospacedText(.5, .5, "It looks  like \\#0000FFyou've\nimproved a \\#FF0000great deal"));
     	
         //Reg M
         GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[0], FONT_SIZE);
