@@ -58,7 +58,7 @@ public class GAIGSmonospacedText extends GAIGStext {
 	public void setCharacterWidth(double width){
 		this.charWidth = width;
 	}
-	
+
 	/**
 	 * @return the character_width
 	 */
@@ -73,45 +73,64 @@ public class GAIGSmonospacedText extends GAIGStext {
 	 * @return ret The XML string.
 	 */
 	@Override
-    public String toXML(){
+	public String toXML(){
 		String ret = "";
 		String colorBuffer = "";
 		//It seems like the parent should just have protected fields 
-		double X = getX();
+		double X; //Initialized later
 		double Y = getY();
 		int Halign = getHalign();
 		int Valign = getValign();
 		double fontsize = getFontsize();
 		String color = getColor();
-		char[] text = getText().toCharArray();
-
-		if (Halign == HCENTER){
-			X=X-(((text.length/2) - 0.5) * charWidth);
-		}
-		else if (Halign == HRIGHT){
-			X=X-((text.length-1)*charWidth);
-		}
+		String[] lines = getText().split("\n");
+		char[][] texts = new char[lines.length][];
 		
-		for (char chr : text){
-			if (colorBuffer.equals("")){ 
-				//TODO Check for Color Escapes, new lines, new line needs supers' color
-				ret +=  "<text x=\"" + X + "\" y=\"" + Y + "\" halign=\"" + charHalign +
-	    		"\" valign=\"" + Valign + "\" fontsize=\"" + fontsize + 
-	    		"\" color=\"" + color + "\">" + String.valueOf(chr) + "</text>\n";
-				X += charWidth;
-			}
-			else{
-				//We don't have the full color string
-				if (colorBuffer.length() < 6){
-					colorBuffer = colorBuffer + String.valueOf(chr);
-				}
-				//We have the full color string
-				else{
-					color = colorBuffer;
-					colorBuffer = "";
-				}
+		for (int i = 0 ; i < lines.length; i++){
+			texts[i] = lines[i].toCharArray();
+		}
+
+		//New lines assumed to be rare thus the extra cost of this compare
+		if (lines.length > 1){
+			switch (Halign){ //We want the flow through behavior
+			case VBOTTOM:
+				Y+=(((lines.length-1)/2.0) * fontsize);
+			case VCENTER:
+				Y+=(((lines.length-1)/2.0) * fontsize);
 			}
 		}
-    	return ret;
+		for (char[] text : texts){
+			X=getX();
+			switch (Halign){ //We want the flow through behavior
+			case HRIGHT:
+				X=X-(((text.length-1)/2.0) * charWidth);
+			case HCENTER:
+				X=X-(((text.length-1)/2.0) * charWidth);
+			}
+			
+			for (char chr : text){
+				if (colorBuffer.equals("")){
+					//TODO Check for Color Escapes,
+					ret +=  "<text x=\"" + X + "\" y=\"" + Y + "\" halign=\"" + charHalign +
+					"\" valign=\"" + Valign + "\" fontsize=\"" + fontsize + 
+					"\" color=\"" + color + "\">" + String.valueOf(chr) + "</text>\n";
+					X += charWidth;
+				}
+				else{
+					//We don't have the full color string
+					if (colorBuffer.length() < 6){
+						colorBuffer = colorBuffer + String.valueOf(chr);
+					}
+					//We have the full color string
+					else{
+						color = colorBuffer;
+						colorBuffer = "";
+					}
+				}
+			}
+			Y -= fontsize;
+			color = getColor();
+		}
+		return ret;
 	}
 }
