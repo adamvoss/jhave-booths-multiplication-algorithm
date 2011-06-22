@@ -44,6 +44,11 @@ public class GAIGStrace implements GAIGSdatastr {
             System.err.println("Warning, attempt to access a line which does not exist. Attempt aborted.");
             return;
         }
+        if (elem instanceof GAIGStrace) {
+            System.err.println("Warning, attempt to add GAIGStrace type to GAIGStrace. This action is forbidden.");
+            System.err.println("You should meet my friend Adam.");
+            return;
+        }
         HashMap<String, GAIGSdatastr> line = trace.get(loc);
 
         if (line.containsKey(ref) ) {

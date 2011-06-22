@@ -22,7 +22,7 @@ public class QuestionGenerator {
 		this.trace=trace;
 	}
 
-	//This is messy and not the best way to do it, but its only a proof of concept
+	//This is messy and not the best way to do it, but it's only a proof of concept
 	public question getQuestion(int type){
 		if (type == 1){
 			GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
@@ -30,6 +30,9 @@ public class QuestionGenerator {
 			return getType1Question(OldQ.getBit(OldQ.getSize()-1),
 									OldQ_1.getBit(0));
 		}
+        else if (type == 2) {
+            
+        }
         //to be called right after new registers are added, but before they're drawn.
         else if (type == 3) {
             GAIGSregister OldQ   = (GAIGSregister)trace.get(trace.size()-2,"RegQ");
@@ -44,20 +47,22 @@ public class QuestionGenerator {
             GAIGSregister phony  = (GAIGSregister)trace.get("Reg" + phref);
 
            return getType3Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), oldReg, newReg, phony, ref); 
-      }
+        }
         else if (type == 7) {
             GAIGSregister RegA = (GAIGSregister)trace.get("RegA");
             return getType7Question(RegA, show);
         }
 
 		else return null;
+
+        return null;
 	}
 
 
 
 	/**
 	 * Returns a random question of the "Which operation will occur next?" flavor.
-	 * Call at the beginnig of a loop iteration.
+	 * Call at the comparison frame of the loop.
 	 *
 	 */
 	private question getType1Question(int Q0, int Q_1) {
@@ -108,7 +113,27 @@ public class QuestionGenerator {
 		return ret;
 	}
 
-	@SuppressWarnings("unused")
+    /**
+    * Returns a random question of the "What can be done in a loop iteration" flavor.
+    * To be called whenever
+    */
+    private question getType2Question(ShowFile show) {
+        XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
+        int select = ((int)Math.abs(rand.nextInt() )) % 2;
+        if (select == 0)
+            ret.setQuestionText("It is possible for an addition and subtraction to occur in the same iteration of the loop.");
+        else
+            ret.setQuestionText("It is possible for both an arithmetic shift and either addition or subtraction to occur in " +
+                 "the same iteration of the loop");
+        ret.setAnswer(select != 0);
+        return ret;
+    }
+
+	/**
+	 * Returns a random question of the "Predict the value of the register" flavor.
+	 * Call at the comparison frame of the loop. 
+	 *
+	 */
 	private question getType3Question(int Q0, int Q_1, GAIGSregister oldReg, GAIGSregister newReg, GAIGSregister phony, 
 			String regName) {
 
@@ -165,6 +190,105 @@ public class QuestionGenerator {
 		return ret;
 	}
 
+    private question getType4Question(int QLEN, CountBox count, ShowFile show) {
+        int select = ((int)Math.abs(rand.nextInt() ) ) % 2;
+        question ret = null;
+
+        if (select == 0) {
+            XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
+            ret1.setQuestionText("How many values currently in register Q will be represented in the final value?");
+            ret1.addChoice("" + count.getCount() );
+            ret1.setAnswer(1);
+            ret1.addChoice("" + (QLEN - count.getCount()) );
+            ret1.addChoice("None");
+            if (count.getCount() != 1) ret1.addChoice("1");
+
+            ret1.shuffle();
+            ret = ret1;
+        }
+        else {
+            XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
+            ret1.setQuestionText("QLEN is the number of bits in register Q. COUNT is the current value of the variable count." +
+                 " Express in terms of QLEN and COUNT the number of bits in register Q which will be represented in the final answer.");
+            ret1.setAnswer("QLEN-COUNT");
+            ret1.setAnswer("(QLEN-COUNT)");
+            ret1.setAnswer("(QLEN)-COUNT");
+            ret1.setAnswer("QLEN-(COUNT)");
+
+            ret1.setAnswer("QLEN - COUNT");
+            ret1.setAnswer("QLEN - count");
+            ret1.setAnswer("(QLEN - COUNT)");
+            ret1.setAnswer("(QLEN) - COUNT");
+            ret1.setAnswer("QLEN - (COUNT)");
+
+            ret1.setAnswer("-COUNT + QLEN");
+            ret1.setAnswer("(-COUNT + QLEN)");
+            ret1.setAnswer("(-COUNT) + QLEN");
+            ret1.setAnswer("-COUNT + (QLEN)");
+
+            ret1.setAnswer("-COUNT+QLEN");
+            ret1.setAnswer("-COUNT+qlen");
+            ret1.setAnswer("(-COUNT+QLEN)");
+            ret1.setAnswer("-COUNT+(QLEN)");
+            ret1.setAnswer("(-COUNT)+QLEN");
+
+            ret1.setAnswer("-(COUNT-QLEN)");
+            ret1.setAnswer("-(COUNT - QLEN)");
+
+            ret = ret1;
+        }
+
+        return ret;
+    }
+
+    private question getType5Question(ShowFile show) {
+        question ret = null;
+
+        int select = ((int)Math.abs(rand.nextInt() )) % 2;
+
+        if (select == 0) { 
+            XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
+            ret1.setQuestionText("In terms of QLEN, the number of bits in register Q, express the total number of shift operations performed" + 
+                " during the exectution of the algorithm.");
+            ret1.setAnswer("QLEN");
+
+            ret = ret1;
+        }
+        else {
+            XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
+            ret1.setQuestionText("How many shift operations will occur during the execution of the algorithm?");
+            ret1.addChoice("" + ((GAIGSregister)trace.get("RegQ")).getSize() );
+            ret1.addChoice("" + (2 * ((GAIGSregister)trace.get("RegQ")).getSize() ) );
+            ret1.addChoice("It depends on values in Q");
+            ret1.addChoice("" + BoothsMultiplication.numLines(((GAIGStrace)trace.get(0, "RegQ")).toString() ) );
+
+            ret = ret1;
+        }
+
+        return ret;
+    }
+
+    /**
+    * Returns a question regarding the mathematical significance of a right sign-preserving shift.
+    * Should be called after a shift occurs.
+    */
+    private question getType6Question(ShowFile show) {
+        XMLmcQuestion ret = new XMLmcQuestion(show, id.next() );
+        ret.setQuestionText("What is the significance of the arithmetic (sign-preserving) right shift?");
+        ret.addChoice("Multiply the value if registers A and Q by 2");
+        ret.addChoice("Divide the value of A and Q by 2");
+        ret.setAnswer(2);
+        ret.addChoice("Adds 1 to the value in A and Q");
+        ret.addChoice("Moves unneccessary bits out of registers A and Q");
+
+        return ret;
+    }
+
+	/**
+	 * Returns a random question of the "Sign in A matches sign of final product" flavor.
+	 * Call at the beginnig of a loop iteration.
+	 *
+	 */
     private question getType7Question(GAIGSregister RegA, ShowFile show) {
         XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
         ret.setQuestionText("The sign of the value in register A matches the sign of the final product.");
