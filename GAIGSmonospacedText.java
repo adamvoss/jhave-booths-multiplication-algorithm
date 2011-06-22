@@ -6,6 +6,7 @@ import exe.GAIGStext;
  * Behaves the same as <code>GAIGStext</code> except providing
  * monospaced output.
  * 
+ * @see exe.GAIGStext
  * @author Adam Voss <vossad01@luther.edu>
  *
  */
