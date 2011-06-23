@@ -25,7 +25,7 @@ public class GAIGSellipse implements GAIGSdatastr, Primitive {
 	public String label;
 	public double height;
 	public int width;
-	private String name;
+	private String name = "";
 	private GAIGSellipse e = this;
 
 

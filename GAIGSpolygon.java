@@ -26,7 +26,7 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 	public String label;
 	public double height;
 	public int width;
-	private String name;
+	private String name = "";
 	private GAIGSpolygon t; 
 
 	/**

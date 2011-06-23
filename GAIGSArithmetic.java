@@ -32,20 +32,22 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	public GAIGSArithmetic(String op, String term1, String term2, int radix, double x0, double y0){
 		draw = new ArrayList<GAIGSdatastr>();
 		
-		double font_size = 0.07;
-		double char_width = font_size*1.0;
+		double font_size = GAIGStext.DEFAULT_FONT_SIZE;
+		double char_width = font_size*.9;
+		
+		x0=.65;
+		y0=.55;
 		
 		this.term1=term1.toCharArray();
 		this.term2=term2.toCharArray();
-		draw.add(new GAIGStext(.5,.5, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,"FGHIJ"));
-		draw.add(new GAIGStext(.5,(.5-.07), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ "ABCDE"));
-		draw.add(new GAIGStext(.5,.5-.07*2, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,"KLMNO"));
-		draw.add(new GAIGStext(.5,.5-.07*3, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,"PQRST"));
-		draw.add(new GAIGStext(.5,.5-.07*4, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,"UVWXYZ"));
+		draw.add(new GAIGSmonospacedText(x0,y0, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1, char_width));
+		draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ term2, char_width));
+		//draw.get(1).setName("");
 		
-		//double width = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getWidth();
+		double width = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getWidth();
 		//double height = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getHeight();
-		//draw.add(new GAIGSline(new double[] {.5-width,.5}, new double[] {.5-.07,.5-.07}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
+		draw.add(new GAIGSline(new double[] {x0+width,x0}, new double[] {y0-GAIGStext.DEFAULT_FONT_SIZE*1.6,y0-GAIGStext.DEFAULT_FONT_SIZE*1.6}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
+		draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE*2), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR, "100111", char_width));
 	}
 	
 	@Override
@@ -76,10 +78,10 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		GAIGSArithmetic test = new GAIGSArithmetic("+", "502", "713", 10, .5, .5);
+		GAIGSArithmetic test = new GAIGSArithmetic("×", "01101", "11010", 10, .5, .5);
 		
 		ShowFile show = new ShowFile("bar.sho");
-		show.writeSnap("Addition", test);
+		show.writeSnap("Multiplication", test);
 		show.close();
 	}
 

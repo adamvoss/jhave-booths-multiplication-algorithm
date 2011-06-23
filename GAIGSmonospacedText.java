@@ -69,7 +69,7 @@ public class GAIGSmonospacedText extends GAIGStext {
 	 * shares the same scale as fontSize.
 	 */
 	public GAIGSmonospacedText(double x, double y, int halign, int valign,
-			double fontsize, double charWidth, String color, String text) {
+			double fontsize, String color, String text, double charWidth) {
 		super(x, y, halign, valign, fontsize, color, text);
 		this.charWidth = charWidth;
 		this.charHalign = this.getHalign();
@@ -116,6 +116,7 @@ public class GAIGSmonospacedText extends GAIGStext {
 		return charWidth;
 	}
 
+	//TODO consider value and clarity of dirMul
 	public double getWidth(){
 		double width = 0;
 		double dirMul = 1;
@@ -137,6 +138,7 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 	
 	//This method is inefficient beyond the fact it computes every time
+	//TODO consider value and clarity of dirMul
 	public double getHeight(){
 		double dirMul = 1;
 		
