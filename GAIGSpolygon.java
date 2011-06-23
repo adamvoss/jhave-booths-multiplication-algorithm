@@ -112,4 +112,12 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 	public void setName(String name) {
 		this.name = name;
 	}
+	//@Override
+	public String getLabel() {
+		return this.label;
+	}
+	//@Override
+	public void setLabel(String label) {
+		this.label = label;
+	}
 }
