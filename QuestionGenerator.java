@@ -11,51 +11,68 @@ import exe.question;
 
 
 public class QuestionGenerator {
+    public final int NUMQUESTIONS = 7;
 	private ShowFile show;
 	private GAIGStrace trace;
 	private UniqueIDGen id = new UniqueIDGen();
     private Random rand    = new Random();
-    private enum RegisterName {REGM, REGA, REGQ, REGQ_1}
+    private boolean[] asked= new boolean[NUMQUESTIONS+1];
+//    private int[]   askTime;
 
 	public QuestionGenerator(ShowFile show, GAIGStrace trace){
 		this.show=show;
 		this.trace=trace;
 	}
+/*    public QuestionGenerator(int numLines, ShowFile show, GAIGStrace trace) {
+        this.show = show;
+        this.trace = trace;
 
+        askTime = {0, -1, 1, -1, 1, 1, 1, -1};
+    }
+*/
 	//This is messy and not the best way to do it, but it's only a proof of concept
 	public question getQuestion(int type){
-		if (type == 1){
-			GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
-			GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
-			return getType1Question(OldQ.getBit(OldQ.getSize()-1),
-									OldQ_1.getBit(0));
-		}
-        else if (type == 2) {
-            
+        if (type < 1 || type > NUMQUESTIONS) {
+            return null;
         }
-        //to be called right after new registers are added, but before they're drawn.
-        else if (type == 3) {
-            GAIGSregister OldQ   = (GAIGSregister)trace.get(trace.size()-2,"RegQ");
-            GAIGSregister OldQ_1 = (GAIGSregister)trace.get(trace.size()-2,"Q_1");
+        else {
+            question ret = null;
+            if (type == 1){
+                GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
+                GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
+                ret = getType1Question(OldQ.getBit(OldQ.getSize()-1),
+                                        OldQ_1.getBit(0));
+            }
+            //an ask-once-only question
+            else if (type == 2) {ret = (asked[2] ? null : getType2Question(show));}
+            //to be called right after new registers are added, but before they're drawn.
+            else if (type == 3) {
+                GAIGSregister OldQ   = (GAIGSregister)trace.get(trace.size()-2,"RegQ");
+                GAIGSregister OldQ_1 = (GAIGSregister)trace.get(trace.size()-2,"Q_1");
 
-            int select  = ((int)Math.abs(rand.nextInt() )) % 3;
-            String ref  = (select == 0 ? "M": (select == 1 ? "A" : "Q"));
-            String phref= (select == 0 ? "A": (select == 1 ? "Q" : "M"));
+                int select  = ((int)Math.abs(rand.nextInt() )) % 3;
+                String ref  = (select == 0 ? "M": (select == 1 ? "A" : "Q"));
+                String phref= (select == 0 ? "A": (select == 1 ? "Q" : "M"));
 
-            GAIGSregister oldReg = (GAIGSregister)trace.get(trace.size()-2, "Reg" + ref);
-            GAIGSregister newReg = (GAIGSregister)trace.get("Reg" + ref);
-            GAIGSregister phony  = (GAIGSregister)trace.get("Reg" + phref);
+                GAIGSregister oldReg = (GAIGSregister)trace.get(trace.size()-2, "Reg" + ref);
+                GAIGSregister newReg = (GAIGSregister)trace.get("Reg" + ref);
+                GAIGSregister phony  = (GAIGSregister)trace.get("Reg" + phref);
 
-           return getType3Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), oldReg, newReg, phony, ref); 
+               ret = getType3Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), oldReg, newReg, phony, ref); 
+            }
+            else if (type == 4) {
+                if (asked[4])
+                ret = getType4Question( ((GAIGSregister)trace.get("RegQ")).getSize(), (CountBox)trace.get("Count"), show);
+            }
+            else if (type == 5) {ret = (asked[5] ? null : getType5Question(show));}
+            else if (type == 6) {ret = (asked[6] ? null : getType6Question(show));}
+            else if (type == 7) {ret = (asked[7] ? null : getType7Question((GAIGSregister)trace.get("RegA"), show));}
+
+            else {}
+ 
+            asked[type] = true;
+            return ret;
         }
-        else if (type == 7) {
-            GAIGSregister RegA = (GAIGSregister)trace.get("RegA");
-            return getType7Question(RegA, show);
-        }
-
-		else return null;
-
-        return null;
 	}
 
 
@@ -115,17 +132,12 @@ public class QuestionGenerator {
 
     /**
     * Returns a random question of the "What can be done in a loop iteration" flavor.
-    * To be called whenever
+    * To be called whenever, but only once.
     */
     private question getType2Question(ShowFile show) {
         XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
-        int select = ((int)Math.abs(rand.nextInt() )) % 2;
-        if (select == 0)
-            ret.setQuestionText("It is possible for an addition and subtraction to occur in the same iteration of the loop.");
-        else
-            ret.setQuestionText("It is possible for both an arithmetic shift and either addition or subtraction to occur in " +
-                 "the same iteration of the loop");
-        ret.setAnswer(select != 0);
+        ret.setQuestionText("It is possible for an addition and subtraction to occur in the same iteration of the loop.");
+        ret.setAnswer(false);
         return ret;
     }
 
@@ -165,7 +177,7 @@ public class QuestionGenerator {
 			ret1.addChoice(correctChoice);
 			ret1.setAnswer(1);
             if (!oldValChoice.toString().equals(correctChoice.toString() ) ) ret1.addChoice(oldValChoice);
-			ret1.addChoice(phonyChoice);
+            if (!phonyChoice.toString().equals( correctChoice.toString() ) ) ret1.addChoice(phonyChoice) ;
             ret1.addChoice(confuseChoice);
 
             ret = ret1;
@@ -190,6 +202,11 @@ public class QuestionGenerator {
 		return ret;
 	}
 
+    /**
+    * Returns a question regarding relation between working product and final result.
+    * Should be called after a shift operation.
+    * Probably needs to be called only once, or only once per variation.
+    */
     private question getType4Question(int QLEN, CountBox count, ShowFile show) {
         int select = ((int)Math.abs(rand.nextInt() ) ) % 2;
         question ret = null;
@@ -198,8 +215,8 @@ public class QuestionGenerator {
             XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
             ret1.setQuestionText("How many values currently in register Q will be represented in the final value?");
             ret1.addChoice("" + count.getCount() );
-            ret1.setAnswer(1);
             ret1.addChoice("" + (QLEN - count.getCount()) );
+            ret1.setAnswer(2);
             ret1.addChoice("None");
             if (count.getCount() != 1) ret1.addChoice("1");
 
@@ -241,6 +258,11 @@ public class QuestionGenerator {
         return ret;
     }
 
+    /**
+    * Returns a question regarding the relation of the size of the registers to the number of shift operations.
+    * Should only be called once.
+    * Probably after a shift occurs
+    */
     private question getType5Question(ShowFile show) {
         question ret = null;
 
@@ -260,7 +282,7 @@ public class QuestionGenerator {
             ret1.addChoice("" + ((GAIGSregister)trace.get("RegQ")).getSize() );
             ret1.addChoice("" + (2 * ((GAIGSregister)trace.get("RegQ")).getSize() ) );
             ret1.addChoice("It depends on values in Q");
-            ret1.addChoice("" + BoothsMultiplication.numLines(((GAIGStrace)trace.get(0, "RegQ")).toString() ) );
+            ret1.addChoice("" + BoothsMultiplication.numLines(((GAIGSregister)trace.get(0, "RegQ")).toString() ) );
 
             ret = ret1;
         }
@@ -271,6 +293,7 @@ public class QuestionGenerator {
     /**
     * Returns a question regarding the mathematical significance of a right sign-preserving shift.
     * Should be called after a shift occurs.
+    * And only once.
     */
     private question getType6Question(ShowFile show) {
         XMLmcQuestion ret = new XMLmcQuestion(show, id.next() );
@@ -286,7 +309,7 @@ public class QuestionGenerator {
 
 	/**
 	 * Returns a random question of the "Sign in A matches sign of final product" flavor.
-	 * Call at the beginnig of a loop iteration.
+	 * Call after a shift operation.
 	 *
 	 */
     private question getType7Question(GAIGSregister RegA, ShowFile show) {
@@ -330,6 +353,9 @@ public class QuestionGenerator {
     }
 
     private String rightSignShift(String num) {return ((new Character(num.charAt(0))).toString() + num.substring(0, num.length()-1) );}
+
+    /** Returns a random number from 1 to range-1*/
+    private int getInRange(int range) {return ((int)Math.abs(rand.nextInt() )) % range;}
 
 	//Heavy Duty, tis even its own class
     //You know it.

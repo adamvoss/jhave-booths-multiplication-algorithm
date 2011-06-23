@@ -137,7 +137,6 @@ public class BoothsMultiplication {
     }
 
     //We can now safely say that only Chris is capable of safely modifying this method.
-    //Oh god oh god oh god...
     /**
     * A recursive method which steps through Booth's Multiplication Algorithm, making the
     * appropriate calls to show's writeSnap through each iteration.
@@ -169,6 +168,7 @@ public class BoothsMultiplication {
 
         //Why are we passing registers as parameters when you just get past ones off the trace
         //This seems messy
+        //TODO will fix that
         GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
         GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
 
@@ -190,8 +190,7 @@ public class BoothsMultiplication {
             //Set color of RegA when add/sub happens.
             A.setAllToColor(GREEN);
 
-            //This is turning into variable soup, note the function seems to be straddling
-            //Two different states of the registers
+            //Reassignment of working variables.
             M    = (GAIGSregister)ret[0];
             A    = (GAIGSregister)ret[1];
             Q    = (GAIGSregister)ret[2];
@@ -205,6 +204,7 @@ public class BoothsMultiplication {
             HashMap<String, GAIGSdatastr> temp = trace.popLine();
             if ((Q.getSize() - count.getCount() )% 2 == 1) que = quest.getQuestion(1);
 
+            //Finishes thought from before the if statement.
             show.writeSnap("Comparison", docURI.toASCIIString(),
                     easyPseudo(new int[] {10, 14}), que, trace);
             trace.pushLine(temp);
@@ -213,8 +213,13 @@ public class BoothsMultiplication {
             OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
             OldQ_1.setColor(0, DEFAULT_COLOR);
 
-
-            show.writeSnap(title, docURI.toASCIIString(), easyPseudo(line), trace);
+            //Finishes the addition thought.
+            {
+                if ((Q.getSize() - count.getCount()) % 2 == 0) que = quest.getQuestion(2);
+                else                                         que = quest.getQuestion(5);
+                easyWriteQuestion(title,new int[] {line}, que, show, trace);
+                //show.writeSnap(title, docURI.toASCIIString(), easyPseudo(line), trace);
+            }
 
         } else {
             //This goes before addToTrace is called
@@ -244,10 +249,19 @@ public class BoothsMultiplication {
 
         //This frame excludes count.
         //Another hop
-        question que = quest.getQuestion(7);
+        question que = null;
+        switch((Q.getSize() - count.getCount() )% 3) {
+            case 0: que = quest.getQuestion(7);
+                    break;
+            case 1: que = quest.getQuestion(4);
+                    break;
+            case 2: que = quest.getQuestion(6);
+                    break;
+        }
         HashMap<String, GAIGSdatastr> temp = trace.popLine();
-        show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), easyPseudo(20),
-            que, trace, M, A, Q, Q_1);
+        easyWriteQuestion("Right Sign Preserving Shift", new int[] {20}, que, show, trace, M, A, Q, Q_1);
+//      show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), easyPseudo(20),
+//          que, trace, M, A, Q, Q_1);
 
         //Reset colors
         ((GAIGSregister)trace.get("RegA")).setAllToColor(DEFAULT_COLOR);
@@ -404,6 +418,17 @@ public class BoothsMultiplication {
         String extension = "";
         while (i>0){extension = extension.concat(firstBit); i--;}
         return extension.concat(binStr);
+    }
+
+    private static void easyWriteQuestion(String title, int[] pslines, question que, ShowFile show, GAIGSdatastr... stuff) {
+        try {
+            if (que == null)
+                show.writeSnap(title, docURI.toASCIIString(), easyPseudo(pslines), stuff);
+            else
+                show.writeSnap(title, docURI.toASCIIString(), easyPseudo(pslines), que, stuff);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }    
     }
 
     private static String easyPseudo(int[] selected, int[] lineColors){
