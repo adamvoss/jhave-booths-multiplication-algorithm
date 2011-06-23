@@ -37,10 +37,15 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		
 		this.term1=term1.toCharArray();
 		this.term2=term2.toCharArray();
-		draw.add(new GAIGSmonospacedText(.5,.5, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1));
-		draw.add(new GAIGSmonospacedText(.5,(.5-.07), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term2));
-		draw.add(new GAIGSline(new double[] {0,0}, new double[] {1,1}, "#FFFFFF", "#FFFFFF", "", .1, 1));
-		draw.add(new GAIGScircle(.5, .5, .5, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_NAME, 1, 1));
+		draw.add(new GAIGStext(.5,.5, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,"FGHIJ"));
+		draw.add(new GAIGStext(.5,(.5-.07), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ "ABCDE"));
+		draw.add(new GAIGStext(.5,.5-.07*2, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,"KLMNO"));
+		draw.add(new GAIGStext(.5,.5-.07*3, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,"PQRST"));
+		draw.add(new GAIGStext(.5,.5-.07*4, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,"UVWXYZ"));
+		
+		//double width = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getWidth();
+		//double height = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getHeight();
+		//draw.add(new GAIGSline(new double[] {.5-width,.5}, new double[] {.5-.07,.5-.07}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
 	}
 	
 	@Override

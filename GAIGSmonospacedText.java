@@ -43,6 +43,15 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 	/**
+	 * Constructor that sets the text, location, and alignment.
+	 */
+	public GAIGSmonospacedText(double x, double y, String text, int halign, int valign) {
+		super(x, y, halign, valign, DEFAULT_FONT_SIZE, DEFAULT_COLOR, text);
+		charWidth = getFontsize();
+		charHalign = this.getHalign();
+	}
+	
+	/**
 	 * Constructor that provides parity with
 	 * the all-fields constructor of GAIGStext.
 	 */
@@ -107,6 +116,38 @@ public class GAIGSmonospacedText extends GAIGStext {
 		return charWidth;
 	}
 
+	public double getWidth(){
+		double width = 0;
+		double dirMul = 1;
+		
+		//Determine (direction) multiplier
+		int align = getHalign();
+		if (align == HCENTER) dirMul = 0.5;
+		else if (align == HRIGHT) dirMul = -1;
+		
+		//for each line
+		for (String line : getText().split("\n")){
+			//count characters after removing color escapes
+			int length = line.replaceAll("\\\\#[0-9A-Fa-f]{6}", "").length();
+			if (length > width){
+				width = length;
+			}
+		}
+		return width*charWidth*dirMul;
+	}
+	
+	//This method is inefficient beyond the fact it computes every time
+	public double getHeight(){
+		double dirMul = 1;
+		
+		//Determine (direction) multiplier
+		int align = getValign();
+		if (align == VCENTER) dirMul = 0.5;
+		else if (align == VTOP) dirMul = -1;
+		
+		return getFontsize()*getText().split("\n").length*dirMul;
+	}
+	
 	/**
 	 * This outputs ever character as an equally spaced GAIGS text element.
 	 * This is the lazy way to accomplish this, but it is 
