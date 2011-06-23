@@ -1,8 +1,6 @@
 package exe.boothsMultiplication;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import exe.GAIGSdatastr;
 import exe.GAIGStext;
@@ -15,8 +13,9 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	private char[] term2;
 	private int term1_index =0;
 	
-	//Consider Replacing that with a GAIGSdatasrt implementing ArrayList. 
-	private ArrayList<GAIGSdatastr> draw;
+	//Consider Replacing that with a GAIGSdatasrt implementing ArrayList.
+	//Its not static unless it says so, right?
+	private GAIGScollection<GAIGSdatastr> draw = new GAIGScollection<GAIGSdatastr>();
 	
 	/**
 	 * Construct a new Arithmetic object. It is capable of performing displaying
@@ -30,7 +29,6 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 * @param y The y coordinate of upper right-hand corner of the drawing.
 	 */
 	public GAIGSArithmetic(String op, String term1, String term2, int radix, double x0, double y0){
-		draw = new ArrayList<GAIGSdatastr>();
 		
 		double font_size = GAIGStext.DEFAULT_FONT_SIZE;
 		double char_width = font_size*.9;
@@ -56,16 +54,10 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	}
 	
 	@Override
-	//TODO Align print based on first term. 
+	// TODO Align print based on first term.
 	public String toXML() {
-		String ret = "<!-- Start of GAIGSArithmetic -->\n";
-		
-		Iterator<GAIGSdatastr> iter = draw.iterator();
-		while (iter.hasNext()){
-			ret += iter.next().toXML();
-		}
-		ret += "<!-- End of GAIGS Arithmetic -->\n";
-		return ret;
+		return "<!-- Start of GAIGSArithmetic -->\n" + this.draw.toXML()
+				+ "\n<!-- End of GAIGS Arithmetic -->\n";
 	}
 
 	@Override
@@ -83,6 +75,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
+		
 		GAIGSArithmetic test = new GAIGSArithmetic("×", "01101", "11010", 10, .5, .5);
 		
 		ShowFile show = new ShowFile("bar.sho");
