@@ -2,10 +2,8 @@ package exe.boothsMultiplication;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import exe.GAIGSdatastr;
-import exe.GAIGStext;
 import exe.ShowFile;
 import exe.boothsMultiplication.GAIGSmonospacedText;
 /**
@@ -14,6 +12,7 @@ import exe.boothsMultiplication.GAIGSmonospacedText;
  *
  */
 public class GAIGSArithmetic implements GAIGSdatastr {
+	private static final boolean DEBUG = false;
 	private String name = "";
 //	private ArrayList<ArrayList<Character>> terms = new ArrayList<ArrayList<Character>>();
 	private ArrayList<char[]> terms = new ArrayList<char[]>();
@@ -25,10 +24,6 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	private double xright;
 	private double ytop;
 	private int radix;
-	
-	
-	//Its not static unless it says so, right?
-	private GAIGScollection<GAIGSdatastr> draw = new GAIGScollection<GAIGSdatastr>();
 	
 	/**
 	 * Construct a new Arithmetic object. It is capable of performing displaying
@@ -54,9 +49,9 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		int t1len = term1.length();
 		int t2len = term2.length();
 		if (t1len > t2len){
-			maxLength = t1len;
+			maxLength = t1len+1;
 		} else{
-			maxLength = t2len;
+			maxLength = t2len+1;
 		}
 		
 		switch (op){
@@ -102,10 +97,22 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		lastTermIndex++;
 	}
 	
+	public boolean hasStep(){
+		return (currentDigit < maxLength);
+	}
+	
 	public void step(){
-		switch (op){
-		case '+':
-			additionStep();
+		if (currentDigit < maxLength){
+			switch (op){
+			case '+':
+				additionStep();
+			}
+		}
+	}
+	
+	public void complete(){
+		while (this.hasStep()){
+			this.step();
 		}
 	}
 	
@@ -118,13 +125,13 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 				char nextChar = nextLine[currentDigit];
 				int next = Character.digit(nextChar, radix);
 				if (nextChar == ' ') next = 0;
-				System.out.println("The digit is: " + next);		
+				if (DEBUG) System.out.println("The digit is: " + next);		
 				if (next == -1) System.err.println("BAD RADIX or TERM in GAIGSArithmetic");
 				sum += next; 	
 			}
 		}
 		//Add carry
-		if (sum > radix){
+		if (sum >= radix){
 			int carry = (sum / radix);
 			if (terms.get(0)[currentDigit+1] != ' '){
 				addCarryRow();
@@ -135,7 +142,6 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		terms.get(lastTermIndex+1)[currentDigit]=Character.toUpperCase(Character.forDigit(sum % radix, radix));
 		
 		currentDigit++;
-		System.out.println();
 	}
 
 
@@ -187,11 +193,11 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		GAIGSArithmetic test = new GAIGSArithmetic('+', "ABCTY02", "808054", 36, .5, .5);
+		GAIGSArithmetic test = new GAIGSArithmetic('+', "ZBCTY0Z", "1808051", 36, .5, .5);
 		ShowFile show = new ShowFile("bar.sho");
 		show.writeSnap("Addition", test);
 		
-		for (int i = 0; i < 7; i++){
+		while (test.hasStep()){
 			test.step();
 			show.writeSnap("Addition", test);
 		}
