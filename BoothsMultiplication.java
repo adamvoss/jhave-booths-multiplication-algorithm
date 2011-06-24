@@ -200,9 +200,9 @@ public class BoothsMultiplication {
             //This goes before addToTrace is called
             //Or hop around...
             question que = null;
-            if ((Q.getSize() - count.getCount()) % 2 == 0) que = quest.getQuestion(3);
+            if ((Q.getSize() - count.getCount()) % 2 == 0)      que = quest.getQuestion(3);
+            else if ((Q.getSize() - count.getCount() )% 2 == 1) que = quest.getQuestion(1);
             HashMap<String, GAIGSdatastr> temp = trace.popLine();
-            if ((Q.getSize() - count.getCount() )% 2 == 1) que = quest.getQuestion(1);
 
             //Finishes thought from before the if statement.
             show.writeSnap("Comparison", docURI.toASCIIString(),
@@ -215,16 +215,20 @@ public class BoothsMultiplication {
 
             //Finishes the addition thought.
             {
-                if ((Q.getSize() - count.getCount()) % 2 == 0) que = quest.getQuestion(2);
-                else                                         que = quest.getQuestion(5);
+//              if ((Q.getSize() - count.getCount()) % 2 == 0) que = quest.getQuestion(2);
+//              else                                         que = quest.getQuestion(5);
+                que = quest.getAdditionQuestion();
                 easyWriteQuestion(title,new int[] {line}, que, show, trace);
                 //show.writeSnap(title, docURI.toASCIIString(), easyPseudo(line), trace);
             }
 
         } else {
             //This goes before addToTrace is called
+            //More time travel, moar!
+            trace.newLine();
             show.writeSnap("Comparison", docURI.toASCIIString(),
                     easyPseudo(new int[] {10, 14}), quest.getQuestion(1), trace);
+            trace.popLine();
 
             //Reset Color
             OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
@@ -249,15 +253,7 @@ public class BoothsMultiplication {
 
         //This frame excludes count.
         //Another hop
-        question que = null;
-        switch((Q.getSize() - count.getCount() )% 3) {
-            case 0: que = quest.getQuestion(7);
-                    break;
-            case 1: que = quest.getQuestion(4);
-                    break;
-            case 2: que = quest.getQuestion(6);
-                    break;
-        }
+        question que = quest.getShiftQuestion(); 
         HashMap<String, GAIGSdatastr> temp = trace.popLine();
         easyWriteQuestion("Right Sign Preserving Shift", new int[] {20}, que, show, trace, M, A, Q, Q_1);
 //      show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), easyPseudo(20),

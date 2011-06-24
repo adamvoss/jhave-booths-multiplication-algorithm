@@ -38,8 +38,8 @@ public class QuestionGenerator {
         else {
             question ret = null;
             if (type == 1){
-                GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
-                GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
+                GAIGSregister OldQ   = (GAIGSregister)trace.get(trace.size()-2,"RegQ");
+                GAIGSregister OldQ_1 = (GAIGSregister)trace.get(trace.size()-2,"Q_1");
                 ret = getType1Question(OldQ.getBit(OldQ.getSize()-1),
                                         OldQ_1.getBit(0));
             }
@@ -75,8 +75,17 @@ public class QuestionGenerator {
         }
 	}
 
+    public question getComparisonQuestion() {return getQuestion(selectOnCount(2) == 0 ? 1 : 3);}
 
+    public question getAdditionQuestion()   {return getQuestion(selectOnCount(2) == 0 ? 2 : 5);}
 
+    public question getShiftQuestion() {
+        int select = selectOnCount(3);
+
+        return getQuestion(select == 0 ? 7 : (select == 1 ? 4 : 6));
+    }
+
+    private int selectOnCount(int mod) {return (((GAIGSregister)trace.get("RegQ")).getSize() - ((CountBox)trace.get("Count")).getCount() ) % mod;}
 	/**
 	 * Returns a random question of the "Which operation will occur next?" flavor.
 	 * Call at the comparison frame of the loop.
@@ -157,7 +166,10 @@ public class QuestionGenerator {
         String correctChoice = newReg.toString();
         String oldValChoice  = oldReg.toString();
         String confuseChoice = (pcalc == 0 ? rightSignShift(addBinNum(phony.toIntArray(), oldReg.toIntArray() ) ) : rightSignShift(oldReg.toString() ));
-        //Sorry for that above line, Adam!
+        if (confuseChoice.equals(oldValChoice) ) {
+            int[] dummy = new int[correctChoice.length() ];
+            confuseChoice = rightSignShift(addBinNum(oldReg.toIntArray(), dummy) );
+        }
 
 		if (select == 0) {
 			XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
@@ -217,8 +229,10 @@ public class QuestionGenerator {
             ret1.addChoice("" + count.getCount() );
             ret1.addChoice("" + (QLEN - count.getCount()) );
             ret1.setAnswer(2);
-            ret1.addChoice("None");
-            if (count.getCount() != 1) ret1.addChoice("1");
+            if (count.getCount() != 0 && QLEN - count.getCount() != 0)
+                ret1.addChoice("None");
+
+            if (count.getCount() != 1 && QLEN - count.getCount() != 1) ret1.addChoice("1");
 
             ret1.shuffle();
             ret = ret1;
@@ -280,6 +294,7 @@ public class QuestionGenerator {
             XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
             ret1.setQuestionText("How many shift operations will occur during the execution of the algorithm?");
             ret1.addChoice("" + ((GAIGSregister)trace.get("RegQ")).getSize() );
+            ret1.setAnswer(1);
             ret1.addChoice("" + (2 * ((GAIGSregister)trace.get("RegQ")).getSize() ) );
             ret1.addChoice("It depends on values in Q");
             ret1.addChoice("" + BoothsMultiplication.numLines(((GAIGSregister)trace.get(0, "RegQ")).toString() ) );
@@ -317,9 +332,9 @@ public class QuestionGenerator {
         ret.setQuestionText("The sign of the value in register A matches the sign of the final product.");
         int curAValue = binStrToInt(RegA.toString() );
         int finalProd = binStrToInt(trace.get(0, "RegQ").toString() ) * binStrToInt(trace.get(0, "RegM").toString() );
-        ret.setAnswer(curAValue * finalProd >= 0);
+        ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd));
 
-//        System.out.println("" + curAValue + "\t" + finalProd + "\t" + RegA);
+//      System.out.println("" + curAValue + "\t" + finalProd + "\t" + RegA);
 
         return ret;
     }
@@ -343,7 +358,7 @@ public class QuestionGenerator {
         int csum   = 0; 
         String ret = "";
          
-        for (int i= num1.length-1; i >= 0; ++i) {
+        for (int i= ((num1.length) - 1); i >= 0; --i) {
             csum  = carry + num1[i] + num2[i];
             ret   = ret + (csum % 2);
             carry = csum / 2;
