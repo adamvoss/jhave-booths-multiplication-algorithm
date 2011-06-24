@@ -15,6 +15,7 @@ import exe.boothsMultiplication.GAIGSmonospacedText;
  */
 public class GAIGSArithmetic implements GAIGSdatastr {
 	private String name = "";
+//	private ArrayList<ArrayList<Character>> terms = new ArrayList<ArrayList<Character>>();
 	private ArrayList<char[]> terms = new ArrayList<char[]>();
 	private int firstTermIndex;
 	private int lastTermIndex;
@@ -26,7 +27,6 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	private int radix;
 	
 	
-	//Consider Replacing that with a GAIGSdatasrt implementing ArrayList.
 	//Its not static unless it says so, right?
 	private GAIGScollection<GAIGSdatastr> draw = new GAIGScollection<GAIGSdatastr>();
 	
@@ -44,8 +44,8 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	//TODO add support for more 
 	public GAIGSArithmetic(char op, String term1, String term2, int radix, double x0, double y0){
 		firstTermIndex = 0;
-		lastTermIndex  = 1;
 		this.radix = radix;
+		
 		
 		xright=x0;
 		ytop=y0;
@@ -55,18 +55,8 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		int t2len = term2.length();
 		if (t1len > t2len){
 			maxLength = t1len;
-//			//term1 = " " + term1;
-//			maxLength += (lastTermIndex-firstTermIndex);
-//			for (int i = maxLength - t2len -1; i > 0 ; i--){
-//				term2 = " " + term2;
-//			}
 		} else{
 			maxLength = t2len;
-//			//term2 = " " + term2;
-//			maxLength += (lastTermIndex-firstTermIndex);
-//			for (int i = maxLength - t1len -1; i > 0 ; i--){
-//				term1 = " " + term1;
-//			}
 		}
 		
 		switch (op){
@@ -77,33 +67,11 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		default:
 			this.op=op;
 		}
-		terms.add(term1.toCharArray());
-		terms.add(term2.toCharArray());
+		terms.add(inplaceReverse(term1.toCharArray()));
+		terms.add(inplaceReverse(term2.toCharArray()));
+		lastTermIndex = terms.size()-1;
 		terms.add(emptyRow());
 		addCarryRow();
-
-		
-		
-		
-		double font_size = GAIGStext.DEFAULT_FONT_SIZE;
-		double char_width = font_size*.9;
-		
-		x0=.65-.2;
-		y0=.55;
-
-		//draw.add(new GAIGSmonospacedText(x0,y0, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1, char_width));
-		//draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ term2, char_width));
-		//double width = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getWidth();
-		//double height = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getHeight();
-		//draw.add(new GAIGSline(new double[] {x0+width,x0}, new double[] {y0-GAIGStext.DEFAULT_FONT_SIZE*1.6,y0-GAIGStext.DEFAULT_FONT_SIZE*1.6}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
-		//draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE*2), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR, "100111", char_width));
-		
-		x0+=.4;
-		
-		//draw.add(new GAIGStext(x0,y0, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1));
-		//draw.add(new GAIGStext(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ term2));
-		//draw.add(new GAIGSline(new double[] {x0-.17,x0}, new double[] {y0-GAIGStext.DEFAULT_FONT_SIZE*1.6,y0-GAIGStext.DEFAULT_FONT_SIZE*1.6}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
-		//draw.add(new GAIGStext(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE*2), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR, "100111"));
 	}
 	
 	private char[] emptyRow(){
@@ -112,6 +80,26 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 			ret[i] = ' ';
 		}
 		return ret;
+	}
+
+	private char[] inplaceReverse(char[] c){
+		for(int i = 0; i < c.length; i++)
+	    {
+	        char temp = c[i];
+	        c[i] = c[c.length - i - 1];
+	        c[c.length - i - 1] = temp;
+	    }
+		return c;
+	}
+	
+	private char[] reverse(char[] c){
+		char[] r = new char[c.length];
+		for(int i = 0, j = r.length - 1; i < j; i++, j--)
+		{
+			r[j] = c[i];
+			r[i] = c[j];
+		}
+		return r;
 	}
 	
 	public void addCarryRow(){
@@ -127,31 +115,30 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		}
 	}
 	
-	//This could be so much cleaner if we just stored everything in reverse order
 	private void additionStep() {
 		int sum = 0;
 		for (int i = 0 ; i <= lastTermIndex; i++){
 			char[] nextLine = terms.get(i);
-			char nextChar = nextLine[nextLine.length-currentDigit-1];
 			
-			int next = Character.digit(nextChar, radix);
-			
-			if (nextChar == ' ') next = 0;
-			System.out.println("The digit is: " + next);
-			
-			if (next == -1) System.err.println("BAD RADIX or TERM in GAIGSArithmetic");
-			sum += next; 
+			if (nextLine.length > currentDigit){
+				char nextChar = nextLine[currentDigit];
+				int next = Character.digit(nextChar, radix);
+				if (nextChar == ' ') next = 0;
+				System.out.println("The digit is: " + next);		
+				if (next == -1) System.err.println("BAD RADIX or TERM in GAIGSArithmetic");
+				sum += next; 	
+			}
 		}
 		//Add carry
 		if (sum > radix){
 			int carry = (sum / radix);
-			if (terms.get(0)[maxLength-currentDigit-2] != ' '){
+			if (terms.get(0)[currentDigit+1] != ' '){
 				addCarryRow();
 			}
-			if (carry != 0) terms.get(0)[maxLength-currentDigit-2] = Character.toUpperCase(Character.forDigit(carry, radix));
+			if (carry != 0) terms.get(0)[currentDigit+1] = Character.toUpperCase(Character.forDigit(carry, radix));
 		}
 		//Set result
-		terms.get(lastTermIndex+1)[maxLength-currentDigit-1]=Character.toUpperCase(Character.forDigit(sum % radix, radix));
+		terms.get(lastTermIndex+1)[currentDigit+1]=Character.toUpperCase(Character.forDigit(sum % radix, radix));
 		
 		currentDigit++;
 		System.out.println();
@@ -168,19 +155,18 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		
 		//Print Carrys
 		while (i < firstTermIndex){
-			print += new String(terms.get(i++)) + "\n";
+			print += new String(reverse(terms.get(i++))) + "\n";
 		}
 		
 		//All but last term
 		while (i < lastTermIndex){
-			print += new String(terms.get(i++)) + "\n";
+			print += new String(reverse(terms.get(i++))) + "\n";
 		}
-		
 		//Print operator with last term
-		print += this.op + " " + new String(terms.get(i++)) + "\n";
+		print += this.op + " " + new String(reverse(terms.get(i++))) + "\n";
 		
 		//Print the result
-		print += new String(terms.get(i++)) + "\n";
+		print += new String(reverse(terms.get(i++))) + "\n";
 		
 		//Create the Text Object
 		ret+= (new GAIGSmonospacedText(xright, ytop, print, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP)).toXML();
