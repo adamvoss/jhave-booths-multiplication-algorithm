@@ -83,23 +83,17 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	}
 
 	private char[] inplaceReverse(char[] c){
-		for(int i = 0; i < c.length; i++)
-	    {
-	        char temp = c[i];
-	        c[i] = c[c.length - i - 1];
-	        c[c.length - i - 1] = temp;
-	    }
+		for(int i = 0, j = c.length - 1; i < j; i++, j--){
+			char temp = c[j];
+			c[j] = c[i];
+			c[i] = temp;
+		}
 		return c;
 	}
-	
+
+	//TODO make this more efficient (start with an empty array rather than clone)
 	private char[] reverse(char[] c){
-		char[] r = new char[c.length];
-		for(int i = 0, j = r.length - 1; i < j; i++, j--)
-		{
-			r[j] = c[i];
-			r[i] = c[j];
-		}
-		return r;
+		return inplaceReverse(c.clone());
 	}
 	
 	public void addCarryRow(){
@@ -138,7 +132,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 			if (carry != 0) terms.get(0)[currentDigit+1] = Character.toUpperCase(Character.forDigit(carry, radix));
 		}
 		//Set result
-		terms.get(lastTermIndex+1)[currentDigit+1]=Character.toUpperCase(Character.forDigit(sum % radix, radix));
+		terms.get(lastTermIndex+1)[currentDigit]=Character.toUpperCase(Character.forDigit(sum % radix, radix));
 		
 		currentDigit++;
 		System.out.println();
@@ -162,6 +156,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		while (i < lastTermIndex){
 			print += new String(reverse(terms.get(i++))) + "\n";
 		}
+		
 		//Print operator with last term
 		print += this.op + " " + new String(reverse(terms.get(i++))) + "\n";
 		
@@ -196,7 +191,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		ShowFile show = new ShowFile("bar.sho");
 		show.writeSnap("Addition", test);
 		
-		for (int i = 0; i < 6; i++){
+		for (int i = 0; i < 7; i++){
 			test.step();
 			show.writeSnap("Addition", test);
 		}
