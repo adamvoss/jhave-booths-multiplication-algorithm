@@ -1,17 +1,25 @@
 package exe.boothsMultiplication;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 import exe.GAIGSdatastr;
 import exe.GAIGStext;
 import exe.ShowFile;
 import exe.boothsMultiplication.GAIGSmonospacedText;
-
+/**
+ * 
+ * @author Adam Voss <vossad01@luther.edu>
+ *
+ */
 public class GAIGSArithmetic implements GAIGSdatastr {
 	private String name;
-	private char[] term1;
-	private char[] term2;
-	private int term1_index =0;
+	private ArrayList<char[]> terms;
+	private int firstTermIndex;
+	private int lastTermIndex;
+	private char op;
+	private int maxLength = 0;
 	
 	//Consider Replacing that with a GAIGSdatasrt implementing ArrayList.
 	//Its not static unless it says so, right?
@@ -28,16 +36,50 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 * @param x The x coordinate of the upper right-hand corner of the drawing.
 	 * @param y The y coordinate of upper right-hand corner of the drawing.
 	 */
-	public GAIGSArithmetic(String op, String term1, String term2, int radix, double x0, double y0){
+	public GAIGSArithmetic(char op, String term1, String term2, int radix, double x0, double y0){
+		firstTermIndex = 0;
+		lastTermIndex  = 1;
+		
+		maxLength = 0;
+		
+		int t1len = term1.length();
+		int t2len = term2.length();
+		if (t1len > t2len){
+			maxLength = t1len;
+			maxLength += (lastTermIndex-firstTermIndex);
+			for (int i = maxLength - t2len; i > 0 ; i--){
+				term2 = " " + term2;
+			}
+		} else{
+			maxLength = t2len;
+			maxLength += (lastTermIndex-firstTermIndex);
+			for (int i = maxLength - t1len; i > 0 ; i--){
+				term1 = " " + term1;
+			}
+		}
+		
+		
+		switch (op){
+		case '*':
+			this.op='×'; break;
+		case '/':
+			this.op='÷'; break;
+		default:
+			this.op=op;
+		}
+		
+		terms.add(term1.toCharArray());
+		terms.add(term2.toCharArray());
+		terms.add(emptyRow());
+		
+		
 		
 		double font_size = GAIGStext.DEFAULT_FONT_SIZE;
 		double char_width = font_size*.9;
 		
 		x0=.65-.2;
 		y0=.55;
-		
-		this.term1=term1.toCharArray();
-		this.term2=term2.toCharArray();
+
 		draw.add(new GAIGSmonospacedText(x0,y0, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1, char_width));
 		draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ term2, char_width));
 		double width = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getWidth();
@@ -53,11 +95,67 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		draw.add(new GAIGStext(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE*2), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR, "100111"));
 	}
 	
+	private void expandTerms(){
+		ListIterator<char[]> iter = this.terms.listIterator(firstTermIndex);
+		while (iter.hasNext()){
+			char[] last = iter.next();
+			char[] replace = new char[maxLength];
+			endCopyArray(last, replace);
+			iter.set(replace);
+		}
+	}
+
+	private char[] emptyRow(){
+		char[] ret = new char[maxLength];
+		for (int i = 0; i < maxLength; i++){
+			ret[i] = ' ';
+		}
+		return ret;
+	}
+	
+	private void setMaxLength(){
+		maxLength = 0;
+		
+		for (int i = firstTermIndex; i <= lastTermIndex; i++){
+			if (terms.get(i).length > maxLength) maxLength=terms.get(i).length;
+		}
+		
+		maxLength = maxLength+(lastTermIndex - firstTermIndex )+1;
+	}
+	
+	private void endCopyArray(char [] source, char [] dest){
+		if (dest.length < source.length){
+			System.out.println("You passed bad parameters and are going to get a NullPointer exception");
+		}
+		for (int i = source.length; i < 0; i--){
+			dest[i]=source[i];
+		}
+	}
+	
+	public void step(){
+		switch (op){
+		case '+':
+			additionStep();
+		}
+	}
+	
+	private void additionStep() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	@Override
 	// TODO Align print based on first term.
 	public String toXML() {
-		return "<!-- Start of GAIGSArithmetic -->\n" + this.draw.toXML()
-				+ "\n<!-- End of GAIGS Arithmetic -->\n";
+		String ret = "<!-- Start of GAIGSArithmetic -->\n";
+		
+		for (int i =0 ; i < terms.size(); i++){
+			ret+= (new GAIGSmonospacedText()).toXML();
+		}
+		
+		
+		return  ret	+ "\n<!-- End of GAIGS Arithmetic -->\n";
 	}
 
 	@Override
