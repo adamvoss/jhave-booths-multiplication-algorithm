@@ -6,9 +6,9 @@ class GAIGSarrayRegister implements GAIGSregister{
     private GAIGSarray wrapped;
     private int size;
 
-    public GAIGSarrayRegister(GAIGSarray w, int len) {
-        wrapped = w;
-        size = len;
+    public GAIGSarrayRegister(GAIGSarrayRegister source) {
+        wrapped = new GAIGSarray(source.wrapped);
+        size = source.size;
     }
 
     public GAIGSarrayRegister(int length) {
@@ -76,8 +76,8 @@ class GAIGSarrayRegister implements GAIGSregister{
     }
 
     public GAIGSregister copyTo(Bounds bounds) {
-        GAIGSregister ret = new GAIGSarrayRegister(new GAIGSarray(this.wrapped), this.size);
-        ((GAIGSarrayRegister)ret).wrapped.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+        GAIGSarrayRegister ret = new GAIGSarrayRegister(this);
+        ret.wrapped.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
 
         return ret;
     }

@@ -8,7 +8,6 @@ import org.jdom.*;
 
 import exe.*;
 import exe.pseudocode.*;
-import exe.question.*;
 
 public class BoothsMultiplication {
     private static PseudoCodeDisplay pseudo;
