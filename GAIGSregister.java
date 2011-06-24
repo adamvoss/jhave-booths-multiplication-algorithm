@@ -91,5 +91,12 @@ public interface GAIGSregister extends GAIGSdatastr {
     *
     */
     public int[] toIntArray();
+
+    /**
+    * Returns a String representing the binary values in the register.
+    * Must be overwritten!
+    */
+    @Override
+    public String toString();
     
 }
