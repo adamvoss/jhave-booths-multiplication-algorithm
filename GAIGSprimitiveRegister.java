@@ -8,25 +8,25 @@ package exe.boothsMultiplication;
  */
 public class GAIGSprimitiveRegister implements GAIGSregister {
 	private int[] bits;
-	private String[] color;
+	private String[] colors;
 	private GAIGSpolygon wrapped;
 
 
 	public GAIGSprimitiveRegister(GAIGSprimitiveRegister source){
 		this.bits = source.bits.clone();
-		this.color = source.color.clone();
+		this.colors = source.colors.clone();
 		this.wrapped = new GAIGSpolygon(source.wrapped);
 	}
 
 	public GAIGSprimitiveRegister(int length, String name, String color,
 			double x1, double y1, double x2, double y2, double fontSize) {
 		this.bits = new int[length];
-		this.color = new String[length];
+		this.colors = new String[length];
 		
 		length--;
 		while (length >= 0){
 			this.bits[length]=0;
-			this.color[length]="\\" + DEFAULT_COLOR;
+			this.colors[length]="\\" + DEFAULT_COLOR;
 			length--;
 		}
 		
@@ -65,7 +65,7 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
 	 public String toXML() {
 		 String label = "";
 		 for (int loc = 0 ; loc < bits.length; loc++){
-			 label += "\\" + color[loc] + bits[loc];
+			 label += "\\" + colors[loc] + bits[loc];
 		 }
 		 wrapped.setLabel(label);
 		 return wrapped.toXML();
@@ -101,7 +101,7 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
 	 @Override
 	 public void setBit(int value, int loc, String color) {
 		 bits[loc] = value;
-		 this.color[loc] = color;
+		 this.colors[loc] = color;
 	 }
 
 	 /**
@@ -125,7 +125,7 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
 	  */
 	 @Override
 	 public void setColor(int loc, String color) {
-		 this.color[loc] = color;
+		 this.colors[loc] = color;
 	 }
 
 	 /* (non-Javadoc)
@@ -134,7 +134,7 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
 	 @Override
 	 public void setAllToColor(String color) {
 		 for (int loc = 0 ; loc < bits.length; loc++){
-			 this.color[loc]=color;
+			 this.colors[loc]=color;
 		 }
 	 }
 
