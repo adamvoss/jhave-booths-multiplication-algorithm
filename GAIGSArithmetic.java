@@ -15,13 +15,14 @@ import exe.boothsMultiplication.GAIGSmonospacedText;
  */
 public class GAIGSArithmetic implements GAIGSdatastr {
 	private String name = "";
-	private ArrayList<ArrayList<Character[]>> terms = new ArrayList<ArrayList<Character[]>>();
+	private ArrayList<char[]> terms = new ArrayList<char[]>();
 	private int firstTermIndex;
 	private int lastTermIndex;
 	private char op;
+	private int currentDigit = 0;
 	private int maxLength = 0;
-	private double x;
-	private double y;
+	private double xright;
+	private double ytop;
 	
 	
 	//Consider Replacing that with a GAIGSdatasrt implementing ArrayList.
@@ -36,31 +37,34 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 * @param term1 The first term.
 	 * @param term2 The second term.
 	 * @param radix The radix or base of the numbers.
-	 * @param x The x coordinate of the upper right-hand corner of the drawing.
-	 * @param y The y coordinate of upper right-hand corner of the drawing.
+	 * @param xright The x coordinate of the upper right-hand corner of the drawing.
+	 * @param ytop The y coordinate of upper right-hand corner of the drawing.
 	 */
+	//TODO add support for more 
 	public GAIGSArithmetic(char op, String term1, String term2, int radix, double x0, double y0){
 		firstTermIndex = 0;
 		lastTermIndex  = 1;
 		
-		x=x0;
-		y=y0;
+		xright=x0;
+		ytop=y0;
 		
 		maxLength = 0;
 		int t1len = term1.length();
 		int t2len = term2.length();
 		if (t1len > t2len){
 			maxLength = t1len;
-			maxLength += (lastTermIndex-firstTermIndex);
-			for (int i = maxLength - t2len; i > 0 ; i--){
-				term2 = " " + term2;
-			}
+//			//term1 = " " + term1;
+//			maxLength += (lastTermIndex-firstTermIndex);
+//			for (int i = maxLength - t2len -1; i > 0 ; i--){
+//				term2 = " " + term2;
+//			}
 		} else{
 			maxLength = t2len;
-			maxLength += (lastTermIndex-firstTermIndex);
-			for (int i = maxLength - t1len; i > 0 ; i--){
-				term1 = " " + term1;
-			}
+//			//term2 = " " + term2;
+//			maxLength += (lastTermIndex-firstTermIndex);
+//			for (int i = maxLength - t1len -1; i > 0 ; i--){
+//				term1 = " " + term1;
+//			}
 		}
 		
 		switch (op){
@@ -121,17 +125,32 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 
 
 	@Override
-	// TODO Align print based on first term.
+	// TODO Consider aligning print based on first term.
 	public String toXML() {
 		String ret = "<!-- Start of GAIGSArithmetic -->\n";
 
 		String print="";
-		for (int i =0 ; i < terms.size(); i++){
-//			print += new String((char[]) terms.get(0).toArray(new Character[])) + "\n";
-//			System.out.println(terms.get(i).length);
+		int i = 0;
+		
+		//Print Carrys
+		while (i < firstTermIndex){
+			print += new String(terms.get(i)) + "\n";
+			i++;
 		}
 		
-		ret+= (new GAIGSmonospacedText(x, y, print)).toXML();
+		//All but last term
+		while (i < lastTermIndex){
+			print += new String(terms.get(i)) + "\n";
+			i++;
+		}
+		
+		//Print operator with last term
+		print += this.op + " " + new String(terms.get(i)) + "\n";
+		
+		//Create the Text Object
+		ret+= (new GAIGSmonospacedText(xright, ytop, print, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP)).toXML();
+		
+		ret += new GAIGSline(new double[] {xright-(maxLength+1)*GAIGSmonospacedText.DEFAULT_FONT_SIZE, xright}, new double[] {ytop-(lastTermIndex+1)*GAIGSmonospacedText.DEFAULT_FONT_SIZE, ytop-(lastTermIndex+1)*GAIGSmonospacedText.DEFAULT_FONT_SIZE}).toXML();
 		
 		return  ret	+ "\n<!-- End of GAIGS Arithmetic -->\n";
 	}
@@ -152,10 +171,10 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		GAIGSArithmetic test = new GAIGSArithmetic('×', "01101", "11010", 10, .5, .5);
+		GAIGSArithmetic test = new GAIGSArithmetic('+', "ABCTY02", "808054", 10, .5, .5);
 		
 		ShowFile show = new ShowFile("bar.sho");
-		show.writeSnap("Multiplication", test);
+		show.writeSnap("Addition", test);
 		show.close();
 	}
 
