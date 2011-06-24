@@ -22,9 +22,18 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
 			double x1, double y1, double x2, double y2, double fontSize) {
 		this.bit = new int[length];
 		this.color = new String[length];
+		
+		length--;
+		while (length >= 0){
+			this.bit[length]=0;
+			this.color[length]="\\" + DEFAULT_COLOR;
+			length--;
+		}
+		
 		int line_width = 1;
-		wrapped = new GAIGSpolygon(4, new double[] {x1, x2}, new double[] {y1, y2},
-				color, color, DEFAULT_COLOR, name, fontSize, line_width);
+		
+		wrapped = new GAIGSpolygon(4, new double[] {x1, x2, x2, x1}, new double[] {y1, y1, y2, y2},
+				"#FF0000", color, DEFAULT_COLOR, name, fontSize, line_width);
 	}	
 
 	public GAIGSprimitiveRegister(int length, String name, String color,
@@ -56,7 +65,7 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
 	 public String toXML() {
 		 String label = "";
 		 for (int loc = 0 ; loc < bit.length; loc++){
-			 label += color[loc] + bit[loc];
+			 label += "\\" + color[loc] + bit[loc];
 		 }
 		 wrapped.setLabel(label);
 		 return wrapped.toXML();
@@ -156,8 +165,8 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
 	 public GAIGSregister copyTo(Bounds bounds) {
 		 GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister(this);
 		 //TODO finish refactoring primitives so this doesn't work
-		 ret.wrapped.ptsX = new double[] {bounds.x1, bounds.x2};
-		 ret.wrapped.ptsY = new double[] {bounds.y1, bounds.y2};
+		 ret.wrapped.ptsX = new double[] {bounds.x1, bounds.x2, bounds.x2, bounds.x1};
+		 ret.wrapped.ptsY = new double[] {bounds.y1, bounds.y1, bounds.y2, bounds.y2};
 		 return ret;
 	 }
 
