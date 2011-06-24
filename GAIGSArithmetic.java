@@ -127,26 +127,34 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		}
 	}
 	
+	//This could be so much cleaner if we just stored everything in reverse order
 	private void additionStep() {
 		int sum = 0;
-		for (int i = firstTermIndex ; i < lastTermIndex; i++){
-			int next = Character.digit(terms.get(i)[currentDigit], radix);
+		for (int i = 0 ; i <= lastTermIndex; i++){
+			char[] nextLine = terms.get(i);
+			char nextChar = nextLine[nextLine.length-currentDigit-1];
+			
+			int next = Character.digit(nextChar, radix);
+			
+			if (nextChar == ' ') next = 0;
+			System.out.println("The digit is: " + next);
+			
 			if (next == -1) System.err.println("BAD RADIX or TERM in GAIGSArithmetic");
 			sum += next; 
 		}
 		//Add carry
 		if (sum > radix){
 			int carry = (sum / radix);
-			if (terms.get(0)[currentDigit+1] != ' '){
+			if (terms.get(0)[maxLength-currentDigit-2] != ' '){
 				addCarryRow();
 			}
-			if (carry != 0) terms.get(0)[currentDigit+1] = Character.toUpperCase(Character.forDigit(carry, radix));
+			if (carry != 0) terms.get(0)[maxLength-currentDigit-2] = Character.toUpperCase(Character.forDigit(carry, radix));
 		}
 		//Set result
-		terms.get(lastTermIndex)[currentDigit]= Character.toUpperCase(Character.forDigit(sum % radix, radix));
+		terms.get(lastTermIndex+1)[maxLength-currentDigit-1]=Character.toUpperCase(Character.forDigit(sum % radix, radix));
 		
 		currentDigit++;
-		System.out.println(currentDigit);
+		System.out.println();
 	}
 
 
@@ -160,18 +168,19 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		
 		//Print Carrys
 		while (i < firstTermIndex){
-			print += new String(terms.get(i)) + "\n";
-			i++;
+			print += new String(terms.get(i++)) + "\n";
 		}
 		
 		//All but last term
 		while (i < lastTermIndex){
-			print += new String(terms.get(i)) + "\n";
-			i++;
+			print += new String(terms.get(i++)) + "\n";
 		}
 		
 		//Print operator with last term
-		print += this.op + " " + new String(terms.get(i)) + "\n";
+		print += this.op + " " + new String(terms.get(i++)) + "\n";
+		
+		//Print the result
+		print += new String(terms.get(i++)) + "\n";
 		
 		//Create the Text Object
 		ret+= (new GAIGSmonospacedText(xright, ytop, print, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP)).toXML();
@@ -198,16 +207,14 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	public static void main(String[] args) throws IOException {
 		
 		GAIGSArithmetic test = new GAIGSArithmetic('+', "ABCTY02", "808054", 36, .5, .5);
-		test.step();
-		test.step();
-		test.step();
-		test.step();
-		test.step();
-		test.step();
-		
-		
 		ShowFile show = new ShowFile("bar.sho");
 		show.writeSnap("Addition", test);
+		
+		for (int i = 0; i < 6; i++){
+			test.step();
+			show.writeSnap("Addition", test);
+		}
+		
 		show.close();
 	}
 
