@@ -13,7 +13,7 @@ import exe.boothsMultiplication.GAIGSprimitiveCollection.Primitive;
  * </p>
  * 
  * @author Shawn Recker
- * @author Adam Voss, Seperated out protected classes
+ * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
  * @version 6/22/2010
  */
 public class GAIGSpolygon implements GAIGSdatastr, Primitive {
@@ -27,7 +27,6 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 	public double height;
 	public int width;
 	private String name = "";
-	private GAIGSpolygon t; 
 
 	/**
 	 * Creates a polygon.
@@ -73,6 +72,19 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 		this(nSides, ptsX, ptsY, fillColor, outlineColor, labelColor, labelText, TEXT_HEIGHT, LINE_WIDTH);
 	}
 
+	public GAIGSpolygon(GAIGSpolygon source) {
+		this.nSides = source.nSides;
+		this.ptsX = source.ptsX;
+		this.ptsY = source.ptsY;
+		this.fcolor = source.fcolor;
+		this.ocolor = source.ocolor;
+		this.lcolor = source.lcolor;
+		this.label = source.label;
+		this.height = source.height;
+		this.width = source.width;
+		this.name = source.name;
+	}
+
 	@Override
 	public String toXML() {
 		GAIGSpolygon pl = this;
@@ -88,6 +100,8 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 	}
 
 	private String computeBounds() {
+		GAIGSpolygon t = this;
+		
 		double x1 = Double.MAX_VALUE;
 		double y1 = Double.MAX_VALUE;
 		double x2 = Double.MIN_VALUE;
@@ -111,5 +125,13 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+	//@Override
+	public String getLabel() {
+		return this.label;
+	}
+	//@Override
+	public void setLabel(String label) {
+		this.label = label;
 	}
 }

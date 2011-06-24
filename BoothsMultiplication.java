@@ -8,7 +8,6 @@ import org.jdom.*;
 
 import exe.*;
 import exe.pseudocode.*;
-import exe.question.*;
 
 public class BoothsMultiplication {
     private static PseudoCodeDisplay pseudo;
@@ -26,7 +25,7 @@ public class BoothsMultiplication {
     public static final String GREEN   = "#00FF00";
     public static final String BLUE    = "#0000FF";
     public static final String YELLOW  = "#FFFF00";
-    public static final String DEFAULT_COLOR = WHITE;
+    public static final String TEXT_COLOR = BLACK;
     
     public static final double WINDOW_HEIGHT = 1.0;
     public static final double WINDOW_WIDTH = 1.0;
@@ -77,21 +76,21 @@ public class BoothsMultiplication {
     			new GAIGSmonospacedText(.5, .5, "It looks  like \\#0000FFyou've\nimproved a \\#FF0000great deal"));
     	
         //Reg M
-        GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[0], FONT_SIZE);
+        GAIGSregister RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         trace.add("RegM", RegM);
         show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trace);
 
         //Reg A
-        GAIGSregister RegA= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[1], FONT_SIZE);
+        GAIGSregister RegA= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         trace.add("RegA", RegA);
         show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trace);
 
         //Reg Q
-        GAIGSregister RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[2], FONT_SIZE);
+        GAIGSregister RegQ= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[2], FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         trace.add("RegQ", RegQ);
@@ -99,14 +98,14 @@ public class BoothsMultiplication {
             docURI.toASCIIString(), easyPseudo(4), trace);
 
         //Bit Q_1
-        GAIGSregister Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT_COLOR, mypoints[3], FONT_SIZE);
+        GAIGSregister Q_1 = new GAIGSprimitiveRegister(1,       "", TEXT_COLOR, mypoints[3], FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         trace.add("Q_1" , Q_1);
         show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
 
         //Count
-/*        GAIGSregister count = new GAIGSarrayRegister(1,     "", DEFAULT_COLOR, mypoints[4], FONT_SIZE);
+/*        GAIGSregister count = new GAIGSprimitiveRegister(1,     "", DEFAULT_COLOR, mypoints[4], FONT_SIZE);
         count.set("" + RegQ.getSize() );
         count.setLabel("Count:");
         trace.add("Count", count);
@@ -114,7 +113,7 @@ public class BoothsMultiplication {
 */
 
         //Count, take 2
-        CountBox count = new CountBox(RegQ.getSize(), DEFAULT_COLOR, mypoints[4], FONT_SIZE);
+        CountBox count = new CountBox(RegQ.getSize(), TEXT_COLOR, mypoints[4], FONT_SIZE);
         count.setLabel("Count");
         trace.add("Count", count);
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
@@ -158,7 +157,7 @@ public class BoothsMultiplication {
 
         OldCount.setColor(YELLOW);
         show.writeSnap("Check the Value of Count", docURI.toASCIIString(), easyPseudo(8), trace);
-        OldCount.setColor(DEFAULT_COLOR);
+        OldCount.setColor(TEXT_COLOR);
 
         if (curLine >= numLines) return;
 
@@ -210,8 +209,8 @@ public class BoothsMultiplication {
             trace.pushLine(temp);
 
             //Reset Color
-            OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
-            OldQ_1.setColor(0, DEFAULT_COLOR);
+            OldQ.setColor(OldQ.getSize()-1, TEXT_COLOR);
+            OldQ_1.setColor(0, TEXT_COLOR);
 
             //Finishes the addition thought.
             {
@@ -231,8 +230,8 @@ public class BoothsMultiplication {
             trace.popLine();
 
             //Reset Color
-            OldQ.setColor(OldQ.getSize()-1, DEFAULT_COLOR);
-            OldQ_1.setColor(0, DEFAULT_COLOR);
+            OldQ.setColor(OldQ.getSize()-1, TEXT_COLOR);
+            OldQ_1.setColor(0, TEXT_COLOR);
         }
         //Gosh this function is getting long
         rightShift(A, Q, Q_1);
@@ -260,11 +259,11 @@ public class BoothsMultiplication {
 //          que, trace, M, A, Q, Q_1);
 
         //Reset colors
-        ((GAIGSregister)trace.get("RegA")).setAllToColor(DEFAULT_COLOR);
-        ((GAIGSregister)trace.get("RegQ")).setAllToColor(DEFAULT_COLOR);
-        A.setAllToColor(DEFAULT_COLOR);
-        Q.setAllToColor(DEFAULT_COLOR);
-        Q_1.setColor(0, DEFAULT_COLOR);
+        ((GAIGSregister)trace.get("RegA")).setAllToColor(TEXT_COLOR);
+        ((GAIGSregister)trace.get("RegQ")).setAllToColor(TEXT_COLOR);
+        A.setAllToColor(TEXT_COLOR);
+        Q.setAllToColor(TEXT_COLOR);
+        Q_1.setColor(0, TEXT_COLOR);
         trace.pushLine(temp);
         //Finish hop
 
@@ -341,9 +340,10 @@ public class BoothsMultiplication {
      * @param M The register to negate
      * @return A new register with the negated value.
      */
+    //TODO Clean up this method so cast's aren't necessary
     public static GAIGSregister negateValue(GAIGSregister M) {
         int carry = 1;
-        GAIGSregister ret = new GAIGSarrayRegister(M.getSize() );
+        GAIGSregister ret = new GAIGSprimitiveRegister((GAIGSprimitiveRegister) M);
 
         for (int i = M.getSize()-1; i >= 0; --i) {
             int negPart = 0;

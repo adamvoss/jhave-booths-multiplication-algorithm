@@ -41,8 +41,10 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	private final int LINE_WIDTH = 12;
 
 	protected interface Primitive extends GAIGSdatastr {
-		public static final double TEXT_HEIGHT = .03;
-		public static final int LINE_WIDTH = 12;
+		double TEXT_HEIGHT = .03;
+		int LINE_WIDTH = 12;
+		//public String getLabel(); 
+		//public void setLabel(String label);
 	}
 
 	/**
@@ -347,7 +349,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	public void addArrow(double x[], double y[], String color, String lcolor,
 			String label, double headSize)
 	{
-		primitives.add(new GAIGSline(x, y, color, lcolor, "", GAIGSline.TEXT_HEIGHT, GAIGSline.LINE_WIDTH));
+		primitives.add(new GAIGSline(x, y, color, lcolor, "", TEXT_HEIGHT, LINE_WIDTH));
 
 		double size = headSize;
 
