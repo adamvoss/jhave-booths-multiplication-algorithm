@@ -14,12 +14,15 @@ import exe.boothsMultiplication.GAIGSmonospacedText;
  *
  */
 public class GAIGSArithmetic implements GAIGSdatastr {
-	private String name;
-	private ArrayList<char[]> terms;
+	private String name = "";
+	private ArrayList<ArrayList<Character[]>> terms = new ArrayList<ArrayList<Character[]>>();
 	private int firstTermIndex;
 	private int lastTermIndex;
 	private char op;
 	private int maxLength = 0;
+	private double x;
+	private double y;
+	
 	
 	//Consider Replacing that with a GAIGSdatasrt implementing ArrayList.
 	//Its not static unless it says so, right?
@@ -40,8 +43,10 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		firstTermIndex = 0;
 		lastTermIndex  = 1;
 		
-		maxLength = 0;
+		x=x0;
+		y=y0;
 		
+		maxLength = 0;
 		int t1len = term1.length();
 		int t2len = term2.length();
 		if (t1len > t2len){
@@ -58,7 +63,6 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 			}
 		}
 		
-		
 		switch (op){
 		case '*':
 			this.op='×'; break;
@@ -67,10 +71,10 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		default:
 			this.op=op;
 		}
-		
 		terms.add(term1.toCharArray());
 		terms.add(term2.toCharArray());
 		terms.add(emptyRow());
+
 		
 		
 		
@@ -80,56 +84,27 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		x0=.65-.2;
 		y0=.55;
 
-		draw.add(new GAIGSmonospacedText(x0,y0, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1, char_width));
-		draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ term2, char_width));
-		double width = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getWidth();
+		//draw.add(new GAIGSmonospacedText(x0,y0, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1, char_width));
+		//draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ term2, char_width));
+		//double width = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getWidth();
 		//double height = ((GAIGSmonospacedText)draw.get(draw.size()-1)).getHeight();
-		draw.add(new GAIGSline(new double[] {x0+width,x0}, new double[] {y0-GAIGStext.DEFAULT_FONT_SIZE*1.6,y0-GAIGStext.DEFAULT_FONT_SIZE*1.6}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
-		draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE*2), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR, "100111", char_width));
+		//draw.add(new GAIGSline(new double[] {x0+width,x0}, new double[] {y0-GAIGStext.DEFAULT_FONT_SIZE*1.6,y0-GAIGStext.DEFAULT_FONT_SIZE*1.6}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
+		//draw.add(new GAIGSmonospacedText(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE*2), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR, "100111", char_width));
 		
 		x0+=.4;
 		
-		draw.add(new GAIGStext(x0,y0, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1));
-		draw.add(new GAIGStext(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ term2));
-		draw.add(new GAIGSline(new double[] {x0-.17,x0}, new double[] {y0-GAIGStext.DEFAULT_FONT_SIZE*1.6,y0-GAIGStext.DEFAULT_FONT_SIZE*1.6}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
-		draw.add(new GAIGStext(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE*2), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR, "100111"));
+		//draw.add(new GAIGStext(x0,y0, GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,term1));
+		//draw.add(new GAIGStext(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR,op+" "+ term2));
+		//draw.add(new GAIGSline(new double[] {x0-.17,x0}, new double[] {y0-GAIGStext.DEFAULT_FONT_SIZE*1.6,y0-GAIGStext.DEFAULT_FONT_SIZE*1.6}, DEFAULT_COLOR, DEFAULT_COLOR, ""));
+		//draw.add(new GAIGStext(x0,(y0-GAIGStext.DEFAULT_FONT_SIZE*2), GAIGStext.HRIGHT, GAIGStext.VTOP, GAIGStext.DEFAULT_FONT_SIZE, GAIGStext.DEFAULT_COLOR, "100111"));
 	}
 	
-	private void expandTerms(){
-		ListIterator<char[]> iter = this.terms.listIterator(firstTermIndex);
-		while (iter.hasNext()){
-			char[] last = iter.next();
-			char[] replace = new char[maxLength];
-			endCopyArray(last, replace);
-			iter.set(replace);
-		}
-	}
-
 	private char[] emptyRow(){
 		char[] ret = new char[maxLength];
 		for (int i = 0; i < maxLength; i++){
 			ret[i] = ' ';
 		}
 		return ret;
-	}
-	
-	private void setMaxLength(){
-		maxLength = 0;
-		
-		for (int i = firstTermIndex; i <= lastTermIndex; i++){
-			if (terms.get(i).length > maxLength) maxLength=terms.get(i).length;
-		}
-		
-		maxLength = maxLength+(lastTermIndex - firstTermIndex )+1;
-	}
-	
-	private void endCopyArray(char [] source, char [] dest){
-		if (dest.length < source.length){
-			System.out.println("You passed bad parameters and are going to get a NullPointer exception");
-		}
-		for (int i = source.length; i < 0; i--){
-			dest[i]=source[i];
-		}
 	}
 	
 	public void step(){
@@ -149,11 +124,14 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	// TODO Align print based on first term.
 	public String toXML() {
 		String ret = "<!-- Start of GAIGSArithmetic -->\n";
-		
+
+		String print="";
 		for (int i =0 ; i < terms.size(); i++){
-			ret+= (new GAIGSmonospacedText()).toXML();
+//			print += new String((char[]) terms.get(0).toArray(new Character[])) + "\n";
+//			System.out.println(terms.get(i).length);
 		}
 		
+		ret+= (new GAIGSmonospacedText(x, y, print)).toXML();
 		
 		return  ret	+ "\n<!-- End of GAIGS Arithmetic -->\n";
 	}
@@ -174,7 +152,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		GAIGSArithmetic test = new GAIGSArithmetic("×", "01101", "11010", 10, .5, .5);
+		GAIGSArithmetic test = new GAIGSArithmetic('×', "01101", "11010", 10, .5, .5);
 		
 		ShowFile show = new ShowFile("bar.sho");
 		show.writeSnap("Multiplication", test);
