@@ -76,21 +76,21 @@ public class BoothsMultiplication {
     			new GAIGSmonospacedText(.5, .5, "It looks  like \\#0000FFyou've\nimproved a \\#FF0000great deal"));
     	
         //Reg M
-        GAIGSregister RegM= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[0], FONT_SIZE);
+        GAIGSregister RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, mypoints[0], FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         trace.add("RegM", RegM);
         show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trace);
 
         //Reg A
-        GAIGSregister RegA= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[1], FONT_SIZE);
+        GAIGSregister RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         trace.add("RegA", RegA);
         show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trace);
 
         //Reg Q
-        GAIGSregister RegQ= new GAIGSarrayRegister(regSize, "", DEFAULT_COLOR, mypoints[2], FONT_SIZE);
+        GAIGSregister RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, mypoints[2], FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         trace.add("RegQ", RegQ);
@@ -98,14 +98,14 @@ public class BoothsMultiplication {
             docURI.toASCIIString(), easyPseudo(4), trace);
 
         //Bit Q_1
-        GAIGSregister Q_1 = new GAIGSarrayRegister(1,       "", DEFAULT_COLOR, mypoints[3], FONT_SIZE);
+        GAIGSregister Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, mypoints[3], FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         trace.add("Q_1" , Q_1);
         show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
 
         //Count
-/*        GAIGSregister count = new GAIGSarrayRegister(1,     "", DEFAULT_COLOR, mypoints[4], FONT_SIZE);
+/*        GAIGSregister count = new GAIGSprimitiveRegister(1,     "", DEFAULT_COLOR, mypoints[4], FONT_SIZE);
         count.set("" + RegQ.getSize() );
         count.setLabel("Count:");
         trace.add("Count", count);
@@ -344,9 +344,10 @@ public class BoothsMultiplication {
      * @param M The register to negate
      * @return A new register with the negated value.
      */
+    //TODO Clean up this method so cast's aren't necessary
     public static GAIGSregister negateValue(GAIGSregister M) {
         int carry = 1;
-        GAIGSregister ret = new GAIGSarrayRegister(M.getSize() );
+        GAIGSregister ret = new GAIGSprimitiveRegister((GAIGSprimitiveRegister) M);
 
         for (int i = M.getSize()-1; i >= 0; --i) {
             int negPart = 0;
