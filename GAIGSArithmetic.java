@@ -23,6 +23,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	private int maxLength = 0;
 	private double xright;
 	private double ytop;
+	private int radix;
 	
 	
 	//Consider Replacing that with a GAIGSdatasrt implementing ArrayList.
@@ -44,6 +45,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	public GAIGSArithmetic(char op, String term1, String term2, int radix, double x0, double y0){
 		firstTermIndex = 0;
 		lastTermIndex  = 1;
+		this.radix = radix;
 		
 		xright=x0;
 		ytop=y0;
@@ -78,6 +80,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		terms.add(term1.toCharArray());
 		terms.add(term2.toCharArray());
 		terms.add(emptyRow());
+		addCarryRow();
 
 		
 		
@@ -111,6 +114,12 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		return ret;
 	}
 	
+	public void addCarryRow(){
+		terms.add(0,emptyRow());
+		firstTermIndex++;
+		lastTermIndex++;
+	}
+	
 	public void step(){
 		switch (op){
 		case '+':
@@ -119,8 +128,25 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	}
 	
 	private void additionStep() {
-		// TODO Auto-generated method stub
+		int sum = 0;
+		for (int i = firstTermIndex ; i < lastTermIndex; i++){
+			int next = Character.digit(terms.get(i)[currentDigit], radix);
+			if (next == -1) System.err.println("BAD RADIX or TERM in GAIGSArithmetic");
+			sum += next; 
+		}
+		//Add carry
+		if (sum > radix){
+			int carry = (sum / radix);
+			if (terms.get(0)[currentDigit+1] != ' '){
+				addCarryRow();
+			}
+			if (carry != 0) terms.get(0)[currentDigit+1] = Character.toUpperCase(Character.forDigit(carry, radix));
+		}
+		//Set result
+		terms.get(lastTermIndex)[currentDigit]= Character.toUpperCase(Character.forDigit(sum % radix, radix));
 		
+		currentDigit++;
+		System.out.println(currentDigit);
 	}
 
 
@@ -171,7 +197,14 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		GAIGSArithmetic test = new GAIGSArithmetic('+', "ABCTY02", "808054", 10, .5, .5);
+		GAIGSArithmetic test = new GAIGSArithmetic('+', "ABCTY02", "808054", 36, .5, .5);
+		test.step();
+		test.step();
+		test.step();
+		test.step();
+		test.step();
+		test.step();
+		
 		
 		ShowFile show = new ShowFile("bar.sho");
 		show.writeSnap("Addition", test);
