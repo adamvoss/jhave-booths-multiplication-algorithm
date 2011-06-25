@@ -60,6 +60,18 @@ public class GAIGSline extends Primitive {
 		this(x, y, DEFAULT_COLOR, DEFAULT_COLOR, "", TEXT_HEIGHT, LINE_WIDTH);
 	}
 
+	public GAIGSline(GAIGSline source) {
+		this.x = source.x.clone();
+		this.y = source.y.clone();
+		this.fcolor = source.fcolor;
+		this.ocolor = source.ocolor;
+		this.lcolor = source.lcolor;
+		this.label = source.label;
+		this.fontSize = source.fontSize;
+		this.lineWidth = source.lineWidth;
+		this.name = source.name;
+	}
+	
 	/**
 	 * Returns the bounds of the <code>GAIGS</code> Structure.
 	 * @return      Array of coordinates.
@@ -99,8 +111,16 @@ public class GAIGSline extends Primitive {
 	 */
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
-		// TODO Auto-generated method stub
+		double[] current = this.getBounds();
+		double translateX = x1-current[0];
+		double translateY = y1-current[1];
+		double scaleX = (x2-x1)/(current[2]-(current[0]));
+		double scaleY = (y2-y1)/(current[3]-(current[1]));
 		
+		for(int j = 0; j < 2; ++j){
+			x[j] = x[j] * scaleX + translateX;
+			y[j] = y[j] * scaleY + translateY;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -108,8 +128,7 @@ public class GAIGSline extends Primitive {
 	 */
 	@Override
 	public Primitive clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new GAIGSline(this);
 	}
 
 }

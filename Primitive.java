@@ -29,10 +29,18 @@ public abstract class Primitive implements MutableGAIGSdatastr  {
 		"</name>\n\t"+ this.computeBounds() + "\n\t" + 
 		this.toCollectionXML() +"</primitivecollection>\n";
 	}
+
 	
+	/* Due to a client side bug/feature the coordinates of cannot be the coordinates of the bounds.
+	 * Instead the coordinates given are drawn relative to the bounds given, wherein a unit square
+	 * primitive perfectly fills bounds on screen.
+	 */
+//	protected String computeBounds() {
+//	double[] bounds = this.getBounds();
+//	return "<bounds x1=\"" + bounds[0] + "\" y1=\"" + bounds[1] + "\" x2=\"" + bounds[2] + "\" y2=\"" + bounds[3] + "\"/>";
+//}
 	protected String computeBounds() {
-		double[] bounds = this.getBounds();
-		return "<bounds x1=\"" + bounds[0] + "\" y1=\"" + bounds[1] + "\" x2=\"" + bounds[2] + "\" y2=\"" + bounds[3] + "\"/>";
+		return "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>";
 	}
 
 	/* (non-Javadoc)

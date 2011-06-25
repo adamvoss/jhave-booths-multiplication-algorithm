@@ -64,8 +64,8 @@ public class GAIGSpolygon extends Primitive {
 
 	public GAIGSpolygon(GAIGSpolygon source) {
 		this.nSides = source.nSides;
-		this.ptsX = source.ptsX;
-		this.ptsY = source.ptsY;
+		this.ptsX = source.ptsX.clone();
+		this.ptsY = source.ptsY.clone();
 		this.fcolor = source.fcolor;
 		this.ocolor = source.ocolor;
 		this.lcolor = source.lcolor;
@@ -109,12 +109,22 @@ public class GAIGSpolygon extends Primitive {
 		fontSize + "\" width=\"" + lineWidth + "\"/>\n";
 		return xml;
 	}
+	
 	/* (non-Javadoc)
 	 * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
 	 */
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
-		// TODO Auto-generated method stub
+		double[] current = this.getBounds();
+		double translateX = x1-current[0];
+		double translateY = y1-current[1];
+		double scaleX = (x2-x1)/(current[2]-(current[0]));
+		double scaleY = (y2-y1)/(current[3]-(current[1]));
+		
+		for(int j = 0; j < nSides; ++j){
+			ptsX[j] = ptsX[j] * scaleX + translateX;
+			ptsY[j] = ptsY[j] * scaleY + translateY;
+		}
 	}
 
 	/* (non-Javadoc)

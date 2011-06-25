@@ -1,12 +1,14 @@
 
 package exe.boothsMultiplication;
 
+import exe.MutableGAIGSdatastr;
+
 
 /**
  * @author Adam Voss <vossad01@luther.edu>
  *
  */
-public class GAIGSprimitiveRegister implements GAIGSregister {
+public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatastr {
 	private int[] bits;
 	private String[] colors;
 	private GAIGSpolygon wrapped;
@@ -164,9 +166,7 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
 	 @Override
 	 public GAIGSregister copyTo(Bounds bounds) {
 		 GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister(this);
-		 //TODO finish refactoring primitives so this doesn't work
-		 ret.wrapped.ptsX = new double[] {bounds.x1, bounds.x2, bounds.x2, bounds.x1};
-		 ret.wrapped.ptsY = new double[] {bounds.y1, bounds.y1, bounds.y2, bounds.y2};
+		 ret.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
 		 return ret;
 	 }
 
@@ -192,5 +192,40 @@ public class GAIGSprimitiveRegister implements GAIGSregister {
         return ret;
     }
 
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#getBounds()
+	 */
+	@Override
+	public double[] getBounds() {
+		return wrapped.getBounds();
+	}
 
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
+	 */
+	@Override
+	public void setBounds(double x1, double y1, double x2, double y2) {
+		this.wrapped.setBounds(x1, y1, x2, y2);
+	}
+
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#getFontSize()
+	 */
+	@Override
+	public double getFontSize() {
+		return wrapped.getFontSize();
+	}
+
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#setFontSize(double)
+	 */
+	@Override
+	public void setFontSize(double fontSize) {
+		wrapped.setFontSize(fontSize);
+	}
+
+	@Override
+	public GAIGSprimitiveRegister clone(){
+		return new GAIGSprimitiveRegister(this);
+	}
 }
