@@ -11,10 +11,10 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	private double width;
 	private double height;
 	private double[] realBounds;
-	private String name = "Unnamed"; 
 	
 	public GAIGSPane(double x0, double y0, double x1, double y1, double width, double height){
 		super();
+		this.name="Unnamed";
 		this.realBounds = new double[] {x0, y0, x1, y1};
 		this.width=width;
 		this.height = height;
@@ -45,7 +45,7 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	
 	@Override
 	public String toXML() {
-		String xml = "<!-- Start GAIGSPane: "+name+" -->";
+		String xml = "<!-- Start GAIGSPane: "+ name +" -->\n";
 		
 		for (MutableGAIGSdatastr item : items){
 			MutableGAIGSdatastr clone = item.clone();
@@ -53,7 +53,7 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 			clone.setBounds(newBds[0], newBds[1], newBds[2], newBds[3]);
 			xml += clone.toXML();
 		}
-		xml += "<!-- End of GAIGSPane: "+name+" -->";
+		xml += "<!-- End of GAIGSPane: "+ name +" -->\n";
 		return xml;
 	}
 

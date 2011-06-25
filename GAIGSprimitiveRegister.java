@@ -8,6 +8,7 @@ import exe.MutableGAIGSdatastr;
  * @author Adam Voss <vossad01@luther.edu>
  *
  */
+//TODO Add a working label functionality.
 public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatastr {
 	private int[] bits;
 	private String[] colors;

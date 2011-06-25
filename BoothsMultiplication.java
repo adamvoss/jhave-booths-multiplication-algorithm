@@ -79,8 +79,9 @@ public class BoothsMultiplication {
     	show.writeSnap("You can still see this", main);
     	GAIGSPane nest = new GAIGSPane(50,0,100,main.getHeight(),1,1);
     	nest.setName("Inner Frame");
+    	System.out.println(nest.getName());
     	main.add(nest);
-    	nest.add(new GAIGSpolygon(4, new double[] {0, 1, 1,0}, new double[] {0,0,1,1}, RED, YELLOW, WHITE, "My Area is 1!\nYes that is a factorial"));
+    	nest.add(new GAIGSpolygon(4, new double[] {0, 1, 1,0}, new double[] {0,0,1,1}, RED, YELLOW, WHITE, "My Area is 1! (Yes, that is a factorial)"));
     	show.writeSnap("Psst!  A secret:     You can't se this", main);
     	
     	
