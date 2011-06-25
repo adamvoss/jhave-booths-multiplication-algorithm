@@ -71,6 +71,18 @@ public class BoothsMultiplication {
         GAIGStrace trace = new GAIGStrace();
         //Trace finally defined, can now make the QuestionGenerator
     	quest = new QuestionGenerator(show, trace);
+
+    	GAIGSPane main = new GAIGSPane(100, 100/GAIGSPane.JHAVÉ_ASPECT_RATIO);
+    	show.writeSnap("You can see this", main);
+    	GAIGSpolygon hugePoly = new GAIGSpolygon(4, new double[] {0, 50, 50 ,0}, new double[] {0,0,50,50}, GREEN, BLUE, WHITE, "My Area is 2500");
+    	main.add(hugePoly);
+    	show.writeSnap("You can still see this", main);
+    	GAIGSPane nest = new GAIGSPane(50,0,100,main.getHeight(),1,1);
+    	nest.setName("Inner Frame");
+    	main.add(nest);
+    	nest.add(new GAIGSpolygon(4, new double[] {0, 1, 1,0}, new double[] {0,0,1,1}, RED, YELLOW, WHITE, "My Area is 1!\nYes that is a factorial"));
+    	show.writeSnap("Psst!  A secret:     You can't se this", main);
+    	
     	
         //Reg M
         GAIGSregister RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);

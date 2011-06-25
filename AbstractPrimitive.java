@@ -9,7 +9,7 @@ import exe.MutableGAIGSdatastr;
  * @author Adam Voss <vossad01@luther.edu>
  *
  */
-public abstract class Primitive implements MutableGAIGSdatastr  {
+public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
 	protected String label;
 	final static double TEXT_HEIGHT = .03;
 	final static int LINE_WIDTH = 12;
@@ -21,7 +21,7 @@ public abstract class Primitive implements MutableGAIGSdatastr  {
 	protected int lineWidth;
 	
 	abstract protected String toCollectionXML();
-	abstract public Primitive clone();
+	abstract public AbstractPrimitive clone();
 	
 	@Override
 	public String toXML() {

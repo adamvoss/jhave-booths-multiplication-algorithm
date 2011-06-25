@@ -10,7 +10,7 @@ package exe.boothsMultiplication;
  * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
  * @version 6/22/2010
  */
-public class GAIGSellipse extends Primitive {
+public class GAIGSellipse extends AbstractPrimitive {
 	public double x;
 	public double y;
 	public double stAngle;
@@ -112,7 +112,7 @@ public class GAIGSellipse extends Primitive {
 	 * @see exe.boothsMultiplication.Primitive#clone()
 	 */
 	@Override
-	public Primitive clone() {
+	public AbstractPrimitive clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}

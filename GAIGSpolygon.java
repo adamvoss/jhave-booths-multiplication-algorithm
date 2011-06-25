@@ -13,7 +13,7 @@ package exe.boothsMultiplication;
  * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
  * @version 6/22/2010
  */
-public class GAIGSpolygon extends Primitive {
+public class GAIGSpolygon extends AbstractPrimitive {
 	public int nSides;
 	public double[] ptsX;
 	public double[] ptsY;

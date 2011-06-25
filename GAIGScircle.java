@@ -11,7 +11,7 @@ package exe.boothsMultiplication;
  * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
  * @version 6/22/2010
  */
-public class GAIGScircle extends Primitive {
+public class GAIGScircle extends AbstractPrimitive {
 	public double x;
 	public double y;
 	public double r;
@@ -99,7 +99,7 @@ public class GAIGScircle extends Primitive {
 	 * @see exe.boothsMultiplication.Primitive#clone()
 	 */
 	@Override
-	public Primitive clone() {
+	public AbstractPrimitive clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}

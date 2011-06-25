@@ -10,7 +10,7 @@ package exe.boothsMultiplication;
  * @author Adam Voss <vossad01@luther.edu>, Seperated out protected classes
  * @version 6/22/2010
  */
-public class GAIGSline extends Primitive {
+public class GAIGSline extends AbstractPrimitive {
 	public double x[] = new double[2];
 	public double y[] = new double[2];
 
@@ -127,7 +127,7 @@ public class GAIGSline extends Primitive {
 	 * @see exe.boothsMultiplication.Primitive#clone()
 	 */
 	@Override
-	public Primitive clone() {
+	public AbstractPrimitive clone() {
 		return new GAIGSline(this);
 	}
 

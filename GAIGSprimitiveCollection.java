@@ -43,7 +43,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	/**
 	 * The Current collection of graphical primitives
 	 */
-	protected ArrayList<Primitive> primitives;
+	protected ArrayList<AbstractPrimitive> primitives;
 
 	/**
 	 * The Name of the collection of graphical primitives
@@ -54,7 +54,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 * Creates an empty primitive collection with no name
 	 */
 	public GAIGSprimitiveCollection() {
-		primitives = new ArrayList<Primitive>();
+		primitives = new ArrayList<AbstractPrimitive>();
 		name = "";
 	}
 
@@ -62,7 +62,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 * Creates an empty primitive collection with the specified name
 	 */
 	public GAIGSprimitiveCollection(String name) {
-		primitives = new ArrayList<Primitive>();
+		primitives = new ArrayList<AbstractPrimitive>();
 		this.name = name;
 	}
 

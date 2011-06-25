@@ -18,7 +18,7 @@ import exe.GAIGSdatastr;
 public class GAIGScollection<E extends GAIGSdatastr> extends AbstractSet<E> implements GAIGSdatastr, Set<E>{
 	protected ArrayList<E> items = new ArrayList<E>();
 	protected String name = "";
-
+	
 	@Override
 	//TODO consider adding a lock to prevent infinite loops
 	public String toXML() {
@@ -32,7 +32,7 @@ public class GAIGScollection<E extends GAIGSdatastr> extends AbstractSet<E> impl
 	}
 	
 	/**
-	 * Note this name is never displayed
+	 * Note: this name is never displayed in the visualization.
 	 */
 	@Override
 	public String getName() {
@@ -40,7 +40,7 @@ public class GAIGScollection<E extends GAIGSdatastr> extends AbstractSet<E> impl
 	}
 	
 	/**
-	 * Note this name is never displayed
+	 * Note: this name is never displayed in the visualization.
 	 */
 	@Override
 	public void setName(String name) {
