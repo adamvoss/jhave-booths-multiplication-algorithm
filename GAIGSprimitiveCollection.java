@@ -32,20 +32,13 @@ import exe.GAIGSdatastr;
  * </p>
  *
  * @author Shawn Recker
- * @author Adam Voss, Seperated out protected classes
+ * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
  * @version 6/22/2010
  */
 
 public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	private final double TEXT_HEIGHT = .03;
 	private final int LINE_WIDTH = 12;
-
-	protected interface Primitive extends GAIGSdatastr {
-		double TEXT_HEIGHT = .03;
-		int LINE_WIDTH = 12;
-		//public String getLabel(); 
-		//public void setLabel(String label);
-	}
 
 	/**
 	 * The Current collection of graphical primitives
@@ -95,12 +88,13 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 */
 	public String toXML() {
 		String xml;
-		xml = "";
+		xml =  "<primitivecollection>\n\t<name>" + name +
+	      "</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t";
 
 		for(int i = 0; i < primitives.size(); ++i) {
-			xml += primitives.get(i).toXML();
+			xml += primitives.get(i).toCollectionXML();
 		}
-
+	    xml += "</primitivecollection>\n";
 		return xml;
 	}
 

@@ -1,8 +1,5 @@
 package exe.boothsMultiplication;
 
-import exe.GAIGSdatastr;
-import exe.boothsMultiplication.GAIGSprimitiveCollection.Primitive;
-
 /**
  * <p>
  * <code>GAIGSprimitiveCollection</code> provides the ability to draw 2D
@@ -16,17 +13,12 @@ import exe.boothsMultiplication.GAIGSprimitiveCollection.Primitive;
  * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
  * @version 6/22/2010
  */
-public class GAIGSpolygon implements GAIGSdatastr, Primitive {
+public class GAIGSpolygon extends Primitive {
 	public int nSides;
 	public double[] ptsX;
 	public double[] ptsY;
-	public String fcolor;
-	public String ocolor;
-	public String lcolor;
-	public String label;
-	public double height;
-	public int width;
-	private String name = "";
+	GAIGSpolygon pl = this;
+	GAIGSpolygon t = this;
 
 	/**
 	 * Creates a polygon.
@@ -54,8 +46,8 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 		this.ocolor = outlineColor;
 		this.lcolor = labelColor;
 		this.label = labelText;
-		this.height = textHeight;
-		this.width = lineWidth;
+		this.fontSize = textHeight;
+		this.lineWidth = lineWidth;
 	}
 	/**
 	 * Creates a polygon
@@ -80,8 +72,8 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 		this.ocolor = source.ocolor;
 		this.lcolor = source.lcolor;
 		this.label = source.label;
-		this.height = source.height;
-		this.width = source.width;
+		this.fontSize = source.fontSize;
+		this.lineWidth = source.lineWidth;
 		this.name = source.name;
 	}
 
@@ -95,11 +87,11 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 		}
 		xml += "\" fcolor=\"" + pl.fcolor + "\" " +
 		"ocolor=\"" + pl.ocolor + "\" text=\"" + pl.label + "\" lcolor=\"" + pl.lcolor + "\" height=\"" +
-		pl.height + "\" width=\"" + pl.width + "\"/>\n" + "</primitivecollection>\n";
+		pl.fontSize + "\" width=\"" + pl.lineWidth + "\"/>\n" + "</primitivecollection>\n";
 		return xml;
 	}
 
-	private String computeBounds() {
+	protected String computeBounds() {
 		GAIGSpolygon t = this;
 		
 		double x1 = Double.MAX_VALUE;
@@ -117,21 +109,19 @@ public class GAIGSpolygon implements GAIGSdatastr, Primitive {
 		return "<bounds x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\"/>";
 	}
 
+	/* (non-Javadoc)
+	 * @see exe.boothsMultiplication.Primitive#toCollectionXML()
+	 */
 	@Override
-	public String getName() {
-		return this.name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-	//@Override
-	public String getLabel() {
-		return this.label;
-	}
-	//@Override
-	public void setLabel(String label) {
-		this.label = label;
+	protected String toCollectionXML() {
+		GAIGSpolygon pl = this;
+		String xml = "<polygon nSides=\"" + pl.nSides;
+		for(int j=0; j<pl.nSides ; ++j) {
+			xml += "\" ptsX"+ j + "=\"" + pl.ptsX[j] + "\" ptsY"+ j + "=\"" + pl.ptsY[j];
+		}
+		xml += "\" fcolor=\"" + pl.fcolor + "\" " +
+		"ocolor=\"" + pl.ocolor + "\" text=\"" + pl.label + "\" lcolor=\"" + pl.lcolor + "\" height=\"" +
+		pl.fontSize + "\" width=\"" + pl.lineWidth + "\"/>\n";
+		return xml;
 	}
 }

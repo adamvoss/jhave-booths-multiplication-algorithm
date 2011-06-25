@@ -1,7 +1,5 @@
 package exe.boothsMultiplication;
 
-import exe.GAIGSdatastr;
-import exe.boothsMultiplication.GAIGSprimitiveCollection.Primitive;
 
 /**
  * <p><code>GAIGSprimitiveCollection</code> provides the ability to draw 2D graphics for use in visualizations.
@@ -10,21 +8,14 @@ import exe.boothsMultiplication.GAIGSprimitiveCollection.Primitive;
  * </p>
  *
  * @author Shawn Recker
- * @author Adam Voss, Seperated out protected classes
+ * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
  * @version 6/22/2010
  */
-public class GAIGScircle implements GAIGSdatastr, Primitive {
+public class GAIGScircle extends Primitive {
 	public double x;
 	public double y;
 	public double r;
-	public String fcolor;
-	public String ocolor;
-	public String lcolor;
-	public String label;
-	public double height;
-	public int width;
-	private String name = "";
-	private GAIGScircle c; 
+	private GAIGScircle c = this; 
 
 	/**
 	 * Adds a circle to the primitive collection
@@ -47,8 +38,8 @@ public class GAIGScircle implements GAIGSdatastr, Primitive {
 		this.ocolor = outlineColor;
 		this.lcolor = labelColor;
 		this.label = labelText;
-		this.height = textHeight;
-		this.width = lineWidth;
+		this.fontSize = textHeight;
+		this.lineWidth = lineWidth;
 	}
 
 	/**
@@ -68,15 +59,14 @@ public class GAIGScircle implements GAIGSdatastr, Primitive {
 
 	@Override
 	public String toXML() {
-		GAIGScircle c = this;
 		return "<primitivecollection>\n\t<name>" + name +
 		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + "\t<circle x=\"" + c.x + "\" y=\"" + c.y + "\" " +
 		"r=\"" + c.r + "\" fcolor=\"" + c.fcolor + "\" " +
 		"ocolor=\"" + c.ocolor + "\" text=\"" + c.label + "\" lcolor=\"" + c.lcolor + "\" height=\"" +
-		c.height + "\" width=\""+ c.width +"\"/>\n" + "</primitivecollection>\n";
+		c.fontSize + "\" width=\""+ c.lineWidth +"\"/>\n" + "</primitivecollection>\n";
 	}
 
-	private String computeBounds() {
+	protected String computeBounds() {
 		double x1 = Double.MAX_VALUE;
 		double y1 = Double.MAX_VALUE;
 		double x2 = Double.MIN_VALUE;
@@ -89,15 +79,16 @@ public class GAIGScircle implements GAIGSdatastr, Primitive {
 
 		return "<bounds x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\"/>";
 	}
-
+	/* (non-Javadoc)
+	 * @see exe.boothsMultiplication.Primitive#toCollectionXML()
+	 */
 	@Override
-	public String getName() {
-		return this.name;
+	protected String toCollectionXML() {
+		System.out.println(c.x);
+		System.out.println(c.y);
+		return "\t<circle x=\"" + c.x + "\" y=\"" + c.y + "\" " +
+		"r=\"" + c.r + "\" fcolor=\"" + c.fcolor + "\" " +
+		"ocolor=\"" + c.ocolor + "\" text=\"" + c.label + "\" lcolor=\"" + c.lcolor + "\" height=\"" +
+		c.fontSize + "\" width=\""+ c.lineWidth +"\"/>\n";
 	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
 }
