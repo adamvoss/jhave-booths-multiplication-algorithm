@@ -73,8 +73,8 @@ public class GAIGSline extends Primitive {
 		for(int j = 0; j < 2; ++j) {
 			x1 = (x1 < x[j] ? x1 : x[j]);
 			y1 = (y1 < y[j] ? y1 : y[j]);
-			x2 = (x2 > x[j] ? x1 : x[j]);
-			y2 = (y2 > y[j] ? y1 : y[j]);
+			x2 = (x2 > x[j] ? x2 : x[j]);
+			y2 = (y2 > y[j] ? y2 : y[j]);
 		}
 
 		return new double[] {x1, y1, x2, y2};

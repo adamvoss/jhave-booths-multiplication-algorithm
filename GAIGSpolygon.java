@@ -75,14 +75,6 @@ public class GAIGSpolygon extends Primitive {
 		this.name = source.name;
 	}
 
-	@Override
-	public String toXML() {
-		String xml = "<primitivecollection>\n\t<name>" + name +
-		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" +
-			this.toCollectionXML() + "</primitivecollection>\n";
-		return xml;
-	}
-
 	/**
 	 * Returns the bounds of the <code>GAIGS</code> Structure.
 	 * @return      Array of coordinates.
@@ -96,8 +88,8 @@ public class GAIGSpolygon extends Primitive {
 		for(int j = 0; j < nSides; ++j) {
 			x1 = (x1 < ptsX[j] ? x1 : ptsX[j]);
 			y1 = (y1 < ptsY[j] ? y1 : ptsY[j]);
-			x2 = (x2 > ptsX[j] ? x1 : ptsX[j]);
-			y2 = (y2 > ptsY[j] ? y1 : ptsY[j]);
+			x2 = (x2 > ptsX[j] ? x2 : ptsX[j]);
+			y2 = (y2 > ptsY[j] ? y2 : ptsY[j]);
 		}
 
 		return new double[] {x1, y1, x2, y2};

@@ -26,7 +26,7 @@ public abstract class Primitive implements MutableGAIGSdatastr  {
 	@Override
 	public String toXML() {
 		return "<primitivecollection>\n\t<name>" + name +
-		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + 
+		"</name>\n\t"+ this.computeBounds() + "\n\t" + 
 		this.toCollectionXML() +"</primitivecollection>\n";
 	}
 	
