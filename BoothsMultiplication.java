@@ -71,9 +71,6 @@ public class BoothsMultiplication {
         GAIGStrace trace = new GAIGStrace();
         //Trace finally defined, can now make the QuestionGenerator
     	quest = new QuestionGenerator(show, trace);
-
-    	show.writeSnap("Hello Dave", docURI.toASCIIString(), easyPseudo(0),
-    			new GAIGSmonospacedText(.5, .5, "It looks  like \\#0000FFyou've\nimproved a \\#FF0000great deal"));
     	
         //Reg M
         GAIGSregister RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);

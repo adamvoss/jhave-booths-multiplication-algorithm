@@ -15,17 +15,20 @@ import exe.boothsMultiplication.GAIGSmonospacedText;
  * @author Adam Voss <vossad01@luther.edu>
  *
  */
-//TODO color support could be added by keeping an Color ArrayList
+//TODO add support for more operations
 public class GAIGSArithmetic implements GAIGSdatastr {
 	private static final boolean DEBUG = false;
-	private static final double DEFAULT_FONT_SIZE = .05;
-	private static final String DEFAULT_COLOR = "#000000";
+	private static final double LINE_TWEAK = 0.85;
+					//Multiplier of Text height, because the class misrepresents its bounds/alignment
 	private String name = "";
 	//	private ArrayList<ArrayList<Character>> terms = new ArrayList<ArrayList<Character>>();
 	private ArrayList<char[]> terms = new ArrayList<char[]>();
 	private ArrayList<String[]> colors = new ArrayList<String[]>();
 	private int firstTermIndex;
 	private int lastTermIndex;
+	private String color = "#000000";
+	private double fontSize = .03;
+	private double charWidth = fontSize;
 	private char op;
 	private int currentDigit;
 	private int maxLength;
@@ -45,7 +48,6 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 * @param xright The x coordinate of the upper right-hand corner of the drawing.
 	 * @param ytop The y coordinate of upper right-hand corner of the drawing.
 	 */
-	//TODO add support for more 
 	public GAIGSArithmetic(char op, String term1, String term2, int radix, double x0, double y0){
 		firstTermIndex = 0;
 		this.radix = radix;
@@ -74,9 +76,8 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		terms.add(inplaceReverse(term2.toCharArray()));
 		lastTermIndex = terms.size()-1;
 		terms.add(emptyRow());
-		addCarryRow();
 		initializeColorArray();
-		this.colors.get(0)[7]="#FF0000";
+		addCarryRow();
 	}
 
 	/**
@@ -116,6 +117,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 */
 	public void addCarryRow(){
 		terms.add(0,emptyRow());
+		colors.add(0, new String[maxLength]);
 		firstTermIndex++;
 		lastTermIndex++;
 	}
@@ -163,7 +165,9 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 				int next = Character.digit(nextChar, radix);
 				if (nextChar == ' ') next = 0;
 				if (DEBUG) System.out.println("The digit is: " + next);		
-				if (next == -1) System.err.println("BAD RADIX or TERM in GAIGSArithmetic");
+				if (next == -1){
+					System.err.println("Bad RADIX or TERM in GAIGSArithmetic");
+				}
 				sum += next; 	
 			}
 		}
@@ -199,7 +203,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 			if (i == lastTermIndex) print += op+ " ";
 			for (int n = currentTerm.length-1 ; n >= 0  ; n-- ){
 				if (currentColors[n] != null){
-					print += "\\"+currentColors[n]+currentTerm[n]+"\\"+DEFAULT_COLOR; 
+					print += "\\"+currentColors[n]+currentTerm[n]+"\\"+color; 
 				}
 				else{
 					print += currentTerm[n];
@@ -209,13 +213,16 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 			i++;
 		}
 
-		ret += (new GAIGSmonospacedText(xright, ytop, print,
-				GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP)).toXML();
-
+		ret += (new GAIGSmonospacedText(xright, ytop, 
+				GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP,
+				this.fontSize, this.color, print, this.charWidth)).toXML();
+		
 		ret += new GAIGSline(new double[] {
-				xright - (maxLength + 1) * DEFAULT_FONT_SIZE, xright },
-				new double[] { ytop - (lastTermIndex + 1) * DEFAULT_FONT_SIZE,
-				ytop - (lastTermIndex + 1) * DEFAULT_FONT_SIZE })
+				xright - (maxLength + 1) * fontSize,
+				xright },
+				new double[] {
+				ytop - (lastTermIndex + 1) * fontSize * LINE_TWEAK,
+				ytop - (lastTermIndex + 1) * fontSize * LINE_TWEAK})
 		.toXML();
 
 		return ret + "\n<!-- End of GAIGS Arithmetic -->\n";
@@ -244,7 +251,7 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	 */
 	public static void main(String[] args) throws IOException {
 
-		GAIGSArithmetic test = new GAIGSArithmetic('+', "ZBCTY0Z", "1808051", 36, .5, .5);
+		GAIGSArithmetic test = new GAIGSArithmetic('+', "110101", "1011011", 2, .5, .5);
 		ShowFile show = new ShowFile("bar.sho");
 		show.writeSnap("Addition", test);
 
