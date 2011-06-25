@@ -57,7 +57,11 @@ public class GAIGScircle extends Primitive {
 	}
 
 
-	protected String computeBounds() {
+	/**
+	 * Returns the bounds of the <code>GAIGS</code> Structure.
+	 * @return      Array of coordinates.
+	 */
+	public double[] getBounds(){
 		double x1 = Double.MAX_VALUE;
 		double y1 = Double.MAX_VALUE;
 		double x2 = Double.MIN_VALUE;
@@ -68,8 +72,9 @@ public class GAIGScircle extends Primitive {
 		x2 = (x2 > (x + r) ? x2 : x + r);
 		y2 = (y2 > (y + r) ? y2 : y + r);
 
-		return "<bounds x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\"/>";
+		return new double[] {x1, y1, x2, y2};
 	}
+	
 	/* (non-Javadoc)
 	 * @see exe.boothsMultiplication.Primitive#toCollectionXML()
 	 */
@@ -79,5 +84,23 @@ public class GAIGScircle extends Primitive {
 		"r=\"" + r + "\" fcolor=\"" + fcolor + "\" " +
 		"ocolor=\"" + ocolor + "\" text=\"" + label + "\" lcolor=\"" + lcolor + "\" height=\"" +
 		fontSize + "\" width=\""+ lineWidth +"\"/>\n";
+	}
+
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
+	 */
+	@Override
+	public void setBounds(double x1, double y1, double x2, double y2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see exe.boothsMultiplication.Primitive#clone()
+	 */
+	@Override
+	public Primitive clone() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

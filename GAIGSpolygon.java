@@ -83,7 +83,11 @@ public class GAIGSpolygon extends Primitive {
 		return xml;
 	}
 
-	protected String computeBounds() {
+	/**
+	 * Returns the bounds of the <code>GAIGS</code> Structure.
+	 * @return      Array of coordinates.
+	 */
+	public double[] getBounds(){
 		double x1 = Double.MAX_VALUE;
 		double y1 = Double.MAX_VALUE;
 		double x2 = Double.MIN_VALUE;
@@ -96,7 +100,7 @@ public class GAIGSpolygon extends Primitive {
 			y2 = (y2 > ptsY[j] ? y1 : ptsY[j]);
 		}
 
-		return "<bounds x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\"/>";
+		return new double[] {x1, y1, x2, y2};
 	}
 
 	/* (non-Javadoc)
@@ -112,5 +116,20 @@ public class GAIGSpolygon extends Primitive {
 		"ocolor=\"" + ocolor + "\" text=\"" + label + "\" lcolor=\"" + lcolor + "\" height=\"" +
 		fontSize + "\" width=\"" + lineWidth + "\"/>\n";
 		return xml;
+	}
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
+	 */
+	@Override
+	public void setBounds(double x1, double y1, double x2, double y2) {
+		// TODO Auto-generated method stub
+	}
+
+	/* (non-Javadoc)
+	 * @see exe.boothsMultiplication.Primitive#clone()
+	 */
+	@Override
+	public GAIGSpolygon clone() {
+		return new GAIGSpolygon(this);
 	}
 }
