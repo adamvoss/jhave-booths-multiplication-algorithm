@@ -17,8 +17,6 @@ public class GAIGSellipse extends Primitive {
 	public double endAngle;
 	public double xR;
 	public double yR;
-	private GAIGSellipse e = this;
-
 
 	/**
 	 * Creates an ellipse.  Does not support a filled ellipse.
@@ -69,28 +67,20 @@ public class GAIGSellipse extends Primitive {
 		this(x,y,stAngle,endAngle,xR,yR,color,lcolor,label,TEXT_HEIGHT,LINE_WIDTH);
 	}
 
-	@Override
-	public String toXML() {
-		return "<primitivecollection>\n\t<name>" + name +
-		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + "\t<ellipse x=\"" + e.x + "\" y=\"" + e.y + "\" " +
-		"sa=\"" + e.stAngle + "\" ea=\"" + e.endAngle + "\" rx=\"" + e.xR + "\" ry=\"" + e.yR + "\" color=\"" + e.ocolor + "\" " +
-		"text=\"" + e.label + "\" lcolor=\"" + e.lcolor + "\" height=\"" + e.fontSize + "\" width=\"" + e.lineWidth + "\"/>\n" + "</primitivecollection>\n";
-	}
-
 	protected String computeBounds() {
 		double x1 = Double.MAX_VALUE;
 		double y1 = Double.MAX_VALUE;
 		double x2 = Double.MIN_VALUE;
 		double y2 = Double.MIN_VALUE;
 
-		x1 = (x1 < e.x ? x1 : e.x);
-		x1 = (x1 < e.x + e.xR ? x1 : e.x + e.xR);
-		x2 = (x2 > e.x ? x2 : e.x);
-		x2 = (x2 > e.x + e.xR ? x2 : e.x + e.xR);
-		y1 = (y1 < e.y ? y1 : e.y);
-		y1 = (y1 < e.y + e.yR ? y1 : e.y + e.yR);
-		y2 = (y2 > e.y ? y2 : e.y);
-		y2 = (y2 > e.y + e.yR ? y2 : e.y + e.yR);
+		x1 = (x1 < x ? x1 : x);
+		x1 = (x1 < x + xR ? x1 : x + xR);
+		x2 = (x2 > x ? x2 : x);
+		x2 = (x2 > x + xR ? x2 : x + xR);
+		y1 = (y1 < y ? y1 : y);
+		y1 = (y1 < y + yR ? y1 : y + yR);
+		y2 = (y2 > y ? y2 : y);
+		y2 = (y2 > y + yR ? y2 : y + yR);
 
 		return "<bounds x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\"/>";
 	}
@@ -100,8 +90,8 @@ public class GAIGSellipse extends Primitive {
 	 */
 	@Override
 	protected String toCollectionXML() {
-		return "\t<ellipse x=\"" + e.x + "\" y=\"" + e.y + "\" " +
-		"sa=\"" + e.stAngle + "\" ea=\"" + e.endAngle + "\" rx=\"" + e.xR + "\" ry=\"" + e.yR + "\" color=\"" + e.ocolor + "\" " +
-		"text=\"" + e.label + "\" lcolor=\"" + e.lcolor + "\" height=\"" + e.fontSize + "\" width=\"" + e.lineWidth + "\"/>\n";
+		return "\t<ellipse x=\"" + x + "\" y=\"" + y + "\" " +
+		"sa=\"" + stAngle + "\" ea=\"" + endAngle + "\" rx=\"" + xR + "\" ry=\"" + yR + "\" color=\"" + ocolor + "\" " +
+		"text=\"" + label + "\" lcolor=\"" + lcolor + "\" height=\"" + fontSize + "\" width=\"" + lineWidth + "\"/>\n";
 	}
 }

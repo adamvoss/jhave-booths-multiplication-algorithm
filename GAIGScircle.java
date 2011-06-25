@@ -15,7 +15,6 @@ public class GAIGScircle extends Primitive {
 	public double x;
 	public double y;
 	public double r;
-	private GAIGScircle c = this; 
 
 	/**
 	 * Adds a circle to the primitive collection
@@ -57,14 +56,6 @@ public class GAIGScircle extends Primitive {
 		this(cx, cy, r, fillColor, outlineColor, labelColor, labelText, TEXT_HEIGHT, LINE_WIDTH);
 	}
 
-	@Override
-	public String toXML() {
-		return "<primitivecollection>\n\t<name>" + name +
-		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + "\t<circle x=\"" + c.x + "\" y=\"" + c.y + "\" " +
-		"r=\"" + c.r + "\" fcolor=\"" + c.fcolor + "\" " +
-		"ocolor=\"" + c.ocolor + "\" text=\"" + c.label + "\" lcolor=\"" + c.lcolor + "\" height=\"" +
-		c.fontSize + "\" width=\""+ c.lineWidth +"\"/>\n" + "</primitivecollection>\n";
-	}
 
 	protected String computeBounds() {
 		double x1 = Double.MAX_VALUE;
@@ -72,10 +63,10 @@ public class GAIGScircle extends Primitive {
 		double x2 = Double.MIN_VALUE;
 		double y2 = Double.MIN_VALUE;
 
-		x1 = (x1 < (c.x - c.r) ? x1 : c.x - c.r);
-		y1 = (y1 < (c.y - c.r) ? y1 : c.y - c.r);
-		x2 = (x2 > (c.x + c.r) ? x2 : c.x + c.r);
-		y2 = (y2 > (c.y + c.r) ? y2 : c.y + c.r);
+		x1 = (x1 < (x - r) ? x1 : x - r);
+		y1 = (y1 < (y - r) ? y1 : y - r);
+		x2 = (x2 > (x + r) ? x2 : x + r);
+		y2 = (y2 > (y + r) ? y2 : y + r);
 
 		return "<bounds x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\"/>";
 	}
@@ -84,11 +75,9 @@ public class GAIGScircle extends Primitive {
 	 */
 	@Override
 	protected String toCollectionXML() {
-		System.out.println(c.x);
-		System.out.println(c.y);
-		return "\t<circle x=\"" + c.x + "\" y=\"" + c.y + "\" " +
-		"r=\"" + c.r + "\" fcolor=\"" + c.fcolor + "\" " +
-		"ocolor=\"" + c.ocolor + "\" text=\"" + c.label + "\" lcolor=\"" + c.lcolor + "\" height=\"" +
-		c.fontSize + "\" width=\""+ c.lineWidth +"\"/>\n";
+		return "\t<circle x=\"" + x + "\" y=\"" + y + "\" " +
+		"r=\"" + r + "\" fcolor=\"" + fcolor + "\" " +
+		"ocolor=\"" + ocolor + "\" text=\"" + label + "\" lcolor=\"" + lcolor + "\" height=\"" +
+		fontSize + "\" width=\""+ lineWidth +"\"/>\n";
 	}
 }

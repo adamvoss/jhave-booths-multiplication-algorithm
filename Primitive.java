@@ -20,15 +20,16 @@ public abstract class Primitive implements GAIGSdatastr {
 	protected double fontSize;
 	protected int lineWidth;
 	
-	/* (non-Javadoc)
-	 * @see exe.GAIGSdatastr#toXML()
-	 */
-	@Override
-	abstract public String toXML();
-	
 	abstract protected String toCollectionXML();
 	
 	protected abstract String computeBounds();
+	
+	@Override
+	public String toXML() {
+		return "<primitivecollection>\n\t<name>" + name +
+		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + 
+		this.toCollectionXML() +"</primitivecollection>\n";
+	}
 
 	/* (non-Javadoc)
 	 * @see exe.GAIGSdatastr#getName()

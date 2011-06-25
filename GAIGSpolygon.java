@@ -17,8 +17,6 @@ public class GAIGSpolygon extends Primitive {
 	public int nSides;
 	public double[] ptsX;
 	public double[] ptsY;
-	GAIGSpolygon pl = this;
-	GAIGSpolygon t = this;
 
 	/**
 	 * Creates a polygon.
@@ -79,31 +77,23 @@ public class GAIGSpolygon extends Primitive {
 
 	@Override
 	public String toXML() {
-		GAIGSpolygon pl = this;
 		String xml = "<primitivecollection>\n\t<name>" + name +
-		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" +"<polygon nSides=\"" + pl.nSides;
-		for(int j=0; j<pl.nSides ; ++j) {
-			xml += "\" ptsX"+ j + "=\"" + pl.ptsX[j] + "\" ptsY"+ j + "=\"" + pl.ptsY[j];
-		}
-		xml += "\" fcolor=\"" + pl.fcolor + "\" " +
-		"ocolor=\"" + pl.ocolor + "\" text=\"" + pl.label + "\" lcolor=\"" + pl.lcolor + "\" height=\"" +
-		pl.fontSize + "\" width=\"" + pl.lineWidth + "\"/>\n" + "</primitivecollection>\n";
+		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" +
+			this.toCollectionXML() + "</primitivecollection>\n";
 		return xml;
 	}
 
 	protected String computeBounds() {
-		GAIGSpolygon t = this;
-		
 		double x1 = Double.MAX_VALUE;
 		double y1 = Double.MAX_VALUE;
 		double x2 = Double.MIN_VALUE;
 		double y2 = Double.MIN_VALUE;
 
-		for(int j = 0; j < t.nSides; ++j) {
-			x1 = (x1 < t.ptsX[j] ? x1 : t.ptsX[j]);
-			y1 = (y1 < t.ptsY[j] ? y1 : t.ptsY[j]);
-			x2 = (x2 > t.ptsX[j] ? x1 : t.ptsX[j]);
-			y2 = (y2 > t.ptsY[j] ? y1 : t.ptsY[j]);
+		for(int j = 0; j < nSides; ++j) {
+			x1 = (x1 < ptsX[j] ? x1 : ptsX[j]);
+			y1 = (y1 < ptsY[j] ? y1 : ptsY[j]);
+			x2 = (x2 > ptsX[j] ? x1 : ptsX[j]);
+			y2 = (y2 > ptsY[j] ? y1 : ptsY[j]);
 		}
 
 		return "<bounds x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\"/>";
@@ -114,14 +104,13 @@ public class GAIGSpolygon extends Primitive {
 	 */
 	@Override
 	protected String toCollectionXML() {
-		GAIGSpolygon pl = this;
-		String xml = "<polygon nSides=\"" + pl.nSides;
-		for(int j=0; j<pl.nSides ; ++j) {
-			xml += "\" ptsX"+ j + "=\"" + pl.ptsX[j] + "\" ptsY"+ j + "=\"" + pl.ptsY[j];
+		String xml = "<polygon nSides=\"" + nSides;
+		for(int j=0; j<nSides ; ++j) {
+			xml += "\" ptsX"+ j + "=\"" + ptsX[j] + "\" ptsY"+ j + "=\"" + ptsY[j];
 		}
-		xml += "\" fcolor=\"" + pl.fcolor + "\" " +
-		"ocolor=\"" + pl.ocolor + "\" text=\"" + pl.label + "\" lcolor=\"" + pl.lcolor + "\" height=\"" +
-		pl.fontSize + "\" width=\"" + pl.lineWidth + "\"/>\n";
+		xml += "\" fcolor=\"" + fcolor + "\" " +
+		"ocolor=\"" + ocolor + "\" text=\"" + label + "\" lcolor=\"" + lcolor + "\" height=\"" +
+		fontSize + "\" width=\"" + lineWidth + "\"/>\n";
 		return xml;
 	}
 }

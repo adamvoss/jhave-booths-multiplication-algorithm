@@ -13,7 +13,6 @@ package exe.boothsMultiplication;
 public class GAIGSline extends Primitive {
 	public double x[] = new double[2];
 	public double y[] = new double[2];
-	private GAIGSline t = this;
 
 	/**
 	 * Creates a line.
@@ -61,20 +60,6 @@ public class GAIGSline extends Primitive {
 		this(x, y, DEFAULT_COLOR, DEFAULT_COLOR, "", TEXT_HEIGHT, LINE_WIDTH);
 	}
 
-	@Override
-	public String toXML() {
-		GAIGSline l = this;
-		String xml = "<primitivecollection>\n\t<name>" + name +
-		"</name>\n\t"+ "<bounds x1=\"0.0\" y1=\"0.0\" x2=\"1.0\" y2=\"1.0\"/>" +"\n\t" + "<polygon nSides=\"" + 2;
-		for(int j=0; j<2 ; ++j) {
-			xml += "\" ptsX"+ j + "=\"" + l.x[j] + "\" ptsY"+ j + "=\"" + l.y[j];
-		}
-		xml += "\" fcolor=\"" + l.ocolor + "\" " +
-		"ocolor=\"" + l.ocolor + "\" text=\"" + l.label + "\" lcolor=\"" + l.lcolor +
-		"\" height=\"" + l.fontSize + "\" width=\"" + l.lineWidth + "\"/>\n" + "</primitivecollection>\n";
-		return xml;
-	}
-
 	protected String computeBounds() {
 		double x1 = Double.MAX_VALUE;
 		double y1 = Double.MAX_VALUE;
@@ -82,10 +67,10 @@ public class GAIGSline extends Primitive {
 		double y2 = Double.MIN_VALUE;
 
 		for(int j = 0; j < 2; ++j) {
-			x1 = (x1 < t.x[j] ? x1 : t.x[j]);
-			y1 = (y1 < t.y[j] ? y1 : t.y[j]);
-			x2 = (x2 > t.x[j] ? x1 : t.x[j]);
-			y2 = (y2 > t.y[j] ? y1 : t.y[j]);
+			x1 = (x1 < x[j] ? x1 : x[j]);
+			y1 = (y1 < y[j] ? y1 : y[j]);
+			x2 = (x2 > x[j] ? x1 : x[j]);
+			y2 = (y2 > y[j] ? y1 : y[j]);
 		}
 
 		return "<bounds x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\"/>";
@@ -95,14 +80,13 @@ public class GAIGSline extends Primitive {
 	 */
 	@Override
 	protected String toCollectionXML() {
-		GAIGSline l = this;
 		String xml = "<polygon nSides=\"" + 2;
 		for(int j=0; j<2 ; ++j) {
-			xml += "\" ptsX"+ j + "=\"" + l.x[j] + "\" ptsY"+ j + "=\"" + l.y[j];
+			xml += "\" ptsX"+ j + "=\"" + x[j] + "\" ptsY"+ j + "=\"" + y[j];
 		}
-		xml += "\" fcolor=\"" + l.ocolor + "\" " +
-		"ocolor=\"" + l.ocolor + "\" text=\"" + l.label + "\" lcolor=\"" + l.lcolor +
-		"\" height=\"" + l.fontSize + "\" width=\"" + l.lineWidth + "\"/>\n";
+		xml += "\" fcolor=\"" + ocolor + "\" " +
+		"ocolor=\"" + ocolor + "\" text=\"" + label + "\" lcolor=\"" + lcolor +
+		"\" height=\"" + fontSize + "\" width=\"" + lineWidth + "\"/>\n";
 		return xml;
 	}
 
