@@ -1,6 +1,7 @@
 package exe.boothsMultiplication;
 
 import exe.GAIGStext;
+import exe.MutableGAIGSdatastr;
 
 /**
  * Behaves the same as <code>GAIGStext</code> except providing
@@ -11,7 +12,7 @@ import exe.GAIGStext;
  *
  */
 
-public class GAIGSmonospacedText extends GAIGStext {
+public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatastr {
 	private double charWidth;
 	private int charHalign;
 
@@ -25,7 +26,7 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 	/**
-	 * Constuctor that only sets the location of the text.
+	 * Constructor that only sets the location of the text.
 	 */
 	public GAIGSmonospacedText(double x, double y) {
 		super(x, y);
@@ -76,6 +77,21 @@ public class GAIGSmonospacedText extends GAIGStext {
 	}
 
 
+	public GAIGSmonospacedText(GAIGSmonospacedText source) {
+		this.charWidth = source.charWidth;
+		this.charHalign = source.charHalign;
+		
+		//Text Stuff
+		this.setX(source.getX());
+		this.setY(source.getY());
+		this.setHalign(source.getHalign());
+		this.setValign(source.getValign());
+		this.setFontsize(source.getFontsize());
+		this.setColor(source.getColor());
+		this.setText(source.getText());
+		
+	}
+
 	/**
 	 * Returns the horizontal alignment of each character within its
 	 * "monospace box".
@@ -116,15 +132,8 @@ public class GAIGSmonospacedText extends GAIGStext {
 		return charWidth;
 	}
 
-	//TODO consider value and clarity of dirMul
 	public double getWidth(){
 		double width = 0;
-		double dirMul = 1;
-		
-		//Determine (direction) multiplier
-		int align = getHalign();
-		if (align == HCENTER) dirMul = 0.5;
-		else if (align == HRIGHT) dirMul = -1;
 		
 		//for each line
 		for (String line : getText().split("\n")){
@@ -134,20 +143,17 @@ public class GAIGSmonospacedText extends GAIGStext {
 				width = length;
 			}
 		}
-		return width*charWidth*dirMul;
+		return width*charWidth;
 	}
 	
-	//This method is inefficient beyond the fact it computes every time
-	//TODO consider value and clarity of dirMul
+
 	public double getHeight(){
-		double dirMul = 1;
-		
-		//Determine (direction) multiplier
-		int align = getValign();
-		if (align == VCENTER) dirMul = 0.5;
-		else if (align == VTOP) dirMul = -1;
-		
-		return getFontsize()*getText().split("\n").length*dirMul;
+		return getFontsize()*getLineCount();
+	}
+
+	//This method is inefficient beyond the fact it computes every time
+	public int getLineCount(){
+		return getText().split("\n").length;
 	}
 	
 	/**
@@ -242,5 +248,99 @@ public class GAIGSmonospacedText extends GAIGStext {
 			color = getColor();
 		}
 		return ret;
+	}
+
+	@Override
+	public double[] getBounds() {
+		double width = getWidth();
+		double height = getHeight();
+		
+		double x = getX();
+		double y = getY();
+		
+		double[] ret = new double[4];
+		
+		switch (getHalign()){
+		case HRIGHT:
+			ret[0]=x-width;
+			ret[2]=x;
+			break;
+		case HLEFT:
+			ret[0]=x;
+			ret[2]=x+width;
+			break;
+		case HCENTER:
+			ret[0]=x-width/2;
+			ret[2]=x+width/2;
+			break;
+		}
+		
+		switch (getValign()){
+		case VTOP:
+			ret[1]=y-height;
+			ret[3]=y;
+			break;
+		case VBOTTOM:
+			ret[1]=y;
+			ret[3]=y+height;
+			break;
+		case VCENTER:
+			ret[1]=y+height/2;
+			ret[3]=y+height/2;
+			break;
+		}	
+		return ret;
+	}
+
+	@Override
+	public void setBounds(double x1, double y1, double x2, double y2) {
+		//Move
+		switch (getHalign()){
+		case HRIGHT:
+			setX(x2);
+			break;
+		case HLEFT:
+			setX(x1);
+			break;
+		case HCENTER:
+			setX((x2-x1)/2);
+			break;
+		}
+		
+		switch (getValign()){
+		case VTOP:
+			setX(y2);
+			break;
+		case HLEFT:
+			setX(y1);
+			break;
+		case HCENTER:
+			setX((y2-y1)/2);
+			break;
+		}
+		
+		//Then Scale
+		
+		//This may not be accurate because the viewport's height >1
+		//setFontSize( (y2-y1) /getLineCount());
+		
+		//Use this instead
+		setFontSize( (y2-y1)/getHeight() *getFontSize());
+		setCharacterWidth( (x2-x1)/getWidth() *getCharacterWidth());
+	}
+
+	@Override
+	public double getFontSize() {
+		return super.getFontsize();
+	}
+
+
+	@Override
+	public void setFontSize(double fontSize) {
+		super.setFontsize(fontSize);
+	}
+	
+	public GAIGSmonospacedText clone(){
+		return new GAIGSmonospacedText(this);
 	}
 }

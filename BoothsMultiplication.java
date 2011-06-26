@@ -73,6 +73,9 @@ public class BoothsMultiplication {
     	quest = new QuestionGenerator(show, trace);
 
     	GAIGSPane main = new GAIGSPane(100, 100/GAIGSPane.JHAVÉ_ASPECT_RATIO);
+    	GAIGSArithmetic math = new GAIGSArithmetic('+', multiplicand, multiplier, 2, 75, 75, 10.0, 3, TEXT_COLOR);
+    	math.complete();
+    	main.add(math);
     	show.writeSnap("You can see this", main);
     	
         GAIGSpolygon hugePoly = new GAIGSpolygon(4, new double[] {0, 50, 50 ,0}, new double[] {0,0,50,50}, GREEN, BLUE, WHITE, "My Area is 2500");
@@ -81,7 +84,6 @@ public class BoothsMultiplication {
 
     	GAIGSPane nest = new GAIGSPane(50,0,100,main.getHeight(),1,1);
     	nest.setName("Inner Frame");
-//    	System.out.println(nest.getName());
     	main.add(nest);
     	nest.add(new GAIGSpolygon(4, new double[] {0, 1, 1,0}, new double[] {0,0,1,1}, RED, YELLOW, WHITE, "My Area is 1! (Yes, that is a factorial)"));
     	show.writeSnap("Psst!  A secret:     You can't se this", main);

@@ -3,7 +3,7 @@ package exe.boothsMultiplication;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import exe.GAIGSdatastr;
+import exe.MutableGAIGSdatastr;
 import exe.ShowFile;
 import exe.boothsMultiplication.GAIGSmonospacedText;
 /**
@@ -16,9 +16,11 @@ import exe.boothsMultiplication.GAIGSmonospacedText;
  *
  */
 //TODO add support for more operations
-public class GAIGSArithmetic implements GAIGSdatastr {
+public class GAIGSArithmetic implements MutableGAIGSdatastr {
 	private static final boolean DEBUG = false;
 	private static final double LINE_TWEAK = 0.85;
+	private final static double FONT_SIZE =.05;
+	private static final String COLOR = "#000000";
 					//Multiplier of Text height, because the class misrepresents its bounds/alignment
 	private String name = "";
 	//	private ArrayList<ArrayList<Character>> terms = new ArrayList<ArrayList<Character>>();
@@ -26,9 +28,9 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	private ArrayList<String[]> colors = new ArrayList<String[]>();
 	private int firstTermIndex;
 	private int lastTermIndex;
-	private String color = "#000000";
-	private double fontSize = .03;
-	private double charWidth = fontSize;
+	private String color;
+	private double fontSize;
+	private double digitWidth;
 	private char op;
 	private int currentDigit;
 	private int maxLength;
@@ -37,18 +39,13 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 	private int radix;
 	
 
-	/**
-	 * Construct a new Arithmetic object. It is capable of performing displaying
-	 * math in any radix supported by the Character class.
-	 *  
-	 * @param op The operation to be performed; Valid are ("+", "-", "*", "/").
-	 * @param term1 The first term.
-	 * @param term2 The second term.
-	 * @param radix The radix or base of the numbers.
-	 * @param xright The x coordinate of the upper right-hand corner of the drawing.
-	 * @param ytop The y coordinate of upper right-hand corner of the drawing.
-	 */
-	public GAIGSArithmetic(char op, String term1, String term2, int radix, double x0, double y0){
+	public GAIGSArithmetic(char op, String term1, String term2, int radix,
+			double x0, double y0, double fontSize, double digitWidth,
+			String color) {
+		this.fontSize = fontSize;
+		this.digitWidth = digitWidth;
+		this.color = color;
+		
 		firstTermIndex = 0;
 		this.radix = radix;
 
@@ -79,7 +76,50 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		initializeColorArray();
 		addCarryRow();
 	}
+	
+	public GAIGSArithmetic(char op, String term1, String term2, int radix,
+			double x0, double y0, double fontSize, String color) {
+		this(op, term1, term2, radix, x0, y0, fontSize, fontSize, color);
+	}
 
+	public GAIGSArithmetic(char op, String term1, String term2, int radix,
+			double x0, double y0, double fontSize) {
+		this(op, term1, term2, radix, x0, y0, fontSize, fontSize, COLOR);
+	}
+	
+	/**
+	 * Construct a new Arithmetic object. It is capable of performing displaying
+	 * math in any radix supported by the Character class.
+	 *  
+	 * @param op The operation to be performed; Valid are ("+", "-", "*", "/").
+	 * @param term1 The first term.
+	 * @param term2 The second term.
+	 * @param radix The radix or base of the numbers.
+	 * @param xright The x coordinate of the upper right-hand corner of the drawing.
+	 * @param ytop The y coordinate of upper right-hand corner of the drawing.
+	 */
+	public GAIGSArithmetic(char op, String term1, String term2, int radix, double x0, double y0){
+		this(op, term1, term2, radix, x0, y0, FONT_SIZE, FONT_SIZE, COLOR);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public GAIGSArithmetic(GAIGSArithmetic source){
+        this.name = source.name;
+	    this.terms = (ArrayList<char[]>) source.terms.clone();
+        this.colors = (ArrayList<String[]>) source.colors.clone();
+        this.firstTermIndex = source.firstTermIndex;
+        this.lastTermIndex = source.lastTermIndex;
+        this.color = source.color;
+        this.fontSize = source.fontSize;
+        this.digitWidth = source.digitWidth;
+        this.op = source.op;
+        this.currentDigit = source.currentDigit;
+        this.maxLength = source.maxLength;
+        this.xright = source.xright;
+        this.ytop = source.ytop;
+        this.radix = source.radix;
+	}
+	
 	/**
 	 * Returns an empty row of maxLength filled with spaces characters.
 	 * @return
@@ -215,10 +255,10 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 
 		ret += (new GAIGSmonospacedText(xright, ytop, 
 				GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP,
-				this.fontSize, this.color, print, this.charWidth)).toXML();
+				this.fontSize, this.color, print, this.digitWidth)).toXML();
 		
 		ret += new GAIGSline(new double[] {
-				xright - (maxLength + 1) * fontSize,
+				xright - (maxLength + 1) * digitWidth,
 				xright },
 				new double[] {
 				ytop - (lastTermIndex + 1) * fontSize * LINE_TWEAK,
@@ -261,5 +301,46 @@ public class GAIGSArithmetic implements GAIGSdatastr {
 		}
 
 		show.close();
+	}
+
+	@Override
+	public double[] getBounds() {
+		//Newlines should never occur within a term
+		double[] ret = new double[4];
+				
+		ret[3]=ytop;
+		ret[2]=xright;
+		ret[1]=ytop-(terms.size()*fontSize);
+		ret[0]=xright-Math.max(terms.get(lastTermIndex).length+2, maxLength)*digitWidth;
+		
+		return ret;
+	}
+
+	@Override
+	public void setBounds(double x1, double y1, double x2, double y2) {
+		ytop = y2;
+		xright = x2;
+		
+		int max = Math.max(terms.get(lastTermIndex).length+2, maxLength);
+		
+		digitWidth=(x2-x1)/max;
+		
+		fontSize = (y2-y1)/terms.size();
+		
+		
+	}
+
+	@Override
+	public double getFontSize() {
+		return this.fontSize;
+	}
+
+	@Override
+	public void setFontSize(double fontSize) {
+		this.fontSize = fontSize;
+	}
+	
+	public GAIGSArithmetic clone(){
+		return new GAIGSArithmetic(this);
 	}
 }
