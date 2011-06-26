@@ -53,6 +53,8 @@ public class QuestionGenerator {
                 int select  = ((int)Math.abs(rand.nextInt() )) % 3;
                 String ref  = (select == 0 ? "M": (select == 1 ? "A" : "Q"));
                 String phref= (select == 0 ? "A": (select == 1 ? "Q" : "M"));
+//              String ref  = "Q";
+//              String phref= "M";
 
                 GAIGSregister oldReg = (GAIGSregister)trace.get(trace.size()-2, "Reg" + ref);
                 GAIGSregister newReg = (GAIGSregister)trace.get("Reg" + ref);
@@ -116,7 +118,7 @@ public class QuestionGenerator {
 		}
 		else if (select == 1) {
 			XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
-			ret1.setQuestionText("Which operation will occur on the next slide?");
+			ret1.setQuestionText("Which operation will occur on the next snapshot?");
 			ret1.addChoice("Addition");
 			ret1.addChoice("Subtraction");
 			ret1.addChoice("Arithmetic Right Shift");
@@ -128,7 +130,7 @@ public class QuestionGenerator {
 		}
 		else {
 			XMLtfQuestion ret1 = new XMLtfQuestion(show, id.next() );
-			ret1.setQuestionText("Both an addition (+M) and an arithmetic right shift will occur in the next iteration of the loop.");
+			ret1.setQuestionText("Both an addition (A + M) and an arithmetic right shift will occur in the next iteration of the loop.");
 			ret1.setAnswer(pcalc != 0 && pcalc != 1);
 
 			ret = ret1;
@@ -176,7 +178,7 @@ public class QuestionGenerator {
 
             int select2 = ((int) Math.abs(rand.nextInt() )) % 2;
 
-            if (select == 0) {ret1.setQuestionText("What will the value in register " + regName + " be on the next slide?");}
+            if (select == 0) {ret1.setQuestionText("What will the value in register " + regName + " be on the next snapshot?");}
             else             {ret1.setQuestionText("What will the value in register " + regName + " be after the " 
                 + (pcalc == 0 ? "SHIFT" : (pcalc == -1) ? "ADDITION" : "SUBTRACTION") + " operation finishes executing?");}
 			ret1.setAnswer(correctChoice);
@@ -185,7 +187,7 @@ public class QuestionGenerator {
 		}
 		else if (select == 1) {
 			XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
-			ret1.setQuestionText("What will the value in register " + regName + " be on the next slide?");
+			ret1.setQuestionText("What will the value in register " + regName + " be on the next snapshot?");
 			ret1.addChoice(correctChoice);
 			ret1.setAnswer(1);
             if (!oldValChoice.toString().equals(correctChoice.toString() ) ) ret1.addChoice(oldValChoice);
@@ -199,10 +201,10 @@ public class QuestionGenerator {
             XMLtfQuestion ret1 = new XMLtfQuestion(show, id.next() );
             
             switch(select2) {
-                case 0: ret1.setQuestionText("The value of register " + regName + " will be " + correctChoice + " on the next slide.");
+                case 0: ret1.setQuestionText("The value of register " + regName + " will be " + correctChoice + " on the next snapshot.");
                     ret1.setAnswer(true);
                     break;
-                case 1: ret1.setQuestionText("The value of register " + regName + " will be " + confuseChoice + " on the next slide.");
+                case 1: ret1.setQuestionText("The value of register " + regName + " will be " + confuseChoice + " on the next snapshot.");
                     ret1.setAnswer(false);
                     break;
                 default: break;
@@ -240,31 +242,30 @@ public class QuestionGenerator {
         else {
             XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
             ret1.setQuestionText("QLEN is the number of bits in register Q. COUNT is the current value of the variable count." +
-                 " Express in terms of QLEN and COUNT the number of bits in register Q which will be represented in the final answer.");
-            ret1.setAnswer("QLEN-COUNT");
-            ret1.setAnswer("(QLEN-COUNT)");
-            ret1.setAnswer("(QLEN)-COUNT");
-            ret1.setAnswer("QLEN-(COUNT)");
+                 " Express in terms of QLEN and COUNT the number of bits in register Q which will be represented in the final answer. " + 
+                 "It must be as short as possible: no spaces, extra parentheses, or unneccessary arithmetic.");
+            ret1.setAnswer("qlen-count+1");
+            ret1.setAnswer("qlen+1-count");
+            ret1.setAnswer("1+qlen-count");
+            ret1.setAnswer("(qlen-count)+1");
+            ret1.setAnswer("1+(qlen-count)");
 
-            ret1.setAnswer("QLEN - COUNT");
-            ret1.setAnswer("QLEN - count");
-            ret1.setAnswer("(QLEN - COUNT)");
-            ret1.setAnswer("(QLEN) - COUNT");
-            ret1.setAnswer("QLEN - (COUNT)");
+            ret1.setAnswer("-count+qlen+1");
+            ret1.setAnswer("-count+1+qlen");
+            ret1.setAnswer("1-count+qlen");
+            ret1.setAnswer("1+(-count)+qlen");
 
-            ret1.setAnswer("-COUNT + QLEN");
-            ret1.setAnswer("(-COUNT + QLEN)");
-            ret1.setAnswer("(-COUNT) + QLEN");
-            ret1.setAnswer("-COUNT + (QLEN)");
+            ret1.setAnswer("-(count-qlen)+1");
+            ret1.setAnswer("1+(-(count-qlen))");
 
-            ret1.setAnswer("-COUNT+QLEN");
-            ret1.setAnswer("-COUNT+qlen");
-            ret1.setAnswer("(-COUNT+QLEN)");
-            ret1.setAnswer("-COUNT+(QLEN)");
-            ret1.setAnswer("(-COUNT)+QLEN");
+            ret1.setAnswer("-(count-qlen-1)");
+            ret1.setAnswer("-(count-1-qlen)");
+            ret1.setAnswer("-(-1+count-qlen)");
 
-            ret1.setAnswer("-(COUNT-QLEN)");
-            ret1.setAnswer("-(COUNT - QLEN)");
+            ret1.setAnswer("qlen-(count-1)");
+            ret1.setAnswer("qlen-(-1+count)");
+            ret1.setAnswer("-((count-1)-qlen)");
+            ret1.setAnswer("-((-1+count)-qlen)");
 
             ret = ret1;
         }
@@ -286,8 +287,7 @@ public class QuestionGenerator {
             XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
             ret1.setQuestionText("In terms of QLEN, the number of bits in register Q, express the total number of shift operations performed" + 
                 " during the exectution of the algorithm.");
-            ret1.setAnswer("QLEN");
-
+            ret1.setAnswer("qlen");
             ret = ret1;
         }
         else {
@@ -313,7 +313,7 @@ public class QuestionGenerator {
     private question getType6Question(ShowFile show) {
         XMLmcQuestion ret = new XMLmcQuestion(show, id.next() );
         ret.setQuestionText("What is the significance of the arithmetic (sign-preserving) right shift?");
-        ret.addChoice("Multiply the value if registers A and Q by 2");
+        ret.addChoice("Multiply the value of registers A and Q by 2");
         ret.addChoice("Divide the value of A and Q by 2");
         ret.setAnswer(2);
         ret.addChoice("Adds 1 to the value in A and Q");
@@ -329,7 +329,7 @@ public class QuestionGenerator {
 	 */
     private question getType7Question(GAIGSregister RegA, ShowFile show) {
         XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
-        ret.setQuestionText("The sign of the value in register A matches the sign of the final product.");
+        ret.setQuestionText("The sign of the current value in register A matches the sign of the final product.");
         int curAValue = binStrToInt(RegA.toString() );
         int finalProd = binStrToInt(trace.get(0, "RegQ").toString() ) * binStrToInt(trace.get(0, "RegM").toString() );
         ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd));
