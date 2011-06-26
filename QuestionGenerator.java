@@ -31,6 +31,7 @@ public class QuestionGenerator {
     }
 */
 	//This is messy and not the best way to do it, but it's only a proof of concept
+    //Should be broken out to each method.
 	public question getQuestion(int type){
         if (type < 1 || type > NUMQUESTIONS) {
             return null;
@@ -53,8 +54,6 @@ public class QuestionGenerator {
                 int select  = ((int)Math.abs(rand.nextInt() )) % 3;
                 String ref  = (select == 0 ? "M": (select == 1 ? "A" : "Q"));
                 String phref= (select == 0 ? "A": (select == 1 ? "Q" : "M"));
-//              String ref  = "Q";
-//              String phref= "M";
 
                 GAIGSregister oldReg = (GAIGSregister)trace.get(trace.size()-2, "Reg" + ref);
                 GAIGSregister newReg = (GAIGSregister)trace.get("Reg" + ref);
@@ -77,9 +76,9 @@ public class QuestionGenerator {
         }
 	}
 
-    public question getComparisonQuestion() {return getQuestion(selectOnCount(2) == 0 ? 1 : 3);}
+    public question getComparisonQuestion() {return getQuestion(selectOnCount(2) == 0 ? 1 : 3);}//could be random also.
 
-    public question getAdditionQuestion()   {return getQuestion(selectOnCount(2) == 0 ? 2 : 5);}
+    public question getAdditionQuestion()   {return getQuestion(selectOnCount(2) == 0 ? 2 : 5);}//ditto
 
     public question getShiftQuestion() {
         int select = selectOnCount(3);
@@ -169,8 +168,7 @@ public class QuestionGenerator {
         String oldValChoice  = oldReg.toString();
         String confuseChoice = (pcalc == 0 ? rightSignShift(addBinNum(phony.toIntArray(), oldReg.toIntArray() ) ) : rightSignShift(oldReg.toString() ));
         if (confuseChoice.equals(oldValChoice) ) {
-            int[] dummy = new int[correctChoice.length() ];
-            confuseChoice = rightSignShift(addBinNum(oldReg.toIntArray(), dummy) );
+            confuseChoice    = (confuseChoice.charAt(0) == '0' ? "1" : "0") + confuseChoice.substring(1);
         }
 
 		if (select == 0) {

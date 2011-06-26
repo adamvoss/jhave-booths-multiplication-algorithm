@@ -74,12 +74,14 @@ public class BoothsMultiplication {
 
     	GAIGSPane main = new GAIGSPane(100, 100/GAIGSPane.JHAVÉ_ASPECT_RATIO);
     	show.writeSnap("You can see this", main);
-    	GAIGSpolygon hugePoly = new GAIGSpolygon(4, new double[] {0, 50, 50 ,0}, new double[] {0,0,50,50}, GREEN, BLUE, WHITE, "My Area is 2500");
+    	
+        GAIGSpolygon hugePoly = new GAIGSpolygon(4, new double[] {0, 50, 50 ,0}, new double[] {0,0,50,50}, GREEN, BLUE, WHITE, "My Area is 2500");
     	main.add(hugePoly);
     	show.writeSnap("You can still see this", main);
+
     	GAIGSPane nest = new GAIGSPane(50,0,100,main.getHeight(),1,1);
     	nest.setName("Inner Frame");
-    	System.out.println(nest.getName());
+//    	System.out.println(nest.getName());
     	main.add(nest);
     	nest.add(new GAIGSpolygon(4, new double[] {0, 1, 1,0}, new double[] {0,0,1,1}, RED, YELLOW, WHITE, "My Area is 1! (Yes, that is a factorial)"));
     	show.writeSnap("Psst!  A secret:     You can't se this", main);
@@ -115,27 +117,21 @@ public class BoothsMultiplication {
         show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
 
         //Count
-/*        GAIGSregister count = new GAIGSprimitiveRegister(1,     "", DEFAULT_COLOR, mypoints[4], FONT_SIZE);
-        count.set("" + RegQ.getSize() );
-        count.setLabel("Count:");
-        trace.add("Count", count);
-        show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
-*/
-
-        //Count, take 2
         CountBox count = new CountBox(RegQ.getSize(), TEXT_COLOR, mypoints[4], FONT_SIZE);
         count.setLabel("Count");
         trace.add("Count", count);
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
 
+        //Create new line
         mypoints = getPositions(1, numRows);
-        RegM= RegM.copyTo(mypoints[0]);
-        RegA= RegA.copyTo(mypoints[1]);
-        RegQ= RegQ.copyTo(mypoints[2]);
-        Q_1 = Q_1.copyTo(mypoints[3]);
-        count=count.copyTo(mypoints[4]); //don't be fooled, not the same method.
+        trace.newLine();
+        trace.add("RegM" , RegM.copyTo( mypoints[0]) );
+        trace.add("RegA" , RegA.copyTo( mypoints[1]) );
+        trace.add("RegQ" , RegQ.copyTo( mypoints[2]) );
+        trace.add("Q_1"  , Q_1.copyTo(  mypoints[3]) );
+        trace.add("Count", count.copyTo(mypoints[4]) ); //don't be fooled, not the same method as others.
 
-        boothsAlgorithm(RegM, RegA, RegQ, Q_1, count, trace, 0, numRows, show);
+        boothsAlgorithmIter(trace, numRows, show);
 
         //Hack to show we are done.
         ((GAIGSregister)trace.get("RegA")).setAllToColor(YELLOW);
@@ -145,9 +141,8 @@ public class BoothsMultiplication {
         show.close();
     }
 
-    //We can now safely say that only Chris is capable of safely modifying this method.
     /**
-    * A recursive method which steps through Booth's Multiplication Algorithm, making the
+    * An iterative method which steps through Booth's Multiplication Algorithm, making the
     * appropriate calls to show's writeSnap through each iteration.
     * 
     * At each iteration, Q(0) and Q(-1) are evaluated. If there is an add/subtract, curLine will be incremented
@@ -155,146 +150,176 @@ public class BoothsMultiplication {
     * to numLines.
     *
     * @param trace The GAIGStrace object to keep the run history of the algorithm.
-    * @param curLine The active "line" in the visualization.
     * @param numLines The total number of lines that will be displayed during the run of the visualization.
     * @param show The ShowFile object where the xml of the GAIGSregisters will be written.
     */
-    public static void boothsAlgorithm(GAIGSregister M, GAIGSregister A, GAIGSregister Q,
-        GAIGSregister Q_1, CountBox count, GAIGStrace trace, int curLine, int numLines, ShowFile show)
-            throws IOException {
+    public static void boothsAlgorithmIter(GAIGStrace trace, int numLines, ShowFile show) throws IOException {
+        
+        int cycles  = ((CountBox)(trace.get(0, "Count")) ).getCount();
+        int curLine = 0;
+        int size    = ((GAIGSregister)trace.get("RegQ") ).getSize();
+        HashMap<String, GAIGSdatastr> tempLine;
+        tempLine = trace.popLine();
 
-        CountBox OldCount=(CountBox)trace.get("Count");
+        //Assuming 2 lines of history
+        for (int i = 0; i < cycles; ++i) {
+            //Check count
+            //Colors
+            CountBox OldCount = (CountBox)trace.get("Count");
+            OldCount.setColor(YELLOW);
 
-        OldCount.setColor(YELLOW);
-        show.writeSnap("Check the Value of Count", docURI.toASCIIString(), easyPseudo(8), trace);
-        OldCount.setColor(TEXT_COLOR);
+            show.writeSnap("Check the value of Count", docURI.toASCIIString(), easyPseudo(8), trace); 
 
-        if (curLine >= numLines) return;
+            //Reset count color
+            OldCount.setColor(TEXT_COLOR);
 
-        //Difference of the comparison bits
-        int partCalc = Q.getBit(Q.getSize()-1) - Q_1.getBit(0);
-        // 00 => 0 // 01 => -1 // 10 => 1 //
+            //Calculate case
+            //00, 11 => 0 // 01 => -1 // 10 => 1
+            int partCalc = ((GAIGSregister)trace.get("RegQ")).getBit(size-1) - 
+                ((GAIGSregister)trace.get("Q_1")).getBit(0);
 
-        //Why are we passing registers as parameters when you just get past ones off the trace
-        //This seems messy
-        //TODO will fix that
-        GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
-        GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
+            //Set comparison color
+            GAIGSregister OldQ   = (GAIGSregister)trace.get("RegQ");
+            OldQ.setColor(size-1, BLUE);
+            GAIGSregister OldQ_1 = (GAIGSregister)trace.get("Q_1");
+            OldQ_1.setColor(0,    BLUE);
 
-        OldQ.setColor(OldQ.getSize()-1, BLUE);
-        OldQ_1.setColor(0, BLUE);
+            //Compare for add frames
+            if (partCalc == 1 || partCalc == -1) { //addition or subtraction
+                String title = "";
+                int psline = 0;
 
+                //Active registers
+                GAIGSregister M = (GAIGSregister)tempLine.get("RegM");
+                GAIGSregister A = (GAIGSregister)tempLine.get("RegA");
 
-        //This does more comparisons than necessary and does not support pseudocode.
-        if (partCalc == 1 || partCalc == -1) {
-            String title = "";
-            int line = 0;
-            if (partCalc == 1) {addIntoReg(A, negateValue(M) ); title="Added -M to A"; line = 11;}
-            else               {addIntoReg(A, M)              ; title="Added  M to A"; line = 15;}
-            
-            //AddToTrace logic
+                if (partCalc == 1) {addIntoReg(A, negateValue(M) ); title = "Added -M to A"; psline = 11;}
+                else               {addIntoReg(A, M)              ; title = "Added  M to A"; psline = 15;}
+
+                //addToTrace logic here
+                //all values in tempLine have effectively been 'pushed' onto the trace.
+                ++curLine;
+                GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, (GAIGSregister)tempLine.get("RegQ"), (GAIGSregister)tempLine.get("Q_1"), 
+                    (CountBox)tempLine.get("Count"), trace, curLine, numLines);
+
+                A.setAllToColor(GREEN);
+
+                //Needs to be done with the extra line on first
+                question que = quest.getComparisonQuestion();
+                
+                //BEGIN hop
+                tempLine = trace.popLine();
+
+                //Finishes comparison thought.
+                easyWriteQuestion(title, new int[] {10, 14}, que, show, trace);
+
+                //END hop
+                trace.pushLine(tempLine);
+
+                //Reset Colors
+                OldQ.setColor  (size-1, TEXT_COLOR);
+                OldQ_1.setColor(0, TEXT_COLOR);
+
+                //Finishes addition thought
+                que = quest.getAdditionQuestion();
+                easyWriteQuestion(title, new int[] {psline}, que, show, trace);
+
+                //Add returned results to the leading line
+                tempLine = assignToLeadingLine(ret);
+
+            } 
+            else { 
+                //No addition occured, so finish comparison with different quesiton 
+                //Assumes it's looking 2 back, so add dummy.
+                trace.newLine();
+                show.writeSnap("Comparison", docURI.toASCIIString(),
+                    easyPseudo(new int[] {10, 14}), quest.getQuestion(1), trace);
+                trace.popLine();
+
+                //Reset Color
+                OldQ.setColor(size-1, TEXT_COLOR);
+                OldQ_1.setColor(0, TEXT_COLOR);
+
+                //tempLine is still the leading line.
+            }
+            //Get individual structures of the current line
+            GAIGSregister M   = (GAIGSregister)tempLine.get("RegM") ;
+            GAIGSregister A   = (GAIGSregister)tempLine.get("RegA") ;
+            GAIGSregister Q   = (GAIGSregister)tempLine.get("RegQ") ;
+            GAIGSregister Q_1 = (GAIGSregister)tempLine.get("Q_1")  ;
+            CountBox count    = (CountBox)     tempLine.get("Count");
+
+            rightShift(A, Q, Q_1);
+
+            //Begin count logic
+            count.decrement();
+
+            //addToTrace logic
+            //everything from tempLine has been effectively 'pushed' onto trace
             ++curLine;
             GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
 
-            //Set color of RegA when add/sub happens.
+            //Shift color logic
+            Q_1.setColor(0, BLUE);
+            ((GAIGSregister)trace.get(trace.size()-2, "RegQ")).setAllToColor(BLUE);
+            Q.setAllToColor(BLUE);
+            ((GAIGSregister)trace.get(trace.size()-2, "RegA")).setAllToColor(GREEN);
             A.setAllToColor(GREEN);
+            Q.setColor(0, GREEN);
 
-            //Reassignment of working variables.
-            M    = (GAIGSregister)ret[0];
-            A    = (GAIGSregister)ret[1];
-            Q    = (GAIGSregister)ret[2];
-            Q_1  = (GAIGSregister)ret[3];
-            count= (CountBox)ret[4];
+            //HOP
+            question que = quest.getShiftQuestion();
+            tempLine = trace.popLine();
 
-            //This goes before addToTrace is called
-            //Or hop around...
-            question que = null;
-            if ((Q.getSize() - count.getCount()) % 2 == 0)      que = quest.getQuestion(3);
-            else if ((Q.getSize() - count.getCount() )% 2 == 1) que = quest.getQuestion(1);
-            HashMap<String, GAIGSdatastr> temp = trace.popLine();
+            //This frame excludes count
+            easyWriteQuestion("Right Sign Preserving Shift", new int[] {20}, que, show, trace, M, A, Q, Q_1);
 
-            //Finishes thought from before the if statement.
-            show.writeSnap("Comparison", docURI.toASCIIString(),
-                    easyPseudo(new int[] {10, 14}), que, trace);
-            trace.pushLine(temp);
+            //Reset colors
+            ((GAIGSregister)trace.get("RegA")).setAllToColor(TEXT_COLOR);
+            A.setAllToColor(TEXT_COLOR);
+            ((GAIGSregister)trace.get("RegQ")).setAllToColor(TEXT_COLOR);
+            Q.setAllToColor(TEXT_COLOR);
+            Q_1.setColor(0, TEXT_COLOR);
 
-            //Reset Color
-            OldQ.setColor(OldQ.getSize()-1, TEXT_COLOR);
-            OldQ_1.setColor(0, TEXT_COLOR);
+            //END hop
+            //This gets all the instance variables added.
+            trace.pushLine(tempLine);
 
-            //Finishes the addition thought.
-            {
-//              if ((Q.getSize() - count.getCount()) % 2 == 0) que = quest.getQuestion(2);
-//              else                                         que = quest.getQuestion(5);
-                que = quest.getAdditionQuestion();
-                easyWriteQuestion(title,new int[] {line}, que, show, trace);
-                //show.writeSnap(title, docURI.toASCIIString(), easyPseudo(line), trace);
-            }
-
-        } else {
-            //This goes before addToTrace is called
-            //More time travel, moar!
-            trace.newLine();
-            show.writeSnap("Comparison", docURI.toASCIIString(),
-                    easyPseudo(new int[] {10, 14}), quest.getQuestion(1), trace);
-            trace.popLine();
-
-            //Reset Color
-            OldQ.setColor(OldQ.getSize()-1, TEXT_COLOR);
-            OldQ_1.setColor(0, TEXT_COLOR);
+            //Add returned results to the leading line
+            tempLine = assignToLeadingLine(ret);
+            
+            show.writeSnap("Decrement count", docURI.toASCIIString(), easyPseudo(22), trace);
         }
-        //Gosh this function is getting long
-        rightShift(A, Q, Q_1);
 
-        //Begin count logic
-        count.decrement();
+        //Last check of count
+        CountBox OldCount = (CountBox)trace.get("Count");
+        OldCount.setColor("YELLOW");
+        show.writeSnap("Check the value of Count", docURI.toASCIIString(), easyPseudo(8), trace);
+        OldCount.setColor(TEXT_COLOR);
+    }
+    
+    /*
+    * Helper function to reduce copy pasta
+    * Assigns appropriate values to leading line
+    * TODO @param @return
+    */
+    private static HashMap<String, GAIGSdatastr> assignToLeadingLine(GAIGSdatastr[] vals) {
+        HashMap<String, GAIGSdatastr> ret = new HashMap<String, GAIGSdatastr>();
+        ret.put("RegM" , vals[0]);
+        ret.put("RegA" , vals[1]);
+        ret.put("RegQ" , vals[2]);
+        ret.put("Q_1"  , vals[3]);
+        ret.put("Count", vals[4]);
 
-        ++curLine;
-        GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
-        
-        //Shift color logic
-        Q_1.setColor(0, BLUE);
-        ((GAIGSregister)trace.get(trace.size()-2,"RegQ")).setAllToColor(BLUE);
-        Q.setAllToColor(BLUE);
-        ((GAIGSregister)trace.get(trace.size()-2,"RegA")).setAllToColor(GREEN);
-        A.setAllToColor(GREEN);
-        Q.setColor(0, GREEN);
-
-        //This frame excludes count.
-        //Another hop
-        question que = quest.getShiftQuestion(); 
-        HashMap<String, GAIGSdatastr> temp = trace.popLine();
-        easyWriteQuestion("Right Sign Preserving Shift", new int[] {20}, que, show, trace, M, A, Q, Q_1);
-//      show.writeSnap("Right Sign Preserving Shift", docURI.toASCIIString(), easyPseudo(20),
-//          que, trace, M, A, Q, Q_1);
-
-        //Reset colors
-        ((GAIGSregister)trace.get("RegA")).setAllToColor(TEXT_COLOR);
-        ((GAIGSregister)trace.get("RegQ")).setAllToColor(TEXT_COLOR);
-        A.setAllToColor(TEXT_COLOR);
-        Q.setAllToColor(TEXT_COLOR);
-        Q_1.setColor(0, TEXT_COLOR);
-        trace.pushLine(temp);
-        //Finish hop
-
-        M    = (GAIGSregister)ret[0];
-        A    = (GAIGSregister)ret[1];
-        Q    = (GAIGSregister)ret[2];
-        Q_1  = (GAIGSregister)ret[3];
-        count= (CountBox)ret[4];
-
-        show.writeSnap("Decrement count", docURI.toASCIIString(), easyPseudo(22), trace);
-
-        //Finally Recurse
-        boothsAlgorithm(M, A, Q, Q_1, count, trace, curLine, numLines, show);
+        return ret;
     }
 
-    /**
+    /*
     * Helper function to reduce copy pasta
     * Adds the GAIGSregisters to the GAIGStrace and generate the next 4.
     * TODO @param @return
     */
-    public static GAIGSdatastr[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A,
+    private static GAIGSdatastr[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A,
                         GAIGSregister Q, GAIGSregister Q_1, CountBox count, GAIGStrace trace, int curLine, int numLines) {
         GAIGSdatastr[] ret = new GAIGSdatastr[5];
 
