@@ -104,7 +104,7 @@ public class BoothsMultiplication {
         RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
-        currentRow.add(RegM.clone());
+        currentRow.add(RegM);
         easySnap("M is the multiplicand", easyPseudo(2), null, trac);
         
         REG_SIZE = RegM.getSize();
@@ -113,14 +113,14 @@ public class BoothsMultiplication {
         RegA= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
-        currentRow.add(RegA.clone());
+        currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null, trac);
 
         //Reg Q
         RegQ= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[2], FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
-        currentRow.add(RegQ.clone());
+        currentRow.add(RegQ);
         easySnap("Q is the Multiplier\nThe final product will span A and Q",
             easyPseudo(4), null, trac);
 
@@ -128,22 +128,22 @@ public class BoothsMultiplication {
         Q_1 = new GAIGSprimitiveRegister(1,       "", TEXT_COLOR, mypoints[3], FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
-        currentRow.add(Q_1.clone());
+        currentRow.add(Q_1);
         easySnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), null, trac);
 
         //Count
         Count = new GAIGSprimitiveRegister(1,     "", TEXT_COLOR, mypoints[4], FONT_SIZE);
         Count.set(String.valueOf(RegM.getSize()));
         Count.setLabel("Count");
-        currentRow.add(Count.clone());
+        currentRow.add(Count);
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trac);
 
         //boothsAlgorithmIter(trace, numRows, show);
         boothsMultiplication();
 
         //We are done.
-        ((GAIGSprimitiveRegister)currentRow.get(REGA)).setAllToColor(YELLOW);
-        ((GAIGSprimitiveRegister)currentRow.get(REGQ)).setAllToColor(YELLOW);
+        RegA.setAllToColor(YELLOW);
+        RegQ.setAllToColor(YELLOW);
         show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trac);
 
         show.close();
@@ -152,70 +152,72 @@ public class BoothsMultiplication {
     public static void boothsMultiplication(){
     	while (Count.getBit(0) > 0){
     		//----Count Frame----
-    		((GAIGSprimitiveRegister)currentRow.get(COUNT)).setColor(YELLOW);
+    		Count.setColor(YELLOW);
     		easySnap("Check the value of Count", easyPseudo(8), null, trac);
     		//Change count back
-    		((GAIGSprimitiveRegister)currentRow.get(COUNT)).setColor(DEFAULT_COLOR);
+    		Count.setColor(RED);
     		
             //----Check Bits Frame----
-            positionMajorRow();
-            addRow();
-            ((GAIGSprimitiveRegister)currentRow.get(REGQ)).setColor(REG_SIZE-1, BLUE);
-            ((GAIGSprimitiveRegister)currentRow.get(Q1)).setColor(0, BLUE);
+            RegQ.setColor(REG_SIZE-1, BLUE);
+            Q_1.setColor(0, BLUE);
     		
     		int cmpVal = RegQ.getBit(REG_SIZE-1) - Q_1.getBit(0);
 
-    		easySnap("Determine the operation", easyPseudo(new int[] {11,15}), null, trac);
+    		easySnap("Determine the operation", easyPseudo(new int[] {10,14}), null, trac);
     		
-            ((GAIGSprimitiveRegister)currentRow.get(REGQ)).setColor(REG_SIZE-1, TEXT_COLOR);
-            ((GAIGSprimitiveRegister)currentRow.get(Q1)).setColor(0, TEXT_COLOR);
-    		
-            //Prep for the next few frames.
-            RegA.setAllToColor(GREEN);
+            RegQ.setColor(REG_SIZE-1, TEXT_COLOR);
+            Q_1.setColor(0, TEXT_COLOR);
             
             //----Subtraction Frame----
     		if (cmpVal == 1){
-    			addIntoReg(negateValue(RegM), RegA);
-    			positionAdditionRow();
+    			positionAdditionRow(); //That Cloned All the Registers, fyi
     			addRow();
-    			new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(), 2, .5, .5);
+    			addIntoReg(negateValue(RegM), RegA);
+                RegA.setAllToColor(GREEN);
+    			new GAIGSArithmetic('+',
+    					RegA.toString(), negateValue(RegM).toString(),
+    					2, .5, .5);
     			easySnap("Added -M to A", easyPseudo(11), null, trac);
     		}
     		
             //----Addition Frame----
     		else if (cmpVal == -1){
-    			addIntoReg(RegM, RegA);
     			positionAdditionRow();
     			addRow();
+    			addIntoReg(RegM, RegA);
+                RegA.setAllToColor(GREEN);
     			new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2, .5, .5);
     			easySnap("Added -M to A", easyPseudo(15), null, trac);
     		}
     		
     		//----Shift Frame----
-    		rightShift(RegA, RegQ, Q_1);
-    		positionMajorRow();
+    		RegA.setAllToColor(GREEN);
+    		RegQ.setAllToColor(BLUE);
+    		positionMajorRow(); //Remember this clones
     		addRow();
+    		rightShift(RegA, RegQ, Q_1);
+            
     		currentRow.remove(COUNT); //Oops...We don't want Count
-    		((GAIGSprimitiveRegister)currentRow.get(REGQ)).setAllToColor(BLUE);
-    		((GAIGSprimitiveRegister)currentRow.get(REGQ)).setColor(0, GREEN);
-    		((GAIGSprimitiveRegister)currentRow.get(Q1)).setColor(0, BLUE);
+    		RegQ.setAllToColor(BLUE);
+    		RegQ.setColor(0, GREEN);
+    		Q_1.setColor(0, BLUE);
     		easySnap("Sign-Preserving Right Shift", easyPseudo(20), null, trac);
-    		((GAIGSprimitiveRegister)currentRow.get(REGQ)).setAllToColor(TEXT_COLOR);
-    		((GAIGSprimitiveRegister)currentRow.get(REGQ)).setAllToColor(TEXT_COLOR);
-    		((GAIGSprimitiveRegister)currentRow.get(Q1)).setAllToColor(TEXT_COLOR);
+    		RegQ.setAllToColor(TEXT_COLOR);
+    		Q_1.setAllToColor(TEXT_COLOR);
     		
-    		//Cleanup from that prep above
+    				//Clean Color of A and Q on the previous line
     		((GAIGSprimitiveRegister)((GAIGSPane)trac.get(trac.size()-2)).get(REGA)).setAllToColor(TEXT_COLOR);
-    		((GAIGSprimitiveRegister)currentRow.get(REGA)).setAllToColor(TEXT_COLOR);
+    		((GAIGSprimitiveRegister)((GAIGSPane)trac.get(trac.size()-2)).get(REGQ)).setAllToColor(TEXT_COLOR);
     		RegA.setAllToColor(TEXT_COLOR);
+    		RegQ.setAllToColor(TEXT_COLOR);
     		
     		//----Decrement Count Frame---
     		Count.set(String.valueOf(Count.getBit(0)-1));
     		//We don't want a new row
-    		currentRow.add(COUNT, Count.clone()); //Now we do want Count
-    		((GAIGSprimitiveRegister)currentRow.get(COUNT)).setColor(0, RED);
+    		currentRow.add(Count); //Now we do want Count
+    		Count.setColor(0, RED);
     		easySnap("Decrement Count", easyPseudo(22), null, trac);
-    		((GAIGSprimitiveRegister)currentRow.get(COUNT)).setColor(0, TEXT_COLOR);
+    		Count.setColor(0, TEXT_COLOR);
     		//Hey!  We're ready to loop!
     	}
     }
@@ -493,24 +495,24 @@ public class BoothsMultiplication {
     private static void adjustRegister(GAIGSprimitiveRegister reg){
     	double[] bds = reg.getBounds();
     	bds[3] = bds[1]-(ROW_SPACE);
-    	
-    	//No longer purely the previous values
     	bds[1] = bds[3]-REG_HEIGHT;
-    	
     	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
 	}
 	
 	private static void minorAdjustRegister(GAIGSprimitiveRegister reg){
     	double[] bds = reg.getBounds();
     	bds[3] = bds[1]-(ROW_SPACE/2);
-    	
-    	//No longer purely the previous values
     	bds[1] = bds[3]-REG_HEIGHT;
-    	
     	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
 	}
     
     private static void positionMajorRow(){
+    	RegM = RegM.clone();
+    	RegA = RegA.clone();
+    	RegQ = RegQ.clone();
+    	Q_1 = Q_1.clone();
+    	Count = Count.clone();
+    	
 		adjustRegister(RegM);
 		adjustRegister(RegA);
 		adjustRegister(RegQ);
@@ -519,6 +521,12 @@ public class BoothsMultiplication {
     }
     
     private static void positionAdditionRow(){
+    	RegM = RegM.clone();
+    	RegA = RegA.clone();
+    	RegQ = RegQ.clone();
+    	Q_1 = Q_1.clone();
+    	Count = Count.clone();
+    	
 		minorAdjustRegister(RegM);
 		minorAdjustRegister(RegA);
 		minorAdjustRegister(RegQ);
@@ -532,11 +540,11 @@ public class BoothsMultiplication {
     	
     	trac.add(currentRow);
     	
-    	currentRow.add(RegM.clone());
-    	currentRow.add(RegA.clone());
-    	currentRow.add(RegQ.clone());
-    	currentRow.add(Q_1.clone());
-    	currentRow.add(Count.clone());
+    	currentRow.add(RegM);
+    	currentRow.add(RegA);
+    	currentRow.add(RegQ);
+    	currentRow.add(Q_1);
+    	currentRow.add(Count);
     }
     
     /**
