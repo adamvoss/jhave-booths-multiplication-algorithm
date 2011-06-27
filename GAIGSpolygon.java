@@ -115,23 +115,15 @@ public class GAIGSpolygon extends AbstractPrimitive {
 	 */
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
-		System.out.println("Setting " + " x1 = " + x1 + " y1 = " + y1 + " x2 = " + x2 + " y2 = " + y2);
 		double[] current = this.getBounds();
-		System.out.println("Current " + " x1 = " + current[0] + " y1 = " + current[1] + " x2 = " + current[2] + " y2 = " + current[3]);
-		double translateX = x1-current[0];
-		//System.out.println("Translate X: " + translateX);
-		double translateY = y1-current[1];
-		//System.out.println("Translate Y: " + translateY);
 		double scaleX = (x2-x1)/(current[2]-(current[0]));
-		//System.out.println("Scale X: " + scaleX);
 		double scaleY = (y2-y1)/(current[3]-(current[1]));
-		System.out.println("Scale Y: " + scaleY);
+		double translateX = x1-(current[0]*scaleX);
+		double translateY = y1-(current[1]*scaleY);
 		
 		for(int j = 0; j < nSides; ++j){
 			ptsX[j] = ptsX[j] * scaleX + translateX;
 			ptsY[j] = ptsY[j] * scaleY + translateY;
-//			System.out.println("Setting X: " + (j+1) + "= " + ptsX[j]);
-			System.out.println("Setting Y: " + (j+1) + "= " + ptsY[j]);
 		}
 	}
 

@@ -35,15 +35,15 @@ public class BoothsMultiplication {
     public static final String YELLOW  = "#FFFF00";
     public static final String TEXT_COLOR = BLACK;
     
-    public static final double WINDOW_HEIGHT = 1.0;
+    public static final double WINDOW_HEIGHT = 0.9;
     public static final double WINDOW_WIDTH = 1.0;
 
-    public static final double LEFT_MARGIN   =  0.0;
-    public static final double REG_WIDTH  =  0.25;
+    public static final double LEFT_MARGIN   =  0.2;
+    public static final double REG_WIDTH  =  0.1;
     public static final double X_PAD  = -0.05;
     public static final double REG_HEIGHT  =  0.1;
     public static final double COL_SPACE = 0.1;
-    public static final double ROW_SPACE = 0.01;
+    public static final double ROW_SPACE = 0.02;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -128,13 +128,13 @@ public class BoothsMultiplication {
 
         //Create new line
         positionMajorRow();
-        RegA.setAllToColor(YELLOW);
-        RegQ.setAllToColor(YELLOW);
         addRow();
 
         //boothsAlgorithmIter(trace, numRows, show);
 
         //Hack to show we are done.
+        RegA.setAllToColor(YELLOW);
+        RegQ.setAllToColor(YELLOW);
         show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trac);
 
         show.close();
@@ -413,20 +413,20 @@ public class BoothsMultiplication {
     private static void adjustRegister(GAIGSprimitiveRegister reg){
     	double[] bds = reg.getBounds();
     	double regHeight = bds[3]-bds[1];
-    	System.out.println(bds[1] + " " + bds[3]);
+//    	System.out.println(bds[1] + " " + bds[3]);
 //    	bds[0] = bds[2]+COL_SPACE;
     	bds[3] = bds[1]-(ROW_SPACE);
     	
     	//No longer purely the previous values
-    	bds[1] = bds[3]-regHeight;
+    	bds[1] = bds[3]-REG_HEIGHT;
 //    	bds[2] = bds[0]+(bds[2]-bds[0]);
     	
-    	System.out.println("New "+ bds[1] +" "+ bds[3]);
+//    	System.out.println("New "+ bds[1] +" "+ bds[3]);
     	
     	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
     	
-    	double[] bdsS = reg.getBounds();
-    	System.out.println("Set "+ bdsS[1] +" "+ bdsS[3]);
+//    	double[] bdsS = reg.getBounds();
+//    	System.out.println("Set "+ bdsS[1] +" "+ bdsS[3]);
 	}
 	
 	private static void minorAdjustRegister(GAIGSprimitiveRegister reg){
@@ -483,9 +483,9 @@ public class BoothsMultiplication {
         for (int i = 0; i<ret.length; ++i)
             ret[i] = new Bounds(
             		LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)),
-            		WINDOW_HEIGHT-(curLine+1)*frac,
+            		(WINDOW_HEIGHT-curLine*frac)-REG_HEIGHT,
             		LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),
-            		(WINDOW_HEIGHT-curLine*frac)+REG_HEIGHT);
+            		WINDOW_HEIGHT-(curLine)*frac);
         return ret;
     }
 
