@@ -131,6 +131,10 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 		 this.colors[loc] = color;
 	 }
 
+	 public void setColor(String color) {
+		 this.wrapped.setColor(color);
+	 }
+	 
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#setAllToColor(java.lang.String)
 	  */

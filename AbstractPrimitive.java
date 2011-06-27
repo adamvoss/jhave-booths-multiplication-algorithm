@@ -50,11 +50,36 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
 	public String getName() {
 		return this.name;
 	}
-
 	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getColor() {
+		return fcolor;
+	}
+	public void setColor(String fcolor) {
+		this.fcolor = fcolor;
+	}
+	public String getOutlineColor() {
+		return ocolor;
+	}
+	public void setOutlineColor(String ocolor) {
+		this.ocolor = ocolor;
+	}
+	public String getLabelColor() {
+		return lcolor;
+	}
+	public void setLabelColor(String lcolor) {
+		this.lcolor = lcolor;
+	}
+	public int getLineWidth() {
+		return lineWidth;
+	}
+	public void setLineWidth(int lineWidth) {
+		this.lineWidth = lineWidth;
+	}
+
 	//@Override
 	public String getLabel() {
 		return this.label;
