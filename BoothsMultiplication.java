@@ -160,7 +160,7 @@ public class BoothsMultiplication {
         int cycles  = ((CountBox)(trace.get(0, "Count")) ).getCount();
         int curLine = 0;
         int size    = ((GAIGSregister)trace.get("RegQ") ).getSize();
-        HashMap<String, GAIGSdatastr> tempLine;
+        HashMap<String, MutableGAIGSdatastr> tempLine;
         tempLine = trace.popLine();
 
         //Assuming 2 lines of history
@@ -201,7 +201,7 @@ public class BoothsMultiplication {
                 //addToTrace logic here
                 //all values in tempLine have effectively been 'pushed' onto the trace.
                 ++curLine;
-                GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, (GAIGSregister)tempLine.get("RegQ"), (GAIGSregister)tempLine.get("Q_1"), 
+                MutableGAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, (GAIGSregister)tempLine.get("RegQ"), (GAIGSregister)tempLine.get("Q_1"), 
                     (CountBox)tempLine.get("Count"), trace, curLine, numLines);
 
                 A.setAllToColor(GREEN);
@@ -259,7 +259,7 @@ public class BoothsMultiplication {
             //addToTrace logic
             //everything from tempLine has been effectively 'pushed' onto trace
             ++curLine;
-            GAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
+            MutableGAIGSdatastr[] ret = addToTraceAndGenerateNext(M, A, Q, Q_1, count, trace, curLine, numLines);
 
             //Shift color logic
             Q_1.setColor(0, BLUE);
@@ -305,8 +305,8 @@ public class BoothsMultiplication {
     * Assigns appropriate values to leading line
     * TODO @param @return
     */
-    private static HashMap<String, GAIGSdatastr> assignToLeadingLine(GAIGSdatastr[] vals) {
-        HashMap<String, GAIGSdatastr> ret = new HashMap<String, GAIGSdatastr>();
+    private static HashMap<String, MutableGAIGSdatastr> assignToLeadingLine(MutableGAIGSdatastr[] vals) {
+        HashMap<String, MutableGAIGSdatastr> ret = new HashMap<String, MutableGAIGSdatastr>();
         ret.put("RegM" , vals[0]);
         ret.put("RegA" , vals[1]);
         ret.put("RegQ" , vals[2]);
@@ -321,9 +321,9 @@ public class BoothsMultiplication {
     * Adds the GAIGSregisters to the GAIGStrace and generate the next 4.
     * TODO @param @return
     */
-    private static GAIGSdatastr[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A,
+    private static MutableGAIGSdatastr[] addToTraceAndGenerateNext(GAIGSregister M, GAIGSregister A,
                         GAIGSregister Q, GAIGSregister Q_1, CountBox count, GAIGStrace trace, int curLine, int numLines) {
-        GAIGSdatastr[] ret = new GAIGSdatastr[5];
+        MutableGAIGSdatastr[] ret = new MutableGAIGSdatastr[5];
 
         trace.newLine();
         trace.add("RegM", M);

@@ -2,6 +2,7 @@ package exe.boothsMultiplication;
 
 import exe.*;
 
+
 class GAIGSarrayRegister implements GAIGSregister{
     private GAIGSarray wrapped;
     private int size;
@@ -99,5 +100,49 @@ class GAIGSarrayRegister implements GAIGSregister{
 
         return ret;
     }
+    
+    public GAIGSarrayRegister clone(){
+    	return new GAIGSarrayRegister(this);
+    }
+
+    
+    
+  //Ugly hack to allow trace without refactoring
+    
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#getBounds()
+	 */
+	@Override
+	public double[] getBounds() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
+	 */
+	@Override
+	public void setBounds(double x1, double y1, double x2, double y2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#getFontSize()
+	 */
+	@Override
+	public double getFontSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see exe.MutableGAIGSdatastr#setFontSize(double)
+	 */
+	@Override
+	public void setFontSize(double fontSize) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

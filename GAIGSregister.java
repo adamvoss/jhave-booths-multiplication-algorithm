@@ -6,7 +6,8 @@ import exe.*;
 * A prototype class to define the desired functionality of a Register
 *
 */
-public interface GAIGSregister extends GAIGSdatastr {
+//Poor form hack to make trace work without refactoring.
+public interface GAIGSregister extends MutableGAIGSdatastr, Cloneable {
 
     /**
     * From GAIGSdatastr

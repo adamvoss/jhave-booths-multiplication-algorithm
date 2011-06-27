@@ -2,7 +2,8 @@ package exe.boothsMultiplication;
 
 import exe.*;
 
-public class CountBox extends GAIGSbase {
+//Hack to make trace work without refactoring
+public class CountBox extends GAIGSprimitiveRegister{
     GAIGSarray wrapped;
 
     public CountBox(int count, String color, double x1, double y1, double x2, double y2, double fontSize) {
@@ -32,4 +33,5 @@ public class CountBox extends GAIGSbase {
     }
 
     public String toXML() {return wrapped.toXML();}
+ 
 }

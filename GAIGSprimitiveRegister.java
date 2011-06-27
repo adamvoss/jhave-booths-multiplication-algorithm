@@ -14,6 +14,9 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	private String[] colors;
 	private GAIGSpolygon wrapped;
 
+	//Ugly Hack to let trace work without refactoring
+	public GAIGSprimitiveRegister(){
+	}
 
 	public GAIGSprimitiveRegister(GAIGSprimitiveRegister source){
 		this.bits = source.bits.clone();
