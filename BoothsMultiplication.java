@@ -13,6 +13,7 @@ public class BoothsMultiplication {
     private static PseudoCodeDisplay pseudo;
     private static URI docURI;
     private static QuestionGenerator quest;
+    private static GAIGSPane main;
 
     //Definitions
     private static final boolean DEBUG = false;
@@ -72,21 +73,9 @@ public class BoothsMultiplication {
         //Trace finally defined, can now make the QuestionGenerator
     	quest = new QuestionGenerator(show, trace);
 
-    	GAIGSPane main = new GAIGSPane(100, 100/GAIGSPane.JHAVÉ_ASPECT_RATIO);
-    	GAIGSArithmetic math = new GAIGSArithmetic('+', multiplicand, multiplier, 2, 75, 75, 10.0, 3, TEXT_COLOR);
-    	math.complete();
-    	main.add(math);
-    	show.writeSnap("You can see this", main);
-    	
-        GAIGSpolygon hugePoly = new GAIGSpolygon(4, new double[] {0, 50, 50 ,0}, new double[] {0,0,50,50}, GREEN, BLUE, WHITE, "My Area is 2500");
-    	main.add(hugePoly);
-    	show.writeSnap("You can still see this", main);
-
-    	GAIGSPane nest = new GAIGSPane(50,0,100,main.getHeight(),1,1);
-    	nest.setName("Inner Frame");
-    	main.add(nest);
-    	nest.add(new GAIGSpolygon(4, new double[] {0, 1, 1,0}, new double[] {0,0,1,1}, RED, YELLOW, WHITE, "My Area is 1! (Yes, that is a factorial)"));
-    	show.writeSnap("Psst!  A secret:     You can't se this", main);
+    	main = new GAIGSPane();
+    	main.add(trace);
+    	//GAIGSArithmetic math = new GAIGSArithmetic('+', multiplicand, multiplier, 2, 75, 75, 10.0, 3, TEXT_COLOR);
     	
     	
         //Reg M
@@ -94,14 +83,14 @@ public class BoothsMultiplication {
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         trace.add("RegM", RegM);
-        show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trace);
+        show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), main);
 
         //Reg A
         GAIGSregister RegA= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         trace.add("RegA", RegA);
-        show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trace);
+        show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), main);
 
         //Reg Q
         GAIGSregister RegQ= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[2], FONT_SIZE);
@@ -116,13 +105,13 @@ public class BoothsMultiplication {
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         trace.add("Q_1" , Q_1);
-        show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
+        show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), main);
 
         //Count
         CountBox count = new CountBox(RegQ.getSize(), TEXT_COLOR, mypoints[4], FONT_SIZE);
         count.setLabel("Count");
         trace.add("Count", count);
-        show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
+        show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), main);
 
         //Create new line
         mypoints = getPositions(1, numRows);
@@ -138,7 +127,7 @@ public class BoothsMultiplication {
         //Hack to show we are done.
         ((GAIGSregister)trace.get("RegA")).setAllToColor(YELLOW);
         ((GAIGSregister)trace.get("RegQ")).setAllToColor(YELLOW);
-        show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trace);
+        show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), main);
 
         show.close();
     }
@@ -170,7 +159,7 @@ public class BoothsMultiplication {
             CountBox OldCount = (CountBox)trace.get("Count");
             OldCount.setColor(YELLOW);
 
-            show.writeSnap("Check the value of Count", docURI.toASCIIString(), easyPseudo(8), trace); 
+            show.writeSnap("Check the value of Count", docURI.toASCIIString(), easyPseudo(8), main); 
 
             //Reset count color
             OldCount.setColor(TEXT_COLOR);
@@ -231,11 +220,11 @@ public class BoothsMultiplication {
 
             } 
             else { 
-                //No addition occured, so finish comparison with different quesiton 
+                //No addition occurred, so finish comparison with different question 
                 //Assumes it's looking 2 back, so add dummy.
                 trace.newLine();
                 show.writeSnap("Comparison", docURI.toASCIIString(),
-                    easyPseudo(new int[] {10, 14}), quest.getQuestion(1), trace);
+                    easyPseudo(new int[] {10, 14}), quest.getQuestion(1), main);
                 trace.popLine();
 
                 //Reset Color
@@ -296,7 +285,7 @@ public class BoothsMultiplication {
         //Last check of count
         CountBox OldCount = (CountBox)trace.get("Count");
         OldCount.setColor("YELLOW");
-        show.writeSnap("Check the value of Count", docURI.toASCIIString(), easyPseudo(8), trace);
+        show.writeSnap("Check the value of Count", docURI.toASCIIString(), easyPseudo(8), main);
         OldCount.setColor(TEXT_COLOR);
     }
     
