@@ -112,7 +112,7 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	  */
 	 @Override
 	 public void setLabel(String label) {
-		 wrapped.setName(label);
+		 //wrapped.setName(label);
 	 }
 
 	 /* (non-Javadoc)
@@ -165,7 +165,7 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	  * @see exe.boothsMultiplication.GAIGSregister#copyTo(exe.boothsMultiplication.Bounds)
 	  */
 	 @Override
-	 public GAIGSregister copyTo(Bounds bounds) {
+	 public GAIGSprimitiveRegister copyTo(Bounds bounds) {
 		 GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister(this);
 		 ret.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
 		 return ret;

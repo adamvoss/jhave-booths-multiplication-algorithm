@@ -13,7 +13,14 @@ public class BoothsMultiplication {
     private static PseudoCodeDisplay pseudo;
     private static URI docURI;
     private static QuestionGenerator quest;
-
+    private static GAIGSprimitiveRegister RegM;
+    private static GAIGSprimitiveRegister RegA;
+    private static GAIGSprimitiveRegister RegQ;
+    private static GAIGSprimitiveRegister Q_1;
+    private static GAIGSprimitiveRegister Count;
+    private static GAIGSPane trac;
+    private static GAIGSPane currentRow;
+    
     //Definitions
     private static final boolean DEBUG = false;
 
@@ -69,76 +76,70 @@ public class BoothsMultiplication {
         Bounds[] mypoints = getPositions(0, numRows);
 
         GAIGStrace trace = new GAIGStrace();
+        trac = new GAIGSPane();
+        trac.setName("Trace");
+        
+        currentRow = new GAIGSPane();
+        currentRow.setName("Row 0");
+        
+        trac.add(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
     	quest = new QuestionGenerator(show, trace);
 
-    	GAIGSPane main = new GAIGSPane(100, 100/GAIGSPane.JHAVÉ_ASPECT_RATIO);
-    	GAIGSArithmetic math = new GAIGSArithmetic('+', multiplicand, multiplier, 2, 75, 75, 10.0, 3, TEXT_COLOR);
-    	math.complete();
-    	main.add(math);
-    	show.writeSnap("You can see this", main);
-    	
-        GAIGSpolygon hugePoly = new GAIGSpolygon(4, new double[] {0, 50, 50 ,0}, new double[] {0,0,50,50}, GREEN, BLUE, WHITE, "My Area is 2500");
-    	main.add(hugePoly);
-    	show.writeSnap("You can still see this", main);
-
-    	GAIGSPane nest = new GAIGSPane(50,0,100,main.getHeight(),1,1);
-    	nest.setName("Inner Frame");
-    	main.add(nest);
-    	nest.add(new GAIGSpolygon(4, new double[] {0, 1, 1,0}, new double[] {0,0,1,1}, RED, YELLOW, WHITE, "My Area is 1! (Yes, that is a factorial)"));
-    	show.writeSnap("Psst!  A secret:     You can't se this", main);
-    	
     	
         //Reg M
-        GAIGSregister RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);
+        RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
-        trace.add("RegM", RegM);
-        show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trace);
+        currentRow.add(RegM);
+        show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trac);
 
         //Reg A
-        GAIGSregister RegA= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[1], FONT_SIZE);
+        RegA= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
-        trace.add("RegA", RegA);
-        show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trace);
+        currentRow.add(RegA);
+        show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trac);
 
         //Reg Q
-        GAIGSregister RegQ= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[2], FONT_SIZE);
+        RegQ= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[2], FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
-        trace.add("RegQ", RegQ);
+        currentRow.add(RegQ);
         show.writeSnap("Q is the Multiplier\nThe final product will span A and Q",
-            docURI.toASCIIString(), easyPseudo(4), trace);
+            docURI.toASCIIString(), easyPseudo(4), trac);
 
         //Bit Q_1
-        GAIGSregister Q_1 = new GAIGSprimitiveRegister(1,       "", TEXT_COLOR, mypoints[3], FONT_SIZE);
+        Q_1 = new GAIGSprimitiveRegister(1,       "", TEXT_COLOR, mypoints[3], FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
-        trace.add("Q_1" , Q_1);
-        show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
+        currentRow.add(Q_1);
+        show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trac);
 
         //Count
-        CountBox count = new CountBox(RegQ.getSize(), TEXT_COLOR, mypoints[4], FONT_SIZE);
-        count.setLabel("Count");
-        trace.add("Count", count);
-        show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
+        Count = new GAIGSprimitiveRegister(1,     "", TEXT_COLOR, mypoints[4], FONT_SIZE);
+        Count.set(String.valueOf(RegM.getSize()));
+        Count.setLabel("Count");
+        currentRow.add(Count);
+        show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trac);
 
         //Create new line
         mypoints = getPositions(1, numRows);
-        trace.newLine();
-        trace.add("RegM" , RegM.copyTo( mypoints[0]) );
-        trace.add("RegA" , RegA.copyTo( mypoints[1]) );
-        trace.add("RegQ" , RegQ.copyTo( mypoints[2]) );
-        trace.add("Q_1"  , Q_1.copyTo(  mypoints[3]) );
-        trace.add("Count", count.copyTo(mypoints[4]) ); //don't be fooled, not the same method as others.
+        currentRow = new GAIGSPane();
+        trac.add(currentRow);
+        
+        currentRow.add(RegM.copyTo( mypoints[0]) );
+        currentRow.add(RegA.copyTo( mypoints[1]) );
+        currentRow.add(RegQ.copyTo( mypoints[2]) );
+        currentRow.add(Q_1.copyTo(  mypoints[3]) );
+        currentRow.add(Count.copyTo(mypoints[4]) );
 
-        boothsAlgorithmIter(trace, numRows, show);
+        //boothsAlgorithmIter(trace, numRows, show);
 
         //Hack to show we are done.
-        ((GAIGSregister)trace.get("RegA")).setAllToColor(YELLOW);
-        ((GAIGSregister)trace.get("RegQ")).setAllToColor(YELLOW);
-        show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trace);
+        RegA.setAllToColor(YELLOW);
+        RegQ.setAllToColor(YELLOW);
+        show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trac);
 
         show.close();
     }
