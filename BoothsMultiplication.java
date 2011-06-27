@@ -28,12 +28,14 @@ public class BoothsMultiplication {
     public static final String TEXT_COLOR = BLACK;
     
     public static final double WINDOW_HEIGHT = 1.0;
-    public static final double WINDOW_WIDTH = 1.0;
+    public static final double WINDOW_WIDTH  = 1.0;
 
-    public static final double LEFT_MARGIN   =  0.0;
-    public static final double REG_WIDTH  =  0.25;
-    public static final double X_PAD  = -0.05;
-    public static final double REG_HEIGHT  =  0.1;
+    public static final double LEFT_MARGIN   = 0.0;
+    public static final double UPPER_MARGIN  = 0.2;
+    public static final double REG_WIDTH     = 0.20;
+    public static final double X_PAD         = 0.07;
+    public static final double Y_PAD         = 0.03;
+    public static final double REG_HEIGHT    = 0.06;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -81,7 +83,6 @@ public class BoothsMultiplication {
 
     	GAIGSPane nest = new GAIGSPane(50,0,100,main.getHeight(),1,1);
     	nest.setName("Inner Frame");
-//    	System.out.println(nest.getName());
     	main.add(nest);
     	nest.add(new GAIGSpolygon(4, new double[] {0, 1, 1,0}, new double[] {0,0,1,1}, RED, YELLOW, WHITE, "My Area is 1! (Yes, that is a factorial)"));
     	show.writeSnap("Psst!  A secret:     You can't se this", main);
@@ -89,7 +90,6 @@ public class BoothsMultiplication {
     	
         //Reg M
         GAIGSregister RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);
-        RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         trace.add("RegM", RegM);
         show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trace);
@@ -97,14 +97,12 @@ public class BoothsMultiplication {
         //Reg A
         GAIGSregister RegA= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
-        RegA.setLabel("A:    ");
         trace.add("RegA", RegA);
         show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trace);
 
         //Reg Q
         GAIGSregister RegQ= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[2], FONT_SIZE);
         RegQ.set(multiplier);
-        RegQ.setLabel("Q:    ");
         trace.add("RegQ", RegQ);
         show.writeSnap("Q is the Multiplier\nThe final product will span A and Q",
             docURI.toASCIIString(), easyPseudo(4), trace);
@@ -112,13 +110,11 @@ public class BoothsMultiplication {
         //Bit Q_1
         GAIGSregister Q_1 = new GAIGSprimitiveRegister(1,       "", TEXT_COLOR, mypoints[3], FONT_SIZE);
         Q_1.set("0");
-        Q_1.setLabel( "Q(-1):");
         trace.add("Q_1" , Q_1);
         show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trace);
 
         //Count
         CountBox count = new CountBox(RegQ.getSize(), TEXT_COLOR, mypoints[4], FONT_SIZE);
-        count.setLabel("Count");
         trace.add("Count", count);
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trace);
 
@@ -154,7 +150,6 @@ public class BoothsMultiplication {
     * @param show The ShowFile object where the xml of the GAIGSregisters will be written.
     */
     public static void boothsAlgorithmIter(GAIGStrace trace, int numLines, ShowFile show) throws IOException {
-        
         int cycles  = ((CountBox)(trace.get(0, "Count")) ).getCount();
         int curLine = 0;
         int size    = ((GAIGSregister)trace.get("RegQ") ).getSize();
@@ -165,7 +160,7 @@ public class BoothsMultiplication {
         for (int i = 0; i < cycles; ++i) {
             //Check count
             //Colors
-            CountBox OldCount = (CountBox)trace.get("Count");
+            CountBox OldCount = (CountBox)(GAIGSregister)(trace.get("Count"));
             OldCount.setColor(YELLOW);
 
             show.writeSnap("Check the value of Count", docURI.toASCIIString(), easyPseudo(8), trace); 
@@ -293,7 +288,7 @@ public class BoothsMultiplication {
 
         //Last check of count
         CountBox OldCount = (CountBox)trace.get("Count");
-        OldCount.setColor("YELLOW");
+        OldCount.setColor(YELLOW);
         show.writeSnap("Check the value of Count", docURI.toASCIIString(), easyPseudo(8), trace);
         OldCount.setColor(TEXT_COLOR);
     }
@@ -419,14 +414,14 @@ public class BoothsMultiplication {
     */
     private static Bounds[] getPositions(int curLine, int numLines) {
         Bounds[] ret = new Bounds[5];
-        double frac = WINDOW_HEIGHT / numLines;
+        double frac = (WINDOW_HEIGHT-UPPER_MARGIN) / numLines;
 
         for (int i = 0; i<ret.length; ++i)
             ret[i] = new Bounds(
             		LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)),
-            		WINDOW_HEIGHT-(curLine+1)*frac,
+            		WINDOW_HEIGHT-((curLine+1)*REG_HEIGHT+(curLine*Y_PAD))-UPPER_MARGIN,
             		LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),
-            		(WINDOW_HEIGHT-curLine*frac)+REG_HEIGHT);
+            		(WINDOW_HEIGHT-curLine*(REG_HEIGHT+Y_PAD))-UPPER_MARGIN);
         return ret;
     }
 
