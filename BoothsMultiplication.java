@@ -17,7 +17,7 @@ public class BoothsMultiplication {
     private static GAIGSprimitiveRegister RegA;
     private static GAIGSprimitiveRegister RegQ;
     private static GAIGSprimitiveRegister Q_1;
-    private static GAIGSprimitiveRegister Count;
+    private static CountBox Count;
     private static GAIGSPane trac;
     private static GAIGSPane currentRow;
     private static int rowNumber; //This is only used for comments in the XML
@@ -45,15 +45,16 @@ public class BoothsMultiplication {
     public static final String TEXT_COLOR = BLACK;
     public static final String DEFAULT_COLOR = WHITE;
     
-    public static final double WINDOW_HEIGHT = 0.9;
-    public static final double WINDOW_WIDTH = 1.0;
+    public static final double WINDOW_HEIGHT = 1.0;
+    public static final double WINDOW_WIDTH  = 1.0;
 
-    public static final double LEFT_MARGIN   =  0.2;
-    public static final double REG_WIDTH  =  0.1;
-    public static final double X_PAD  = -0.05;
-    public static final double REG_HEIGHT  =  0.1;
-    public static final double COL_SPACE = 0.1;
-    public static final double ROW_SPACE = 0.02;
+    public static final double LEFT_MARGIN   = 0.0;
+    public static final double UPPER_MARGIN  = 0.2;
+    public static final double REG_WIDTH     = 0.20;
+    public static final double X_PAD         = 0.07;
+    public static final double Y_PAD         = 0.03;
+    public static final double REG_HEIGHT    = 0.06;
+    public static final double ROW_SPACE = Y_PAD;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -132,8 +133,7 @@ public class BoothsMultiplication {
         easySnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), null, trac);
 
         //Count
-        Count = new GAIGSprimitiveRegister(1,     "", TEXT_COLOR, mypoints[4], FONT_SIZE);
-        Count.set(String.valueOf(RegM.getSize()));
+        Count = new CountBox(REG_SIZE, TEXT_COLOR, mypoints[4], FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trac);
@@ -312,7 +312,7 @@ public class BoothsMultiplication {
     	RegA = RegA.clone();
     	RegQ = RegQ.clone();
     	Q_1 = Q_1.clone();
-    	Count = Count.clone();
+    	Count = (CountBox) Count.clone();
     	
 		adjustRegister(RegM);
 		adjustRegister(RegA);
@@ -326,7 +326,7 @@ public class BoothsMultiplication {
     	RegA = RegA.clone();
     	RegQ = RegQ.clone();
     	Q_1 = Q_1.clone();
-    	Count = Count.clone();
+    	Count = (CountBox) Count.clone();
     	
 		minorAdjustRegister(RegM);
 		minorAdjustRegister(RegA);
@@ -356,14 +356,14 @@ public class BoothsMultiplication {
     */
     private static Bounds[] getPositions(int curLine, int numLines) {
         Bounds[] ret = new Bounds[5];
-        double frac = WINDOW_HEIGHT / numLines;
+        double frac = (WINDOW_HEIGHT-UPPER_MARGIN) / numLines;
 
         for (int i = 0; i<ret.length; ++i)
             ret[i] = new Bounds(
             		LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)),
-            		(WINDOW_HEIGHT-curLine*frac)-REG_HEIGHT,
+            		WINDOW_HEIGHT-((curLine+1)*REG_HEIGHT+(curLine*Y_PAD))-UPPER_MARGIN,
             		LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),
-            		WINDOW_HEIGHT-(curLine)*frac);
+            		(WINDOW_HEIGHT-curLine*(REG_HEIGHT+Y_PAD))-UPPER_MARGIN);
         return ret;
     }
 
