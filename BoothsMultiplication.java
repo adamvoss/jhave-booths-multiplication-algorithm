@@ -20,6 +20,7 @@ public class BoothsMultiplication {
     private static GAIGSprimitiveRegister Count;
     private static GAIGSPane trac;
     private static GAIGSPane currentRow;
+    private static int rowNumber; //This is only used for comments in the XML
     
     //Definitions
     private static final boolean DEBUG = false;
@@ -41,6 +42,8 @@ public class BoothsMultiplication {
     public static final double REG_WIDTH  =  0.25;
     public static final double X_PAD  = -0.05;
     public static final double REG_HEIGHT  =  0.1;
+    public static final double COL_SPACE = 0.1;
+    public static final double ROW_SPACE = 0.01;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -80,7 +83,7 @@ public class BoothsMultiplication {
         trac.setName("Trace");
         
         currentRow = new GAIGSPane();
-        currentRow.setName("Row 0");
+        currentRow.setName("Row " + rowNumber++);
         
         trac.add(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
@@ -91,21 +94,21 @@ public class BoothsMultiplication {
         RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
-        currentRow.add(RegM);
+        currentRow.add(RegM.clone());
         show.writeSnap("M is the Multiplicand", docURI.toASCIIString(), easyPseudo(2), trac);
 
         //Reg A
         RegA= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
-        currentRow.add(RegA);
+        currentRow.add(RegA.clone());
         show.writeSnap("A is initialized to Zero", docURI.toASCIIString(), easyPseudo(3), trac);
 
         //Reg Q
         RegQ= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[2], FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
-        currentRow.add(RegQ);
+        currentRow.add(RegQ.clone());
         show.writeSnap("Q is the Multiplier\nThe final product will span A and Q",
             docURI.toASCIIString(), easyPseudo(4), trac);
 
@@ -113,32 +116,25 @@ public class BoothsMultiplication {
         Q_1 = new GAIGSprimitiveRegister(1,       "", TEXT_COLOR, mypoints[3], FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
-        currentRow.add(Q_1);
+        currentRow.add(Q_1.clone());
         show.writeSnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), trac);
 
         //Count
         Count = new GAIGSprimitiveRegister(1,     "", TEXT_COLOR, mypoints[4], FONT_SIZE);
         Count.set(String.valueOf(RegM.getSize()));
         Count.setLabel("Count");
-        currentRow.add(Count);
+        currentRow.add(Count.clone());
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trac);
 
         //Create new line
-        mypoints = getPositions(1, numRows);
-        currentRow = new GAIGSPane();
-        trac.add(currentRow);
-        
-        currentRow.add(RegM.copyTo( mypoints[0]) );
-        currentRow.add(RegA.copyTo( mypoints[1]) );
-        currentRow.add(RegQ.copyTo( mypoints[2]) );
-        currentRow.add(Q_1.copyTo(  mypoints[3]) );
-        currentRow.add(Count.copyTo(mypoints[4]) );
+        positionMajorRow();
+        RegA.setAllToColor(YELLOW);
+        RegQ.setAllToColor(YELLOW);
+        addRow();
 
         //boothsAlgorithmIter(trace, numRows, show);
 
         //Hack to show we are done.
-        RegA.setAllToColor(YELLOW);
-        RegQ.setAllToColor(YELLOW);
         show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trac);
 
         show.close();
@@ -232,7 +228,7 @@ public class BoothsMultiplication {
 
             } 
             else { 
-                //No addition occured, so finish comparison with different quesiton 
+                //No addition occurred, so finish comparison with different question 
                 //Assumes it's looking 2 back, so add dummy.
                 trace.newLine();
                 show.writeSnap("Comparison", docURI.toASCIIString(),
@@ -414,6 +410,66 @@ public class BoothsMultiplication {
         return sum;
     }
 
+    private static void adjustRegister(GAIGSprimitiveRegister reg){
+    	double[] bds = reg.getBounds();
+    	double regHeight = bds[3]-bds[1];
+    	System.out.println(bds[1] + " " + bds[3]);
+//    	bds[0] = bds[2]+COL_SPACE;
+    	bds[3] = bds[1]-(ROW_SPACE);
+    	
+    	//No longer purely the previous values
+    	bds[1] = bds[3]-regHeight;
+//    	bds[2] = bds[0]+(bds[2]-bds[0]);
+    	
+    	System.out.println("New "+ bds[1] +" "+ bds[3]);
+    	
+    	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
+    	
+    	double[] bdsS = reg.getBounds();
+    	System.out.println("Set "+ bdsS[1] +" "+ bdsS[3]);
+	}
+	
+	private static void minorAdjustRegister(GAIGSprimitiveRegister reg){
+    	double[] bds = reg.getBounds();
+//    	bds[0] = bds[2]+COL_SPACE;
+    	bds[3] = bds[1]-(ROW_SPACE/2);
+    	
+    	//No longer purely the previous values
+//    	bds[1] = bds[3]+(bds[1]-bds[3]);
+    	bds[2] = bds[0]+(bds[2]-bds[0]);
+    	
+    	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
+	}
+    
+    private static void positionMajorRow(){
+		adjustRegister(RegM);
+		adjustRegister(RegA);
+		adjustRegister(RegQ);
+		adjustRegister(Q_1);
+		adjustRegister(Count);
+    }
+    
+    private static void positionAdditionRow(){
+		minorAdjustRegister(RegM);
+		minorAdjustRegister(RegA);
+		minorAdjustRegister(RegQ);
+		minorAdjustRegister(Q_1);
+		minorAdjustRegister(Count);
+    }
+    
+    private static void addRow(){
+    	currentRow = new GAIGSPane();
+    	currentRow.setName("Row " + rowNumber);
+    	
+    	trac.add(currentRow);
+    	
+    	currentRow.add(RegM.clone());
+    	currentRow.add(RegA.clone());
+    	currentRow.add(RegQ.clone());
+    	currentRow.add(Q_1.clone());
+    	currentRow.add(Count.clone());
+    }
+    
     /**
     * Calculate the appropriate positions of the current line, based on iteration
     * number and passed values, defaults.
