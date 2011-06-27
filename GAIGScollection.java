@@ -69,4 +69,14 @@ public class GAIGScollection<E extends GAIGSdatastr> extends AbstractSet<E> impl
 		return this.items.get(index);
 	}
 	
+	public void add(int index, E struct){
+		if (items.contains(struct)){
+			items.remove(struct);
+		}
+		this.items.add(index, struct);
+	}
+	
+	public E remove(int index){
+		return this.items.remove(index);
+	}
 }

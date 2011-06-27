@@ -141,9 +141,9 @@ public class BoothsMultiplication {
         //boothsAlgorithmIter(trace, numRows, show);
         boothsMultiplication();
 
-        //Hack to show we are done.
-        RegA.setAllToColor(YELLOW);
-        RegQ.setAllToColor(YELLOW);
+        //We are done.
+        ((GAIGSprimitiveRegister)currentRow.get(REGA)).setAllToColor(YELLOW);
+        ((GAIGSprimitiveRegister)currentRow.get(REGQ)).setAllToColor(YELLOW);
         show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trac);
 
         show.close();
@@ -151,12 +151,13 @@ public class BoothsMultiplication {
 
     public static void boothsMultiplication(){
     	while (Count.getBit(0) > 0){
+    		//----Count Frame----
     		((GAIGSprimitiveRegister)currentRow.get(COUNT)).setColor(YELLOW);
     		easySnap("Check the value of Count", easyPseudo(8), null, trac);
     		//Change count back
     		((GAIGSprimitiveRegister)currentRow.get(COUNT)).setColor(DEFAULT_COLOR);
     		
-            //Create new line
+            //----Check Bits Frame----
             positionMajorRow();
             addRow();
             ((GAIGSprimitiveRegister)currentRow.get(REGQ)).setColor(REG_SIZE-1, BLUE);
@@ -164,21 +165,58 @@ public class BoothsMultiplication {
     		
     		int cmpVal = RegQ.getBit(REG_SIZE-1) - Q_1.getBit(0);
 
-    		easySnap("Check the Operation", easyPseudo(new int[] {11,15}), null, trac);
+    		easySnap("Determine the operation", easyPseudo(new int[] {11,15}), null, trac);
     		
+            ((GAIGSprimitiveRegister)currentRow.get(REGQ)).setColor(REG_SIZE-1, TEXT_COLOR);
+            ((GAIGSprimitiveRegister)currentRow.get(Q1)).setColor(0, TEXT_COLOR);
     		
-            ((GAIGSprimitiveRegister)currentRow.get(REGQ)).setColor(REG_SIZE-1, DEFAULT_COLOR);
-            ((GAIGSprimitiveRegister)currentRow.get(Q1)).setColor(0, DEFAULT_COLOR);
-    		
-
-    		//Addition
+            //Prep for the next few frames.
+            RegA.setAllToColor(GREEN);
+            
+            //----Subtraction Frame----
     		if (cmpVal == 1){
-    			positionMajorRow();
+    			addIntoReg(negateValue(RegM), RegA);
+    			positionAdditionRow();
     			addRow();
+    			new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(), 2, .5, .5);
     			easySnap("Added -M to A", easyPseudo(11), null, trac);
     		}
     		
+            //----Addition Frame----
+    		else if (cmpVal == -1){
+    			addIntoReg(RegM, RegA);
+    			positionAdditionRow();
+    			addRow();
+    			new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2, .5, .5);
+    			easySnap("Added -M to A", easyPseudo(15), null, trac);
+    		}
+    		
+    		//----Shift Frame----
+    		rightShift(RegA, RegQ, Q_1);
+    		positionMajorRow();
+    		addRow();
+    		currentRow.remove(COUNT); //Oops...We don't want Count
+    		((GAIGSprimitiveRegister)currentRow.get(REGQ)).setAllToColor(BLUE);
+    		((GAIGSprimitiveRegister)currentRow.get(REGQ)).setColor(0, GREEN);
+    		((GAIGSprimitiveRegister)currentRow.get(Q1)).setColor(0, BLUE);
+    		easySnap("Sign-Preserving Right Shift", easyPseudo(20), null, trac);
+    		((GAIGSprimitiveRegister)currentRow.get(REGQ)).setAllToColor(TEXT_COLOR);
+    		((GAIGSprimitiveRegister)currentRow.get(REGQ)).setAllToColor(TEXT_COLOR);
+    		((GAIGSprimitiveRegister)currentRow.get(Q1)).setAllToColor(TEXT_COLOR);
+    		
+    		//Cleanup from that prep above
+    		((GAIGSprimitiveRegister)((GAIGSPane)trac.get(trac.size()-2)).get(REGA)).setAllToColor(TEXT_COLOR);
+    		((GAIGSprimitiveRegister)currentRow.get(REGA)).setAllToColor(TEXT_COLOR);
+    		RegA.setAllToColor(TEXT_COLOR);
+    		
+    		//----Decrement Count Frame---
     		Count.set(String.valueOf(Count.getBit(0)-1));
+    		//We don't want a new row
+    		currentRow.add(COUNT, Count.clone()); //Now we do want Count
+    		((GAIGSprimitiveRegister)currentRow.get(COUNT)).setColor(0, RED);
+    		easySnap("Decrement Count", easyPseudo(22), null, trac);
+    		((GAIGSprimitiveRegister)currentRow.get(COUNT)).setColor(0, TEXT_COLOR);
+    		//Hey!  We're ready to loop!
     	}
     }
     
@@ -397,11 +435,11 @@ public class BoothsMultiplication {
     }
 
     /**
-     * Adds two registers, storing the result in the first register (a la Intel Syntax).
-     * @param A	Destination Register and addend.
+     * Adds two registers, storing the result in the second register (a la AT&T Syntax).
      * @param toAdd other addend, not modified by function.
+     * @param A	Destination Register and addend.
      */
-    public static void addIntoReg(GAIGSregister A, GAIGSregister toAdd) {
+    public static void addIntoReg(GAIGSregister toAdd, GAIGSregister A) {
         int carry = 0;
         int sum = 0;
         for (int i = A.getSize()-1; i >= 0; --i) {
@@ -454,24 +492,20 @@ public class BoothsMultiplication {
 
     private static void adjustRegister(GAIGSprimitiveRegister reg){
     	double[] bds = reg.getBounds();
-//    	bds[0] = bds[2]+COL_SPACE;
     	bds[3] = bds[1]-(ROW_SPACE);
     	
     	//No longer purely the previous values
     	bds[1] = bds[3]-REG_HEIGHT;
-//    	bds[2] = bds[0]+(bds[2]-bds[0]);
     	
     	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
 	}
 	
 	private static void minorAdjustRegister(GAIGSprimitiveRegister reg){
     	double[] bds = reg.getBounds();
-//    	bds[0] = bds[2]+COL_SPACE;
     	bds[3] = bds[1]-(ROW_SPACE/2);
     	
     	//No longer purely the previous values
-//    	bds[1] = bds[3]+(bds[1]-bds[3]);
-    	bds[2] = bds[0]+(bds[2]-bds[0]);
+    	bds[1] = bds[3]-REG_HEIGHT;
     	
     	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
 	}
