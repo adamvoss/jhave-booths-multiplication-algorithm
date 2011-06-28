@@ -10,7 +10,7 @@ import exe.MutableGAIGSdatastr;
 //TODO Add a working label functionality.
 //TODO Grab documentation from the interface that can be found in history
 public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
-	private int[] bits;
+	protected int[] bits;
 	private String[] colors;
 	private GAIGSpolygon wrapped;
 
@@ -141,6 +141,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#set(java.lang.String)
 	  */
+	 //TODO Move Sign Extend out of BoothsMultiplication
 	 public void set(String binStr) {
 		 //Empty String == 0
 		 if (binStr.isEmpty()){binStr="0";}

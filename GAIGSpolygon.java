@@ -116,8 +116,8 @@ public class GAIGSpolygon extends AbstractPrimitive {
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
 		double[] current = this.getBounds();
-		double scaleX = (x2-x1)/(current[2]-(current[0]));
-		double scaleY = (y2-y1)/(current[3]-(current[1]));
+		double scaleX = Math.abs((x2-x1)/(current[2]-(current[0])));
+		double scaleY = Math.abs((y2-y1)/(current[3]-(current[1])));
 		double translateX = x1-(current[0]*scaleX);
 		double translateY = y1-(current[1]*scaleY);
 		

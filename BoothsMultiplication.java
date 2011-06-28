@@ -218,12 +218,12 @@ public class BoothsMultiplication {
     		RegQ.setAllToColor(TEXT_COLOR);
     		
     		//----Decrement Count Frame---
-    		Count.set(String.valueOf(Count.getBit(0)-1));
+    		Count.decrement();
     		//We don't want a new row
     		currentRow.add(Count); //Now we do want Count
-    		Count.setBitColor(0, RED);
+    		Count.setAllToColor(RED);
     		easySnap("Decrement Count", easyPseudo(22), null, trac);
-    		Count.setBitColor(0, TEXT_COLOR);
+    		Count.setAllToColor(TEXT_COLOR);
     		//Hey!  We're ready to loop!
     	}
     }
