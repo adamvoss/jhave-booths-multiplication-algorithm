@@ -154,12 +154,14 @@ public class BoothsMultiplication {
     }
 
     public static void boothsMultiplication(){
-    	while (Count.getBit(0) > 0){
+    	while (Count.getBit(0) >= 0){
     		//----Count Frame----
     		Count.setColor(YELLOW);
     		easySnap("Check the value of Count", easyPseudo(8), null, trac);
     		//Change count back
     		Count.setColor(DEFAULT_COLOR);
+    		
+    		if (Count.getBit(0) == 0) break; //Thats so we get the final check
     		
             //----Check Bits Frame----
             RegQ.setBitColor(REG_SIZE-1, BLUE);
