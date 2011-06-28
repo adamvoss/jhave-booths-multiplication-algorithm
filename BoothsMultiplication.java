@@ -6,7 +6,9 @@ import java.net.*;
 
 import org.jdom.*;
 
-import exe.*;
+import exe.GAIGSdatastr;
+import exe.ShowFile;
+import exe.question;
 import exe.pseudocode.*;
 
 public class BoothsMultiplication {

@@ -3,7 +3,7 @@ package exe.boothsMultiplication;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import exe.MutableGAIGSdatastr;
+import exe.boothsMultiplication.MutableGAIGSdatastr;
 import exe.ShowFile;
 import exe.boothsMultiplication.GAIGSmonospacedText;
 /**
