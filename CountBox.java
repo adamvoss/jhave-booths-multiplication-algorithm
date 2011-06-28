@@ -16,7 +16,6 @@ public class CountBox extends GAIGSprimitiveRegister {
     }
 
     public void decrement() {
-    	System.out.println(getCount());
     	this.set(String.valueOf(getCount()-1));
     	}
 

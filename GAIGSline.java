@@ -77,10 +77,10 @@ public class GAIGSline extends AbstractPrimitive {
 	 * @return      Array of coordinates.
 	 */
 	public double[] getBounds(){
-		double x1 = Double.MAX_VALUE;
-		double y1 = Double.MAX_VALUE;
-		double x2 = Double.MIN_VALUE;
-		double y2 = Double.MIN_VALUE;
+		double x1 = Double.POSITIVE_INFINITY;
+		double y1 = Double.POSITIVE_INFINITY;
+		double x2 = Double.NEGATIVE_INFINITY;
+		double y2 = Double.NEGATIVE_INFINITY;
 
 		for(int j = 0; j < 2; ++j) {
 			x1 = (x1 < x[j] ? x1 : x[j]);

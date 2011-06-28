@@ -80,10 +80,10 @@ public class GAIGSpolygon extends AbstractPrimitive {
 	 * @return      Array of coordinates.
 	 */
 	public double[] getBounds(){
-		double x1 = Double.MAX_VALUE;
-		double y1 = Double.MAX_VALUE;
-		double x2 = Double.MIN_VALUE;
-		double y2 = Double.MIN_VALUE;
+		double x1 = Double.POSITIVE_INFINITY;
+		double y1 = Double.POSITIVE_INFINITY;
+		double x2 = Double.NEGATIVE_INFINITY;
+		double y2 = Double.NEGATIVE_INFINITY;
 
 		for(int j = 0; j < nSides; ++j) {
 			x1 = (x1 < ptsX[j] ? x1 : ptsX[j]);
@@ -116,8 +116,9 @@ public class GAIGSpolygon extends AbstractPrimitive {
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
 		double[] current = this.getBounds();
-		double scaleX = Math.abs((x2-x1)/(current[2]-(current[0])));
-		double scaleY = Math.abs((y2-y1)/(current[3]-(current[1])));
+		double scaleX = (x2-x1)/(current[2]-(current[0]));
+		double scaleY = (y2-y1)/(current[3]-(current[1]));
+
 		double translateX = x1-(current[0]*scaleX);
 		double translateY = y1-(current[1]*scaleY);
 		
