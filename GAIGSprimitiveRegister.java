@@ -1,4 +1,3 @@
-
 package exe.boothsMultiplication;
 
 import exe.MutableGAIGSdatastr;
@@ -9,7 +8,7 @@ import exe.MutableGAIGSdatastr;
  *
  */
 //TODO Add a working label functionality.
-public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatastr {
+public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	private int[] bits;
 	private String[] colors;
 	private GAIGSpolygon wrapped;
@@ -77,7 +76,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#getSize()
 	  */
-	 @Override
 	 public int getSize() {
 		 return bits.length;
 	 }
@@ -85,7 +83,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#getBit(int)
 	  */
-	 @Override
 	 public int getBit(int loc) {
 		 return bits[loc];
 	 }
@@ -93,7 +90,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setBit(int, int)
 	  */
-	 @Override
 	 public void setBit(int value, int loc) {
 		 bits[loc] = value;
 	 }
@@ -101,7 +97,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setBit(int, int, java.lang.String)
 	  */
-	 @Override
 	 public void setBit(int value, int loc, String color) {
 		 bits[loc] = value;
 		 this.colors[loc] = color;
@@ -110,7 +105,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setLabel(java.lang.String)
 	  */
-	 @Override
 	 public void setLabel(String label) {
 		 //wrapped.setName(label);
 	 }
@@ -118,7 +112,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#getLabel()
 	  */
-	 @Override
 	 public String getLabel() {
 		 return wrapped.getName();
 	 }
@@ -126,7 +119,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#setColor(int, java.lang.String)
 	  */
-	 @Override
 	 public void setColor(int loc, String color) {
 		 this.colors[loc] = color;
 	 }
@@ -138,7 +130,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#setAllToColor(java.lang.String)
 	  */
-	 @Override
 	 public void setAllToColor(String color) {
 		 for (int loc = 0 ; loc < bits.length; loc++){
 			 this.colors[loc]=color;
@@ -148,7 +139,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#set(java.lang.String)
 	  */
-	 @Override
 	 public void set(String binStr) {
 		 //Empty String == 0
 		 if (binStr.isEmpty()){binStr="0";}
@@ -168,7 +158,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#copyTo(exe.boothsMultiplication.Bounds)
 	  */
-	 @Override
 	 public GAIGSprimitiveRegister copyTo(Bounds bounds) {
 		 GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister(this);
 		 ret.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
@@ -178,7 +167,6 @@ public class GAIGSprimitiveRegister implements GAIGSregister, MutableGAIGSdatast
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#toIntArray()
 	  */
-	 @Override
 	 public int[] toIntArray() {
 		 return bits;
 	 }

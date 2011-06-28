@@ -223,7 +223,7 @@ public class BoothsMultiplication {
     	}
     }
 
-    public static void rightShift(GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
+    public static void rightShift(GAIGSprimitiveRegister A, GAIGSprimitiveRegister Q, GAIGSprimitiveRegister Q_1) {
         if (A.getSize() < 1) return;
 
         Q_1.setBit(Q.getBit(Q.getSize()-1), 0);
@@ -242,7 +242,7 @@ public class BoothsMultiplication {
      * @param toAdd other addend, not modified by function.
      * @param A	Destination Register and addend.
      */
-    public static void addIntoReg(GAIGSregister toAdd, GAIGSregister A) {
+    public static void addIntoReg(GAIGSprimitiveRegister toAdd, GAIGSprimitiveRegister A) {
         int carry = 0;
         int sum = 0;
         for (int i = A.getSize()-1; i >= 0; --i) {
@@ -258,9 +258,9 @@ public class BoothsMultiplication {
      * @return A new register with the negated value.
      */
     //TODO Clean up this method so cast's aren't necessary
-    public static GAIGSregister negateValue(GAIGSregister M) {
+    public static GAIGSprimitiveRegister negateValue(GAIGSprimitiveRegister M) {
         int carry = 1;
-        GAIGSregister ret = new GAIGSprimitiveRegister((GAIGSprimitiveRegister) M);
+        GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister((GAIGSprimitiveRegister) M);
 
         for (int i = M.getSize()-1; i >= 0; --i) {
             int negPart = 0;
