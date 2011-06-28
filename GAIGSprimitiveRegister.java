@@ -8,6 +8,7 @@ import exe.MutableGAIGSdatastr;
  *
  */
 //TODO Add a working label functionality.
+//TODO Grab documentation from the interface that can be found in history
 public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	private int[] bits;
 	private String[] colors;
@@ -21,26 +22,27 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	}
 
 	public GAIGSprimitiveRegister(int length, String name, String color,
-			double x1, double y1, double x2, double y2, double fontSize) {
+			String fontColor, String outlineColor, double x1, double y1,
+			double x2, double y2, double fontSize) {
 		this.bits = new int[length];
 		this.colors = new String[length];
-		
+
 		length--;
-		while (length >= 0){
-			this.bits[length]=0;
-			this.colors[length]="\\" + DEFAULT_COLOR;
+		while (length >= 0) {
+			this.bits[length] = 0;
+			this.colors[length] = "\\" + DEFAULT_COLOR;
 			length--;
 		}
-		
+
 		int line_width = 1;
 		
 		wrapped = new GAIGSpolygon(4, new double[] {x1, x2, x2, x1}, new double[] {y1, y1, y2, y2},
-				"#FF0000", color, DEFAULT_COLOR, name, fontSize, line_width);
+				color, fontColor, outlineColor, name, fontSize, line_width);
 	}	
 
 	public GAIGSprimitiveRegister(int length, String name, String color,
-			Bounds b, double fontSize) {
-		this(length, name, color, b.x1, b.y1, b.x2, b.y2, fontSize);
+			String fontColor, String outlineColor, Bounds b, double fontSize) {
+		this(length, name, color, fontColor, outlineColor , b.x1, b.y1, b.x2, b.y2, fontSize);
 	}
 
 
@@ -119,7 +121,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#setColor(int, java.lang.String)
 	  */
-	 public void setColor(int loc, String color) {
+	 public void setBitColor(int loc, String color) {
 		 this.colors[loc] = color;
 	 }
 

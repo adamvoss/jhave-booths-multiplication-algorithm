@@ -46,6 +46,7 @@ public class BoothsMultiplication {
     public static final String YELLOW  = "#FFFF00";
     public static final String TEXT_COLOR = BLACK;
     public static final String DEFAULT_COLOR = WHITE;
+    public static final String OUTLINE_COLOR = TEXT_COLOR;
     
     public static final double WINDOW_HEIGHT = 1.0;
     public static final double WINDOW_WIDTH  = 1.0;
@@ -104,7 +105,7 @@ public class BoothsMultiplication {
 
     	//----Init Frame----
         //Reg M
-        RegM= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[0], FONT_SIZE);
+        RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[0], FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         currentRow.add(RegM);
@@ -113,14 +114,14 @@ public class BoothsMultiplication {
         REG_SIZE = RegM.getSize();
 
         //Reg A
-        RegA= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[1], FONT_SIZE);
+        RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[1], FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null, trac);
 
         //Reg Q
-        RegQ= new GAIGSprimitiveRegister(regSize, "", TEXT_COLOR, mypoints[2], FONT_SIZE);
+        RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[2], FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         currentRow.add(RegQ);
@@ -128,14 +129,14 @@ public class BoothsMultiplication {
             easyPseudo(4), null, trac);
 
         //Bit Q_1
-        Q_1 = new GAIGSprimitiveRegister(1,       "", TEXT_COLOR, mypoints[3], FONT_SIZE);
+        Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[3], FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         currentRow.add(Q_1);
         easySnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), null, trac);
 
         //Count
-        Count = new CountBox(REG_SIZE, TEXT_COLOR, mypoints[4], FONT_SIZE);
+        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[4], FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trac);
@@ -161,15 +162,15 @@ public class BoothsMultiplication {
     		Count.setColor(RED);
     		
             //----Check Bits Frame----
-            RegQ.setColor(REG_SIZE-1, BLUE);
-            Q_1.setColor(0, BLUE);
+            RegQ.setBitColor(REG_SIZE-1, BLUE);
+            Q_1.setBitColor(0, BLUE);
     		
     		int cmpVal = RegQ.getBit(REG_SIZE-1) - Q_1.getBit(0);
 
     		easySnap("Determine the operation", easyPseudo(new int[] {10,14}), null, trac);
     		
-            RegQ.setColor(REG_SIZE-1, TEXT_COLOR);
-            Q_1.setColor(0, TEXT_COLOR);
+            RegQ.setBitColor(REG_SIZE-1, TEXT_COLOR);
+            Q_1.setBitColor(0, TEXT_COLOR);
             
             //----Subtraction Frame----
     		if (cmpVal == 1){
@@ -202,8 +203,8 @@ public class BoothsMultiplication {
             
     		currentRow.remove(COUNT); //Oops...We don't want Count
     		RegQ.setAllToColor(BLUE);
-    		RegQ.setColor(0, GREEN);
-    		Q_1.setColor(0, BLUE);
+    		RegQ.setBitColor(0, GREEN);
+    		Q_1.setBitColor(0, BLUE);
     		easySnap("Sign-Preserving Right Shift", easyPseudo(20), null, trac);
     		RegQ.setAllToColor(TEXT_COLOR);
     		Q_1.setAllToColor(TEXT_COLOR);
@@ -218,9 +219,9 @@ public class BoothsMultiplication {
     		Count.set(String.valueOf(Count.getBit(0)-1));
     		//We don't want a new row
     		currentRow.add(Count); //Now we do want Count
-    		Count.setColor(0, RED);
+    		Count.setBitColor(0, RED);
     		easySnap("Decrement Count", easyPseudo(22), null, trac);
-    		Count.setColor(0, TEXT_COLOR);
+    		Count.setBitColor(0, TEXT_COLOR);
     		//Hey!  We're ready to loop!
     	}
     }

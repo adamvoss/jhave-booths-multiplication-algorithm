@@ -1,13 +1,13 @@
 package exe.boothsMultiplication;
 
 public class CountBox extends GAIGSprimitiveRegister {
-    public CountBox(int count, String color, double x1, double y1, double x2, double y2, double fontSize) {
-        super(1, "", color, x1, y1, x2, y2, fontSize);
+    public CountBox(int count, String color, String fontColor, String outlineColor, double x1, double y1, double x2, double y2, double fontSize) {
+        super(1, "", color, fontColor, outlineColor, x1, y1, x2, y2, fontSize);
         this.setBit(count, 0);
     }
 
-    public CountBox(int count, String color, Bounds bounds, double fontSize) {
-        this(count, color, bounds.x1, bounds.y1, bounds.x2, bounds.y2, fontSize);
+    public CountBox(int count, String color, String fontColor, String outlineColor, Bounds bounds, double fontSize) {
+        this(count, color, fontColor, outlineColor, bounds.x1, bounds.y1, bounds.x2, bounds.y2, fontSize);
     }
 
     public CountBox(CountBox source) {
@@ -18,7 +18,7 @@ public class CountBox extends GAIGSprimitiveRegister {
 
     public int getCount()   {return this.getBit(0);}
 
-    public void setColor(String color) {this.setColor(0, color);}
+    public void setColor(String color) {this.setBitColor(0, color);}
 
     @Override
     //I don't think you would have needed to overwrite this had you overridden clone.
