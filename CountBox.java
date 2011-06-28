@@ -18,8 +18,6 @@ public class CountBox extends GAIGSprimitiveRegister {
 
     public int getCount()   {return this.getBit(0);}
 
-    public void setColor(String color) {this.setBitColor(0, color);}
-
     @Override
     //I don't think you would have needed to overwrite this had you overridden clone.
     public CountBox copyTo(Bounds bounds) {

@@ -159,7 +159,7 @@ public class BoothsMultiplication {
     		Count.setColor(YELLOW);
     		easySnap("Check the value of Count", easyPseudo(8), null, trac);
     		//Change count back
-    		Count.setColor(RED);
+    		Count.setColor(DEFAULT_COLOR);
     		
             //----Check Bits Frame----
             RegQ.setBitColor(REG_SIZE-1, BLUE);
