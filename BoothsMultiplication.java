@@ -26,10 +26,10 @@ public class BoothsMultiplication {
     private static ShowFile show;
     private static int REG_SIZE;
     
-    private final static int REGM = 0;
-    private final static int REGA = 1;
-    private final static int REGQ = 2;
-    private final static int Q1 = 3;
+    private final static int REGM  = 0;
+    private final static int REGA  = 1;
+    private final static int REGQ  = 2;
+    private final static int Q1    = 3;
     private final static int COUNT = 4;
     
     
