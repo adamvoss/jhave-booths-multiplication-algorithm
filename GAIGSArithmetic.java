@@ -121,6 +121,49 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 	}
 	
 	/**
+	 * step() function for addition
+	 * @see step()
+	 */
+	private void additionStep() {
+		int sum = 0;
+		for (int i = 0 ; i <= lastTermIndex; i++){
+			char[] nextLine = terms.get(i);
+
+			if (nextLine.length > currentDigit){
+				char nextChar = nextLine[currentDigit];
+				int next = Character.digit(nextChar, radix);
+				if (nextChar == ' ') next = 0;
+				if (DEBUG) System.out.println("The digit is: " + next);		
+				if (next == -1){
+					System.err.println("Bad RADIX or TERM in GAIGSArithmetic");
+				}
+				sum += next; 	
+			}
+		}
+		//Add carry
+		if (sum >= radix){
+			int carry = (sum / radix);
+			if (terms.get(0)[currentDigit+1] != ' '){
+				addCarryRow();
+			}
+			if (carry != 0) terms.get(0)[currentDigit+1] = Character.toUpperCase(Character.forDigit(carry, radix));
+		}
+		//Set result
+		terms.get(lastTermIndex+1)[currentDigit]=Character.toUpperCase(Character.forDigit(sum % radix, radix));
+
+		currentDigit++;
+	}
+	
+	private void multiplicationStep(){
+		int product;
+		product = Integer.valueOf(new String(inplaceReverse(terms.get(firstTermIndex)))) *
+				Integer.valueOf(new String(inplaceReverse(terms.get(lastTermIndex))));
+		terms.set(lastTermIndex+1, inplaceReverse(String.valueOf(product).toCharArray()));
+		
+		currentDigit=maxLength;
+	}
+	
+	/**
 	 * Returns an empty row of maxLength filled with spaces characters.
 	 * @return
 	 */
@@ -177,7 +220,9 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 		if (currentDigit < maxLength){
 			switch (op){
 			case '+':
-				additionStep();
+				additionStep(); break;
+			case '×':
+				multiplicationStep(); break;
 			}
 		}
 	}
@@ -190,41 +235,6 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 			this.step();
 		}
 	}
-
-	/**
-	 * step() function for addition
-	 * @see step()
-	 */
-	private void additionStep() {
-		int sum = 0;
-		for (int i = 0 ; i <= lastTermIndex; i++){
-			char[] nextLine = terms.get(i);
-
-			if (nextLine.length > currentDigit){
-				char nextChar = nextLine[currentDigit];
-				int next = Character.digit(nextChar, radix);
-				if (nextChar == ' ') next = 0;
-				if (DEBUG) System.out.println("The digit is: " + next);		
-				if (next == -1){
-					System.err.println("Bad RADIX or TERM in GAIGSArithmetic");
-				}
-				sum += next; 	
-			}
-		}
-		//Add carry
-		if (sum >= radix){
-			int carry = (sum / radix);
-			if (terms.get(0)[currentDigit+1] != ' '){
-				addCarryRow();
-			}
-			if (carry != 0) terms.get(0)[currentDigit+1] = Character.toUpperCase(Character.forDigit(carry, radix));
-		}
-		//Set result
-		terms.get(lastTermIndex+1)[currentDigit]=Character.toUpperCase(Character.forDigit(sum % radix, radix));
-
-		currentDigit++;
-	}
-
 
 	/**
 	 * Provides GAIGS-compliant XML describing the state for the arithmetic.
@@ -300,6 +310,11 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 			show.writeSnap("Addition", test);
 		}
 
+		GAIGSArithmetic test2 = new GAIGSArithmetic('*', "5", "2", 10, .5, .5);
+		test2.complete();
+		
+		show.writeSnap("Multiplication", test2);
+		
 		show.close();
 	}
 
