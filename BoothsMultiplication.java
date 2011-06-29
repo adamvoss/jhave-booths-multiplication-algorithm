@@ -124,10 +124,10 @@ public class BoothsMultiplication {
         main.forceAdd(trace);
         main.forceAdd(math);
 
-        main=trace;
+//        main=trace;
 
-        trace.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, new double[] {0, 0, trace.getHeight(), trace.getHeight()},
-				DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+        //trace.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, new double[] {0, 0, trace.getHeight(), trace.getHeight()},
+		//		DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
         
         currentRow = new GAIGSpane();
         currentRow.setName("Row " + rowNumber++);
@@ -201,6 +201,7 @@ public class BoothsMultiplication {
         //We are done.
         //----Finished Frame----
         setRowActivityColor(INACTIVE_COLOR);
+        binary.complete();
         RegA.setColor(YELLOW);
         RegQ.setColor(YELLOW);
         easySnap("Check the result.", easyPseudo(24), null);
