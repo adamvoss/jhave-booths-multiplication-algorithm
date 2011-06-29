@@ -4,7 +4,7 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
 
 
 //TODO, raise and lower methods
-public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements MutableGAIGSdatastr {
+public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements MutableGAIGSdatastr {
 	public static final double JHAVÉ_X_MARGIN = 0.203;
 	public static final double JHAVÉ_Y_MARGIN = 0.067;
 	public static final double JHAVÉ_ASPECT_RATIO = (1+2*JHAVÉ_X_MARGIN)/(1+2*JHAVÉ_Y_MARGIN);
@@ -12,7 +12,7 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	private double height;
 	private double[] realBounds;
 	
-	public GAIGSPane(double x0, double y0, double x1, double y1, Double width, Double height){
+	public GAIGSpane(double x0, double y0, double x1, double y1, Double width, Double height){
 		super();
 
 		//TODO add aspect ratio preserving constructors that utilize null parameters
@@ -25,16 +25,16 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		this.height = height;
 	}
 	
-	public GAIGSPane(double x0, double y0, double x1, double y1){
+	public GAIGSpane(double x0, double y0, double x1, double y1){
 		this(x0, y0, x1, y1, (x1-x0), (y1-y0));
 	}
 	
 	
-	public GAIGSPane(double width, double height){
+	public GAIGSpane(double width, double height){
 		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, width, height);
 	}
 	
-	public GAIGSPane(){
+	public GAIGSpane(){
 //		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, 1, 1);
 //		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1-JHAVÉ_X_MARGIN, 1-JHAVÉ_Y_MARGIN, 1, 1);
 		this(0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
@@ -44,7 +44,7 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 //		return (realBounds[2]-realBounds[0])/(realBounds[3]-realBounds[1]);
 //	}
 	
-	public GAIGSPane(GAIGSPane source){
+	public GAIGSpane(GAIGSpane source){
 		super();
 		this.width = source.width;
 		this.height = source.height;
@@ -57,7 +57,7 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	
 	@Override
 	public String toXML() {
-		String xml = "<!-- Start GAIGSPane: "+ name +" -->\n";
+		String xml = "<!-- Start GAIGSpane: "+ name +" -->\n";
 		
 		for (MutableGAIGSdatastr item : items){
 			MutableGAIGSdatastr clone = item.clone();
@@ -65,7 +65,7 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 			clone.setBounds(newBds[0], newBds[1], newBds[2], newBds[3]);
 			xml += clone.toXML();
 		}
-		xml += "<!-- End of GAIGSPane: "+ name +" -->\n";
+		xml += "<!-- End of GAIGSpane: "+ name +" -->\n";
 		return xml;
 	}
 
@@ -138,7 +138,7 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		}
 	}
 	
-	public GAIGSPane clone(){
-		return new GAIGSPane(this);
+	public GAIGSpane clone(){
+		return new GAIGSpane(this);
 	}
 }
