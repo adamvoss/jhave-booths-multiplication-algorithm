@@ -201,7 +201,7 @@ public class BoothsMultiplication {
         //We are done.
         //----Finished Frame----
         setRowActivityColor(INACTIVE_COLOR);
-        binary.complete();
+        decimal.complete();
         RegA.setColor(YELLOW);
         RegQ.setColor(YELLOW);
         easySnap("Check the result.", easyPseudo(24), null);
