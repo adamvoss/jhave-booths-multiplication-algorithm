@@ -51,8 +51,8 @@ public class BoothsMultiplication {
     public static final String DEFAULT_COLOR = WHITE;
     public static final String OUTLINE_COLOR = FONT_COLOR;
     
-    private static final double WINDOW_HEIGHT = 1.0;
-    private static final double WINDOW_WIDTH  = 1.0;
+    private static final double WINDOW_WIDTH = 1+GAIGSPane.JHAVÉ_X_MARGIN*2;
+    private static final double WINDOW_HEIGHT  = 1+GAIGSPane.JHAVÉ_Y_MARGIN*2;
 
     private static final double LEFT_MARGIN   = 0.0;
     private static final double TOP_MARGIN    = 0.0;
@@ -97,27 +97,32 @@ public class BoothsMultiplication {
 				 0-GAIGSPane.JHAVÉ_Y_MARGIN,
 				 1+GAIGSPane.JHAVÉ_X_MARGIN,
 				 1+GAIGSPane.JHAVÉ_Y_MARGIN,
-				 1+GAIGSPane.JHAVÉ_X_MARGIN*2,
-				 1+GAIGSPane.JHAVÉ_Y_MARGIN*2);
+				 WINDOW_WIDTH,
+				 WINDOW_HEIGHT);
         main.setName("Main");
-        header = new GAIGSPane(0,.75,1,1);
+        header = new GAIGSPane(0, WINDOW_HEIGHT*(3/4.0),
+        		main.getWidth(), WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
-        GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, 1,1, FONT_SIZE, FONT_SIZE/2, FONT_COLOR);
-        binary.setBounds(0, 0, 1, 1);
+        GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight(), header.getHeight()/4, header.getHeight()/9, FONT_COLOR);
+        GAIGSArithmetic decimal = new GAIGSArithmetic('*', args[1], args[2], 10, .6, header.getHeight(), header.getHeight()/4, header.getHeight()/9, FONT_COLOR);
+        //binary.setBounds(.6, 0, .85, 1);
         header.add(binary);
+        header.add(decimal);
         
-        math = new GAIGSPane();
+        math = new GAIGSPane(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
         math.setName("Math");
-        trace = new GAIGSPane();
+        
+        trace = new GAIGSPane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
         
-        //main.forceAdd(header);
+        main.forceAdd(header);
         main.forceAdd(trace);
         main.forceAdd(math);
-        
-        //main=trace;
-//        trace.add(new GAIGSpolygon(4, new double[] {0, 1, 1, 0}, new double[] {0, 0, 1, 1},
-//				DEFAULT_COLOR, RED, BLACK, "Hi", FONT_SIZE, 2));
+
+        main=trace;
+
+        trace.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, new double[] {0, 0, trace.getHeight(), trace.getHeight()},
+				DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
         
         currentRow = new GAIGSPane();
         currentRow.setName("Row " + rowNumber++);
@@ -133,9 +138,9 @@ public class BoothsMultiplication {
     	//Initialize Register Location
     	double[] init = new double[] {
     			LEFT_MARGIN,
-    			WINDOW_HEIGHT-TOP_MARGIN-REG_HEIGHT,
+    			trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
     			LEFT_MARGIN+REG_WIDTH,
-    			WINDOW_HEIGHT-TOP_MARGIN};
+    			trace.getHeight()-TOP_MARGIN};
     	
     	//----Init Frame----
         //Reg M
@@ -182,7 +187,7 @@ public class BoothsMultiplication {
         currentRow.add(Count);
         easySnap("Count is initialized to the number of bits in a register.", easyPseudo(6), null);
 
-        //boothsAlgorithmIter(trace, numRows, show);
+
         boothsMultiplication();
 
         //We are done.
@@ -221,10 +226,13 @@ public class BoothsMultiplication {
     			addRow();
     			addIntoReg(negateValue(RegM), RegA);
                 RegA.setAllToColor(GREEN);
-    			new GAIGSArithmetic('+',
+                GAIGSArithmetic sum=new GAIGSArithmetic('+',
     					RegA.toString(), negateValue(RegM).toString(),
-    					2, .5, .5);
+    					2, 1, math.getHeight()/1.5);
+                math.add(sum);
+                sum.complete();
     			easySnap("Added -M to A", easyPseudo(11), null);
+    			math.clear();
     		}
     		
             //----Addition Frame----
@@ -233,8 +241,11 @@ public class BoothsMultiplication {
     			addRow();
     			addIntoReg(RegM, RegA);
                 RegA.setAllToColor(GREEN);
-    			new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2, .5, .5);
+                GAIGSArithmetic sum=new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2, 1, math.getHeight()/1.5);
+                math.add(sum);
+                sum.complete();
     			easySnap("Added -M to A", easyPseudo(15), null);
+    			math.clear();
     		}
     		
     		//----Shift Frame----
