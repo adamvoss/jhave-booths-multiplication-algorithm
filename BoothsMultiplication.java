@@ -52,7 +52,7 @@ public class BoothsMultiplication {
     public static final double WINDOW_WIDTH  = 1.0;
 
     private static final double LEFT_MARGIN   = 0.0;
-    private static final double TOP_MARGIN    = 0.2;
+    private static final double TOP_MARGIN    = 0.0;
     private static final double REG_WIDTH     = 0.20;
     private static final double REG_HEIGHT    = 0.06;
     private static final double ROW_SPACE     = 0.03;
@@ -89,9 +89,14 @@ public class BoothsMultiplication {
         }
 
         GAIGStrace trace = new GAIGStrace();
-        trac = new GAIGSPane();
+        trac = new GAIGSPane(0-GAIGSPane.JHAVÉ_X_MARGIN,
+        					 0-GAIGSPane.JHAVÉ_Y_MARGIN,
+        					 1+GAIGSPane.JHAVÉ_X_MARGIN,
+        					 1+GAIGSPane.JHAVÉ_Y_MARGIN,
+        					 1*GAIGSPane.JHAVÉ_ASPECT_RATIO,
+        					 1);
         trac.setName("Trace");
-        
+                
         currentRow = new GAIGSPane();
         currentRow.setName("Row " + rowNumber++);
         
@@ -154,7 +159,7 @@ public class BoothsMultiplication {
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
-        show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trac);
+        easySnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), null, trac);
 
         //boothsAlgorithmIter(trace, numRows, show);
         boothsMultiplication();
@@ -163,7 +168,7 @@ public class BoothsMultiplication {
         //----Finished Frame----
         RegA.setAllToColor(YELLOW);
         RegQ.setAllToColor(YELLOW);
-        show.writeSnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), trac);
+        easySnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), null, trac);
 
         show.close();
     }
@@ -392,9 +397,9 @@ public class BoothsMultiplication {
     public static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
         try {
             if (que == null)
-                show.writeSnap(title, info, pseudo, stuff);
+                show.writeSnap(title, FONT_SIZE+.01, info, pseudo, stuff);
             else
-                show.writeSnap(title, info, pseudo, que, stuff);
+                show.writeSnap(title, FONT_SIZE+.01, info, pseudo, que, stuff);
         } catch (IOException e) {
             e.printStackTrace();
         }
