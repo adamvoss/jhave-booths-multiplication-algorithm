@@ -236,11 +236,11 @@ public class BoothsMultiplication {
     			positionAdditionRow(); //That Cloned All the Registers, fyi
                 setRowActivityColor(ACTIVE_COLOR);
     			addRow();
-    			addIntoReg(negateValue(RegM), RegA);
-                RegA.setAllToColor(GREEN);
                 GAIGSArithmetic sum=new GAIGSArithmetic('+',
                     RegA.toString(), negateValue(RegM).toString(),
                     2, 1, math.getHeight()/1.5);
+    			addIntoReg(negateValue(RegM), RegA);
+                RegA.setAllToColor(GREEN);
                 math.add(sum);
                 sum.complete();
     			easySnap("Added -M to A", easyPseudo(11), null);
@@ -253,9 +253,9 @@ public class BoothsMultiplication {
     			positionAdditionRow();
                 setRowActivityColor(ACTIVE_COLOR);
     			addRow();
+                GAIGSArithmetic sum=new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2, 1, math.getHeight()/1.5);
     			addIntoReg(RegM, RegA);
                 RegA.setAllToColor(GREEN);
-                GAIGSArithmetic sum=new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2, 1, math.getHeight()/1.5);
                 math.add(sum);
                 sum.complete();
     			easySnap("Added -M to A", easyPseudo(15), null);
