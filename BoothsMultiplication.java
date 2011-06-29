@@ -105,7 +105,6 @@ public class BoothsMultiplication {
         header.setName("Header");
         GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight(), header.getHeight()/4, header.getHeight()/9, FONT_COLOR);
         GAIGSArithmetic decimal = new GAIGSArithmetic('*', args[1], args[2], 10, .6, header.getHeight(), header.getHeight()/4, header.getHeight()/9, FONT_COLOR);
-        //binary.setBounds(.6, 0, .85, 1);
         header.add(binary);
         header.add(decimal);
         
