@@ -1,6 +1,6 @@
 package exe.boothsMultiplication;
 
-import exe.MutableGAIGSdatastr;
+import exe.boothsMultiplication.MutableGAIGSdatastr;
 
 
 /**

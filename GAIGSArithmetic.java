@@ -312,6 +312,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 
 		GAIGSArithmetic test2 = new GAIGSArithmetic('*', "5", "2", 10, .5, .5);
 		test2.complete();
+		test2.setBounds(0, 0, 1, 1);
 		
 		show.writeSnap("Multiplication", test2);
 		

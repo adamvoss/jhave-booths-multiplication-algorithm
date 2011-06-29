@@ -20,7 +20,10 @@ public class BoothsMultiplication {
     private static GAIGSprimitiveRegister RegQ;
     private static GAIGSprimitiveRegister Q_1;
     private static CountBox Count;
-    private static GAIGSPane trac;
+    private static GAIGSPane main;
+    private static GAIGSPane header;
+    private static GAIGSPane math;
+    private static GAIGSPane trace;
     private static GAIGSPane currentRow;
     private static int rowNumber; //This is only used for comments in the XML
     private static ShowFile show;
@@ -44,12 +47,12 @@ public class BoothsMultiplication {
     public static final String GREEN   = "#00FF00";
     public static final String BLUE    = "#0000FF";
     public static final String YELLOW  = "#FFFF00";
-    public static final String TEXT_COLOR = BLACK;
+    public static final String FONT_COLOR = BLACK;
     public static final String DEFAULT_COLOR = WHITE;
-    public static final String OUTLINE_COLOR = TEXT_COLOR;
+    public static final String OUTLINE_COLOR = FONT_COLOR;
     
-    public static final double WINDOW_HEIGHT = 1.0;
-    public static final double WINDOW_WIDTH  = 1.0;
+    private static final double WINDOW_HEIGHT = 1.0;
+    private static final double WINDOW_WIDTH  = 1.0;
 
     private static final double LEFT_MARGIN   = 0.0;
     private static final double TOP_MARGIN    = 0.0;
@@ -88,21 +91,40 @@ public class BoothsMultiplication {
             multiplicand = signExtend(multiplicand, regSize-multiplicand.length() );
         }
 
-        GAIGStrace trace = new GAIGStrace();
-        trac = new GAIGSPane(0-GAIGSPane.JHAVÉ_X_MARGIN,
-        					 0-GAIGSPane.JHAVÉ_Y_MARGIN,
-        					 1+GAIGSPane.JHAVÉ_X_MARGIN,
-        					 1+GAIGSPane.JHAVÉ_Y_MARGIN,
-        					 1*GAIGSPane.JHAVÉ_ASPECT_RATIO,
-        					 1);
-        trac.setName("Trace");
-                
+        GAIGStrace trace_object = new GAIGStrace();
+        
+        main = new GAIGSPane(0-GAIGSPane.JHAVÉ_X_MARGIN,
+				 0-GAIGSPane.JHAVÉ_Y_MARGIN,
+				 1+GAIGSPane.JHAVÉ_X_MARGIN,
+				 1+GAIGSPane.JHAVÉ_Y_MARGIN,
+				 1+GAIGSPane.JHAVÉ_X_MARGIN*2,
+				 1+GAIGSPane.JHAVÉ_Y_MARGIN*2);
+        main.setName("Main");
+        header = new GAIGSPane(0,.75,1,1);
+        header.setName("Header");
+        GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, 1,1, FONT_SIZE, FONT_SIZE/2, FONT_COLOR);
+        binary.setBounds(0, 0, 1, 1);
+        header.add(binary);
+        
+        math = new GAIGSPane();
+        math.setName("Math");
+        trace = new GAIGSPane();
+        trace.setName("Trace");
+        
+        //main.forceAdd(header);
+        main.forceAdd(trace);
+        main.forceAdd(math);
+        
+        //main=trace;
+//        trace.add(new GAIGSpolygon(4, new double[] {0, 1, 1, 0}, new double[] {0, 0, 1, 1},
+//				DEFAULT_COLOR, RED, BLACK, "Hi", FONT_SIZE, 2));
+        
         currentRow = new GAIGSPane();
         currentRow.setName("Row " + rowNumber++);
         
-        trac.add(currentRow);
+        trace.add(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
-    	quest = new QuestionGenerator(show, trace);
+    	quest = new QuestionGenerator(show, trace_object);
     	
     	
     	//One could add Register Spacing/Sizing Logic Here
@@ -117,49 +139,48 @@ public class BoothsMultiplication {
     	
     	//----Init Frame----
         //Reg M
-        RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         currentRow.add(RegM);
-        easySnap("M is the multiplicand", easyPseudo(2), null, trac);
+        easySnap("M is the multiplicand", easyPseudo(2), null);
         
         REG_SIZE = RegM.getSize();
 
         //Reg A
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+REG_WIDTH;
-        RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         currentRow.add(RegA);
-        easySnap("A is initialized to Zero", easyPseudo(3), null, trac);
+        easySnap("A is initialized to Zero", easyPseudo(3), null);
 
         //Reg Q
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+REG_WIDTH;
-        RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         currentRow.add(RegQ);
-        easySnap("Q is the Multiplier\nThe final product will span A and Q",
-            easyPseudo(4), null, trac);
+        easySnap("Q is the Multiplier\nThe final product will span A and Q", easyPseudo(4), null);
 
         //Bit Q_1
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+FONT_SIZE;
-        Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         currentRow.add(Q_1);
-        easySnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), null, trac);
+        easySnap("Q_₁ is initialized to 0", easyPseudo(5), null);
 
         //Count
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+FONT_SIZE;
-        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
-        easySnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), null, trac);
+        easySnap("Count is initialized to the number of bits in a register.", easyPseudo(6), null);
 
         //boothsAlgorithmIter(trace, numRows, show);
         boothsMultiplication();
@@ -168,7 +189,7 @@ public class BoothsMultiplication {
         //----Finished Frame----
         RegA.setAllToColor(YELLOW);
         RegQ.setAllToColor(YELLOW);
-        easySnap("Check the result.", docURI.toASCIIString(), easyPseudo(24), null, trac);
+        easySnap("Check the result.", easyPseudo(24), null);
 
         show.close();
     }
@@ -177,7 +198,7 @@ public class BoothsMultiplication {
     	while (Count.getBit(0) >= 0){
     		//----Count Frame----
     		Count.setColor(YELLOW);
-    		easySnap("Check the value of Count", easyPseudo(8), null, trac);
+    		easySnap("Check the value of Count", easyPseudo(8), null);
     		//Change count back
     		Count.setColor(DEFAULT_COLOR);
     		
@@ -189,10 +210,10 @@ public class BoothsMultiplication {
     		
     		int cmpVal = RegQ.getBit(REG_SIZE-1) - Q_1.getBit(0);
 
-    		easySnap("Determine the operation", easyPseudo(new int[] {10,14}), null, trac);
+    		easySnap("Determine the operation", easyPseudo(new int[] {10,14}), null);
     		
-            RegQ.setBitColor(REG_SIZE-1, TEXT_COLOR);
-            Q_1.setBitColor(0, TEXT_COLOR);
+            RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
+            Q_1.setBitColor(0, FONT_COLOR);
             
             //----Subtraction Frame----
     		if (cmpVal == 1){
@@ -203,7 +224,7 @@ public class BoothsMultiplication {
     			new GAIGSArithmetic('+',
     					RegA.toString(), negateValue(RegM).toString(),
     					2, .5, .5);
-    			easySnap("Added -M to A", easyPseudo(11), null, trac);
+    			easySnap("Added -M to A", easyPseudo(11), null);
     		}
     		
             //----Addition Frame----
@@ -213,7 +234,7 @@ public class BoothsMultiplication {
     			addIntoReg(RegM, RegA);
                 RegA.setAllToColor(GREEN);
     			new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2, .5, .5);
-    			easySnap("Added -M to A", easyPseudo(15), null, trac);
+    			easySnap("Added -M to A", easyPseudo(15), null);
     		}
     		
     		//----Shift Frame----
@@ -227,23 +248,23 @@ public class BoothsMultiplication {
     		RegQ.setAllToColor(BLUE);
     		RegQ.setBitColor(0, GREEN);
     		Q_1.setBitColor(0, BLUE);
-    		easySnap("Sign-Preserving Right Shift", easyPseudo(20), null, trac);
-    		RegQ.setAllToColor(TEXT_COLOR);
-    		Q_1.setAllToColor(TEXT_COLOR);
+    		easySnap("Sign-Preserving Right Shift", easyPseudo(20), null);
+    		RegQ.setAllToColor(FONT_COLOR);
+    		Q_1.setAllToColor(FONT_COLOR);
     		
     				//Clean Color of A and Q on the previous line
-    		((GAIGSprimitiveRegister)((GAIGSPane)trac.get(trac.size()-2)).get(REGA)).setAllToColor(TEXT_COLOR);
-    		((GAIGSprimitiveRegister)((GAIGSPane)trac.get(trac.size()-2)).get(REGQ)).setAllToColor(TEXT_COLOR);
-    		RegA.setAllToColor(TEXT_COLOR);
-    		RegQ.setAllToColor(TEXT_COLOR);
+    		((GAIGSprimitiveRegister)((GAIGSPane)trace.get(trace.size()-2)).get(REGA)).setAllToColor(FONT_COLOR);
+    		((GAIGSprimitiveRegister)((GAIGSPane)trace.get(trace.size()-2)).get(REGQ)).setAllToColor(FONT_COLOR);
+    		RegA.setAllToColor(FONT_COLOR);
+    		RegQ.setAllToColor(FONT_COLOR);
     		
     		//----Decrement Count Frame---
     		Count.decrement();
     		//We don't want a new row
     		currentRow.add(Count); //Now we do want Count
     		Count.setAllToColor(RED);
-    		easySnap("Decrement Count", easyPseudo(22), null, trac);
-    		Count.setAllToColor(TEXT_COLOR);
+    		easySnap("Decrement Count", easyPseudo(22), null);
+    		Count.setAllToColor(FONT_COLOR);
     		//Hey!  We're ready to loop!
     	}
     }
@@ -364,7 +385,7 @@ public class BoothsMultiplication {
     	currentRow = new GAIGSPane();
     	currentRow.setName("Row " + rowNumber);
     	
-    	trac.add(currentRow);
+    	trace.add(currentRow);
     	
     	currentRow.add(RegM);
     	currentRow.add(RegA);
@@ -394,7 +415,7 @@ public class BoothsMultiplication {
         return extension.concat(binStr);
     }
 
-    public static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
+    private static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
         try {
             if (que == null)
                 show.writeSnap(title, FONT_SIZE+.01, info, pseudo, stuff);
@@ -405,12 +426,23 @@ public class BoothsMultiplication {
         }
     }
     
-    public static void easySnap(String title, String pseudo, question que, GAIGSdatastr... stuff){
+    private static void easySnap(String title, String pseudo, question que, GAIGSdatastr... stuff){
         try {
             if (que == null)
                 show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, stuff);
             else
                 show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, que, stuff);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void easySnap(String title, String pseudo, question que){
+        try {
+            if (que == null)
+                show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, main);
+            else
+                show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, que, main);
         } catch (IOException e) {
             e.printStackTrace();
         }
