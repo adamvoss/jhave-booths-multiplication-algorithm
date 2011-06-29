@@ -1,6 +1,6 @@
 package exe.boothsMultiplication;
 
-import exe.MutableGAIGSdatastr;
+import exe.boothsMultiplication.MutableGAIGSdatastr;
 
 
 //TODO, raise and lower methods
@@ -20,8 +20,9 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		this.height = height;
 	}
 	
+	//TODO add aspect ratio preserving constructors that utilize null parameters
 	public GAIGSpane(double x0, double y0, double x1, double y1){
-		this(x0, y0, x1, y1, 1, 1);
+		this(x0, y0, x1, y1, 1*JHAVÉ_ASPECT_RATIO, 1);
 	}
 	
 	public GAIGSpane(double width, double height){
@@ -30,6 +31,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	
 	public GAIGSpane(){
 //		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, 1, 1);
+//		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1-JHAVÉ_X_MARGIN, 1-JHAVÉ_Y_MARGIN, 1, 1);
 		this(0, 0, 1, 1, 1, 1);
 	}
 	
@@ -62,6 +64,11 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		return xml;
 	}
 
+	//TODO consider override of equals so this is not needed
+	public void forceAdd(MutableGAIGSdatastr struct){
+		this.items.add(struct);
+	}
+	
 	public double getWidth() {
 		return width;
 	}

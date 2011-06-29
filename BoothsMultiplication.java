@@ -20,11 +20,11 @@ public class BoothsMultiplication {
     private static GAIGSprimitiveRegister RegQ;
     private static GAIGSprimitiveRegister Q_1;
     private static CountBox Count;
-    private static GAIGSPane main;
-    private static GAIGSPane header;
-    private static GAIGSPane math;
-    private static GAIGSPane trace;
-    private static GAIGSPane currentRow;
+    private static GAIGSpane main;
+    private static GAIGSpane header;
+    private static GAIGSpane math;
+    private static GAIGSpane trace;
+    private static GAIGSpane currentRow;
     private static int rowNumber; //This is only used for comments in the XML
     private static ShowFile show;
     private static int REG_SIZE;
@@ -93,22 +93,22 @@ public class BoothsMultiplication {
 
         GAIGStrace trace_object = new GAIGStrace();
         
-        main = new GAIGSPane(0-GAIGSPane.JHAVÉ_X_MARGIN,
-				 0-GAIGSPane.JHAVÉ_Y_MARGIN,
-				 1+GAIGSPane.JHAVÉ_X_MARGIN,
-				 1+GAIGSPane.JHAVÉ_Y_MARGIN,
-				 1+GAIGSPane.JHAVÉ_X_MARGIN*2,
-				 1+GAIGSPane.JHAVÉ_Y_MARGIN*2);
+        main = new GAIGSpane(0-GAIGSpane.JHAVÉ_X_MARGIN,
+				 0-GAIGSpane.JHAVÉ_Y_MARGIN,
+				 1+GAIGSpane.JHAVÉ_X_MARGIN,
+				 1+GAIGSpane.JHAVÉ_Y_MARGIN,
+				 1+GAIGSpane.JHAVÉ_X_MARGIN*2,
+				 1+GAIGSpane.JHAVÉ_Y_MARGIN*2);
         main.setName("Main");
-        header = new GAIGSPane(0,.75,1,1);
+        header = new GAIGSpane(0,.75,1,1);
         header.setName("Header");
         GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, 1,1, FONT_SIZE, FONT_SIZE/2, FONT_COLOR);
         binary.setBounds(0, 0, 1, 1);
         header.add(binary);
         
-        math = new GAIGSPane();
+        math = new GAIGSpane();
         math.setName("Math");
-        trace = new GAIGSPane();
+        trace = new GAIGSpane();
         trace.setName("Trace");
         
         //main.forceAdd(header);
@@ -119,7 +119,7 @@ public class BoothsMultiplication {
 //        trace.add(new GAIGSpolygon(4, new double[] {0, 1, 1, 0}, new double[] {0, 0, 1, 1},
 //				DEFAULT_COLOR, RED, BLACK, "Hi", FONT_SIZE, 2));
         
-        currentRow = new GAIGSPane();
+        currentRow = new GAIGSpane();
         currentRow.setName("Row " + rowNumber++);
         
         trace.add(currentRow);
@@ -253,8 +253,8 @@ public class BoothsMultiplication {
     		Q_1.setAllToColor(FONT_COLOR);
     		
     				//Clean Color of A and Q on the previous line
-    		((GAIGSprimitiveRegister)((GAIGSPane)trace.get(trace.size()-2)).get(REGA)).setAllToColor(FONT_COLOR);
-    		((GAIGSprimitiveRegister)((GAIGSPane)trace.get(trace.size()-2)).get(REGQ)).setAllToColor(FONT_COLOR);
+    		((GAIGSprimitiveRegister)((GAIGSpane)trace.get(trace.size()-2)).get(REGA)).setAllToColor(FONT_COLOR);
+    		((GAIGSprimitiveRegister)((GAIGSpane)trace.get(trace.size()-2)).get(REGQ)).setAllToColor(FONT_COLOR);
     		RegA.setAllToColor(FONT_COLOR);
     		RegQ.setAllToColor(FONT_COLOR);
     		
@@ -382,7 +382,7 @@ public class BoothsMultiplication {
     }
     
     private static void addRow(){
-    	currentRow = new GAIGSPane();
+    	currentRow = new GAIGSpane();
     	currentRow.setName("Row " + rowNumber);
     	
     	trace.add(currentRow);
