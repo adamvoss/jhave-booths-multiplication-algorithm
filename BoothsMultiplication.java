@@ -47,19 +47,21 @@ public class BoothsMultiplication {
     public static final String GREEN   = "#00FF00";
     public static final String BLUE    = "#0000FF";
     public static final String YELLOW  = "#FFFF00";
-    public static final String FONT_COLOR = BLACK;
-    public static final String DEFAULT_COLOR = WHITE;
-    public static final String OUTLINE_COLOR = FONT_COLOR;
+    public static final String FONT_COLOR     = BLACK;
+    public static final String DEFAULT_COLOR  = WHITE;
+    public static final String ACTIVE_COLOR   = "#FFFF44";
+    public static final String INACTIVE_COLOR = GREY;
+    public static final String OUTLINE_COLOR  = FONT_COLOR;
     
     private static final double WINDOW_HEIGHT = 1.0;
     private static final double WINDOW_WIDTH  = 1.0;
 
     private static final double LEFT_MARGIN   = 0.0;
-    private static final double TOP_MARGIN    = 0.0;
-    private static final double REG_WIDTH     = 0.20;
+    private static final double TOP_MARGIN    = 0.10;
+    private static final double REG_WIDTH     = 0.15;
     private static final double REG_HEIGHT    = 0.06;
     private static final double ROW_SPACE     = 0.03;
-    private static final double COL_SPACE     = 0.015;
+    private static final double COL_SPACE     = 0.02;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -139,7 +141,7 @@ public class BoothsMultiplication {
     	
     	//----Init Frame----
         //Reg M
-        RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegM= new GAIGSprimitiveRegister(regSize, "", ACTIVE_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         currentRow.add(RegM);
@@ -150,7 +152,7 @@ public class BoothsMultiplication {
         //Reg A
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+REG_WIDTH;
-        RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegA= new GAIGSprimitiveRegister(regSize, "", ACTIVE_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         currentRow.add(RegA);
@@ -159,7 +161,7 @@ public class BoothsMultiplication {
         //Reg Q
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+REG_WIDTH;
-        RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegQ= new GAIGSprimitiveRegister(regSize, "", ACTIVE_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         currentRow.add(RegQ);
@@ -168,16 +170,16 @@ public class BoothsMultiplication {
         //Bit Q_1
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+FONT_SIZE;
-        Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        Q_1 = new GAIGSprimitiveRegister(1,       "", ACTIVE_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         currentRow.add(Q_1);
         easySnap("Q_₁ is initialized to 0", easyPseudo(5), null);
 
         //Count
-    	init[0] = init[2]+(COL_SPACE);
+    	init[0] = init[2]+(2.5 * COL_SPACE);
     	init[2] = init[0]+FONT_SIZE;
-        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        Count = new CountBox(REG_SIZE, ACTIVE_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
         easySnap("Count is initialized to the number of bits in a register.", easyPseudo(6), null);
@@ -200,7 +202,7 @@ public class BoothsMultiplication {
     		Count.setColor(YELLOW);
     		easySnap("Check the value of Count", easyPseudo(8), null);
     		//Change count back
-    		Count.setColor(DEFAULT_COLOR);
+    		Count.setColor(ACTIVE_COLOR);
     		
     		if (Count.getBit(0) == 0) break; //Thats so we get the final check
     		
@@ -252,7 +254,7 @@ public class BoothsMultiplication {
     		RegQ.setAllToColor(FONT_COLOR);
     		Q_1.setAllToColor(FONT_COLOR);
     		
-    				//Clean Color of A and Q on the previous line
+            //Clean Color of A and Q on the previous line
     		((GAIGSprimitiveRegister)((GAIGSpane)trace.get(trace.size()-2)).get(REGA)).setAllToColor(FONT_COLOR);
     		((GAIGSprimitiveRegister)((GAIGSpane)trace.get(trace.size()-2)).get(REGQ)).setAllToColor(FONT_COLOR);
     		RegA.setAllToColor(FONT_COLOR);
@@ -353,6 +355,13 @@ public class BoothsMultiplication {
     	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
 	}
     
+    private static void setRowActivityColor(String color) {
+        RegM.setColor(color);
+        RegA.setColor(color);
+        RegQ.setColor(color);
+        Q_1.setColor(color) ;
+    }
+
     private static void positionMajorRow(){
     	RegM = RegM.clone();
     	RegA = RegA.clone();
@@ -368,10 +377,10 @@ public class BoothsMultiplication {
     }
     
     private static void positionAdditionRow(){
-    	RegM = RegM.clone();
-    	RegA = RegA.clone();
-    	RegQ = RegQ.clone();
-    	Q_1 = Q_1.clone();
+    	RegM  = RegM.clone();
+    	RegA  = RegA.clone();
+    	RegQ  = RegQ.clone();
+    	Q_1   = Q_1.clone();
     	Count = (CountBox) Count.clone();
     	
 		minorAdjustRegister(RegM);
