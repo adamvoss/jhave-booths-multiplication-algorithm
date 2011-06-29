@@ -42,26 +42,30 @@ public class BoothsMultiplication {
     private static final double FONT_SIZE = 0.05;
     public static final String WHITE   = "#FFFFFF";
     public static final String BLACK   = "#000000";
-    public static final String GREY    = "#888888";
+    public static final String GREY    = "#CCCCCC";
     public static final String RED     = "#FF0000";
-    public static final String GREEN   = "#00FF00";
+    public static final String GREEN   = "#00AA00";
     public static final String BLUE    = "#0000FF";
     public static final String YELLOW  = "#FFFF00";
+    public static final String GOLD    = "#CDAD00";
     public static final String FONT_COLOR     = BLACK;
     public static final String DEFAULT_COLOR  = WHITE;
-    public static final String ACTIVE_COLOR   = "#FFFF44";
+    public static final String ACTIVE_COLOR   = "#ADD8EE";
     public static final String INACTIVE_COLOR = GREY;
     public static final String OUTLINE_COLOR  = FONT_COLOR;
     
-    private static final double WINDOW_WIDTH = 1+GAIGSpane.JHAVÉ_X_MARGIN*2;
+    private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVÉ_X_MARGIN*2;
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVÉ_Y_MARGIN*2;
 
-    private static final double LEFT_MARGIN   = 0.0;
-    private static final double TOP_MARGIN    = 0.10;
-    private static final double REG_WIDTH     = 0.15;
-    private static final double REG_HEIGHT    = 0.06;
-    private static final double ROW_SPACE     = 0.03;
-    private static final double COL_SPACE     = 0.02;
+    private static final double LEFT_MARGIN       = 0.0;
+    private static final double RIGHT_MARGIN      = 1.0;
+    private static final double TOP_MARGIN        = 0.0;
+    private static       double REG_WIDTH         = 0.12;
+    private static final double REG_WIDTH_PER_BIT = 0.03;
+    private static final double REG_SPACE_CHUNK   = 0.23;
+    private static final double REG_HEIGHT        = 0.06;
+    private static final double ROW_SPACE         = 0.03;
+    private static       double COL_SPACE         = 0.02;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -135,6 +139,9 @@ public class BoothsMultiplication {
     	
     	//One could add Register Spacing/Sizing Logic Here
         int numRows = numLines(multiplier);
+        REG_WIDTH = REG_WIDTH_PER_BIT * multiplier.length();
+        COL_SPACE = REG_SPACE_CHUNK - REG_WIDTH;
+        
 
     	//Initialize Register Location
     	double[] init = new double[] {
@@ -181,8 +188,8 @@ public class BoothsMultiplication {
         easySnap("Q_₁ is initialized to 0", easyPseudo(5), null);
 
         //Count
-    	init[0] = init[2]+(2.5 * COL_SPACE);
-    	init[2] = init[0]+FONT_SIZE;
+    	init[0] = RIGHT_MARGIN - FONT_SIZE;
+    	init[2] = RIGHT_MARGIN;
         Count = new CountBox(REG_SIZE, ACTIVE_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
@@ -193,8 +200,9 @@ public class BoothsMultiplication {
 
         //We are done.
         //----Finished Frame----
-        RegA.setAllToColor(YELLOW);
-        RegQ.setAllToColor(YELLOW);
+        setRowActivityColor(INACTIVE_COLOR);
+        RegA.setColor(YELLOW);
+        RegQ.setColor(YELLOW);
         easySnap("Check the result.", easyPseudo(24), null);
 
         show.close();
@@ -223,13 +231,15 @@ public class BoothsMultiplication {
             
             //----Subtraction Frame----
     		if (cmpVal == 1){
+                setRowActivityColor(INACTIVE_COLOR);//Old row is old
     			positionAdditionRow(); //That Cloned All the Registers, fyi
+                setRowActivityColor(ACTIVE_COLOR);
     			addRow();
     			addIntoReg(negateValue(RegM), RegA);
                 RegA.setAllToColor(GREEN);
                 GAIGSArithmetic sum=new GAIGSArithmetic('+',
-    					RegA.toString(), negateValue(RegM).toString(),
-    					2, 1, math.getHeight()/1.5);
+                    RegA.toString(), negateValue(RegM).toString(),
+                    2, 1, math.getHeight()/1.5);
                 math.add(sum);
                 sum.complete();
     			easySnap("Added -M to A", easyPseudo(11), null);
@@ -238,7 +248,9 @@ public class BoothsMultiplication {
     		
             //----Addition Frame----
     		else if (cmpVal == -1){
+                setRowActivityColor(INACTIVE_COLOR);
     			positionAdditionRow();
+                setRowActivityColor(ACTIVE_COLOR);
     			addRow();
     			addIntoReg(RegM, RegA);
                 RegA.setAllToColor(GREEN);
@@ -252,7 +264,9 @@ public class BoothsMultiplication {
     		//----Shift Frame----
     		RegA.setAllToColor(GREEN);
     		RegQ.setAllToColor(BLUE);
+            setRowActivityColor(INACTIVE_COLOR);
     		positionMajorRow(); //Remember this clones
+            setRowActivityColor(ACTIVE_COLOR);
     		addRow();
     		rightShift(RegA, RegQ, Q_1);
             
@@ -366,10 +380,11 @@ public class BoothsMultiplication {
 	}
     
     private static void setRowActivityColor(String color) {
-        RegM.setColor(color);
-        RegA.setColor(color);
-        RegQ.setColor(color);
-        Q_1.setColor(color) ;
+        RegM.setColor(color) ;
+        RegA.setColor(color) ;
+        RegQ.setColor(color) ;
+        Q_1.setColor(color)  ;
+        Count.setColor(color);
     }
 
     private static void positionMajorRow(){
