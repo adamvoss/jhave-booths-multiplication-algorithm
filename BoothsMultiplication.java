@@ -29,11 +29,11 @@ public class BoothsMultiplication {
     private static ShowFile show;
     private static int REG_SIZE;
     
-    private final static int REGM  = 0;
-    private final static int REGA  = 1;
-    private final static int REGQ  = 2;
-    private final static int Q1    = 3;
-    private final static int COUNT = 4;
+    public final static int REGM  = 0;
+    public final static int REGA  = 1;
+    public final static int REGQ  = 2;
+    public final static int Q1    = 3;
+    public final static int COUNT = 4;
     
     
     //Definitions
@@ -134,7 +134,7 @@ public class BoothsMultiplication {
         
         trace.add(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
-    	quest = new QuestionGenerator(show, trace_object);
+    	quest = new QuestionGenerator(show, trace);
     	
     	
     	//One could add Register Spacing/Sizing Logic Here

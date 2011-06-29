@@ -8,28 +8,30 @@ import exe.XMLmcQuestion;
 import exe.XMLmsQuestion;
 import exe.XMLtfQuestion;
 import exe.question;
+import exe.boothsMultiplication.BoothsMultiplication;//to access constant RegN defs
 
 
 public class QuestionGenerator {
+    public static final int REGM = BoothsMultiplication.REGM;
+    public static final int REGA = BoothsMultiplication.REGA;
+    public static final int REGQ = BoothsMultiplication.REGQ;
+    public static final int Q1   = BoothsMultiplication.Q1;
+    public static final int COUNT= BoothsMultiplication.COUNT;
+
     public final int NUMQUESTIONS = 7;
 	private ShowFile show;
-	private GAIGStrace trace;
+    private GAIGSpane  trace;
 	private UniqueIDGen id = new UniqueIDGen();
     private Random rand    = new Random();
     private boolean[] asked= new boolean[NUMQUESTIONS+1];
 //    private int[]   askTime;
 
-	public QuestionGenerator(ShowFile show, GAIGStrace trace){
-		this.show=show;
-		this.trace=trace;
-	}
-/*    public QuestionGenerator(int numLines, ShowFile show, GAIGStrace trace) {
+    public QuestionGenerator(ShowFile show, GAIGSpane pane) {
         this.show = show;
-        this.trace = trace;
-
-        askTime = {0, -1, 1, -1, 1, 1, 1, -1};
+        this.trace = pane;
+        System.out.println(REGM);
     }
-*/
+
 	//This is messy and not the best way to do it, but it's only a proof of concept
     //Should be broken out to each method.
 	public question getQuestion(int type){
@@ -39,8 +41,8 @@ public class QuestionGenerator {
         else {
             question ret = null;
             if (type == 1){
-                GAIGSregister OldQ   = (GAIGSregister)trace.get(trace.size()-2,"RegQ");
-                GAIGSregister OldQ_1 = (GAIGSregister)trace.get(trace.size()-2,"Q_1");
+                GAIGSprimitiveRegister OldQ   = getRegister(trace.size()-2, REGQ);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"RegQ");
+                GAIGSprimitiveRegister OldQ_1 = getRegister(trace.size()-2, Q1);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"Q_1");
                 ret = getType1Question(OldQ.getBit(OldQ.getSize()-1),
                                         OldQ_1.getBit(0));
             }
@@ -48,26 +50,26 @@ public class QuestionGenerator {
             else if (type == 2) {ret = (asked[2] ? null : getType2Question(show));}
             //to be called right after new registers are added, but before they're drawn.
             else if (type == 3) {
-                GAIGSregister OldQ   = (GAIGSregister)trace.get(trace.size()-2,"RegQ");
-                GAIGSregister OldQ_1 = (GAIGSregister)trace.get(trace.size()-2,"Q_1");
+                GAIGSprimitiveRegister OldQ   = getRegister(trace.size()-2, REGQ);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"RegQ");
+                GAIGSprimitiveRegister OldQ_1 = getRegister(trace.size()-2, Q1);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"Q_1");
 
                 int select  = ((int)Math.abs(rand.nextInt() )) % 3;
                 String ref  = (select == 0 ? "M": (select == 1 ? "A" : "Q"));
                 String phref= (select == 0 ? "A": (select == 1 ? "Q" : "M"));
 
-                GAIGSregister oldReg = (GAIGSregister)trace.get(trace.size()-2, "Reg" + ref);
-                GAIGSregister newReg = (GAIGSregister)trace.get("Reg" + ref);
-                GAIGSregister phony  = (GAIGSregister)trace.get("Reg" + phref);
+                GAIGSprimitiveRegister oldReg = getRegister(trace.size()-2, select);//(GAIGSprimitiveRegister)trace.get(trace.size()-2, "Reg" + ref);
+                GAIGSprimitiveRegister newReg = getRegister(trace.size()-1, select);//(GAIGSprimitiveRegister)trace.get("Reg" + ref);
+                GAIGSprimitiveRegister phony  = getRegister(trace.size()-1, (select+1) % 3);//(GAIGSprimitiveRegister)trace.get("Reg" + phref);
 
                ret = getType3Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), oldReg, newReg, phony, ref); 
             }
             else if (type == 4) {
                 if (asked[4])
-                ret = getType4Question( ((GAIGSregister)trace.get("RegQ")).getSize(), (CountBox)trace.get("Count"), show);
+                ret = getType4Question(getRegister(trace.size()-1, REGQ).getSize(), (CountBox)getRegister(trace.size()-1, COUNT), show);
             }
             else if (type == 5) {ret = (asked[5] ? null : getType5Question(show));}
             else if (type == 6) {ret = (asked[6] ? null : getType6Question(show));}
-            else if (type == 7) {ret = (asked[7] ? null : getType7Question((GAIGSregister)trace.get("RegA"), show));}
+            else if (type == 7) {ret = (asked[7] ? null : getType7Question(getRegister(trace.size()-1, REGA), show));}
 
             else {}
  
@@ -86,7 +88,10 @@ public class QuestionGenerator {
         return getQuestion(select == 0 ? 7 : (select == 1 ? 4 : 6));
     }
 
-    private int selectOnCount(int mod) {return (((GAIGSregister)trace.get("RegQ")).getSize() - ((CountBox)trace.get("Count")).getCount() ) % mod;}
+    private int selectOnCount(int mod) {
+        //return (((GAIGSprimitiveRegister)trace.get("RegQ")).getSize() - ((CountBox)trace.get("Count")).getCount() ) % mod;
+        return (getRegister(trace.size()-1, REGQ).getSize() - ((CountBox) getRegister(trace.size()-1, COUNT) ).getCount() ) % mod;
+    }
 	/**
 	 * Returns a random question of the "Which operation will occur next?" flavor.
 	 * Call at the comparison frame of the loop.
@@ -156,7 +161,7 @@ public class QuestionGenerator {
 	 * Call at the comparison frame of the loop. 
 	 *
 	 */
-	private question getType3Question(int Q0, int Q_1, GAIGSregister oldReg, GAIGSregister newReg, GAIGSregister phony, 
+	private question getType3Question(int Q0, int Q_1, GAIGSprimitiveRegister oldReg, GAIGSprimitiveRegister newReg, GAIGSprimitiveRegister phony, 
 			String regName) {
 
 		int select = ((int)Math.abs(rand.nextInt() )) % 4;
@@ -291,11 +296,11 @@ public class QuestionGenerator {
         else {
             XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
             ret1.setQuestionText("How many shift operations will occur during the execution of the algorithm?");
-            ret1.addChoice("" + ((GAIGSregister)trace.get("RegQ")).getSize() );
+            ret1.addChoice("" + getRegister(trace.size()-1, REGQ).getSize() );
             ret1.setAnswer(1);
-            ret1.addChoice("" + (2 * ((GAIGSregister)trace.get("RegQ")).getSize() ) );
+            ret1.addChoice("" + (2 * getRegister(trace.size()-1, REGQ).getSize() ));
             ret1.addChoice("It depends on values in Q");
-            ret1.addChoice("" + BoothsMultiplication.numLines(((GAIGSregister)trace.get(0, "RegQ")).toString() ) );
+            ret1.addChoice("" + BoothsMultiplication.numLines(getRegister(0, REGQ).toString() ));//((GAIGSprimitiveRegister)trace.get(0, "RegQ")).toString() ) );
 
             ret = ret1;
         }
@@ -325,11 +330,11 @@ public class QuestionGenerator {
 	 * Call after a shift operation.
 	 *
 	 */
-    private question getType7Question(GAIGSregister RegA, ShowFile show) {
+    private question getType7Question(GAIGSprimitiveRegister RegA, ShowFile show) {
         XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
         ret.setQuestionText("The sign of the current value in register A matches the sign of the final product.");
         int curAValue = binStrToInt(RegA.toString() );
-        int finalProd = binStrToInt(trace.get(0, "RegQ").toString() ) * binStrToInt(trace.get(0, "RegM").toString() );
+        int finalProd = binStrToInt(getRegister(0, REGQ).toString() ) * binStrToInt(getRegister(0, REGM).toString() );
         ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd));
 
 //      System.out.println("" + curAValue + "\t" + finalProd + "\t" + RegA);
@@ -369,6 +374,10 @@ public class QuestionGenerator {
 
     /** Returns a random number from 1 to range-1*/
     private int getInRange(int range) {return ((int)Math.abs(rand.nextInt() )) % range;}
+
+    private GAIGSprimitiveRegister getRegister(int level, int reg) {
+        return (GAIGSprimitiveRegister)((GAIGSpane)trace.get(level)).get(reg);
+    }
 
 	//Heavy Duty, tis even its own class
     //You know it.

@@ -70,8 +70,8 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	}
 
 	//TODO consider override of equals so this is not needed
-	public void forceAdd(MutableGAIGSdatastr struct){
-		this.items.add(struct);
+	public void forceAdd(MutableGAIGSdatastr data){
+		this.items.add(data);
 	}
 	
 	public double getWidth() {
@@ -90,10 +90,10 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		this.height = height;
 	}
 
-	public double[] getRealCoordinates(MutableGAIGSdatastr struct){
+	public double[] getRealCoordinates(MutableGAIGSdatastr data){
 		double scaleX = (realBounds[2]-realBounds[0])/width;
 		double scaleY = (realBounds[3]-realBounds[1])/height;
-		double[] srcBounds = struct.getBounds();
+		double[] srcBounds = data.getBounds();
 		return new double[] {srcBounds[0]*scaleX + realBounds[0],
 							 srcBounds[1]*scaleY + realBounds[1],
 							 srcBounds[2]*scaleX + realBounds[0],
