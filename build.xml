@@ -33,7 +33,7 @@
           classname="exe.boothsMultiplication.GAIGSArithmetic">
       <arg value="foo.sho" />  <!--  Name of the output visualization script-->
       <arg value="7" />
-      <arg value="-7" />
+      <arg value="-13" />
     </java> 
   </target>
 

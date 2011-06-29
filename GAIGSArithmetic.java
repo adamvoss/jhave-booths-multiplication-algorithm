@@ -156,8 +156,8 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 	
 	private void multiplicationStep(){
 		int product;
-		product = Integer.valueOf(new String(inplaceReverse(terms.get(firstTermIndex)))) *
-				Integer.valueOf(new String(inplaceReverse(terms.get(lastTermIndex))));
+		product = Integer.valueOf(new String(inplaceReverse(terms.get(firstTermIndex).clone()))) *
+				Integer.valueOf(new String(inplaceReverse(terms.get(lastTermIndex).clone())));
 		terms.set(lastTermIndex+1, inplaceReverse(String.valueOf(product).toCharArray()));
 		
 		currentDigit=maxLength;
