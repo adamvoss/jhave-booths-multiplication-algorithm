@@ -29,7 +29,8 @@ public class GAIGSPane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	}
 	
 	public GAIGSPane(){
-		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, 1, 1);
+//		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, 1, 1);
+		this(0, 0, 1, 1, 1, 1);
 	}
 	
 //	public double getAspectRatio(){

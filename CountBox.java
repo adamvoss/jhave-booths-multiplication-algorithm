@@ -10,6 +10,10 @@ public class CountBox extends GAIGSprimitiveRegister {
     public CountBox(int count, String color, String fontColor, String outlineColor, Bounds bounds, double fontSize) {
         this(count, color, fontColor, outlineColor, bounds.x1, bounds.y1, bounds.x2, bounds.y2, fontSize);
     }
+    
+    public CountBox(int count, String color, String fontColor, String outlineColor, double[] bounds, double fontSize) {
+        this(count, color, fontColor, outlineColor, bounds[0], bounds[1], bounds[2], bounds[3], fontSize);
+    }
 
     public CountBox(CountBox source) {
         super(source);

@@ -36,7 +36,7 @@ public class BoothsMultiplication {
     //Definitions
     private static final boolean DEBUG = false;
 
-    private static final double FONT_SIZE = 0.07;
+    private static final double FONT_SIZE = 0.05;
     public static final String WHITE   = "#FFFFFF";
     public static final String BLACK   = "#000000";
     public static final String GREY    = "#888888";
@@ -51,13 +51,12 @@ public class BoothsMultiplication {
     public static final double WINDOW_HEIGHT = 1.0;
     public static final double WINDOW_WIDTH  = 1.0;
 
-    public static final double LEFT_MARGIN   = 0.0;
-    public static final double UPPER_MARGIN  = 0.2;
-    public static final double REG_WIDTH     = 0.20;
-    public static final double X_PAD         = 0.07;
-    public static final double Y_PAD         = 0.03;
-    public static final double REG_HEIGHT    = 0.06;
-    public static final double ROW_SPACE = Y_PAD;
+    private static final double LEFT_MARGIN   = 0.0;
+    private static final double TOP_MARGIN    = 0.2;
+    private static final double REG_WIDTH     = 0.20;
+    private static final double REG_HEIGHT    = 0.06;
+    private static final double ROW_SPACE     = 0.03;
+    private static final double COL_SPACE     = 0.015;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -89,9 +88,6 @@ public class BoothsMultiplication {
             multiplicand = signExtend(multiplicand, regSize-multiplicand.length() );
         }
 
-        int numRows = numLines(multiplier);
-        Bounds[] mypoints = getPositions(0, numRows);
-
         GAIGStrace trace = new GAIGStrace();
         trac = new GAIGSPane();
         trac.setName("Trace");
@@ -102,10 +98,21 @@ public class BoothsMultiplication {
         trac.add(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
     	quest = new QuestionGenerator(show, trace);
+    	
+    	
+    	//One could add Register Spacing/Sizing Logic Here
+        int numRows = numLines(multiplier);
 
+    	//Initialize Register Location
+    	double[] init = new double[] {
+    			LEFT_MARGIN,
+    			WINDOW_HEIGHT-TOP_MARGIN-REG_HEIGHT,
+    			LEFT_MARGIN+REG_WIDTH,
+    			WINDOW_HEIGHT-TOP_MARGIN};
+    	
     	//----Init Frame----
         //Reg M
-        RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[0], FONT_SIZE);
+        RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         currentRow.add(RegM);
@@ -114,14 +121,18 @@ public class BoothsMultiplication {
         REG_SIZE = RegM.getSize();
 
         //Reg A
-        RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[1], FONT_SIZE);
+    	init[0] = init[2]+(COL_SPACE);
+    	init[2] = init[0]+REG_WIDTH;
+        RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null, trac);
 
         //Reg Q
-        RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[2], FONT_SIZE);
+    	init[0] = init[2]+(COL_SPACE);
+    	init[2] = init[0]+REG_WIDTH;
+        RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         currentRow.add(RegQ);
@@ -129,14 +140,18 @@ public class BoothsMultiplication {
             easyPseudo(4), null, trac);
 
         //Bit Q_1
-        Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[3], FONT_SIZE);
+    	init[0] = init[2]+(COL_SPACE);
+    	init[2] = init[0]+FONT_SIZE;
+        Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
         currentRow.add(Q_1);
         easySnap("Q_₁ is initialized to 0", docURI.toASCIIString(), easyPseudo(5), null, trac);
 
         //Count
-        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, mypoints[4], FONT_SIZE);
+    	init[0] = init[2]+(COL_SPACE);
+    	init[2] = init[0]+FONT_SIZE;
+        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, TEXT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
         show.writeSnap("Count is initialized to the number of bits in a register.", docURI.toASCIIString(), easyPseudo(6), trac);
@@ -354,25 +369,6 @@ public class BoothsMultiplication {
     }
     
     /**
-    * Calculate the appropriate positions of the current line, based on iteration
-    * number and passed values, defaults.
-    * 
-    * @return ret Array of bounds
-    */
-    private static Bounds[] getPositions(int curLine, int numLines) {
-        Bounds[] ret = new Bounds[5];
-        double frac = (WINDOW_HEIGHT-UPPER_MARGIN) / numLines;
-
-        for (int i = 0; i<ret.length; ++i)
-            ret[i] = new Bounds(
-            		LEFT_MARGIN+(i*(REG_WIDTH+X_PAD)),
-            		WINDOW_HEIGHT-((curLine+1)*REG_HEIGHT+(curLine*Y_PAD))-UPPER_MARGIN,
-            		LEFT_MARGIN+((i+1)*REG_WIDTH)+(i*X_PAD),
-            		(WINDOW_HEIGHT-curLine*(REG_HEIGHT+Y_PAD))-UPPER_MARGIN);
-        return ret;
-    }
-
-    /**
     * Converts an int to its shortest-length two's complement binary representative
     */
     public static String toBinary(int a){
@@ -407,9 +403,9 @@ public class BoothsMultiplication {
     public static void easySnap(String title, String pseudo, question que, GAIGSdatastr... stuff){
         try {
             if (que == null)
-                show.writeSnap(title, docURI.toASCIIString(), pseudo, stuff);
+                show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, stuff);
             else
-                show.writeSnap(title, docURI.toASCIIString(), pseudo, que, stuff);
+                show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, que, stuff);
         } catch (IOException e) {
             e.printStackTrace();
         }

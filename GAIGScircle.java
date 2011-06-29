@@ -8,7 +8,7 @@ package exe.boothsMultiplication;
  * </p>
  *
  * @author Shawn Recker
- * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
+ * @author Adam Voss <vossad01@luther.edu>
  * @version 6/22/2010
  */
 public class GAIGScircle extends AbstractPrimitive {

@@ -44,6 +44,11 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 			String fontColor, String outlineColor, Bounds b, double fontSize) {
 		this(length, name, color, fontColor, outlineColor , b.x1, b.y1, b.x2, b.y2, fontSize);
 	}
+	
+	public GAIGSprimitiveRegister(int length, String name, String color,
+			String fontColor, String outlineColor, double[] bounds, double fontSize) {
+		this(length, name, color, fontColor, outlineColor , bounds[0], bounds[1], bounds[2], bounds[3], fontSize);
+	}
 
 
 	/**
