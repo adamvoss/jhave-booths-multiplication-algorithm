@@ -12,18 +12,23 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	private double height;
 	private double[] realBounds;
 	
-	public GAIGSpane(double x0, double y0, double x1, double y1, double width, double height){
+	public GAIGSpane(double x0, double y0, double x1, double y1, Double width, Double height){
 		super();
+
+		//TODO add aspect ratio preserving constructors that utilize null parameters
+		if (width == null) width = ((x1-x0)/(y1-y0)/JHAVÉ_ASPECT_RATIO)*height;
+		else if (height == null) height = (JHAVÉ_ASPECT_RATIO/((x1-x0)/(y1-y0)))*width;
+		
 		this.name="Unnamed";
 		this.realBounds = new double[] {x0, y0, x1, y1};
 		this.width=width;
 		this.height = height;
 	}
 	
-	//TODO add aspect ratio preserving constructors that utilize null parameters
 	public GAIGSpane(double x0, double y0, double x1, double y1){
-		this(x0, y0, x1, y1, 1*JHAVÉ_ASPECT_RATIO, 1);
+		this(x0, y0, x1, y1, (x1-x0), (y1-y0));
 	}
+	
 	
 	public GAIGSpane(double width, double height){
 		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, width, height);
@@ -32,7 +37,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	public GAIGSpane(){
 //		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, 1, 1);
 //		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1-JHAVÉ_X_MARGIN, 1-JHAVÉ_Y_MARGIN, 1, 1);
-		this(0, 0, 1, 1, 1, 1);
+		this(0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
 	}
 	
 //	public double getAspectRatio(){
