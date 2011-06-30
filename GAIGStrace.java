@@ -12,6 +12,7 @@ import exe.*;
 * A "line" represents a time in history and is referenced by an integer. The particular object
 * on a line is referenced by a String value, given as an argument when the object is added.
 */
+@Deprecated
 public class GAIGStrace implements GAIGSdatastr {
     private ArrayList<HashMap<String, GAIGSdatastr> > trace;
 

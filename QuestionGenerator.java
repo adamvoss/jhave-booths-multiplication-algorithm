@@ -29,7 +29,6 @@ public class QuestionGenerator {
     public QuestionGenerator(ShowFile show, GAIGSpane pane) {
         this.show = show;
         this.trace = pane;
-        System.out.println(REGM);
     }
 
 	//This is messy and not the best way to do it, but it's only a proof of concept

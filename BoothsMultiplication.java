@@ -96,8 +96,6 @@ public class BoothsMultiplication {
             regSize=multiplier.length();
             multiplicand = signExtend(multiplicand, regSize-multiplicand.length() );
         }
-
-        GAIGStrace trace_object = new GAIGStrace();
         
         main = new GAIGSpane(0-GAIGSpane.JHAVÉ_X_MARGIN,
 				 0-GAIGSpane.JHAVÉ_Y_MARGIN,
@@ -202,6 +200,7 @@ public class BoothsMultiplication {
         //----Finished Frame----
         setRowActivityColor(INACTIVE_COLOR);
         decimal.complete();
+        binary.complete();
         RegA.setColor(YELLOW);
         RegA.setAllToColor(FONT_COLOR);
         RegQ.setColor(YELLOW);
