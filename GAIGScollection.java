@@ -58,22 +58,22 @@ public class GAIGScollection<E extends GAIGSdatastr> extends AbstractSet<E> impl
 	}
 
 	@Override
-	public boolean add(E struct){
-		if (items.contains(struct)){
+	public boolean add(E data){
+		if (items.contains(data)){
 			return false;
 		}
-		return this.items.add(struct);
+		return this.items.add(data);
 	}
 	
 	public E get(int index){
 		return this.items.get(index);
 	}
 	
-	public void add(int index, E struct){
-		if (items.contains(struct)){
-			items.remove(struct);
+	public void add(int index, E data){
+		if (items.contains(data)){
+			items.remove(data);
 		}
-		this.items.add(index, struct);
+		this.items.add(index, data);
 	}
 	
 	public E remove(int index){

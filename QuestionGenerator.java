@@ -134,8 +134,15 @@ public class QuestionGenerator {
 		}
 		else {
 			XMLtfQuestion ret1 = new XMLtfQuestion(show, id.next() );
-			ret1.setQuestionText("Both an addition (A + M) and an arithmetic right shift will occur in the next iteration of the loop.");
-			ret1.setAnswer(pcalc != 0 && pcalc != 1);
+//			ret1.setQuestionText("Both an addition (A + M) and an arithmetic right shift will occur in the next iteration of the loop.");
+//			ret1.setAnswer(pcalc != 0 && pcalc != 1);
+            int asked = ((int)(Math.abs(rand.nextInt() ) ) % 3) - 1;
+
+            String quetext = (asked != 0 ? (asked == -1 ? "An addition (A + M) and an " : "A subtraction (A - M) and an ") : "Only an ") + 
+                "arithmetic right shift will occur during the next iteration of the loop";
+
+            ret1.setQuestionText(quetext);
+            ret1.setAnswer(asked==pcalc);
 
 			ret = ret1;
 		}
@@ -231,13 +238,10 @@ public class QuestionGenerator {
         if (select == 0) {
             XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
             ret1.setQuestionText("How many values currently in register Q will be represented in the final value?");
-            ret1.addChoice("" + count.getCount() );
-            ret1.addChoice("" + (QLEN - count.getCount()) );
-            ret1.setAnswer(2);
-            if (count.getCount() != 0 && QLEN - count.getCount() != 0)
-                ret1.addChoice("None");
-
-            if (count.getCount() != 1 && QLEN - count.getCount() != 1) ret1.addChoice("1");
+            ret1.addChoice("" + (QLEN - count.getCount() + 1) );
+            ret1.setAnswer(1);
+            ret1.addChoice("" + (count.getCount() == QLEN-count.getCount()+1 ? QLEN-count.getCount() : count.getCount() ) );
+            ret1.addChoice("None");
 
             ret1.shuffle();
             ret = ret1;
@@ -335,7 +339,8 @@ public class QuestionGenerator {
         ret.setQuestionText("The sign of the current value in register A matches the sign of the final product.");
         int curAValue = binStrToInt(RegA.toString() );
         int finalProd = binStrToInt(getRegister(0, REGQ).toString() ) * binStrToInt(getRegister(0, REGM).toString() );
-        ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd));
+        ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd) || 
+            (curAValue == 0 && finalProd >= 0) );
 
 //      System.out.println("" + curAValue + "\t" + finalProd + "\t" + RegA);
 

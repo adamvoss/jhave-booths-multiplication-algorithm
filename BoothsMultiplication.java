@@ -219,49 +219,72 @@ public class BoothsMultiplication {
     		
     		if (Count.getBit(0) == 0) break; //Thats so we get the final check
     		
-            //----Check Bits Frame----
-            RegQ.setBitColor(REG_SIZE-1, BLUE);
-            Q_1.setBitColor(0, BLUE);
     		
     		int cmpVal = RegQ.getBit(REG_SIZE-1) - Q_1.getBit(0);
 
-    		easySnap("Determine the operation", easyPseudo(new int[] {10,14}), null);
-    		
-            RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
-            Q_1.setBitColor(0, FONT_COLOR);
-            
-            //----Subtraction Frame----
-    		if (cmpVal == 1){
-                setRowActivityColor(INACTIVE_COLOR);//Old row is old
-    			positionAdditionRow(); //That Cloned All the Registers, fyi
-                setRowActivityColor(ACTIVE_COLOR);
-    			addRow();
-                GAIGSArithmetic sum=new GAIGSArithmetic('+',
-                    RegA.toString(), negateValue(RegM).toString(),
-                    2, 1, math.getHeight()/1.5);
-    			addIntoReg(negateValue(RegM), RegA);
+            if (cmpVal == 1 || cmpVal == -1) {
+                //----Comparison Colors----//
+                //Done before cloning
+                RegQ.setBitColor(REG_SIZE-1, BLUE);
+                Q_1.setBitColor(0, BLUE);
+
+                //----Addition|Subtraction Prep----//
+                positionAdditionRow();//clones all registers
+                addRow();//now we have enough information for question type 3, calculations pending
+                GAIGSArithmetic sum;
+                
+                //Subtraction case   
+                if (cmpVal == 1) {
+                    sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(),
+                        2, 1, math.getHeight()/1.5);
+                    addIntoReg(negateValue(RegM), RegA);
+                    
+                }
+                //Addition case
+                else {
+                    sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 
+                        2, 1, math.getHeight()/1.5);
+                    addIntoReg(RegM, RegA);
+                }
+                
+                //Finish comparison question//
+                question que = quest.getComparisonQuestion();
+                GAIGSpane temp = (GAIGSpane)trace.remove(trace.size()-1);
+                easySnap("Determine the operation", easyPseudo(new int[] {10,14}), que);
+                trace.add(temp);
+                setRowActivityColor(trace.size()-2, INACTIVE_COLOR);
+                
+                //Reset colors
+                getFromTraceHistory(trace.size()-2, REGQ).setBitColor(REG_SIZE-1, FONT_COLOR);
+                getFromTraceHistory(trace.size()-2, Q1).setBitColor(0         , FONT_COLOR);
+                RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
+                Q_1.setBitColor(0, FONT_COLOR);
+
+                //Finish addition/subtraction frame
                 RegA.setAllToColor(GREEN);
                 math.add(sum);
                 sum.complete();
-    			easySnap("Added -M to A", easyPseudo(11), null);
-    			math.clear();
-    		}
-    		
-            //----Addition Frame----
-    		else if (cmpVal == -1){
-                setRowActivityColor(INACTIVE_COLOR);
-    			positionAdditionRow();
-                setRowActivityColor(ACTIVE_COLOR);
-    			addRow();
-                GAIGSArithmetic sum=new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2, 1, math.getHeight()/1.5);
-    			addIntoReg(RegM, RegA);
-                RegA.setAllToColor(GREEN);
-                math.add(sum);
-                sum.complete();
-    			easySnap("Added -M to A", easyPseudo(15), null);
-    			math.clear();
-    		}
-    		
+                easySnap("Added " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo(11), null);
+                math.clear();
+
+            }
+            else {
+                //----Comparison frame----//
+                //Colors
+                RegQ.setBitColor(REG_SIZE-1, BLUE);
+                Q_1.setBitColor(0, BLUE);
+                
+                //Question time-warp//
+                trace.add(null);
+                question que = quest.getQuestion(1);
+                trace.remove(trace.size()-1);
+                easySnap("Determine the operation", easyPseudo(new int[] {10,14}), que);
+
+                //Reset colors
+                RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
+                Q_1.setBitColor(0, FONT_COLOR);
+            }
+
     		//----Shift Frame----
     		RegA.setAllToColor(GREEN);
     		RegQ.setAllToColor(BLUE);
@@ -270,12 +293,14 @@ public class BoothsMultiplication {
             setRowActivityColor(ACTIVE_COLOR);
     		addRow();
     		rightShift(RegA, RegQ, Q_1);
-            
+           
+            //Question and write
+            question que = quest.getShiftQuestion(); 
     		currentRow.remove(COUNT); //Oops...We don't want Count
     		RegQ.setAllToColor(BLUE);
     		RegQ.setBitColor(0, GREEN);
     		Q_1.setBitColor(0, BLUE);
-    		easySnap("Sign-Preserving Right Shift", easyPseudo(20), null);
+    		easySnap("Sign-Preserving Right Shift", easyPseudo(20), que);
     		RegQ.setAllToColor(FONT_COLOR);
     		Q_1.setAllToColor(FONT_COLOR);
     		
@@ -287,7 +312,6 @@ public class BoothsMultiplication {
     		
     		//----Decrement Count Frame---
     		Count.decrement();
-    		//We don't want a new row
     		currentRow.add(Count); //Now we do want Count
     		Count.setAllToColor(RED);
     		easySnap("Decrement Count", easyPseudo(22), null);
@@ -388,6 +412,14 @@ public class BoothsMultiplication {
         Count.setColor(color);
     }
 
+    private static void setRowActivityColor(int hist, String color) {
+        getFromTraceHistory(hist, REGM).setColor(color);
+        getFromTraceHistory(hist, REGA).setColor(color);
+        getFromTraceHistory(hist, REGQ).setColor(color);
+        getFromTraceHistory(hist, Q1  ).setColor(color);
+        getFromTraceHistory(hist,COUNT).setColor(color);
+    }
+
     private static void positionMajorRow(){
     	RegM = RegM.clone();
     	RegA = RegA.clone();
@@ -414,6 +446,10 @@ public class BoothsMultiplication {
 		minorAdjustRegister(RegQ);
 		minorAdjustRegister(Q_1);
 		minorAdjustRegister(Count);
+    }
+
+    private static GAIGSprimitiveRegister getFromTraceHistory(int hist, int reg) {
+        return (GAIGSprimitiveRegister) ((GAIGSpane) trace.get(hist)).get(reg);
     }
     
     private static void addRow(){
