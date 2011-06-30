@@ -159,6 +159,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 		product = Integer.parseInt(new String(inplaceReverse(terms.get(firstTermIndex).clone())), radix) *
 				Integer.parseInt(new String(inplaceReverse(terms.get(lastTermIndex).clone())), radix);
 		terms.set(lastTermIndex+1, inplaceReverse(Integer.toString(product, radix).toCharArray()));
+		colors.set(lastTermIndex+1, new String[terms.get(lastTermIndex+1).length]);
 		
 		currentDigit=maxLength;
 	}
@@ -301,7 +302,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 	 */
 	public static void main(String[] args) throws IOException {
 
-		GAIGSArithmetic test = new GAIGSArithmetic('+', "110101", "1011011", 2, .5, .5);
+		GAIGSArithmetic test = new GAIGSArithmetic('+', Integer.toString(Integer.parseInt(args[1]), 2), Integer.toString(Integer.parseInt(args[2]), 2), 2, .5, .5);
 		ShowFile show = new ShowFile("bar.sho");
 		show.writeSnap("Addition", test);
 
@@ -310,7 +311,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 			show.writeSnap("Addition", test);
 		}
 
-		GAIGSArithmetic test2 = new GAIGSArithmetic('*', "5", "2", 10, .5, .5);
+		GAIGSArithmetic test2 = new GAIGSArithmetic('*', args[1], args[2], 10, .5, .5);
 		test2.complete();
 		test2.setBounds(0, 0, 1, 1);
 		
