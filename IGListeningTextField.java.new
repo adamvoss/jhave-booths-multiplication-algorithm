@@ -1,0 +1,423 @@
+package jhave.client.igcomponent;
+
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+
+import java.util.Iterator;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+
+import org.jdom.Element;
+
+/**
+* A text area which listens to other text areas, updating when the other text areas have.
+* Probably for the domain of Booth's Algorithm only.
+* @author Christopher Jenkins <cjenkin1@tmail.com>
+*/
+
+public class IGListeningTextField extends IGComponent {
+
+    /**The panel which holds all the sub-components of this component*/
+    protected JPanel panel;
+
+    /**The JComponent label of this component*/
+    protected JLabel label = null;
+
+    /**The name of the element which represents the label for this component*/
+    public static final String LABEL_ELEMENT_NAME  = "label_line";
+
+    /**The name of the element which represents a binary/decimal textfield pair*/
+    public static final String LTEXTFIELDS = "l_textfields";
+    
+    //the following are all elements of l_textfields
+    public static final String LTF_NAME        = "name"         ;
+    public static final String LTF_DEFAULT_DEC = "default_dec"  ;
+    public static final String LTF_DEFAULT_BIN = "default_bin"  ;
+    public static final String LTF_DEFAULT     = "default_dec"  ;
+    public static final String LTF_PARTNER     = "bin_partner"  ;
+    public static final String LTF_ENTERED_VAL = "value_entered";
+    
+    public static ListeningManager manager;
+
+    public IGListeningTextField(Element root, IGComponentFactory factory) throws IGComponentInstantiationException {
+        super(root, factory);
+
+        System.out.println("IGListeningTextField initialized");
+
+        Iterator ltxt_iter = root.getChildren().iterator();
+        GridLayout grid = new GridLayout(3, 2);
+        panel = new JPanel(grid);
+        String[] textTmp = new String[2];
+        int count = 0;
+
+        while (ltxt_iter.hasNext() ) {
+            Element ltxt_child = (Element) ltxt_iter.next();
+
+            if (ltxt_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
+                this.label = new JLabel(ltxt_child.getText() );
+            }
+
+            else if (ltxt_child.getName().equalsIgnoreCase(LTEXTFIELDS) ) {
+                textTmp[count++] = ltxt_child.getChildTextTrim(LTF_DEFAULT);
+//              TextListener temp = new TextListener(Integer.parseInt(ltxt_child.getChildTextTrim(LTF_DEFAULT) ) );
+//              panel.add(temp.getTextFields()[0]);//binText
+//              panel.add(temp.getTextFields()[1]);//decText
+            }
+        }
+        
+        manager = new ListeningManager(Integer.parseInt(textTmp[0]), Integer.parseInt(textTmp[1] ));
+
+        JTextField[] tFields = manager.getTextFields();
+        panel.add(tFields[0]);//multiplicand binText
+        panel.add(tFields[1]);//multiplicand decText
+        panel.add(tFields[2]);//multiplier   binText
+        panel.add(tFields[3]);//multiplier   decText
+
+        panel.add(manager.getComboBox() );
+    }
+
+    @Override
+    public Element getJDOMElement() { //needs some work with nested attributes.
+        Element thisElement = new Element(this.factory.getElementNameForClass(this.getClass() ));
+
+        Element labelElement = new Element(LABEL_ELEMENT_NAME);
+        labelElement.setText(this.label.getText() );
+
+        //BEGIN l_textFields
+        Element lTextElementM = new Element(LTEXTFIELDS);
+        Element lTextElementQ = new Element(LTEXTFIELDS);
+
+        Element ltNameM       = new Element(LTF_NAME);
+        ltNameM.setText("Multiplicand");
+        Element ltNameQ       = new Element(LTF_NAME);
+        ltNameQ.setText("Multiplier");
+        lTextElementM.addContent(ltNameM);
+        lTextElementQ.addContent(ltNameQ);
+
+        Element ltDefM        = new Element(LTF_DEFAULT_DEC);
+        ltDefM.setText("7");//TODO fix this
+        Element ltDefQ        = new Element(LTF_DEFAULT_DEC);
+        ltDefQ.setText("3");//TODO also this
+        lTextElementM.addContent(ltDefM);
+        lTextElementQ.addContent(ltDefQ);
+
+        Element ltBinM        = new Element(LTF_DEFAULT_BIN);
+        ltBinM.setText("0011");
+        Element ltBinQ        = new Element(LTF_DEFAULT_BIN);
+        ltBinQ.setText("0111");
+        lTextElementM.addContent(ltBinM);
+        lTextElementQ.addContent(ltBinQ);
+
+        Element ltPartnerM   = new Element(LTF_PARTNER);
+        ltPartnerM.setText("Multiplier"  );
+        Element ltPartnerQ   = new Element(LTF_PARTNER);
+        ltPartnerQ.setText("Multiplicand");
+        lTextElementM.addContent(ltPartnerM);
+        lTextElementQ.addContent(ltPartnerQ);
+
+        Element ltEnteredM   = new Element(LTF_ENTERED_VAL);
+        ltEnteredM.setText(manager.multiplicand.binText.getText() );
+        Element ltEnteredQ   = new Element(LTF_ENTERED_VAL);
+        ltEnteredQ.setText(manager.multiplier.binText.getText() );//TODO ugly hack is ugly
+        lTextElementM.addContent(ltEnteredM);
+        lTextElementQ.addContent(ltEnteredQ);
+        //END l_textfields
+
+        Element enteredElement = new Element(ENTERED_VALUE_ELEMENT_NAME);
+        enteredElement.setText(ltEnteredM.getText() + " " + ltEnteredQ.getText() );
+
+        //Now set for return
+        thisElement.addContent(labelElement)  ;
+        thisElement.addContent(lTextElementM) ;
+        thisElement.addContent(lTextElementQ) ;
+        thisElement.addContent(enteredElement);
+
+        return thisElement;
+    }
+
+    @Override
+    public JComponent[] getJComponents() {
+        return new JComponent[] {this.label, this.panel};
+    }
+}
+
+class ListeningManager {
+    TextChunkListener multiplicand;
+    TextChunkListener multiplier;
+
+    String regSize = "Automatic";
+
+    public static final int TEXT_LENGTH = 20;
+
+    public ListeningManager(int multiplicand, int multiplier) {
+        this.multiplicand = new TextChunkListener(multiplicand);
+        this.multiplier   = new TextChunkListener(multiplier  );       
+    }
+
+    public JTextField[] getTextFields() {
+        return new JTextField[] {this.multiplicand.binText, this.multiplicand.decText, this.multiplier.binText, this.multiplier.decText};
+    }
+
+    private boolean wellFormedBinary(String input) {
+        if (input.length() == 0) return false;
+
+        boolean flag = true;
+
+        for (int i = 0; i < input.length(); ++i)
+            flag = flag && (input.charAt(i) == '0' || input.charAt(i) == '1');
+
+        return flag;
+    }
+
+    private boolean wellFormedDecimal(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {return false;}
+    }
+
+    private String toDecimal(String binstr) {
+        int sum    = 0;
+        int maxPow = 1;
+
+        for (int i = 0; i < binstr.length(); ++i) {
+            sum = (2 * sum) + binstr.charAt(i) - '0';
+            maxPow *= 2;
+        }
+
+        //Two's complement madness
+        return ((sum < maxPow / 2) ? "" + sum : "" + (sum - maxPow) );
+
+    }
+
+    /**
+    * Converts an int to its shortest-length two's complement binary representative
+    */
+    private String toBinary(int a){
+        if (a<0){
+            return Integer.toBinaryString(a).replaceFirst("11*", "1");
+        }
+        //positive numbers are already shortest length
+       return "0"+Integer.toBinaryString(a);
+    }
+
+    /**
+    * Sign extends binStr by i bits
+    */
+    private String signExtend(String binStr, int i){
+        String firstBit = String.valueOf(binStr.charAt(0));
+        String extension = "";
+        while (i>0){extension = extension.concat(firstBit); i--;}
+        return extension.concat(binStr);
+    }
+
+    private boolean validSizeOption(String size) {
+        if (size.equals("Automatic") ) return true;
+
+        int sz = Integer.parseInt(size);
+
+        //Comparison on smallest representation.
+        return (toBinary(Integer.parseInt(multiplicand.decText.getText() )).length() <= sz && 
+            toBinary(Integer.parseInt(multiplier.decText.getText() )).length() <= sz);
+    }
+
+    private boolean validRegisterValue(String binNum) {
+        if (regSize.equals("Automatic") ) return (binNum.length() > 2 && binNum.length() < 9);
+
+        else return binNum.length() <= Integer.parseInt(regSize);
+    }
+
+    private void sizeAllTo(String sizeT) {
+        int size = 8;
+        String[] temp = new String[2];
+
+        if (sizeT.equals("Automatic")) {
+            temp[0] = toBinary(Integer.parseInt(multiplicand.decText.getText() ));
+            temp[1] = toBinary(Integer.parseInt(multiplier.decText.getText()   ));
+
+            size = (temp[0].length() > temp[1].length() ? temp[0].length() : temp[1].length() );
+        }
+        else {
+            temp[0] = multiplicand.binText.getText();
+            temp[1] = multiplier.binText.getText();
+            size = Integer.parseInt(sizeT);
+        }
+
+//        String[] temp = new String[] {multiplicand.binText.getText(), multiplier.binText.getText()};
+
+        for (int i = 0; i < temp.length; ++i) {
+            if (temp[i].length() < size)
+                temp[i] = signExtend(temp[i], size-temp[i].length() );
+
+            else
+                temp[i] = temp[i].substring(temp[i].length()-size);
+        }
+
+        multiplicand.binText.setText(temp[0]);
+        multiplicand.oldBinText = temp[0];
+
+        multiplier.binText.setText(temp[1]);
+        multiplier.oldBinText = temp[1];
+    }
+
+    public JComboBox getComboBox() {
+        String[]  lenOpts  = new String[] {"Automatic", "3", "4", "5", "6", "7", "8"};
+        JComboBox lenCombo = new JComboBox(lenOpts);
+        lenCombo.setSelectedIndex(0);
+        lenCombo.setName("Register Size");
+        lenCombo.addActionListener(new ComboListener(lenCombo) );
+
+        return lenCombo;
+    }
+
+    class ComboListener implements ActionListener {
+
+        private JComboBox combo;
+        private int lastSelected;
+
+        public ComboListener(JComboBox cmb) {
+            this.combo = cmb;
+            this.lastSelected = cmb.getSelectedIndex();
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Something happened!");
+            String selected = (String)combo.getSelectedItem();
+            if (!selected.equals(regSize) ) {
+                regChange(selected);
+            }
+        }
+
+        public void regChange(String selected) {
+            if (!validSizeOption(selected) ) {
+                this.combo.setSelectedIndex(lastSelected);
+                System.out.println("Unnacceptable size");//TODO area message
+            }
+            else {
+                regSize = selected;
+                lastSelected = combo.getSelectedIndex();
+                sizeAllTo(selected);
+            }
+        }
+    }
+
+    class TextChunkListener implements ActionListener, KeyListener, FocusListener {
+        JTextField binText;
+        JTextField decText;
+
+        private String  oldBinText;
+        private String  oldDecText;
+
+        /**
+        * Assumes default values are sane.
+        *
+        */
+        public TextChunkListener(int value) {
+            this.binText = new JTextField(TEXT_LENGTH);
+            this.decText = new JTextField(TEXT_LENGTH);
+
+            decText.setText("" + value);
+            oldDecText = "" + value;
+
+            oldBinText = toBinary(value);
+            oldBinText = signExtend(oldBinText, 4 - oldBinText.length() );//ugly hack
+            binText.setText(oldBinText);
+
+            //add itself to the textfields
+            binText.addActionListener(this);
+            binText.addFocusListener( this);
+            binText.addKeyListener(   this);
+
+            decText.addActionListener(this);
+            decText.addFocusListener( this);
+            decText.addKeyListener  ( this);
+        }
+
+        public JTextField[] getTextFields() {return new JTextField[] {this.binText, this.decText};}
+
+        public void actionPerformed(ActionEvent e) {
+            if (!oldBinText.equals(binText.getText() )) {
+                binChange();
+            } else if (!oldDecText.equals(decText.getText() )) {
+                decChange();
+            }
+        }
+
+        public void focusGained(FocusEvent e) {
+            if (!oldBinText.equals(binText.getText() )) {
+                binChange();
+            } else if (!oldDecText.equals(decText.getText() )) {
+                decChange();
+            }
+
+        }
+
+        public void focusLost(FocusEvent e) {
+            if (!oldBinText.equals(binText.getText() )) {
+                binChange();
+            } else if (!oldDecText.equals(decText.getText() )) {
+                decChange();
+            }
+        }
+
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                if (!oldBinText.equals(binText.getText() )) {
+                    binChange();
+                } else if (!oldDecText.equals(decText.getText() )) {
+                    decChange();
+                }
+            }
+        }
+
+        public void keyReleased(KeyEvent e) {/*lol*/}
+
+        public void keyTyped(KeyEvent e){/*lol*/}
+
+        //TODO get rid of white space
+        private void binChange() {
+            System.out.println("Changed binText from " + oldBinText + " to " + binText.getText() );
+            if (!wellFormedBinary(binText.getText() ) ) {
+                System.out.println("Unnacceptable value given for binary");
+                binText.setText(oldBinText);
+            } else if (!validRegisterValue(binText.getText() ) ){
+                System.out.println("Binary value not within constraints");
+                binText.setText(oldBinText);
+            }
+            else {
+                oldBinText = binText.getText();
+                decText.setText("" + toDecimal(binText.getText() ) );
+                oldDecText = decText.getText();
+                sizeAllTo(regSize);
+            }
+        }
+
+        private void decChange() {
+            System.out.println("Changed decText from " + oldDecText + " to " + decText.getText() );
+            if (!wellFormedDecimal(decText.getText() ) ) {
+                System.out.println("Unnacceptable value given for decimal");
+                decText.setText(oldDecText);
+            } else if (!validRegisterValue(toBinary(Integer.parseInt(decText.getText() )) )) {
+                System.out.println("Decimal value not within constraints");
+                decText.setText(oldDecText);
+            } 
+            else {
+                oldDecText = decText.getText();
+                binText.setText(toBinary(Integer.parseInt(decText.getText() )) );
+                oldBinText = binText.getText();
+                sizeAllTo(regSize);
+            }
+        }
+    }
+}

@@ -61,7 +61,7 @@ public class BoothsMultiplication {
     private static final double RIGHT_MARGIN      = 1.0;
     private static final double TOP_MARGIN        = 0.0;
     private static       double REG_WIDTH         = 0.12;
-    private static final double REG_WIDTH_PER_BIT = 0.027;
+    private static final double REG_WIDTH_PER_BIT = 0.03;
     private static final double REG_SPACE_CHUNK   = 0.23;
     private static final double REG_HEIGHT        = 0.06;
     private static final double ROW_SPACE         = 0.03;
@@ -84,12 +84,9 @@ public class BoothsMultiplication {
 
 
         //Our Stuff
-//        String multiplicand = toBinary(Integer.parseInt(args[1]));
-//        String multiplier   = toBinary(Integer.parseInt(args[2]));
-        String multiplicand = args[1];
-        String multiplier   = args[2];
+        String multiplicand = toBinary(Integer.parseInt(args[1]));
+        String multiplier   = toBinary(Integer.parseInt(args[2]));
 
-        //irrelevant
         final int regSize;
         if (multiplicand.length() > multiplier.length()){
             regSize=multiplicand.length();
@@ -111,7 +108,7 @@ public class BoothsMultiplication {
         		main.getWidth(), WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
         GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight(), header.getHeight()/4, header.getHeight()/9, FONT_COLOR);
-        GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, .6, header.getHeight(), header.getHeight()/4, header.getHeight()/9, FONT_COLOR);
+        GAIGSArithmetic decimal = new GAIGSArithmetic('*', args[1], args[2], 10, .6, header.getHeight(), header.getHeight()/4, header.getHeight()/9, FONT_COLOR);
         header.add(binary);
         header.add(decimal);
         
@@ -481,19 +478,6 @@ public class BoothsMultiplication {
        return "0"+Integer.toBinaryString(a);
     }
 
-    private static String toDecimal(String binstr) {
-        int sum    = 0;
-        int maxPow = 1;
-
-        for (int i = 0; i < binstr.length(); ++i) {
-            sum = (2 * sum) + binstr.charAt(i) - '0';
-            maxPow *= 2;
-        }
-
-        //Two's complement madness
-        return ((sum < maxPow / 2) ? "" + sum : "" + (sum - maxPow) );
-
-    }
     /**
     * Sign extends binStr by i bits
     */
