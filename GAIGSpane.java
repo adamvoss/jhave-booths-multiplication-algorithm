@@ -8,6 +8,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	public static final double JHAVÉ_X_MARGIN = 0.203;
 	public static final double JHAVÉ_Y_MARGIN = 0.067;
 	public static final double JHAVÉ_ASPECT_RATIO = (1+2*JHAVÉ_X_MARGIN)/(1+2*JHAVÉ_Y_MARGIN);
+	public static final double DEFAULT_ASPECT_RATIO = 1.0;
 	private double width;
 	private double height;
 	private double[] realBounds;
@@ -16,8 +17,8 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		super();
 
 		//TODO add aspect ratio preserving constructors that utilize null parameters
-		if (width == null) width = ((x1-x0)/(y1-y0)/JHAVÉ_ASPECT_RATIO)*height;
-		else if (height == null) height = (JHAVÉ_ASPECT_RATIO/((x1-x0)/(y1-y0)))*width;
+		if (width == null) width = ((x1-x0)/(y1-y0)/DEFAULT_ASPECT_RATIO)*height;
+		else if (height == null) height = (DEFAULT_ASPECT_RATIO/((x1-x0)/(y1-y0)))*width;
 		
 		this.name="Unnamed";
 		this.realBounds = new double[] {x0, y0, x1, y1};
@@ -90,6 +91,10 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		this.height = height;
 	}
 
+	public double getAspectRatio(){
+		return (width/(realBounds[2]-realBounds[0]))/(height/(realBounds[3]-realBounds[1]));
+	}
+	
 	//TODO add a getRealCoordinates that acts on a double[]
 	public double[] getRealCoordinates(double[] srcBounds){
 		double scaleX = (realBounds[2]-realBounds[0])/width;

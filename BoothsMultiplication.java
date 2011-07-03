@@ -87,7 +87,7 @@ public class BoothsMultiplication {
         String multiplicand = args[1];
         String multiplier   = args[2];
         
-        //shouldn't be neccessary, but just in case
+        //shouldn't be necessary, but just in case
         final int regSize;
         if (multiplicand.length() > multiplier.length()){
             regSize=multiplicand.length();
@@ -117,6 +117,7 @@ public class BoothsMultiplication {
         math.setName("Math");
         
         trace = new GAIGSpane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
+        System.out.println(trace.getAspectRatio());
         trace.setName("Trace");
         
         main.forceAdd(header);
@@ -188,20 +189,12 @@ public class BoothsMultiplication {
         easySnap("Q_₁ is initialized to 0", easyPseudo(5), null);
 
         //Count
+        //THAT IS NOT A MARGIN; DON'T CALL IT AS SUCH
     	init[0] = RIGHT_MARGIN - FONT_SIZE;
     	init[2] = RIGHT_MARGIN;
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
-        currentRow.add(new GAIGSline(new double[] {0,1}, new double[] {0,1}));
-        GAIGSmonospacedText text =new GAIGSmonospacedText(1, 1, "Hi", GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP);
-        currentRow.add(text);
-        System.out.println("X:" +text.getX());
-        System.out.println("Y:" +text.getY());
-        double[] bds = text.getBounds();
-        System.out.println("X0: " + bds[0] + " Y0: " + bds[1] + " X1: " + bds[2] + " Y1: " + bds[3]);
-        bds = trace.getRealCoordinates(bds);
-        System.out.println("X0: " + bds[0] + " Y0: " + bds[1] + " X1: " + bds[2] + " Y1: " + bds[3]);
         easySnap("Count is initialized to the number of bits in a register.", easyPseudo(6), null);
 
 
