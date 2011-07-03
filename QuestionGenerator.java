@@ -17,7 +17,6 @@ public class QuestionGenerator {
     public static final int REGQ = BoothsMultiplication.REGQ;
     public static final int Q1   = BoothsMultiplication.Q1;
     public static final int COUNT= BoothsMultiplication.COUNT;
-    public static final int FIRST= BoothsMultiplication.REGSTART;
 
     public final int NUMQUESTIONS = 7;
 	private ShowFile show;
@@ -338,7 +337,7 @@ public class QuestionGenerator {
         XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
         ret.setQuestionText("The sign of the current value in register A matches the sign of the final product.");
         int curAValue = binStrToInt(RegA.toString() );
-        int finalProd = binStrToInt(getRegister(FIRST, REGQ).toString() ) * binStrToInt(getRegister(FIRST, REGM).toString() );
+        int finalProd = binStrToInt(getRegister(0, REGQ).toString() ) * binStrToInt(getRegister(0, REGM).toString() );
         ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd) || 
             (curAValue == 0 && finalProd >= 0) );
 
