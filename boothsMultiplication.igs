@@ -3,7 +3,7 @@
 
 <input_panel>
     <listening_text>
-        <label_line>Listening Text</label_line>
+        <label_line>&lt;html&gt;Let's Learn Booth's Multiplication&lt;br/&gt;Please enter the numbers you wish to multiply&lt;/html&gt;</label_line>
         <l_textfields>
             <name>Multiplicand</name>
             <default_dec>7</default_dec>

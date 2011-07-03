@@ -1,6 +1,6 @@
 package jhave.client.igcomponent;
 
-import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 
 import java.awt.event.ActionListener;
@@ -22,8 +22,9 @@ import org.jdom.Element;
 
 /**
 * A text area which listens to other text areas, updating when the other text areas have.
-* Probably for the domain of Booth's Algorithm only.
+* Probably for the domain of Booth's Algorithm only because the code is not at all generic
 * @author Christopher Jenkins <cjenkin1@tmail.com>
+* @author Adam Voss <vossad01@luther.edu>
 */
 
 public class IGListeningTextField extends IGComponent {
@@ -56,13 +57,14 @@ public class IGListeningTextField extends IGComponent {
         System.out.println("IGListeningTextField initialized");
 
         Iterator ltxt_iter = root.getChildren().iterator();
-        GridLayout grid = new GridLayout(3, 2);
+        GridLayout grid = new GridLayout(4, 3, 3, 3);
         panel = new JPanel(grid);
         String[] textTmp = new String[2];
         int count = 0;
 
         while (ltxt_iter.hasNext() ) {
             Element ltxt_child = (Element) ltxt_iter.next();
+            System.out.println(ltxt_child);
 
             if (ltxt_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
                 this.label = new JLabel(ltxt_child.getText() );
@@ -70,6 +72,7 @@ public class IGListeningTextField extends IGComponent {
 
             else if (ltxt_child.getName().equalsIgnoreCase(LTEXTFIELDS) ) {
                 textTmp[count++] = ltxt_child.getChildTextTrim(LTF_DEFAULT);
+                System.out.println(textTmp[count-1]);
 //              TextListener temp = new TextListener(Integer.parseInt(ltxt_child.getChildTextTrim(LTF_DEFAULT) ) );
 //              panel.add(temp.getTextFields()[0]);//binText
 //              panel.add(temp.getTextFields()[1]);//decText
@@ -79,12 +82,18 @@ public class IGListeningTextField extends IGComponent {
         manager = new ListeningManager(Integer.parseInt(textTmp[0]), Integer.parseInt(textTmp[1] ));
 
         JTextField[] tFields = manager.getTextFields();
-        panel.add(tFields[0]);//multiplicand binText
-        panel.add(tFields[1]);//multiplicand decText
-        panel.add(tFields[2]);//multiplier   binText
-        panel.add(tFields[3]);//multiplier   decText
-
+        panel.add(new JLabel(" ")); //A lazy way to add a blank item to grid
+        panel.add(new JLabel("Decimal"));
+        panel.add(new JLabel("Two's Complement Binary"));
+        panel.add(new JLabel("Multiplicand"));
+        panel.add(tFields[1]);//multiplicand binText
+        panel.add(tFields[0]);//multiplicand decText
+        panel.add(new JLabel("Multiplier"));
+        panel.add(tFields[3]);//multiplier   binText
+        panel.add(tFields[2]);//multiplier   decText
+        panel.add(new JLabel("Select how many bits to use:"));        
         panel.add(manager.getComboBox() );
+        panel.add(manager.getError() );
     }
 
     @Override
@@ -155,17 +164,25 @@ public class IGListeningTextField extends IGComponent {
 class ListeningManager {
     TextChunkListener multiplicand;
     TextChunkListener multiplier;
-
+    JLabel error = new JLabel("");
+    
     String regSize = "Automatic";
 
     public static final int TEXT_LENGTH = 20;
 
     public ListeningManager(int multiplicand, int multiplier) {
-        this.multiplicand = new TextChunkListener(multiplicand);
-        this.multiplier   = new TextChunkListener(multiplier  );       
+        this.multiplicand = new TextChunkListener(multiplicand, error);
+        this.multiplier   = new TextChunkListener(multiplier, error);       
     }
 
-    public JTextField[] getTextFields() {
+    /**
+	 * @return
+	 */
+	public Component getError() {
+		return error;
+	}
+
+	public JTextField[] getTextFields() {
         return new JTextField[] {this.multiplicand.binText, this.multiplicand.decText, this.multiplier.binText, this.multiplier.decText};
     }
 
@@ -187,6 +204,7 @@ class ListeningManager {
         } catch (NumberFormatException e) {return false;}
     }
 
+    //Should have used Built-in support
     private String toDecimal(String binstr) {
         int sum    = 0;
         int maxPow = 1;
@@ -233,7 +251,7 @@ class ListeningManager {
     }
 
     private boolean validRegisterValue(String binNum) {
-        if (regSize.equals("Automatic") ) return (binNum.length() > 2 && binNum.length() < 9);
+        if (regSize.equals("Automatic") ) return (binNum.length() > 1 && binNum.length() < 9);
 
         else return binNum.length() <= Integer.parseInt(regSize);
     }
@@ -276,19 +294,21 @@ class ListeningManager {
         JComboBox lenCombo = new JComboBox(lenOpts);
         lenCombo.setSelectedIndex(0);
         lenCombo.setName("Register Size");
-        lenCombo.addActionListener(new ComboListener(lenCombo) );
+        lenCombo.addActionListener(new ComboListener(lenCombo, error) );
 
         return lenCombo;
     }
-
+    
     class ComboListener implements ActionListener {
 
         private JComboBox combo;
         private int lastSelected;
+        private JLabel errorLabel;
 
-        public ComboListener(JComboBox cmb) {
+        public ComboListener(JComboBox cmb, JLabel error) {
             this.combo = cmb;
             this.lastSelected = cmb.getSelectedIndex();
+            this.errorLabel = error;
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -301,13 +321,13 @@ class ListeningManager {
 
         public void regChange(String selected) {
             if (!validSizeOption(selected) ) {
-                this.combo.setSelectedIndex(lastSelected);
-                System.out.println("Unnacceptable size");//TODO area message
+                errorLabel.setText("<html><font color=#FF0000>Too few bits attempted</html>");
             }
             else {
                 regSize = selected;
                 lastSelected = combo.getSelectedIndex();
                 sizeAllTo(selected);
+                errorLabel.setText("");
             }
         }
     }
@@ -315,6 +335,8 @@ class ListeningManager {
     class TextChunkListener implements ActionListener, KeyListener, FocusListener {
         JTextField binText;
         JTextField decText;
+        JLabel errorLabel;
+
 
         private String  oldBinText;
         private String  oldDecText;
@@ -323,10 +345,11 @@ class ListeningManager {
         * Assumes default values are sane.
         *
         */
-        public TextChunkListener(int value) {
+        public TextChunkListener(int value, JLabel error) {
             this.binText = new JTextField(TEXT_LENGTH);
             this.decText = new JTextField(TEXT_LENGTH);
-
+            this.errorLabel = error;
+            
             decText.setText("" + value);
             oldDecText = "" + value;
 
@@ -381,6 +404,8 @@ class ListeningManager {
             }
         }
 
+        //Current actions are too coarse to allow for theses, though they would be nice
+        //The main trouble case is the blank box, just the negative sign, and one-digit binary numbers
         public void keyReleased(KeyEvent e) {/*lol*/}
 
         public void keyTyped(KeyEvent e){/*lol*/}
@@ -389,35 +414,47 @@ class ListeningManager {
         private void binChange() {
             System.out.println("Changed binText from " + oldBinText + " to " + binText.getText() );
             if (!wellFormedBinary(binText.getText() ) ) {
-                System.out.println("Unnacceptable value given for binary");
+                errorLabel.setText("<html><font color=#FF0000>Invalid binary integer</html>");
                 binText.setText(oldBinText);
             } else if (!validRegisterValue(binText.getText() ) ){
-                System.out.println("Binary value not within constraints");
-                binText.setText(oldBinText);
+                errorLabel.setText("<html><font color=#FF0000>Overflow</html>");
+                int maxBits;
+                if (regSize.equals("Automatic")) maxBits = 7;
+                else maxBits = Integer.parseInt(regSize)-1;
+                
+                if (Integer.parseInt(decText.getText()) > 0) decText.setText(String.valueOf(((Double)(Math.pow(2, maxBits) - 1)).intValue()));
+                else decText.setText(String.valueOf(((Double)(Math.pow(2, maxBits) * -1)).intValue()));
+                
+                binText.setText(toBinary(Integer.parseInt(decText.getText() )) );
+            } else{
+                errorLabel.setText("");
             }
-            else {
-                oldBinText = binText.getText();
-                decText.setText("" + toDecimal(binText.getText() ) );
-                oldDecText = decText.getText();
-                sizeAllTo(regSize);
-            }
+            oldBinText = binText.getText();
+            decText.setText("" + toDecimal(binText.getText() ) );
+            oldDecText = decText.getText();
+            sizeAllTo(regSize);
         }
 
         private void decChange() {
             System.out.println("Changed decText from " + oldDecText + " to " + decText.getText() );
             if (!wellFormedDecimal(decText.getText() ) ) {
-                System.out.println("Unnacceptable value given for decimal");
+                errorLabel.setText("<html><font color=#FF0000>Invalid decimal integer</html>");
                 decText.setText(oldDecText);
             } else if (!validRegisterValue(toBinary(Integer.parseInt(decText.getText() )) )) {
-                System.out.println("Decimal value not within constraints");
-                decText.setText(oldDecText);
-            } 
-            else {
-                oldDecText = decText.getText();
-                binText.setText(toBinary(Integer.parseInt(decText.getText() )) );
-                oldBinText = binText.getText();
-                sizeAllTo(regSize);
+                errorLabel.setText("<html><font color=#FF0000>Overflow</html>");
+                int maxBits;
+                if (regSize.equals("Automatic")) maxBits = 7;
+                else maxBits = Integer.parseInt(regSize)-1;
+                
+                if (Integer.parseInt(decText.getText()) > 0) decText.setText(String.valueOf(((Double)(Math.pow(2, maxBits) - 1)).intValue()));
+                else decText.setText(String.valueOf(((Double)(Math.pow(2, maxBits) * -1)).intValue()));
+            } else{
+                errorLabel.setText("");
             }
+            oldDecText = decText.getText();
+            binText.setText(toBinary(Integer.parseInt(decText.getText() )) );
+            oldBinText = binText.getText();
+            sizeAllTo(regSize);
         }
     }
 }

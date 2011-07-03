@@ -160,6 +160,10 @@ public class BoothsMultiplication {
         RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
+        MutableGAIGSdatastr mText = new GAIGSmonospacedText((init[2]-init[0])/2.0+init[0], init[3], GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER, FONT_SIZE, FONT_COLOR, "M:");
+        double [] neededBounds = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates((mText))));
+        mText.setBounds(neededBounds[0], neededBounds[1], neededBounds[2], neededBounds[3]);
+        main.add(mText);
         
         currentRow.add(RegM);
         easySnap("M is the multiplicand", easyPseudo(2), null);
