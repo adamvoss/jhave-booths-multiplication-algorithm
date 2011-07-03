@@ -125,10 +125,10 @@ public class BoothsMultiplication {
         GAIGSmonospacedText headerQ = new GAIGSmonospacedText();
         GAIGSmonospacedText headerQ1= new GAIGSmonospacedText();
 
-        trace.add(headerM);
-        trace.add(headerA);
-        trace.add(headerQ);
-        trace.add(headerQ1);
+//        trace.add(headerM);
+//        trace.add(headerA);
+//        trace.add(headerQ);
+//        trace.add(headerQ1);
         
         main.forceAdd(header);
         main.forceAdd(trace);
@@ -166,10 +166,11 @@ public class BoothsMultiplication {
 //      RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         
-//      headerM.setX(RegM.getBounds()[2]);
-//      headerM.setY(RegM.getBounds()[3]);
-//      headerM.setText("Reg M");
-//      headerM.setCharacterWidth(0.04);
+        
+        headerM.setX(RegM.getBounds()[2]);
+        headerM.setY(RegM.getBounds()[3]);
+        headerM.setText("Reg M");
+        headerM.setCharacterWidth(0.04);
         currentRow.add(RegM);
         easySnap("M is the multiplicand", easyPseudo(2), null);
         

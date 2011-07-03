@@ -4,7 +4,7 @@ package exe.boothsMultiplication;
  * A helper class for wrapping the coordinates of a GAIGSdatastr.
  *
  */
-
+@Deprecated
 public class Bounds {
     //Must be between 0.0 and 1.0!
     protected double x1;

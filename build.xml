@@ -26,7 +26,6 @@
 
 
   <target name="run" depends="compile" description="Generate the visualization script">
-    <!-- Run from the class's dir -->
     <java fork="true" dir="../../../build/classes"
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.BoothsMultiplication">
@@ -37,7 +36,6 @@
   </target>
 
   <target name="math" depends="compile" description="Runs Arithmetic">
-    <!-- Run from the classes dir -->
     <java fork="true" dir="../../../build/classes"
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.GAIGSArithmetic">
@@ -48,7 +46,6 @@
   </target>
 
   <target name="mono" depends="compile" description="Runs Monospaced Text">
-    <!-- Run from the classes dir -->
     <java fork="true" dir="../../../build/classes"
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.GAIGSmonospacedText">

@@ -38,11 +38,6 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		
 		wrapped = new GAIGSpolygon(4, new double[] {x1, x2, x2, x1}, new double[] {y1, y1, y2, y2},
 				color, fontColor, outlineColor, name, fontSize, line_width);
-	}	
-
-	public GAIGSprimitiveRegister(int length, String name, String color,
-			String fontColor, String outlineColor, Bounds b, double fontSize) {
-		this(length, name, color, fontColor, outlineColor , b.x1, b.y1, b.x2, b.y2, fontSize);
 	}
 	
 	public GAIGSprimitiveRegister(int length, String name, String color,
@@ -161,15 +156,6 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		 for (int count = (this.getSize()-1); count >= 0; count--){
 			 this.setBit(Character.getNumericValue(binStr.charAt(count)), count);
 		 }
-	 }
-
-	 /* (non-Javadoc)
-	  * @see exe.boothsMultiplication.GAIGSregister#copyTo(exe.boothsMultiplication.Bounds)
-	  */
-	 public GAIGSprimitiveRegister copyTo(Bounds bounds) {
-		 GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister(this);
-		 ret.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
-		 return ret;
 	 }
 
 	 /* (non-Javadoc)

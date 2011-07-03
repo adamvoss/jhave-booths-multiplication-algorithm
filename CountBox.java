@@ -6,10 +6,6 @@ public class CountBox extends GAIGSprimitiveRegister {
         super(String.valueOf(count).length(), "", color, fontColor, outlineColor, x1, y1, x2, y2, fontSize);
         this.set(String.valueOf(count));
     }
-
-    public CountBox(int count, String color, String fontColor, String outlineColor, Bounds bounds, double fontSize) {
-        this(count, color, fontColor, outlineColor, bounds.x1, bounds.y1, bounds.x2, bounds.y2, fontSize);
-    }
     
     public CountBox(int count, String color, String fontColor, String outlineColor, double[] bounds, double fontSize) {
         this(count, color, fontColor, outlineColor, bounds[0], bounds[1], bounds[2], bounds[3], fontSize);
@@ -24,14 +20,6 @@ public class CountBox extends GAIGSprimitiveRegister {
     	}
 
     public int getCount()   {return new Integer(this.toString());}
-
-    @Override
-    //I don't think you would have needed to overwrite this had you overridden clone.
-    public CountBox copyTo(Bounds bounds) {
-        CountBox ret = new CountBox(this);
-        ret.setBounds(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
-        return ret;
-    }
     
     public CountBox clone() {
     	return new CountBox(this);
