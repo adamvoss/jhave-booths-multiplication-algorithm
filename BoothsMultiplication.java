@@ -228,14 +228,11 @@ public class BoothsMultiplication {
     		
     		if (Count.getBit(0) == 0) break; //Thats so we get the final check
     		
-    		
-    		
     		//----Start of Comparison and Addition/Subtraction Frame Logic
     		
-    		/* Note: This logic for drawing these frames is dictated by the QuestionGenerator,
-    		 * not Booth's Multiplication Algorithm.  Previous revisions were cleaner. 
-    		 */
-    		
+            /* Note: This logic for drawing these frames is dictated by the QuestionGenerator,
+      	    * not Booth's Multiplication Algorithm.  Previous revisions were cleaner. 
+    	    */
     		int cmpVal = RegQ.getBit(REG_SIZE-1) - Q_1.getBit(0);
     		
             if (cmpVal == 1 || cmpVal == -1) {                
@@ -243,26 +240,28 @@ public class BoothsMultiplication {
                 addRow();//now we have enough information for question type 3, calculations pending
                 GAIGSArithmetic sum;
                 
-                	//Subtraction case   
+               	//Subtraction case   
                 if (cmpVal == 1) {
                     sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(),
                         2, 1, math.getHeight()/1.5);
                     addIntoReg(negateValue(RegM), RegA);
                 }
-                	//Addition case
+               	//Addition case
                 else {
                     sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 
                         2, 1, math.getHeight()/1.5);
                     addIntoReg(RegM, RegA);
                 }
                 
-                //----Comparison frame----
-                RegQ.setBitColor(REG_SIZE-1, BLUE);
-                Q_1.setBitColor(0, BLUE);
+                //----Comparison Colors----
+//              RegQ.setBitColor(REG_SIZE-1, BLUE);
+//              Q_1.setBitColor(0, BLUE);
+                getRegisterFromRow(trace.size()-2, REGQ).setBitColor(REG_SIZE-1, BLUE);
+                getRegisterFromRow(trace.size()-2, Q1).setBitColor(0         , BLUE);
                 
                 question que = quest.getComparisonQuestion();
                 GAIGSpane temp = (GAIGSpane)trace.remove(trace.size()-1);
-                easySnap("Determine the operation", easyPseudo(new int[] {10,14}), que);
+                easySnap("Determine the operation", easyPseudo(10), que);
                 trace.add(temp);
                 
                 //Reset colors
@@ -289,7 +288,7 @@ public class BoothsMultiplication {
                 trace.add(null);
                 question que = quest.getQuestion(1);
                 trace.remove(trace.size()-1);
-                easySnap("Determine the operation", easyPseudo(new int[] {10,14}), que);
+                easySnap("Determine the operation", easyPseudo(10), que);
 
                 //Reset colors
                 RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
@@ -315,7 +314,7 @@ public class BoothsMultiplication {
     		RegQ.setAllToColor(BLUE);
     		RegQ.setBitColor(0, GREEN);
     		Q_1.setBitColor(0, BLUE);
-    		easySnap("Sign-Preserving Right Shift", easyPseudo(20), que);
+    		easySnap("Sign-Preserving Right Shift", easyPseudo(21), que);
     		RegQ.setAllToColor(FONT_COLOR);
     		Q_1.setAllToColor(FONT_COLOR);
     		
@@ -329,7 +328,7 @@ public class BoothsMultiplication {
     		Count.decrement();
     		currentRow.add(Count); //Now we do want Count
     		Count.setAllToColor(RED);
-    		easySnap("Decrement Count", easyPseudo(22), null);
+    		easySnap("Decrement Count", easyPseudo(23), null);
     		Count.setAllToColor(FONT_COLOR);
     		//Hey!  We're ready to loop!
     	}

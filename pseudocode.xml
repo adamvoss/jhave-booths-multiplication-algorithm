@@ -11,17 +11,17 @@
     <line num="07" indent="1"></line>
     <line num="08" indent="1">while (count > 0) {</line>
     <line num="09" indent="2"></line>
-    <line num="10" indent="2">switch {[leastSignificanBit(Q),Q_{-1}]]){</line>
-    <line num="11" indent="2">case [1,0]:</line>
-    <line num="12" indent="3">A=A-M</line>
+    <line num="10" indent="2">switch ([leastSignificanBit(Q),Q(-1))] {</line>
+    <line num="11" indent="3">case [1,0]: A=A-M</line>
+    <line num="12" indent="4">break</line>
     <line num="13" indent="3"></line>
-    <line num="14" indent="2">case[0,1]:</line>
-    <line num="15" indent="3">A=A+M</line>
+    <line num="14" indent="3">case[0,1]: A=A+M</line>
+    <line num="15" indent="4">break</line>
     <line num="17" indent="2">}</line>
     <line num="18" indent="2"></line>
     <line num="19" indent="2">//[0,0] and [1,1] cases only shift</line>
     <line num="20" indent="2"></line>
-    <line num="21" indent="2">signPreservinRightShift(1, A, Q, Q_{-1})</line>
+    <line num="21" indent="2">signPreservinRightShift(1, A, Q, Q(-1))</line>
     <line num="22" indent="2"></line>
     <line num="23" indent="2">count--</line>
     <line num="24" indent="1">}</line>
