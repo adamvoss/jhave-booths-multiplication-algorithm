@@ -15,6 +15,7 @@ import exe.ShowFile;
  */
 
 public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatastr {
+	private static final boolean DEBUG = false;
 	private double charWidth;
 	private int charHalign;
 
@@ -296,7 +297,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
-		
+		if (DEBUG) System.out.println("Setting Monspaced Text Bounds:\n"+ "X0: " + x1 + " Y0: " + y1 + " X1: " + x2 + " Y1: " + y2);
 		//Move
 		switch (getHalign()){
 		case HRIGHT:
@@ -312,19 +313,22 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 		
 		switch (getValign()){
 		case VTOP:
-			setX(y2);
+			setY(y2);
 			break;
 		case HLEFT:
-			setX(y1);
+			setY(y1);
 			break;
 		case HCENTER:
-			setX((y2-y1)/2);
+			setY((y2-y1)/2);
 			break;
 		}
 		
 		//Then Scale
 		setFontSize( (y2-y1)/getHeight() *getFontSize());
 		setCharacterWidth( (x2-x1)/getWidth() *getCharacterWidth());
+		
+		double[] bds=this.getBounds();
+		if (DEBUG) System.out.println("Resulting Monspaced Text Bounds:\n"+ "X0: " + bds[0] + " Y0: " + bds[1] + " X1: " + bds[2] + " Y1: " + bds[3]);
 	}
 
 	@Override

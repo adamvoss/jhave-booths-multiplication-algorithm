@@ -193,6 +193,15 @@ public class BoothsMultiplication {
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
+        currentRow.add(new GAIGSline(new double[] {0,1}, new double[] {0,1}));
+        GAIGSmonospacedText text =new GAIGSmonospacedText(1, 1, "Hi", GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP);
+        currentRow.add(text);
+        System.out.println("X:" +text.getX());
+        System.out.println("Y:" +text.getY());
+        double[] bds = text.getBounds();
+        System.out.println("X0: " + bds[0] + " Y0: " + bds[1] + " X1: " + bds[2] + " Y1: " + bds[3]);
+        bds = trace.getRealCoordinates(bds);
+        System.out.println("X0: " + bds[0] + " Y0: " + bds[1] + " X1: " + bds[2] + " Y1: " + bds[3]);
         easySnap("Count is initialized to the number of bits in a register.", easyPseudo(6), null);
 
 
