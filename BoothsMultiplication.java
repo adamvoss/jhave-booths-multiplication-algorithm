@@ -6,6 +6,7 @@ import java.net.*;
 
 import org.jdom.*;
 
+import exe.GAIGStext;
 import exe.GAIGSdatastr;
 import exe.ShowFile;
 import exe.question;
@@ -29,12 +30,12 @@ public class BoothsMultiplication {
     private static ShowFile show;
     private static int REG_SIZE;
     
-    public final static int REGM  = 0;
-    public final static int REGA  = 1;
-    public final static int REGQ  = 2;
-    public final static int Q1    = 3;
-    public final static int COUNT = 4;
-    
+    public final static int REGM    = 0;
+    public final static int REGA    = 1;
+    public final static int REGQ    = 2;
+    public final static int Q1      = 3;
+    public final static int COUNT   = 4;
+    public final static int REGSTART= 4;
     
     //Definitions
     private static final boolean DEBUG = false;
@@ -59,10 +60,10 @@ public class BoothsMultiplication {
 
     private static final double LEFT_MARGIN       = 0.0;
     private static final double RIGHT_MARGIN      = 1.0;
-    private static final double TOP_MARGIN        = 0.0;
+    private static final double TOP_MARGIN        = 0.07;
     private static       double REG_WIDTH         = 0.12;
-    private static final double REG_WIDTH_PER_BIT = 0.027;
-    private static final double REG_SPACE_CHUNK   = 0.23;
+    private static final double REG_WIDTH_PER_BIT = 0.03;
+    private static final double REG_SPACE_CHUNK   = 0.27;
     private static final double REG_HEIGHT        = 0.06;
     private static final double ROW_SPACE         = 0.03;
     private static       double COL_SPACE         = 0.02;
@@ -84,16 +85,10 @@ public class BoothsMultiplication {
 
 
         //Our Stuff
-//        String multiplicand = toBinary(Integer.parseInt(args[1]));
-//        String multiplier   = toBinary(Integer.parseInt(args[2]));
         String multiplicand = args[1];
         String multiplier   = args[2];
-
         
-        //irrelevant
-        /* If you make something irrelevant it is your responsibility
-         * to remove it and keep the code clean
-         */
+        //shouldn't be neccessary, but just in case
         final int regSize;
         if (multiplicand.length() > multiplier.length()){
             regSize=multiplicand.length();
@@ -124,6 +119,16 @@ public class BoothsMultiplication {
         
         trace = new GAIGSpane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
+
+        GAIGSmonospacedText headerM = new GAIGSmonospacedText();
+        GAIGSmonospacedText headerA = new GAIGSmonospacedText();
+        GAIGSmonospacedText headerQ = new GAIGSmonospacedText();
+        GAIGSmonospacedText headerQ1= new GAIGSmonospacedText();
+
+        trace.add(headerM);
+        trace.add(headerA);
+        trace.add(headerQ);
+        trace.add(headerQ1);
         
         main.forceAdd(header);
         main.forceAdd(trace);
@@ -158,9 +163,13 @@ public class BoothsMultiplication {
     	//----Init Frame----
         //Reg M
         RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
-        RegM.setLabel("M:    ");
+//      RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         
+//      headerM.setX(RegM.getBounds()[2]);
+//      headerM.setY(RegM.getBounds()[3]);
+//      headerM.setText("Reg M");
+//      headerM.setCharacterWidth(0.04);
         currentRow.add(RegM);
         easySnap("M is the multiplicand", easyPseudo(2), null);
         
@@ -171,7 +180,7 @@ public class BoothsMultiplication {
     	init[2] = init[0]+REG_WIDTH;
         RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
-        RegA.setLabel("A:    ");
+//      RegA.setLabel("A:    ");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
 
@@ -180,7 +189,7 @@ public class BoothsMultiplication {
     	init[2] = init[0]+REG_WIDTH;
         RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
-        RegQ.setLabel("Q:    ");
+//      RegQ.setLabel("Q:    ");
         currentRow.add(RegQ);
         easySnap("Q is the Multiplier\nThe final product will span A and Q", easyPseudo(4), null);
 
@@ -189,7 +198,7 @@ public class BoothsMultiplication {
     	init[2] = init[0]+FONT_SIZE;
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
-        Q_1.setLabel( "Q(-1):");
+//      Q_1.setLabel( "Q(-1):");
         currentRow.add(Q_1);
         easySnap("Q_₁ is initialized to 0", easyPseudo(5), null);
 
@@ -197,7 +206,7 @@ public class BoothsMultiplication {
     	init[0] = RIGHT_MARGIN - FONT_SIZE;
     	init[2] = RIGHT_MARGIN;
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
-        Count.setLabel("Count");
+//      Count.setLabel("Count");
         currentRow.add(Count);
         easySnap("Count is initialized to the number of bits in a register.", easyPseudo(6), null);
 
@@ -254,8 +263,6 @@ public class BoothsMultiplication {
                 }
                 
                 //----Comparison Colors----
-//              RegQ.setBitColor(REG_SIZE-1, BLUE);
-//              Q_1.setBitColor(0, BLUE);
                 getRegisterFromRow(trace.size()-2, REGQ).setBitColor(REG_SIZE-1, BLUE);
                 getRegisterFromRow(trace.size()-2, Q1).setBitColor(0         , BLUE);
                 
