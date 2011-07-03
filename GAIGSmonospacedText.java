@@ -1,7 +1,9 @@
 package exe.boothsMultiplication;
 
+import java.io.IOException;
+
 import exe.GAIGStext;
-import exe.MutableGAIGSdatastr;
+import exe.ShowFile;
 
 /**
  * Behaves the same as <code>GAIGStext</code> except providing
@@ -285,7 +287,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 			ret[3]=y+height;
 			break;
 		case VCENTER:
-			ret[1]=y+height/2;
+			ret[1]=y-height/2;
 			ret[3]=y+height/2;
 			break;
 		}	
@@ -294,6 +296,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
+		
 		//Move
 		switch (getHalign()){
 		case HRIGHT:
@@ -320,11 +323,6 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 		}
 		
 		//Then Scale
-		
-		//This may not be accurate because the viewport's height >1
-		//setFontSize( (y2-y1) /getLineCount());
-		
-		//Use this instead
 		setFontSize( (y2-y1)/getHeight() *getFontSize());
 		setCharacterWidth( (x2-x1)/getWidth() *getCharacterWidth());
 	}
@@ -342,5 +340,43 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	
 	public GAIGSmonospacedText clone(){
 		return new GAIGSmonospacedText(this);
+	}
+	
+	public static void main(String[] args) throws IOException {
+		ShowFile show = new ShowFile("mono.sho");
+		
+		GAIGSmonospacedText text1 = new GAIGSmonospacedText(.5, .5);
+		text1.setText("Default");
+		show.writeSnap("Easy", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HC VC", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HC VB", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HC VT", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HL VC", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HL VB", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HL VT", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HR VC", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HR VB", text1);
+		
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		show.writeSnap("HR VT", text1);
+		
+		
+		show.close();
 	}
 }

@@ -90,14 +90,18 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		this.height = height;
 	}
 
-	public double[] getRealCoordinates(MutableGAIGSdatastr data){
+	//TODO add a getRealCoordinates that acts on a double[]
+	public double[] getRealCoordinates(double[] srcBounds){
 		double scaleX = (realBounds[2]-realBounds[0])/width;
 		double scaleY = (realBounds[3]-realBounds[1])/height;
-		double[] srcBounds = data.getBounds();
 		return new double[] {srcBounds[0]*scaleX + realBounds[0],
 							 srcBounds[1]*scaleY + realBounds[1],
 							 srcBounds[2]*scaleX + realBounds[0],
 							 srcBounds[3]*scaleY + realBounds[1]};
+		}
+	
+	public double[] getRealCoordinates(MutableGAIGSdatastr data){
+		return getRealCoordinates(data.getBounds());
 		}
 	
 	/* (non-Javadoc)
