@@ -26,7 +26,7 @@
 
 
   <target name="run" depends="compile" description="Generate the visualization script">
-    <!-- Run from the classes dir -->
+    <!-- Run from the class's dir -->
     <java fork="true" dir="../../../build/classes"
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.BoothsMultiplication">

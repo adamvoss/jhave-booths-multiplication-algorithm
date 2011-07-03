@@ -2,6 +2,7 @@ package jhave.client.igcomponent;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.BorderLayout;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.Container;
 
 import java.util.Iterator;
 
@@ -16,6 +18,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
 import org.jdom.Element;
@@ -38,6 +41,12 @@ public class IGListeningTextField extends IGComponent {
     /**The name of the element which represents the label for this component*/
     public static final String LABEL_ELEMENT_NAME  = "label_line";
 
+    /**The name of the element which serves to describe the use of the input generator to the user.*/
+    public static final String DESCRIPTION_ELEMENT = "description"  ;
+
+    /*non-javadoc The text that goes in the description element*/
+    private static      String descriptiveText;
+
     /**The name of the element which represents a binary/decimal textfield pair*/
     public static final String LTEXTFIELDS = "l_textfields";
     
@@ -57,8 +66,11 @@ public class IGListeningTextField extends IGComponent {
         System.out.println("IGListeningTextField initialized");
 
         Iterator ltxt_iter = root.getChildren().iterator();
+        BorderLayout border = new BorderLayout();
         GridLayout grid = new GridLayout(4, 3, 3, 3);
-        panel = new JPanel(grid);
+        panel = new JPanel(border);
+        JPanel centerPanel = new JPanel(grid);
+        JLabel descriptiveArea = new JLabel();
         String[] textTmp = new String[2];
         int count = 0;
 
@@ -69,31 +81,35 @@ public class IGListeningTextField extends IGComponent {
             if (ltxt_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
                 this.label = new JLabel(ltxt_child.getText() );
             }
+            else if (ltxt_child.getName().equalsIgnoreCase(DESCRIPTION_ELEMENT) ) {
+                descriptiveText = ltxt_child.getText();
+                descriptiveArea.setText(descriptiveText);
+            }
 
             else if (ltxt_child.getName().equalsIgnoreCase(LTEXTFIELDS) ) {
                 textTmp[count++] = ltxt_child.getChildTextTrim(LTF_DEFAULT);
                 System.out.println(textTmp[count-1]);
-//              TextListener temp = new TextListener(Integer.parseInt(ltxt_child.getChildTextTrim(LTF_DEFAULT) ) );
-//              panel.add(temp.getTextFields()[0]);//binText
-//              panel.add(temp.getTextFields()[1]);//decText
             }
         }
         
         manager = new ListeningManager(Integer.parseInt(textTmp[0]), Integer.parseInt(textTmp[1] ));
 
         JTextField[] tFields = manager.getTextFields();
-        panel.add(new JLabel(" ")); //A lazy way to add a blank item to grid
-        panel.add(new JLabel("Decimal"));
-        panel.add(new JLabel("Two's Complement Binary"));
-        panel.add(new JLabel("Multiplicand"));
-        panel.add(tFields[1]);//multiplicand binText
-        panel.add(tFields[0]);//multiplicand decText
-        panel.add(new JLabel("Multiplier"));
-        panel.add(tFields[3]);//multiplier   binText
-        panel.add(tFields[2]);//multiplier   decText
-        panel.add(new JLabel("Select how many bits to use:"));        
-        panel.add(manager.getComboBox() );
-        panel.add(manager.getError() );
+        centerPanel.add(new JLabel(" ")); //A lazy way to add a blank item to grid
+        centerPanel.add(new JLabel("Decimal"));
+        centerPanel.add(new JLabel("Two's Complement Binary"));
+        centerPanel.add(new JLabel("Multiplicand"));
+        centerPanel.add(tFields[1]);//multiplicand binText
+        centerPanel.add(tFields[0]);//multiplicand decText
+        centerPanel.add(new JLabel("Multiplier"));
+        centerPanel.add(tFields[3]);//multiplier   binText
+        centerPanel.add(tFields[2]);//multiplier   decText
+        centerPanel.add(new JLabel("Select how many bits to use:"));        
+        centerPanel.add(manager.getComboBox() );
+        centerPanel.add(manager.getError() );
+
+        panel.add(centerPanel, BorderLayout.CENTER);
+        panel.add(descriptiveArea, BorderLayout.NORTH);
     }
 
     @Override
@@ -102,6 +118,9 @@ public class IGListeningTextField extends IGComponent {
 
         Element labelElement = new Element(LABEL_ELEMENT_NAME);
         labelElement.setText(this.label.getText() );
+
+        Element descriptiveElement = new Element(DESCRIPTION_ELEMENT);
+        descriptiveElement.setText(descriptiveText);
 
         //BEGIN l_textFields
         Element lTextElementM = new Element(LTEXTFIELDS);
@@ -147,10 +166,11 @@ public class IGListeningTextField extends IGComponent {
         enteredElement.setText(ltEnteredM.getText() + " " + ltEnteredQ.getText() );
 
         //Now set for return
-        thisElement.addContent(labelElement)  ;
-        thisElement.addContent(lTextElementM) ;
-        thisElement.addContent(lTextElementQ) ;
-        thisElement.addContent(enteredElement);
+        thisElement.addContent(labelElement)      ;
+        thisElement.addContent(descriptiveElement);
+        thisElement.addContent(lTextElementM)     ;
+        thisElement.addContent(lTextElementQ)     ;
+        thisElement.addContent(enteredElement)    ;
 
         return thisElement;
     }

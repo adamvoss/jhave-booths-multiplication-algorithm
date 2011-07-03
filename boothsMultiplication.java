@@ -15,7 +15,7 @@ public class boothsMultiplication{
 
         String[] toPass = new String[3];
         toPass[0] = args[0] + ".sho";
-        String[] temp = param.get("Listening Text").split(" ");
+        String[] temp = param.get("Booths Multiplication Input").split(" ");
         toPass[1] = temp[0];
         toPass[2] = temp[1];
 
