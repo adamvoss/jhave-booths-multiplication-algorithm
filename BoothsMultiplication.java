@@ -117,7 +117,6 @@ public class BoothsMultiplication {
         math.setName("Math");
         
         trace = new GAIGSpane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
-        System.out.println(trace.getAspectRatio());
         trace.setName("Trace");
         
         main.forceAdd(header);
@@ -126,8 +125,10 @@ public class BoothsMultiplication {
 
 //        main=trace;
 
-        //trace.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, new double[] {0, 0, trace.getHeight(), trace.getHeight()},
-		//		DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+        GAIGSpane trace_labels = new GAIGSpane();
+        trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, new double[] {0, 0, trace.getHeight(), trace.getHeight()},
+				DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+        trace.add(trace_labels);
         
         currentRow = new GAIGSpane();
         currentRow.setName("Row " + rowNumber++);
