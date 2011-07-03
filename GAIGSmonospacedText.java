@@ -307,7 +307,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 			setX(x1);
 			break;
 		case HCENTER:
-			setX((x2-x1)/2);
+			setX((x2-x1)/2+x1);
 			break;
 		}
 		
@@ -319,7 +319,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 			setY(y1);
 			break;
 		case HCENTER:
-			setY((y2-y1)/2);
+			setY((y2-y1)/2+y1);
 			break;
 		}
 		

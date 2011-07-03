@@ -153,6 +153,10 @@ public class BoothsMultiplication {
     	
     	//----Init Frame----
         //Reg M
+    	trace_labels.add(new GAIGSmonospacedText(
+    						(init[2]-init[0])/2.0+init[0], init[3],
+    						GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+    						FONT_SIZE, FONT_COLOR, "M:", FONT_SIZE/2));
         RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
@@ -165,6 +169,10 @@ public class BoothsMultiplication {
         //Reg A
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+REG_WIDTH;
+    	trace_labels.add(new GAIGSmonospacedText(
+				(init[2]-init[0])/2.0+init[0], init[3],
+				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+				FONT_SIZE, FONT_COLOR, "A:", FONT_SIZE/2));
         RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
@@ -174,6 +182,10 @@ public class BoothsMultiplication {
         //Reg Q
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+REG_WIDTH;
+    	trace_labels.add(new GAIGSmonospacedText(
+				(init[2]-init[0])/2.0+init[0], init[3],
+				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+				FONT_SIZE, FONT_COLOR, "Q:", FONT_SIZE/2));
         RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
@@ -183,6 +195,10 @@ public class BoothsMultiplication {
         //Bit Q_1
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+FONT_SIZE;
+    	trace_labels.add(new GAIGSmonospacedText(
+				(init[2]-init[0])/2.0+init[0], init[3],
+				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+				FONT_SIZE, FONT_COLOR, "Q_₁:", FONT_SIZE/2));
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         Q_1.setLabel( "Q(-1):");
@@ -193,6 +209,10 @@ public class BoothsMultiplication {
         //THAT IS NOT A MARGIN; DON'T CALL IT AS SUCH
     	init[0] = RIGHT_MARGIN - FONT_SIZE;
     	init[2] = RIGHT_MARGIN;
+    	trace_labels.add(new GAIGSmonospacedText(
+				(init[2]-init[0])/2.0+init[0], init[3],
+				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+				FONT_SIZE, FONT_COLOR, "Count:", FONT_SIZE/2));
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
