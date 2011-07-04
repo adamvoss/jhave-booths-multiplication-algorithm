@@ -40,19 +40,20 @@ public class BoothsMultiplication {
     private static final boolean DEBUG = false;
 
     private static final double FONT_SIZE = 0.05;
-    public static final String WHITE   = "#FFFFFF";
-    public static final String BLACK   = "#000000";
-    public static final String GREY    = "#CCCCCC";
-    public static final String RED     = "#FF0000";
-    public static final String GREEN   = "#00AA00";
-    public static final String BLUE    = "#0000FF";
-    public static final String YELLOW  = "#FFFF00";
-    public static final String GOLD    = "#CDAD00";
-    public static final String FONT_COLOR     = BLACK;
-    public static final String DEFAULT_COLOR  = WHITE;
-    public static final String ACTIVE_COLOR   = BLACK;
-    public static final String INACTIVE_COLOR = GREY;
-    public static final String OUTLINE_COLOR  = FONT_COLOR;
+    public static final String WHITE     = "#FFFFFF";
+    public static final String BLACK     = "#000000";
+    public static final String GREY      = "#CCCCCC";
+    public static final String DARK_GREY = "#666666";
+    public static final String RED       = "#FF0000";
+    public static final String GREEN     = "#00AA00";
+    public static final String BLUE      = "#0000FF";
+    public static final String YELLOW    = "#FFFF00";
+    public static final String GOLD      = "#CDAD00";
+    public static final String FONT_COLOR      = BLACK;
+    public static final String DEFAULT_COLOR   = WHITE;
+    public static final String INACTIVE_TEXT   = DARK_GREY;
+    public static final String INACTIVE_OUTLINE= GREY;
+    public static final String OUTLINE_COLOR   = FONT_COLOR;
     
     private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVÉ_X_MARGIN*2;
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVÉ_Y_MARGIN*2;
@@ -249,7 +250,7 @@ public class BoothsMultiplication {
 
         //We are done.
         //----Finished Frame----
-        setAllRegBitsColor(INACTIVE_COLOR);
+        setAllRegBitsColor(INACTIVE_TEXT);
         decimal.complete();
         binary.complete();
         RegA.setColor(YELLOW);
@@ -310,8 +311,9 @@ public class BoothsMultiplication {
                 easySnap("Determine the operation", easyPseudo(10), que);
                 trace.add(temp);
                 
-                //Reset colors
-                setRowRegisterBitsColor(trace.size()-2, INACTIVE_COLOR);
+                //Reset/deactivate colors
+                setRowRegisterBitsColor(trace.size()-2,    INACTIVE_TEXT);
+                setRowRegisterOutlineColor(trace.size()-2, INACTIVE_OUTLINE);
                 RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
                 Q_1.setBitColor(0, FONT_COLOR);
 
@@ -332,7 +334,7 @@ public class BoothsMultiplication {
                 RegQ.setBitColor(REG_SIZE-1, BLUE);
                 Q_1.setBitColor(0, BLUE);
                 
-                //Question time-warp// !?!?!?!
+                //Question pane-hopping//
                 trace.add(null);
                 question que = quest.getQuestion(1);
                 trace.remove(trace.size()-1);
@@ -342,33 +344,35 @@ public class BoothsMultiplication {
                 RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
                 Q_1.setBitColor(0, FONT_COLOR);
             }
-            setAllRegBitsColor(INACTIVE_COLOR);
-            
+            //Deactivate text
+            setAllRegBitsColor(INACTIVE_TEXT);
+            setRowRegisterOutlineColor(INACTIVE_OUTLINE);
             
     		//----Shift Frame----
     		positionMajorRow(); //Remember this clones
-            setAllRegBitsColor(ACTIVE_COLOR);
+            setAllRegBitsColor(FONT_COLOR);
     		addRow();
     		rightShift(RegA, RegQ, Q_1);
            
             //Question and write
             question que = quest.getShiftQuestion(); 
-    		currentRow.remove(COUNT); //Oops...We don't want Count
 
             //Colors
             getRegisterFromRow(trace.size()-2, REGA).setAllToColor(GREEN);
             getRegisterFromRow(trace.size()-2, REGQ).setAllToColor(BLUE);
+            setRowRegisterOutlineColor(OUTLINE_COLOR);
     		RegA.setAllToColor(GREEN);
     		RegQ.setAllToColor(BLUE);
     		RegQ.setBitColor(0, GREEN);
     		Q_1.setBitColor(0, BLUE);
+    		currentRow.remove(COUNT); //Oops...We don't want Count
     		easySnap("Sign-Preserving Right Shift", easyPseudo(21), que);
     		RegQ.setAllToColor(FONT_COLOR);
     		Q_1.setAllToColor(FONT_COLOR);
     		
             //Clean Color of A and Q on the previous line
-            getRegisterFromRow(trace.size()-2, REGA).setAllToColor(INACTIVE_COLOR);
-            getRegisterFromRow(trace.size()-2, REGQ).setAllToColor(INACTIVE_COLOR);
+            getRegisterFromRow(trace.size()-2, REGA).setAllToColor(INACTIVE_TEXT);
+            getRegisterFromRow(trace.size()-2, REGQ).setAllToColor(INACTIVE_TEXT);
     		RegA.setAllToColor(FONT_COLOR);
     		RegQ.setAllToColor(FONT_COLOR);
     		
@@ -470,7 +474,7 @@ public class BoothsMultiplication {
         RegM.setAllToColor(color) ;
         RegA.setAllToColor(color) ;
         RegQ.setAllToColor(color) ;
-        Q_1.setAllToColor(color)  ;
+        Q_1.setAllToColor( color) ;
         Count.setAllToColor(color);
     }
 
@@ -480,6 +484,18 @@ public class BoothsMultiplication {
         getRegisterFromRow(row, REGQ).setAllToColor(color);
         getRegisterFromRow(row, Q1  ).setAllToColor(color);
         getRegisterFromRow(row,COUNT).setAllToColor(color);
+    }
+
+    private static void setRowRegisterOutlineColor(int row, String color) {
+        getRegisterFromRow(row, REGM).setOutlineColor(color);
+        getRegisterFromRow(row, REGA).setOutlineColor(color);
+        getRegisterFromRow(row, REGQ).setOutlineColor(color);
+        getRegisterFromRow(row, Q1  ).setOutlineColor(color);
+        getRegisterFromRow(row,COUNT).setOutlineColor(color);
+    }
+
+    private static void setRowRegisterOutlineColor(String color) {
+        setRowRegisterOutlineColor(trace.size()-1, color);
     }
 
     private static void positionMajorRow(){

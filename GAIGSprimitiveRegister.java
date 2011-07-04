@@ -5,7 +5,7 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
 
 /**
  * @author Adam Voss <vossad01@luther.edu>
- *
+ * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 //TODO Add a working label functionality.
 //TODO Grab documentation from the interface that can be found in history
@@ -137,6 +137,10 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 			 this.colors[loc]=color;
 		 }
 	 }
+
+     public void setOutlineColor(String color) {
+         wrapped.setOutlineColor(color);
+     }
 
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#set(java.lang.String)
