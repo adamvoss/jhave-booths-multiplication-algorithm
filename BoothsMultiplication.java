@@ -42,7 +42,7 @@ public class BoothsMultiplication {
     private static final double FONT_SIZE = 0.05;
     public static final String WHITE     = "#FFFFFF";
     public static final String BLACK     = "#000000";
-    public static final String GREY      = "#CCCCCC";
+    public static final String GREY      = "#DDDDDD";
     public static final String DARK_GREY = "#666666";
     public static final String RED       = "#FF0000";
     public static final String GREEN     = "#00AA00";
@@ -139,6 +139,11 @@ public class BoothsMultiplication {
         
         trace = new GAIGSpane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
+
+//      GAIGSline mathTracePartition = new  GAIGSline(new double[] {WINDOW_WIDTH*(3/4.0), WINDOW_WIDTH*(3/4.0)}, 
+//          new double[] {0, WINDOW_HEIGHT*(3/4.0)}, BLACK, BLACK, "Partition");
+//      GAIGSline mathTracePartition = new GAIGSline(new double[] {math.getBounds()[0], math.getBounds()[0]}, 
+//          new double[] {math.getBounds()[1], math.getBounds()[3]}, BLACK, BLACK, "");
         
         main.forceAdd(header);
         main.forceAdd(trace);
@@ -147,8 +152,13 @@ public class BoothsMultiplication {
 //        main=trace;
 
         GAIGSpane trace_labels = new GAIGSpane();
-        trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, 
-            new double[] {0, 0, trace.getHeight(), trace.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+        //for some reason it seems like these lines are necessary
+        //without them the slide breaks.
+        GAIGSpolygon mathTracePartition = new GAIGSpolygon(2, new double[] { 0, 0, trace.getWidth(), trace.getWidth()},
+            new double[] {trace.getHeight(), 0, 0, trace.getHeight()}, DEFAULT_COLOR, BLACK, BLACK, "");
+        trace_labels.add(mathTracePartition);
+//      trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, 
+//          new double[] {0, 0, trace.getHeight(), trace.getHeight()}, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR, "Work Here", FONT_SIZE, 2));
 
         trace.add(trace_labels);
         
