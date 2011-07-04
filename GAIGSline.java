@@ -111,23 +111,17 @@ public class GAIGSline extends AbstractPrimitive {
 	 */
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
-		double[] current = this.getBounds();
-		double translateX = x1-current[0];
-		double translateY = y1-current[1];
-		double scaleX = (x2-x1)/(current[2]-(current[0]));
-		double scaleY = (y2-y1)/(current[3]-(current[1]));
-		
-		for(int j = 0; j < 2; ++j){
-			x[j] = x[j] * scaleX + translateX;
-			y[j] = y[j] * scaleY + translateY;
-		}
+		x[0] = x1;
+		y[0] = y1;
+		x[1] = x2;
+		y[1] = y2;
 	}
 
 	/* (non-Javadoc)
 	 * @see exe.boothsMultiplication.Primitive#clone()
 	 */
 	@Override
-	public AbstractPrimitive clone() {
+	public GAIGSline clone() {
 		return new GAIGSline(this);
 	}
 

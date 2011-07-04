@@ -174,6 +174,9 @@ public class BoothsMultiplication {
         math = new GAIGSpane(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
         math.setName("Math");
         
+        math.add(new GAIGSline(new double[] {0,0}, new double[] {0, math.getHeight()}));
+        math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Math/CPU"));
+        
         trace = new GAIGSpane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
         
@@ -182,15 +185,15 @@ public class BoothsMultiplication {
         main.forceAdd(math);
 
         GAIGSpane trace_labels = new GAIGSpane();
-        trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, 
-            new double[] {0, 0, trace.getHeight(), trace.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+        math.add(new GAIGSpolygon(4, new double[] {0, math.getWidth(), math.getWidth(), 0}, 
+            new double[] {0, 0, math.getHeight(), math.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
 
         trace.add(trace_labels);
         
         currentRow = new GAIGSpane();
         currentRow.setName("Row " + rowNumber++);
         
-        trace.add(currentRow);
+        trace.forceAdd(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
     	quest = new QuestionGenerator(show, trace);
     	
@@ -212,7 +215,7 @@ public class BoothsMultiplication {
         //Reg M
     	trace_labels.add(new GAIGSmonospacedText(
     						(init[2]-init[0])/2.0+init[0], init[3],
-    						GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+    						GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
     						FONT_SIZE, FONT_COLOR, "M:", FONT_SIZE/2));
         RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.setLabel("M:    ");
@@ -228,7 +231,7 @@ public class BoothsMultiplication {
     	init[2] = init[0]+REG_WIDTH;
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
-				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
 				FONT_SIZE, FONT_COLOR, "A:", FONT_SIZE/2));
         RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
@@ -241,7 +244,7 @@ public class BoothsMultiplication {
     	init[2] = init[0]+REG_WIDTH;
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
-				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
 				FONT_SIZE, FONT_COLOR, "Q:", FONT_SIZE/2));
         RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
@@ -257,7 +260,7 @@ public class BoothsMultiplication {
     	init[2] = init[0]+FONT_SIZE;
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
-				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
 				FONT_SIZE, FONT_COLOR, "β", FONT_SIZE/2));
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
@@ -275,7 +278,7 @@ public class BoothsMultiplication {
         init[2] = trace.getWidth();
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
-				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
+				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
 				FONT_SIZE, FONT_COLOR, "Count:", FONT_SIZE/2));
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");

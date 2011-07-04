@@ -116,6 +116,12 @@ public class GAIGSpolygon extends AbstractPrimitive {
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
 		double[] current = this.getBounds();
+		
+		if (x2-x1 == 0 | y2-y1==0){
+			System.err.println("Polygon dimension collapse (Zero width or height)\n this is unsupported");
+			//TODO add logic that allows such collapses.
+		}
+		
 		double scaleX = (x2-x1)/(current[2]-(current[0]));
 		double scaleY = (y2-y1)/(current[3]-(current[1]));
 
