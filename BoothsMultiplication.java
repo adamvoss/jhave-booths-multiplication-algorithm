@@ -61,8 +61,8 @@ public class BoothsMultiplication {
     private static final double RIGHT_MARGIN      = 1.0;
     private static final double TOP_MARGIN        = 0.0;
     private static       double REG_WIDTH         = 0.12;
-    private static final double REG_WIDTH_PER_BIT = 0.027;
-    private static final double REG_SPACE_CHUNK   = 0.23;
+    private static final double REG_WIDTH_PER_BIT = 0.035;
+    private static final double REG_SPACE_CHUNK   = 0.32;
     private static final double REG_HEIGHT        = 0.06;
     private static final double ROW_SPACE         = 0.03;
     private static       double COL_SPACE         = 0.02;
@@ -126,8 +126,9 @@ public class BoothsMultiplication {
 //        main=trace;
 
         GAIGSpane trace_labels = new GAIGSpane();
-        trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, new double[] {0, 0, trace.getHeight(), trace.getHeight()},
-				DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+        trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, 
+            new double[] {0, 0, trace.getHeight(), trace.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+
         trace.add(trace_labels);
         
         currentRow = new GAIGSpane();
@@ -206,9 +207,11 @@ public class BoothsMultiplication {
         easySnap("Q_₁ is initialized to 0", easyPseudo(5), null);
 
         //Count
-        //THAT IS NOT A MARGIN; DON'T CALL IT AS SUCH
-    	init[0] = RIGHT_MARGIN - FONT_SIZE;
-    	init[2] = RIGHT_MARGIN;
+//      I assume there's a good reason why these aren't equivalent?
+//      init[0] = trace.getBounds()[2] - FONT_SIZE;
+//      init[2] = trace.getBounds()[2];
+        init[0] = trace.getWidth() - FONT_SIZE;
+        init[2] = trace.getWidth();
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
@@ -216,7 +219,7 @@ public class BoothsMultiplication {
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Count.setLabel("Count");
         currentRow.add(Count);
-        easySnap("Count is initialized to the number of bits in a register.", easyPseudo(6), null);
+        easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
 
 
         boothsMultiplication();
@@ -230,7 +233,7 @@ public class BoothsMultiplication {
         RegA.setAllToColor(FONT_COLOR);
         RegQ.setColor(YELLOW);
         RegQ.setAllToColor(FONT_COLOR);
-        easySnap("Check the result.", easyPseudo(24), null);
+        easySnap("Check the result.", easyPseudo(25), null);
 
         show.close();
     }
