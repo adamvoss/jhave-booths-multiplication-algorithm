@@ -57,6 +57,9 @@ public class BoothsMultiplication {
     private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVÉ_X_MARGIN*2;
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVÉ_Y_MARGIN*2;
 
+    private static       double ARLABEL_ADJUST;
+    private static       double ARLABEL_SPACE;
+
     private static final double LEFT_MARGIN       = 0.0;
     private static final double RIGHT_MARGIN      = 1.0;
     private static final double TOP_MARGIN        = 0.0;
@@ -111,17 +114,17 @@ public class BoothsMultiplication {
 
         GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight(), 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
-        GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 0.6, header.getHeight(), 
+        GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 0.06, header.getHeight(), 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
         
-        double adjustLabel = header.getHeight()/13;
-        double lbSpace     = header.getHeight()/20;
-        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(binary.getBounds()[0] - lbSpace, 
-            (binary.getBounds()[3]+binary.getBounds()[1])/2 + adjustLabel, GAIGStext.HRIGHT,
+        ARLABEL_ADJUST = header.getHeight()/13;
+        ARLABEL_SPACE  = header.getHeight()/20;
+        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(binary.getBounds()[0]-ARLABEL_SPACE, 
+            (binary.getBounds()[3]+binary.getBounds()[1])/2 + ARLABEL_ADJUST, GAIGStext.HRIGHT,
             GAIGStext.VBOTTOM, binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
         //interesting that I don't need to adjust decimal, but I do for binary
         //and different alignment...?
-        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(decimal.getBounds()[2] + lbSpace,
+        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(decimal.getBounds()[2]+ARLABEL_SPACE,
             (decimal.getBounds()[3]+decimal.getBounds()[1])/2, GAIGStext.HLEFT,
             GAIGStext.VTOP, decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
 
@@ -279,17 +282,22 @@ public class BoothsMultiplication {
                 positionAdditionRow();//clones all registers
                 addRow();//now we have enough information for question type 3, calculations pending
                 GAIGSArithmetic sum;
+                GAIGSmonospacedText sumLabel;
                 
                	//Subtraction case   
                 if (cmpVal == 1) {
                     sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(),
                         2, 1, math.getHeight()/1.5);
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE, (sum.getBounds()[1]+sum.getBounds()[3])/2, 
+                        GAIGStext.HLEFT, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, " A\n-M");
                     addIntoReg(negateValue(RegM), RegA);
                 }
-               	//Addition case
+               	//Addition case//TODO THIS ONE TOO
                 else {
                     sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 
                         2, 1, math.getHeight()/1.5);
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE, (sum.getBounds()[1]+sum.getBounds()[3])/2,
+                        GAIGStext.HLEFT, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, " A\n M");
                     addIntoReg(RegM, RegA);
                 }
                 
@@ -311,9 +319,11 @@ public class BoothsMultiplication {
                 //----Addition/Subtraction frame----
                 RegA.setAllToColor(GREEN);
                 math.add(sum);
+                math.add(sumLabel);
                 sum.complete();
                 easySnap("Added " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo(11), quest.getAdditionQuestion() );
                 math.clear();
+                sumLabel.setText("");
 
             }
             else {
