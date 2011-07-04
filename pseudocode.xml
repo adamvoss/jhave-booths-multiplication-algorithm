@@ -6,12 +6,12 @@
     <line num="02" indent="1">Register M=multiplicand</line>
     <line num="03" indent="1">Register A=0</line>
     <line num="04" indent="1">Register Q=multiplier</line>
-    <line num="05" indent="1">Bit prevLastBitQ=0</line>
+    <line num="05" indent="1">Bit ϐ=0</line>
     <line num="06" indent="1">Integer count=bitLength(M) //all registers have the same length</line>
     <line num="07" indent="1"></line>
     <line num="08" indent="1">while (count > 0) {</line>
     <line num="09" indent="2"></line>
-    <line num="10" indent="2">switch ([leastSignificanBit(Q),Q(-1))] {</line>
+    <line num="10" indent="2">switch ([leastSignificanBit(Q),ϐ)] {</line>
     <line num="11" indent="3">case [1,0]: A=A-M</line>
     <line num="12" indent="4">break</line>
     <line num="13" indent="3"></line>
@@ -21,7 +21,7 @@
     <line num="18" indent="2"></line>
     <line num="19" indent="2">//[0,0] and [1,1] cases only shift</line>
     <line num="20" indent="2"></line>
-    <line num="21" indent="2">signPreservinRightShift(1, A, Q, Q(-1))</line>
+    <line num="21" indent="2">signPreservinRightShift(1, A, Q, ϐ)</line>
     <line num="22" indent="2"></line>
     <line num="23" indent="2">count--</line>
     <line num="24" indent="1">}</line>

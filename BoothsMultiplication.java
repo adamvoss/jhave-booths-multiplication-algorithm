@@ -222,12 +222,12 @@ public class BoothsMultiplication {
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
-				FONT_SIZE, FONT_COLOR, "Q_₁:", FONT_SIZE/2));
+				FONT_SIZE, FONT_COLOR, "ϐ", FONT_SIZE/2));
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
-        Q_1.setLabel( "Q(-1):");
+        Q_1.setLabel( "ϐ");
         currentRow.add(Q_1);
-        easySnap("Q_₁ is initialized to 0", easyPseudo(5), null);
+        easySnap("ϐ is initialized to 0", easyPseudo(5), null);
 
         //Count
 //      I assume there's a good reason why these aren't equivalent?
