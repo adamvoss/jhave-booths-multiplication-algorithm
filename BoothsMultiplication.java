@@ -61,7 +61,7 @@ public class BoothsMultiplication {
     private static       double ARLABEL_SPACE;
 
     private static final double LEFT_MARGIN       = 0.0;
-    private static final double RIGHT_MARGIN      = 1.0;
+    private static final double RIGHT_MARGIN      = FONT_SIZE;
     private static final double TOP_MARGIN        = 0.0;
     private static       double REG_WIDTH         = 0.12;
     private static final double REG_WIDTH_PER_BIT = 0.035;
@@ -85,21 +85,11 @@ public class BoothsMultiplication {
             docURI = new URI("str", "<html>hi</html>", "");
         } catch (java.net.URISyntaxException e) {}
 
-
         //Our Stuff
         String multiplicand = args[1];
         String multiplier   = args[2];
         
-        //shouldn't be necessary, but just in case
-        final int regSize;
-        if (multiplicand.length() > multiplier.length()){
-            regSize=multiplicand.length();
-            multiplier = signExtend(multiplier, regSize-multiplier.length() );
-        }
-        else {
-            regSize=multiplier.length();
-            multiplicand = signExtend(multiplicand, regSize-multiplicand.length() );
-        }
+        REG_SIZE = multiplicand.length();
         
         main = new GAIGSpane(0-GAIGSpane.JHAVÉ_X_MARGIN,
 				 0-GAIGSpane.JHAVÉ_Y_MARGIN,
@@ -158,8 +148,6 @@ public class BoothsMultiplication {
         	binBds[0]-ARLABEL_SPACE, binBds[3],
             GAIGStext.HCENTER, GAIGStext.VTOP,
             binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
-        //interesting that I don't need to adjust decimal, but I do for binary
-        //and different alignment...?
         double[] deciBds = decimal.getBounds();
         GAIGSmonospacedText decLabel = new GAIGSmonospacedText(
         	deciBds[2]+ARLABEL_SPACE, deciBds[3],
@@ -185,8 +173,8 @@ public class BoothsMultiplication {
         main.forceAdd(math);
 
         GAIGSpane trace_labels = new GAIGSpane();
-        math.add(new GAIGSpolygon(4, new double[] {0, math.getWidth(), math.getWidth(), 0}, 
-            new double[] {0, 0, math.getHeight(), math.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+//        math.add(new GAIGSpolygon(4, new double[] {0, math.getWidth(), math.getWidth(), 0}, 
+//            new double[] {0, 0, math.getHeight(), math.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
 
         trace.add(trace_labels);
         
@@ -217,7 +205,7 @@ public class BoothsMultiplication {
     						(init[2]-init[0])/2.0+init[0], init[3],
     						GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
     						FONT_SIZE, FONT_COLOR, "M:", FONT_SIZE/2));
-        RegM= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegM= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         
@@ -233,7 +221,7 @@ public class BoothsMultiplication {
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
 				FONT_SIZE, FONT_COLOR, "A:", FONT_SIZE/2));
-        RegA= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegA= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
         RegA.setLabel("A:    ");
         currentRow.add(RegA);
@@ -246,7 +234,7 @@ public class BoothsMultiplication {
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
 				FONT_SIZE, FONT_COLOR, "Q:", FONT_SIZE/2));
-        RegQ= new GAIGSprimitiveRegister(regSize, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegQ= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         currentRow.add(RegQ);
@@ -274,8 +262,8 @@ public class BoothsMultiplication {
         //Get Width gives the width of the coordinate system within the object
 //      init[0] = trace.getBounds()[2] - FONT_SIZE;
 //      init[2] = trace.getBounds()[2];
-        init[0] = trace.getWidth() - FONT_SIZE;
-        init[2] = trace.getWidth();
+        init[0] = trace.getWidth() - FONT_SIZE - RIGHT_MARGIN;
+        init[2] = trace.getWidth() - RIGHT_MARGIN;
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
@@ -327,18 +315,18 @@ public class BoothsMultiplication {
                 
                	//Subtraction case   
                 if (cmpVal == 1) {
-                    sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(),
-                        2, 1, math.getHeight()/1.5);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE, sum.getBounds()[3]-sum.getFontSize(), 
+                    sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(), 2,
+                    		math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
                         GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(-M)");
                     addIntoReg(negateValue(RegM), RegA);
                 }
                	//Addition case
                 //TODO THIS ONE TOO //What about it?
                 else {
-                    sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 
-                        2, 1, math.getHeight()/1.5);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE, sum.getBounds()[3]-sum.getFontSize(), 
+                    sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2,
+                    		math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
                             GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(M)");
                     addIntoReg(RegM, RegA);
                 }

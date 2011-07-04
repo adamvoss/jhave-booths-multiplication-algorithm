@@ -30,8 +30,8 @@
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.BoothsMultiplication">
       <arg value="foo.sho" />  <!--  Name of the output visualization script-->
-      <arg value="1101" />
-      <arg value="0011" />
+      <arg value="11111101" />
+      <arg value="10010011" />
     </java> 
   </target>
 
