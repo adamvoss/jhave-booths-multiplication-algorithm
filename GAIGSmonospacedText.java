@@ -188,11 +188,13 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
 		//New lines assumed to be rare thus the extra cost of this compare
 		if (lines.length > 1){
-			switch (Halign){ //We want the flow through behavior
+			switch (Valign){ //We want the flow through behavior
 			case VBOTTOM:
 				Y+=(((lines.length-1)/2.0) * fontsize);
+				if (DEBUG) System.out.println("in VBOTTOM case");
 			case VCENTER:
 				Y+=(((lines.length-1)/2.0) * fontsize);
+				if (DEBUG) System.out.println("in VCENTER case");
 			}
 		}
 		for (int line = 0; line < texts.length ; line++){
@@ -327,8 +329,12 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 		setFontSize( (y2-y1)/getHeight() *getFontSize());
 		setCharacterWidth( (x2-x1)/getWidth() *getCharacterWidth());
 		
-		double[] bds=this.getBounds();
-		if (DEBUG) System.out.println("Resulting Monspaced Text Bounds:\n"+ "X0: " + bds[0] + " Y0: " + bds[1] + " X1: " + bds[2] + " Y1: " + bds[3]);
+		if (DEBUG) {
+			double[] bds=this.getBounds();
+			System.out.println("Resulting Monspaced Text Bounds:\n"+ "X0: " + bds[0] + " Y0: " + bds[1] + " X1: " + bds[2] + " Y1: " + bds[3]);
+			
+			//System.out.println(this.toXML());
+		}
 	}
 
 	@Override
@@ -353,31 +359,31 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 		text1.setText("Default");
 		show.writeSnap("Easy", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HC VC", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HC VB", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HC VT", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HL VC", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HL VB", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HL VT", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HR VC", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HR VB", text1);
 		
-		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Default");
+		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HR VT", text1);
 		
 		

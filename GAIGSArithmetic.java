@@ -74,7 +74,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 		lastTermIndex = terms.size()-1;
 		terms.add(emptyRow());
 		initializeColorArray();
-		addCarryRow();
+		if (op == '+') addCarryRow();
 	}
 	
 	public GAIGSArithmetic(char op, String term1, String term2, int radix,
@@ -335,6 +335,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
+		if (DEBUG) System.out.println("Setting Arithmetic Bounds:\n"+ "X0: " + x1 + " Y0: " + y1 + " X1: " + x2 + " Y1: " + y2);
 		ytop = y2;
 		xright = x2;
 		
@@ -344,7 +345,10 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 		
 		fontSize = (y2-y1)/terms.size();
 		
-		
+		if (DEBUG) {
+			double[] bds=this.getBounds();
+			System.out.println("Resulting Arithmetic Bounds:\n"+ "X0: " + bds[0] + " Y0: " + bds[1] + " X1: " + bds[2] + " Y1: " + bds[3]);
+		}
 	}
 
 	@Override

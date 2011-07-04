@@ -58,7 +58,6 @@ public class BoothsMultiplication {
     private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVÉ_X_MARGIN*2;
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVÉ_Y_MARGIN*2;
 
-    private static       double ARLABEL_ADJUST;
     private static       double ARLABEL_SPACE;
 
     private static final double LEFT_MARGIN       = 0.0;
@@ -110,7 +109,7 @@ public class BoothsMultiplication {
 				 WINDOW_HEIGHT);
         main.setName("Main");
         header = new GAIGSpane(0, WINDOW_HEIGHT*(3/4.0),
-        		main.getWidth(), WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
+        		WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
 
         GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight(), 
@@ -118,16 +117,54 @@ public class BoothsMultiplication {
         GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 0.06, header.getHeight(), 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
         
-        ARLABEL_ADJUST = header.getHeight()/13;
-        ARLABEL_SPACE  = header.getHeight()/20;
-        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(binary.getBounds()[0]-ARLABEL_SPACE, 
-            (binary.getBounds()[3]+binary.getBounds()[1])/2 + ARLABEL_ADJUST, GAIGStext.HRIGHT,
-            GAIGStext.VBOTTOM, binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
+        ARLABEL_SPACE  = header.getWidth()/20;
+        double[] binBds = binary.getBounds();
+        
+        /* You are aligning on the vertical middle which is why you need the adjust */
+//        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(
+//        	binBds[0]-ARLABEL_SPACE, (binBds[3]+binBds[1])/2 + ARLABEL_ADJUST,
+//            GAIGStext.HRIGHT, GAIGStext.VBOTTOM,
+//            binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
+//        //interesting that I don't need to adjust decimal, but I do for binary
+//        //and different alignment...?
+//        double[] deciBds = decimal.getBounds();
+//        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(
+//        	deciBds[2]+ARLABEL_SPACE, (deciBds[3]+deciBds[1])/2 + ARLABEL_ADJUST,
+//        	GAIGStext.HRIGHT, GAIGStext.VBOTTOM,
+//        	decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
+        
+        /* If you align them the same, you don't need the adjust on only one of them */
+//        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(
+//        	binBds[0]-ARLABEL_SPACE, (binBds[3]+binBds[1])/2,
+//            GAIGStext.HLEFT, GAIGStext.VTOP,
+//            binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
+//        //interesting that I don't need to adjust decimal, but I do for binary
+//        //and different alignment...?
+//        double[] deciBds = decimal.getBounds();
+//        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(
+//        	deciBds[2]+ARLABEL_SPACE, (deciBds[3]+deciBds[1])/2,
+//        	GAIGStext.HLEFT, GAIGStext.VTOP,
+//        	decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
+        
+        /* You may have noticed that the top bounds was actually one character higher
+         * than expected.  This is because multiplication was still reserving space for
+         * carries even though they are only relevant in addition/subtraction.  I have
+         * changed that now so its not there, though before it was nice to have because
+         * it kept spacing with the top nice.  If I didn't do that it would just have been
+         * a matter of subtracting fontSize from the coordinate.  It also turned out there
+         * was a bug in monospaced text that prevented the following way from working.
+         */
+        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(
+        	binBds[0]-ARLABEL_SPACE, binBds[3],
+            GAIGStext.HCENTER, GAIGStext.VTOP,
+            binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
         //interesting that I don't need to adjust decimal, but I do for binary
         //and different alignment...?
-        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(decimal.getBounds()[2]+ARLABEL_SPACE,
-            (decimal.getBounds()[3]+decimal.getBounds()[1])/2, GAIGStext.HLEFT,
-            GAIGStext.VTOP, decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
+        double[] deciBds = decimal.getBounds();
+        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(
+        	deciBds[2]+ARLABEL_SPACE, deciBds[3],
+        	GAIGStext.HCENTER, GAIGStext.VTOP,
+        	decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
 
         header.add(binary);
         header.add(binLabel);
@@ -143,8 +180,6 @@ public class BoothsMultiplication {
         main.forceAdd(header);
         main.forceAdd(trace);
         main.forceAdd(math);
-
-//        main=trace;
 
         GAIGSpane trace_labels = new GAIGSpane();
         trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, 
@@ -217,21 +252,23 @@ public class BoothsMultiplication {
         decLabel.setText("M\nQ");
         easySnap("Q is the Multiplier\nThe final product will span A and Q", easyPseudo(4), null);
 
-        //Bit Q_1
+        //Bit β
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+FONT_SIZE;
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER,
-				FONT_SIZE, FONT_COLOR, "ϐ", FONT_SIZE/2));
+				FONT_SIZE, FONT_COLOR, "β", FONT_SIZE/2));
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
-        Q_1.setLabel( "ϐ");
+        Q_1.setLabel( "β");
         currentRow.add(Q_1);
-        easySnap("ϐ is initialized to 0", easyPseudo(5), null);
+        easySnap("β is initialized to 0", easyPseudo(5), null);
 
         //Count
 //      I assume there's a good reason why these aren't equivalent?
+        //Yes, get Bounds gives its coordinates on the screen.
+        //Get Width gives the width of the coordinate system within the object
 //      init[0] = trace.getBounds()[2] - FONT_SIZE;
 //      init[2] = trace.getBounds()[2];
         init[0] = trace.getWidth() - FONT_SIZE;
@@ -289,16 +326,17 @@ public class BoothsMultiplication {
                 if (cmpVal == 1) {
                     sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(),
                         2, 1, math.getHeight()/1.5);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE, (sum.getBounds()[1]+sum.getBounds()[3])/2, 
-                        GAIGStext.HLEFT, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, " A\n-M");
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE, sum.getBounds()[3]-sum.getFontSize(), 
+                        GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(-M)");
                     addIntoReg(negateValue(RegM), RegA);
                 }
-               	//Addition case//TODO THIS ONE TOO
+               	//Addition case
+                //TODO THIS ONE TOO //What about it?
                 else {
                     sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 
                         2, 1, math.getHeight()/1.5);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE, (sum.getBounds()[1]+sum.getBounds()[3])/2,
-                        GAIGStext.HLEFT, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, " A\n M");
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE, sum.getBounds()[3]-sum.getFontSize(), 
+                            GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(M)");
                     addIntoReg(RegM, RegA);
                 }
                 
