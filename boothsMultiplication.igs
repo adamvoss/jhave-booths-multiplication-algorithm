@@ -2,7 +2,7 @@
 <!DOCTYPE show PUBLIC "-//JHAVE//DTD INPUT PANEL//EN" "input_panel.dtd">
 
 <input_panel>
-    <listening_text>
+    <booth_multiplication>
         <label_line>Booths Multiplication Input</label_line>
         <description>&lt;html&gt;Let's Learn Booth's Multiplication&lt;br/&gt;Please enter the numbers you wish to multiply&lt;/html&gt;</description>
         <l_textfields>
@@ -20,5 +20,5 @@
             <value_entered></value_entered>
         </l_textfields>
         <value_entered></value_entered>
-    </listening_text>
+    </booth_multiplication>
 </input_panel>

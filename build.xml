@@ -9,8 +9,8 @@
       <fileset file="boothsMultiplication.igs"/> 
     </copy>
     <copy overwrite="true"
-          file="IGListeningTextField.java.autoCopied"
-          tofile="../../../../client/src/jhave/client/igcomponent/IGListeningTextField.java"/>
+          file="IGBoothsMultiplication.java.autoCopied"
+          tofile="../../../../client/src/jhave/client/igcomponent/IGBoothsMultiplication.java"/>
     <copy todir="../../../../html_root/cat" overwrite="true">
       <fileset file="boothsMultiplication.list"/> 
     </copy>
