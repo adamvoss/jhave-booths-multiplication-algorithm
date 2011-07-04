@@ -102,9 +102,9 @@ public class BoothsMultiplication {
         		WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
 
-        GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight(), 
+        GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
-        GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 0.06, header.getHeight(), 
+        GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
         
         ARLABEL_SPACE  = header.getWidth()/20;
@@ -162,7 +162,7 @@ public class BoothsMultiplication {
         math = new GAIGSpane(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
         math.setName("Math");
         
-        math.add(new GAIGSline(new double[] {0,0}, new double[] {0, math.getHeight()}));
+        math.add(new GAIGSline(new double[] {0,0}, new double[] {0, math.getHeight()+FONT_SIZE}));
         math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Math/CPU"));
         
         trace = new GAIGSpane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
@@ -204,9 +204,8 @@ public class BoothsMultiplication {
     	trace_labels.add(new GAIGSmonospacedText(
     						(init[2]-init[0])/2.0+init[0], init[3],
     						GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-    						FONT_SIZE, FONT_COLOR, "M:", FONT_SIZE/2));
+    						FONT_SIZE, FONT_COLOR, "M", FONT_SIZE/2));
         RegM= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
-        RegM.setLabel("M:    ");
         RegM.set(multiplicand);
         
         currentRow.add(RegM);
@@ -220,10 +219,9 @@ public class BoothsMultiplication {
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-				FONT_SIZE, FONT_COLOR, "A:", FONT_SIZE/2));
+				FONT_SIZE, FONT_COLOR, "A", FONT_SIZE/2));
         RegA= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
-        RegA.setLabel("A:    ");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
 
@@ -233,10 +231,9 @@ public class BoothsMultiplication {
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-				FONT_SIZE, FONT_COLOR, "Q:", FONT_SIZE/2));
+				FONT_SIZE, FONT_COLOR, "Q", FONT_SIZE/2));
         RegQ= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
-        RegQ.setLabel("Q:    ");
         currentRow.add(RegQ);
         //multiplier label appears here.
         binLabel.setText("M\nQ");
@@ -252,7 +249,6 @@ public class BoothsMultiplication {
 				FONT_SIZE, FONT_COLOR, "β", FONT_SIZE/2));
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
-        Q_1.setLabel( "β");
         currentRow.add(Q_1);
         easySnap("β is initialized to 0", easyPseudo(5), null);
 
@@ -267,9 +263,8 @@ public class BoothsMultiplication {
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-				FONT_SIZE, FONT_COLOR, "Count:", FONT_SIZE/2));
+				FONT_SIZE, FONT_COLOR, "Count", FONT_SIZE/2));
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
-        Count.setLabel("Count");
         currentRow.add(Count);
         easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
 
@@ -353,7 +348,10 @@ public class BoothsMultiplication {
                 math.add(sumLabel);
                 sum.complete();
                 easySnap("Added " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo(11), quest.getAdditionQuestion() );
-                math.clear();
+                //Remove Label
+                math.remove(math.size()-1);
+                //Remove Addition
+                math.remove(math.size()-1);
                 sumLabel.setText("");
 
             }

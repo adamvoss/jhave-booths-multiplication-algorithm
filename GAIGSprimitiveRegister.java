@@ -104,20 +104,6 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		 this.colors[loc] = color;
 	 }
 
-	 /**
-	  * @see exe.boothsMultiplication.GAIGSregister#setLabel(java.lang.String)
-	  */
-	 public void setLabel(String label) {
-		 //wrapped.setName(label);
-	 }
-
-	 /* (non-Javadoc)
-	  * @see exe.boothsMultiplication.GAIGSregister#getLabel()
-	  */
-	 public String getLabel() {
-		 return wrapped.getName();
-	 }
-
 	 /* (non-Javadoc)
 	  * @see exe.boothsMultiplication.GAIGSregister#setColor(int, java.lang.String)
 	  */
