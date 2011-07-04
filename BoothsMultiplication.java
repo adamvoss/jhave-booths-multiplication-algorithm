@@ -42,7 +42,7 @@ public class BoothsMultiplication {
     private static final double FONT_SIZE = 0.05;
     public static final String WHITE     = "#FFFFFF";
     public static final String BLACK     = "#000000";
-    public static final String GREY      = "#CCCCCC";
+    public static final String GREY      = "#DDDDDD";
     public static final String DARK_GREY = "#666666";
     public static final String RED       = "#FF0000";
     public static final String GREEN     = "#00AA00";
@@ -274,6 +274,7 @@ public class BoothsMultiplication {
         //We are done.
         //----Finished Frame----
         setAllRegBitsColor(INACTIVE_TEXT);
+        setRowRegisterOutlineColor(INACTIVE_OUTLINE);
         decimal.complete();
         binary.complete();
         RegA.setColor(YELLOW);

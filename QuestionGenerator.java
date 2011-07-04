@@ -187,7 +187,7 @@ public class QuestionGenerator {
 
             int select2 = ((int) Math.abs(rand.nextInt() )) % 2;
 
-            if (select == 0) {ret1.setQuestionText("What will the value in register " + regName + " be on the next snapshot?");}
+            if (select2 == 0) {ret1.setQuestionText("What will the value in register " + regName + " be on the next snapshot?");}
             else             {ret1.setQuestionText("What will the value in register " + regName + " be after the " 
                 + (pcalc == 0 ? "SHIFT" : (pcalc == -1) ? "ADDITION" : "SUBTRACTION") + " operation finishes executing?");}
 			ret1.setAnswer(correctChoice);
@@ -199,9 +199,15 @@ public class QuestionGenerator {
 			ret1.setQuestionText("What will the value in register " + regName + " be on the next snapshot?");
 			ret1.addChoice(correctChoice);
 			ret1.setAnswer(1);
-            if (!oldValChoice.toString().equals(correctChoice.toString() ) ) ret1.addChoice(oldValChoice);
-            if (!phonyChoice.toString().equals( correctChoice.toString() ) ) ret1.addChoice(phonyChoice) ;
-            ret1.addChoice(confuseChoice);
+            if (!oldValChoice.equals(correctChoice)) { 
+                ret1.addChoice(oldValChoice);
+            }
+            if (!phonyChoice.equals(correctChoice) && !phonyChoice.equals(oldValChoice)) {
+                ret1.addChoice(phonyChoice) ;
+            }
+            if (!confuseChoice.equals(phonyChoice) && !confuseChoice.equals(oldValChoice)) {
+                ret1.addChoice(confuseChoice);
+            }
 
             ret = ret1;
 		}
