@@ -108,10 +108,27 @@ public class BoothsMultiplication {
         header = new GAIGSpane(0, WINDOW_HEIGHT*(3/4.0),
         		main.getWidth(), WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
-        GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight(), header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
-        GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, .6, header.getHeight(), header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
+
+        GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight(), 
+            header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
+        GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 0.6, header.getHeight(), 
+            header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
+        
+        double adjustLabel = header.getHeight()/13;
+        double lbSpace     = header.getHeight()/20;
+        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(binary.getBounds()[0] - lbSpace, 
+            (binary.getBounds()[3]+binary.getBounds()[1])/2 + adjustLabel, GAIGStext.HRIGHT,
+            GAIGStext.VBOTTOM, binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
+        //interesting that I don't need to adjust decimal, but I do for binary
+        //and different alignment...?
+        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(decimal.getBounds()[2] + lbSpace,
+            (decimal.getBounds()[3]+decimal.getBounds()[1])/2, GAIGStext.HLEFT,
+            GAIGStext.VTOP, decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
+
         header.add(binary);
+        header.add(binLabel);
         header.add(decimal);
+        header.add(decLabel);
         
         math = new GAIGSpane(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
         math.setName("Math");
@@ -191,6 +208,9 @@ public class BoothsMultiplication {
         RegQ.set(multiplier);
         RegQ.setLabel("Q:    ");
         currentRow.add(RegQ);
+        //multiplier label appears here.
+        binLabel.setText("M\nQ");
+        decLabel.setText("M\nQ");
         easySnap("Q is the Multiplier\nThe final product will span A and Q", easyPseudo(4), null);
 
         //Bit Q_1
