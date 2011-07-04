@@ -154,11 +154,11 @@ public class BoothsMultiplication {
         GAIGSpane trace_labels = new GAIGSpane();
         //for some reason it seems like these lines are necessary
         //without them the slide breaks.
-        GAIGSpolygon mathTracePartition = new GAIGSpolygon(2, new double[] { 0, 0, trace.getWidth(), trace.getWidth()},
-            new double[] {trace.getHeight(), 0, 0, trace.getHeight()}, DEFAULT_COLOR, BLACK, BLACK, "");
-        trace_labels.add(mathTracePartition);
-//      trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, 
-//          new double[] {0, 0, trace.getHeight(), trace.getHeight()}, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR, "Work Here", FONT_SIZE, 2));
+//      GAIGSpolygon mathTracePartition = new GAIGSpolygon(2, new double[] { 0, 0, trace.getWidth(), trace.getWidth()},
+//          new double[] {trace.getHeight(), 0, 0, trace.getHeight()}, DEFAULT_COLOR, BLACK, BLACK, "");
+//      trace_labels.add(mathTracePartition);
+        trace_labels.add(new GAIGSpolygon(4, new double[] {0, trace.getWidth(), trace.getWidth(), 0}, 
+            new double[] {0, 0, trace.getHeight(), trace.getHeight()}, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR, "Work Here", FONT_SIZE, 2));
 
         trace.add(trace_labels);
         
@@ -261,6 +261,7 @@ public class BoothsMultiplication {
         //We are done.
         //----Finished Frame----
         setAllRegBitsColor(INACTIVE_TEXT);
+        setRowRegisterOutlineColor(INACTIVE_OUTLINE);
         decimal.complete();
         binary.complete();
         RegA.setColor(YELLOW);
