@@ -109,41 +109,7 @@ public class BoothsMultiplication {
         
         ARLABEL_SPACE  = header.getWidth()/20;
         double[] binBds = binary.getBounds();
-        
-        /* You are aligning on the vertical middle which is why you need the adjust */
-//        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(
-//        	binBds[0]-ARLABEL_SPACE, (binBds[3]+binBds[1])/2 + ARLABEL_ADJUST,
-//            GAIGStext.HRIGHT, GAIGStext.VBOTTOM,
-//            binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
-//        //interesting that I don't need to adjust decimal, but I do for binary
-//        //and different alignment...?
-//        double[] deciBds = decimal.getBounds();
-//        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(
-//        	deciBds[2]+ARLABEL_SPACE, (deciBds[3]+deciBds[1])/2 + ARLABEL_ADJUST,
-//        	GAIGStext.HRIGHT, GAIGStext.VBOTTOM,
-//        	decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
-        
-        /* If you align them the same, you don't need the adjust on only one of them */
-//        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(
-//        	binBds[0]-ARLABEL_SPACE, (binBds[3]+binBds[1])/2,
-//            GAIGStext.HLEFT, GAIGStext.VTOP,
-//            binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
-//        //interesting that I don't need to adjust decimal, but I do for binary
-//        //and different alignment...?
-//        double[] deciBds = decimal.getBounds();
-//        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(
-//        	deciBds[2]+ARLABEL_SPACE, (deciBds[3]+deciBds[1])/2,
-//        	GAIGStext.HLEFT, GAIGStext.VTOP,
-//        	decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
-        
-        /* You may have noticed that the top bounds was actually one character higher
-         * than expected.  This is because multiplication was still reserving space for
-         * carries even though they are only relevant in addition/subtraction.  I have
-         * changed that now so its not there, though before it was nice to have because
-         * it kept spacing with the top nice.  If I didn't do that it would just have been
-         * a matter of subtracting fontSize from the coordinate.  It also turned out there
-         * was a bug in monospaced text that prevented the following way from working.
-         */
+
         GAIGSmonospacedText binLabel = new GAIGSmonospacedText(
         	binBds[0]-ARLABEL_SPACE, binBds[3],
             GAIGStext.HCENTER, GAIGStext.VTOP,
@@ -290,7 +256,7 @@ public class BoothsMultiplication {
     	while (Count.getBit(0) >= 0){
     		//----Count Frame----
     		Count.setColor(YELLOW);
-    		easySnap("Check the value of Count", easyPseudo(8), null);
+    		easySnap("Check the value of Count", easyPseudo(8, PseudoCodeDisplay.YELLOW), null);
     		//Change color back
     		Count.setColor(DEFAULT_COLOR);
     		
@@ -333,7 +299,7 @@ public class BoothsMultiplication {
                 
                 question que = quest.getComparisonQuestion();
                 GAIGSpane temp = (GAIGSpane)trace.remove(trace.size()-1);
-                easySnap("Determine the operation", easyPseudo(10), que);
+                easySnap("Determine the operation", easyPseudo(10, PseudoCodeDisplay.BLUE), que);
                 trace.add(temp);
                 
                 //Reset/deactivate colors
@@ -348,7 +314,7 @@ public class BoothsMultiplication {
                 math.add(sum);
                 math.add(sumLabel);
                 sum.complete();
-                easySnap("Added " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo(11), quest.getAdditionQuestion() );
+                easySnap("Added " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo(11, PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
                 //Remove Label
                 math.remove(math.size()-1);
                 //Remove Addition
@@ -366,7 +332,7 @@ public class BoothsMultiplication {
                 trace.add(null);
                 question que = quest.getQuestion(1);
                 trace.remove(trace.size()-1);
-                easySnap("Determine the operation", easyPseudo(10), que);
+                easySnap("Determine the operation", easyPseudo(10, PseudoCodeDisplay.BLUE), que);
 
                 //Reset colors
                 RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
@@ -394,7 +360,7 @@ public class BoothsMultiplication {
     		RegQ.setBitColor(0, GREEN);
     		Q_1.setBitColor(0, BLUE);
     		currentRow.remove(COUNT); //Oops...We don't want Count
-    		easySnap("Sign-Preserving Right Shift", easyPseudo(21), que);
+    		easySnap("Sign-Preserving Right Shift", easyPseudo(21, PseudoCodeDisplay.BLUE), que);
     		RegQ.setAllToColor(FONT_COLOR);
     		Q_1.setAllToColor(FONT_COLOR);
     		
@@ -408,7 +374,7 @@ public class BoothsMultiplication {
     		Count.decrement();
     		currentRow.add(Count); //Now we do want Count
     		Count.setAllToColor(RED);
-    		easySnap("Decrement Count", easyPseudo(23), null);
+    		easySnap("Decrement Count", easyPseudo(23, PseudoCodeDisplay.RED), null);
     		Count.setAllToColor(FONT_COLOR);
     		//Hey!  We're ready to loop!
     	}
@@ -665,7 +631,17 @@ public class BoothsMultiplication {
     private static String easyPseudo(int selected){
         try {
            return pseudo.pseudo_uri(new HashMap<String, String>(),
-                                        selected);
+                                        selected, PseudoCodeDisplay.GRAY);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
+        return "Something went wrong";
+    }
+    
+    private static String easyPseudo(int selected, int lineColor){
+        try {
+           return pseudo.pseudo_uri(new HashMap<String, String>(),
+                                        selected, lineColor);
         } catch (JDOMException e) {
             e.printStackTrace();
         }
