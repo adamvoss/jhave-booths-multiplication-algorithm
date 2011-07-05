@@ -4,7 +4,7 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
 
 
 //TODO, raise and lower methods
-public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements MutableGAIGSdatastr {
+public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E> implements MutableGAIGSdatastr {
 	public static final double JHAVÉ_X_MARGIN = 0.203;
 	public static final double JHAVÉ_Y_MARGIN = 0.067;
 	public static final double JHAVÉ_ASPECT_RATIO = (1+2*JHAVÉ_X_MARGIN)/(1+2*JHAVÉ_Y_MARGIN);
@@ -39,14 +39,15 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		this(0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
 	}
 
-	public GAIGSpane(GAIGSpane source){
+	@SuppressWarnings("unchecked")
+	public GAIGSpane(GAIGSpane<E> source){
 		super();
 		this.width = source.width;
 		this.height = source.height;
 		this.realBounds = source.realBounds.clone();
 		this.name = source.name;
 		for (MutableGAIGSdatastr item : source.items){
-			this.add(item.clone());
+			this.add((E) item.clone());
 		}
 	}
 	
@@ -135,7 +136,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		}
 	}
 	
-	public GAIGSpane clone(){
-		return new GAIGSpane(this);
+	public GAIGSpane<E> clone(){
+		return new GAIGSpane<E>(this);
 	}
 }

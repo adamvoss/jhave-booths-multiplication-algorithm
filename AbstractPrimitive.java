@@ -79,12 +79,9 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
 	public void setLineWidth(int lineWidth) {
 		this.lineWidth = lineWidth;
 	}
-
-	//@Override
 	public String getLabel() {
 		return this.label;
 	}
-	//@Override
 	public void setLabel(String label) {
 		this.label = label;
 	}
@@ -93,6 +90,7 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
 	 * Returns the value of the font size.
 	 * @return  The current font size.
 	 */
+	@Override
 	public double getFontSize(){
 		return this.fontSize;
 	}
@@ -101,6 +99,7 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
 	 * Sets the font size for display.
 	 * @param      fontSize     The desired font size.
 	 */
+	@Override
 	public void setFontSize(double fontSize){
 		this.fontSize = fontSize;
 	}

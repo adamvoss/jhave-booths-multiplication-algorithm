@@ -62,7 +62,7 @@ public class GAIGSrectangle extends GAIGSpolygon {
 	/**
 	 * @param source
 	 */
-	public GAIGSrectangle(GAIGSpolygon source) {
+	public GAIGSrectangle(GAIGSrectangle source) {
 		super(source);
 	}
 
