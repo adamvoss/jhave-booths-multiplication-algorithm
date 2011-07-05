@@ -16,7 +16,6 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
 	public GAIGSpane(double x0, double y0, double x1, double y1, Double width, Double height){
 		super();
 
-		//TODO add aspect ratio preserving constructors that utilize null parameters
 		if (width == null) width = ((x1-x0)/(y1-y0)/DEFAULT_ASPECT_RATIO)*height;
 		else if (height == null) height = (DEFAULT_ASPECT_RATIO/((x1-x0)/(y1-y0)))*width;
 		

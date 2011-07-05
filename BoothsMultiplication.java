@@ -91,14 +91,14 @@ public class BoothsMultiplication {
         
         REG_SIZE = multiplicand.length();
         
-        main = new GAIGSpane(0-GAIGSpane.JHAVÉ_X_MARGIN,
+        main = new GAIGSpane<MutableGAIGSdatastr>(0-GAIGSpane.JHAVÉ_X_MARGIN,
 				 0-GAIGSpane.JHAVÉ_Y_MARGIN,
 				 1+GAIGSpane.JHAVÉ_X_MARGIN,
 				 1+GAIGSpane.JHAVÉ_Y_MARGIN,
 				 WINDOW_WIDTH,
 				 WINDOW_HEIGHT);
         main.setName("Main");
-        header = new GAIGSpane(0, WINDOW_HEIGHT*(3/4.0),
+        header = new GAIGSpane<MutableGAIGSdatastr>(0, WINDOW_HEIGHT*(3/4.0),
         		WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
 
@@ -144,7 +144,7 @@ public class BoothsMultiplication {
 
         trace.add(trace_labels);
         
-        currentRow = new GAIGSpane();
+        currentRow = new GAIGSpane<MutableGAIGSdatastr>();
         currentRow.setName("Row " + rowNumber++);
         
         trace.add(currentRow);
@@ -531,7 +531,7 @@ public class BoothsMultiplication {
     }
     
     private static void addRow(){
-    	currentRow = new GAIGSpane();
+    	currentRow = new GAIGSpane<MutableGAIGSdatastr>();
     	currentRow.setName("Row " + rowNumber);
     	
     	trace.add(currentRow);
@@ -566,15 +566,6 @@ public class BoothsMultiplication {
         //Two's complement madness
         return ((sum < maxPow / 2) ? "" + sum : "" + (sum - maxPow) );
 
-    }
-    /**
-    * Sign extends binStr by i bits
-    */
-    public static String signExtend(String binStr, int i){
-        String firstBit = String.valueOf(binStr.charAt(0));
-        String extension = "";
-        while (i>0){extension = extension.concat(firstBit); i--;}
-        return extension.concat(binStr);
     }
 
     private static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
