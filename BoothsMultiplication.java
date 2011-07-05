@@ -233,7 +233,8 @@ public class BoothsMultiplication {
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         currentRow.add(Count);
         easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
-
+        double[] last =  currentRow.get(0).getBounds();
+		currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
 
         boothsMultiplication();
 
@@ -248,6 +249,7 @@ public class BoothsMultiplication {
         RegQ.setColor(YELLOW);
         RegQ.setAllToColor(FONT_COLOR);
         easySnap("Check the result.", easyPseudo(25), null);
+        
 
         show.close();
     }
@@ -284,7 +286,6 @@ public class BoothsMultiplication {
                     addIntoReg(negateValue(RegM), RegA);
                 }
                	//Addition case
-                //TODO THIS ONE TOO //What about it?
                 else {
                     sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2,
                     		math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
@@ -328,7 +329,7 @@ public class BoothsMultiplication {
                 RegQ.setBitColor(REG_SIZE-1, BLUE);
                 Q_1.setBitColor(0, BLUE);
                 
-                //Question pane-hopping//
+                //Question pane-hopping
                 trace.add(null);
                 question que = quest.getQuestion(1);
                 trace.remove(trace.size()-1);
@@ -374,10 +375,12 @@ public class BoothsMultiplication {
     		Count.decrement();
     		currentRow.add(Count); //Now we do want Count
     		Count.setAllToColor(RED);
+    		double[] last =  currentRow.get(0).getBounds();
+    		currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
     		easySnap("Decrement Count", easyPseudo(23, PseudoCodeDisplay.RED), null);
     		Count.setAllToColor(FONT_COLOR);
     		//Hey!  We're ready to loop!
-    	}
+    		}
     }
 
     public static void rightShift(GAIGSprimitiveRegister A, GAIGSprimitiveRegister Q, GAIGSprimitiveRegister Q_1) {
@@ -414,10 +417,9 @@ public class BoothsMultiplication {
      * @param M The register to negate
      * @return A new register with the negated value.
      */
-    //TODO Clean up this method so cast's aren't necessary
     public static GAIGSprimitiveRegister negateValue(GAIGSprimitiveRegister M) {
         int carry = 1;
-        GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister((GAIGSprimitiveRegister) M);
+        GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister(M);
 
         for (int i = M.getSize()-1; i >= 0; --i) {
             int negPart = 0;
@@ -513,11 +515,11 @@ public class BoothsMultiplication {
     	Q_1   = Q_1.clone();
     	Count = (CountBox) Count.clone();
     	
-		minorAdjustRegister(RegM);
-		minorAdjustRegister(RegA);
-		minorAdjustRegister(RegQ);
-		minorAdjustRegister(Q_1);
-		minorAdjustRegister(Count);
+		adjustRegister(RegM);
+		adjustRegister(RegA);
+		adjustRegister(RegQ);
+		adjustRegister(Q_1);
+		adjustRegister(Count);
     }
 
     /*
