@@ -63,11 +63,6 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		xml += "<!-- End of GAIGSpane: "+ name +" -->\n";
 		return xml;
 	}
-
-	//TODO consider override of equals so this is not needed
-	public void forceAdd(MutableGAIGSdatastr data){
-		this.items.add(data);
-	}
 	
 	public double getWidth() {
 		return width;

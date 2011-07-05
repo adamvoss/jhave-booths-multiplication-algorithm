@@ -134,9 +134,9 @@ public class BoothsMultiplication {
         trace = new GAIGSpane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
         
-        main.forceAdd(header);
-        main.forceAdd(trace);
-        main.forceAdd(math);
+        main.add(header);
+        main.add(trace);
+        main.add(math);
 
         GAIGSpane trace_labels = new GAIGSpane();
 //        math.add(new GAIGSpolygon(4, new double[] {0, math.getWidth(), math.getWidth(), 0}, 
@@ -147,7 +147,7 @@ public class BoothsMultiplication {
         currentRow = new GAIGSpane();
         currentRow.setName("Row " + rowNumber++);
         
-        trace.forceAdd(currentRow);
+        trace.add(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
     	quest = new QuestionGenerator(show, trace);
     	
