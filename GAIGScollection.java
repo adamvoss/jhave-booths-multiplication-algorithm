@@ -1,9 +1,8 @@
 package exe.boothsMultiplication;
 
-import java.util.AbstractSet;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
 
 import exe.GAIGSdatastr;
 
@@ -14,13 +13,12 @@ import exe.GAIGSdatastr;
  * @author Adam Voss <vossad01@luther.edu>
  *
  */
-//TODO Flush out Javadocs
-public class GAIGScollection<E extends GAIGSdatastr> extends AbstractSet<E> implements GAIGSdatastr, Set<E>{
+public class GAIGScollection<E extends GAIGSdatastr> extends AbstractCollection<E> implements GAIGSdatastr{
 	protected ArrayList<E> items = new ArrayList<E>();
 	protected String name = "";
 	
 	@Override
-	//TODO consider adding a lock to prevent infinite loops
+	//TODO add a lock to prevent infinite loops
 	public String toXML() {
 		String xmlString = "";
 		
@@ -59,9 +57,14 @@ public class GAIGScollection<E extends GAIGSdatastr> extends AbstractSet<E> impl
 
 	@Override
 	public boolean add(E data){
+		if (this.equals(data)){
+			return false;
+		}
+		
 		if (items.contains(data)){
 			return false;
 		}
+		
 		return this.items.add(data);
 	}
 	
@@ -78,5 +81,5 @@ public class GAIGScollection<E extends GAIGSdatastr> extends AbstractSet<E> impl
 	
 	public E remove(int index){
 		return this.items.remove(index);
-	}
+    }
 }

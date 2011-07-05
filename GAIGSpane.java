@@ -36,15 +36,9 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	}
 	
 	public GAIGSpane(){
-//		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, 1, 1);
-//		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1-JHAVÉ_X_MARGIN, 1-JHAVÉ_Y_MARGIN, 1, 1);
 		this(0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
 	}
-	
-//	public double getAspectRatio(){
-//		return (realBounds[2]-realBounds[0])/(realBounds[3]-realBounds[1]);
-//	}
-	
+
 	public GAIGSpane(GAIGSpane source){
 		super();
 		this.width = source.width;
@@ -94,8 +88,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 	public double getAspectRatio(){
 		return (width/(realBounds[2]-realBounds[0]))/(height/(realBounds[3]-realBounds[1]));
 	}
-	
-	//TODO add a getRealCoordinates that acts on a double[]
+
 	public double[] getRealCoordinates(double[] srcBounds){
 		double scaleX = (realBounds[2]-realBounds[0])/width;
 		double scaleY = (realBounds[3]-realBounds[1])/height;
@@ -109,7 +102,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		return getRealCoordinates(data.getBounds());
 		}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see exe.MutableGAIGSdatastr#getBounds()
 	 */
 	@Override
@@ -117,7 +110,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		return realBounds;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
 	 */
 	@Override
@@ -125,7 +118,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		this.realBounds = new double[] {x1, y1, x2, y2};
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see exe.MutableGAIGSdatastr#getFontSize()
 	 */
 	@Override
@@ -137,7 +130,7 @@ public class GAIGSpane extends GAIGScollection<MutableGAIGSdatastr> implements M
 		return sum/items.size();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see exe.MutableGAIGSdatastr#setFontSize(double)
 	 */
 	@Override
