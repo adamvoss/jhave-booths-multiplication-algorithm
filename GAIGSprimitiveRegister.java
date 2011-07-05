@@ -7,7 +7,6 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
  * @author Adam Voss <vossad01@luther.edu>
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
-//TODO Add a working label functionality.
 //TODO Grab documentation from the interface that can be found in history
 public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	protected int[] bits;
@@ -36,8 +35,9 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 
 		int line_width = 1;
 		
-		wrapped = new GAIGSpolygon(4, new double[] {x1, x2, x2, x1}, new double[] {y1, y1, y2, y2},
-				color, fontColor, outlineColor, name, fontSize, line_width);
+		wrapped = new GAIGSrectangle(x1, y1, x2, y2,
+				color, fontColor, outlineColor,
+				name, fontSize, line_width);
 	}
 	
 	public GAIGSprimitiveRegister(int length, String name, String color,
@@ -104,7 +104,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		 this.colors[loc] = color;
 	 }
 
-	 /* (non-Javadoc)
+	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setColor(int, java.lang.String)
 	  */
 	 public void setBitColor(int loc, String color) {
@@ -115,7 +115,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		 this.wrapped.setColor(color);
 	 }
 	 
-	 /* (non-Javadoc)
+	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setAllToColor(java.lang.String)
 	  */
 	 public void setAllToColor(String color) {
@@ -128,7 +128,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
          wrapped.setOutlineColor(color);
      }
 
-	 /* (non-Javadoc)
+	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#set(java.lang.String)
 	  */
 	 //TODO Move Sign Extend out of BoothsMultiplication
@@ -148,7 +148,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		 }
 	 }
 
-	 /* (non-Javadoc)
+	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#toIntArray()
 	  */
 	 public int[] toIntArray() {
@@ -169,7 +169,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
         return ret;
     }
 
-	/* (non-Javadoc)
+	/**
 	 * @see exe.MutableGAIGSdatastr#getBounds()
 	 */
 	@Override
@@ -177,7 +177,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		return wrapped.getBounds();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
 	 */
 	@Override
@@ -185,7 +185,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		this.wrapped.setBounds(x1, y1, x2, y2);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see exe.MutableGAIGSdatastr#getFontSize()
 	 */
 	@Override
@@ -193,7 +193,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		return wrapped.getFontSize();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see exe.MutableGAIGSdatastr#setFontSize(double)
 	 */
 	@Override
