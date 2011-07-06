@@ -11,7 +11,7 @@ import exe.ShowFile;
 import exe.question;
 import exe.pseudocode.*;
 
-public class BoothsMultiplication {
+public class BoothMultiplication {
     private static PseudoCodeDisplay pseudo;
     private static URI docURI;
     private static QuestionGenerator quest;
