@@ -25,7 +25,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		wrapped = new GAIGSpane<GAIGSrectangle>();
 		wrapped.setName("GAIGSregister");
 
-		double width = (x1-x0)/2;
+		double width = (x1-x0)/length;
 		
 		length--;
 		while (length >= 0){
@@ -109,7 +109,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	 }
 
 	 public void setColor(String color) {
-		 for (int loc = wrapped.size()-2; loc > 0; loc--){
+		 for (int loc = wrapped.size()-2; loc >= 0; loc--){
 			 wrapped.get(loc).setColor(color);
 		 }
 	 }
@@ -118,7 +118,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  * @see exe.boothsMultiplication.GAIGSregister#setAllToColor(java.lang.String)
 	  */
 	 public void setAllToColor(String color) {
-		 for (int loc = wrapped.size()-2; loc > 0; loc--){
+		 for (int loc = wrapped.size()-2; loc >= 0; loc--){
 			 wrapped.get(loc).setLabelColor(color);
 		 }
 	 }
@@ -157,7 +157,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  * @param i The number of bits to extend
 	  * @return
 	  */
-	 public static String signExtend(String binStr, int i){
+	 public String signExtend(String binStr, int i){
 		 String firstBit = String.valueOf(binStr.charAt(0));
 		 String extension = "";
 		 while (i>0){extension = extension.concat(firstBit); i--;}
@@ -168,9 +168,9 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  * @see exe.boothsMultiplication.GAIGSregister#toIntArray()
 	  */
 	 public int[] toIntArray() {
-		 int[] ret = new int[wrapped.size()-1];
+		 int[] ret = new int[this.getSize()-1];
 		 
-		 for (int loc = wrapped.size()-2; loc > 0; loc--){
+		 for (int loc = this.getSize()-1; loc >= 0; loc--){
 			 ret[loc] = Integer.valueOf(wrapped.get(loc).getLabel());
 		 }
 		 

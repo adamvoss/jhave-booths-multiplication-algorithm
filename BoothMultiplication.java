@@ -20,7 +20,7 @@ public class BoothMultiplication {
     private static GAIGSprimitiveRegister RegQ;
     private static GAIGSprimitiveRegister Q_1;
     private static CountBox Count;
-    private static GAIGSpane<GAIGSpane<?>> main; //Is this the same as GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>
+    private static GAIGSpane<GAIGSpane<?>> main; //Is this the same as GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>?
     private static GAIGSpane<MutableGAIGSdatastr> header;
     private static GAIGSpane<MutableGAIGSdatastr> math;
     private static GAIGSpane<GAIGSpane<?>> trace;
@@ -63,7 +63,7 @@ public class BoothMultiplication {
     private static final double LEFT_MARGIN       = 0.0;
     private static final double RIGHT_MARGIN      = FONT_SIZE;
     private static final double TOP_MARGIN        = 0.0;
-    private static       double REG_WIDTH         = 0.12;
+    private static       double REG_WIDTH;
     private static final double REG_WIDTH_PER_BIT = 0.035;
     private static final double REG_SPACE_CHUNK   = 0.32;
     private static final double REG_HEIGHT        = 0.06;
@@ -231,7 +231,7 @@ public class BoothMultiplication {
         double[] last =  currentRow.get(0).getBounds();
 		currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
 
-        boothsMultiplication();
+//        boothsMultiplication();
 
         //----Finished Frame----
         setAllRegBitsColor(INACTIVE_TEXT);
@@ -249,7 +249,7 @@ public class BoothMultiplication {
     }
 
     public static void boothsMultiplication(){
-    	while (Count.getBit(0) >= 0){
+    	while (Count.getCount() >= 0){
     		//----Count Frame----
     		Count.setColor(YELLOW);
     		easySnap("Check the value of Count", easyPseudo(8, PseudoCodeDisplay.YELLOW), null);
@@ -502,6 +502,7 @@ public class BoothMultiplication {
 		adjustRegister(Count);
     }
     
+    //TODO figure out when to use this, then make it actually do something
     private static void positionAdditionRow(){
     	RegM  = RegM.clone();
     	RegA  = RegA.clone();

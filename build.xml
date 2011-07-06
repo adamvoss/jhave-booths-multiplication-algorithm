@@ -20,7 +20,7 @@
   <target name="compile" depends="clean, install" description="Build the visualization generator">
     <mkdir dir="../../../build/classes"/>
     <javac srcdir="." destdir="../../../build/classes"
-           classpath=".:../../../build/classes:../../../lib/jdom.jar"
+           classpath=".:../../../build/classes:../../../lib/jdom.jar" debug="true"
            includes="*.java" excludes="IGListeningTextField.java" includeantruntime="false"/>
   </target>
 
@@ -74,5 +74,15 @@
     </delete>
   </target>
 
-
+  <target name="debug" depends="compile" description="Waits for remote debugger then generates the visualization script">
+    <java fork="true" dir="../../../build/classes"
+          classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
+          classname="exe.boothsMultiplication.BoothMultiplication">
+      <jvmarg value="-Xdebug" />
+      <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5432" />
+      <arg value="foo.sho" />  <!--  Name of the output visualization script-->
+      <arg value="11111101" />
+      <arg value="10010011" />
+    </java>
+  </target>
 </project>

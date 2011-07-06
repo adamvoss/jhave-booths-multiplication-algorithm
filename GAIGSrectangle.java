@@ -66,4 +66,8 @@ public class GAIGSrectangle extends GAIGSpolygon {
 		super(source);
 	}
 
+    @Override //I certainly wish there were a way to make this generic in AbstractPolygon
+    public GAIGSrectangle clone() {
+    	return new GAIGSrectangle(this);
+    }
 }
