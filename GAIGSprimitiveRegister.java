@@ -22,21 +22,20 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 
 		int line_width = 1;
 		
-		wrapped = new GAIGSpane<GAIGSrectangle>();
+		wrapped = new GAIGSpane<GAIGSrectangle>(x0, y0, x1, y1, (double) length, 1.0);
 		wrapped.setName("GAIGSregister");
 
-		double width = (x1-x0)/length;
+		double width = 1;
 		
-		length--;
-		while (length >= 0){
-			wrapped.add(new GAIGSrectangle(x1-width*(length+1), y0, x1-width*length, y1,
+		while (length > 0){
+			wrapped.add(new GAIGSrectangle(length-width, 0, length, 1,
 						fillColor, fillColor, fontColor,
 						"0", fontSize, line_width));
 			length--;
 		}
 		
 		//The outline rectangle, here last so it is always on top.
-		wrapped.add(new GAIGSrectangle(x0, y0, x1, y1,
+		wrapped.add(new GAIGSrectangle(0, 0, wrapped.size(), 1,
 				"", fontColor, outlineColor,
 				"", fontSize, line_width));
 	}
