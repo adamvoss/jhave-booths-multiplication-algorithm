@@ -1,7 +1,7 @@
 package exe.boothsMultiplication;
 
 //THIS IS A VERY UGLY HACK
-//ThisS Should Never Have Used Inheritance Like This
+//This Should Never Have Used Inheritance Like This
 //I Have Lost So Much Time To Maintaining This
 public class CountBox extends GAIGSprimitiveRegister {
     public CountBox(int count, String color, String fontColor, String outlineColor, double x1, double y1, double x2, double y2, double fontSize) {
@@ -21,7 +21,7 @@ public class CountBox extends GAIGSprimitiveRegister {
     	this.set(String.valueOf(getCount()-1));
     	}
 
-    public int getCount()   {System.out.println(this.toString());return new Integer(this.toString());}
+    public int getCount()   {return new Integer(this.toString());}
     
     @Override
     public CountBox clone() {

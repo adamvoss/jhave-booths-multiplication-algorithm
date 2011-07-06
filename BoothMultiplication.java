@@ -231,7 +231,7 @@ public class BoothMultiplication {
         double[] last =  currentRow.get(0).getBounds();
 		currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
 
-//        boothsMultiplication();
+        boothsMultiplication();
 
         //----Finished Frame----
         setAllRegBitsColor(INACTIVE_TEXT);

@@ -109,7 +109,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	 }
 
 	 public void setColor(String color) {
-		 for (int loc = wrapped.size()-2; loc >= 0; loc--){
+		 for (int loc = this.getSize()-1; loc >= 0; loc--){
 			 wrapped.get(loc).setColor(color);
 		 }
 	 }
@@ -118,7 +118,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  * @see exe.boothsMultiplication.GAIGSregister#setAllToColor(java.lang.String)
 	  */
 	 public void setAllToColor(String color) {
-		 for (int loc = wrapped.size()-2; loc >= 0; loc--){
+		 for (int loc = this.getSize()-1; loc >= 0; loc--){
 			 wrapped.get(loc).setLabelColor(color);
 		 }
 	 }
@@ -129,7 +129,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  */
      public void setOutlineColor(String color) {
     	 //The outline is always the last item on the pane
-         wrapped.get(wrapped.size()-1).setOutlineColor(color);
+         wrapped.get(this.getSize()-1).setOutlineColor(color);
      }
 
 	 /**
@@ -168,9 +168,14 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  * @see exe.boothsMultiplication.GAIGSregister#toIntArray()
 	  */
 	 public int[] toIntArray() {
-		 int[] ret = new int[this.getSize()-1];
+		 int size = this.getSize();
 		 
-		 for (int loc = this.getSize()-1; loc >= 0; loc--){
+		 if (size == 0)
+			 return new int[0];
+		 
+		 int[] ret = new int[size];
+		 
+		 for (int loc = size-1; loc >= 0; loc--){
 			 ret[loc] = Integer.valueOf(wrapped.get(loc).getLabel());
 		 }
 		 
