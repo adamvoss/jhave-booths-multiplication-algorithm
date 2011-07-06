@@ -20,10 +20,10 @@ public class BoothMultiplication {
     private static GAIGSprimitiveRegister RegQ;
     private static GAIGSprimitiveRegister Q_1;
     private static CountBox Count;
-    private static GAIGSpane<MutableGAIGSdatastr> main;
+    private static GAIGSpane<GAIGSpane<?>> main; //Is this the same as GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>
     private static GAIGSpane<MutableGAIGSdatastr> header;
     private static GAIGSpane<MutableGAIGSdatastr> math;
-    private static GAIGSpane<MutableGAIGSdatastr> trace;
+    private static GAIGSpane<GAIGSpane<?>> trace;
     private static GAIGSpane<MutableGAIGSdatastr> currentRow;
     private static int rowNumber; //This is only used for comments in the XML
     private static ShowFile show;
@@ -91,7 +91,7 @@ public class BoothMultiplication {
         
         REG_SIZE = multiplicand.length();
         
-        main = new GAIGSpane<MutableGAIGSdatastr>(0-GAIGSpane.JHAVÉ_X_MARGIN,
+        main = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVÉ_X_MARGIN,
 				 0-GAIGSpane.JHAVÉ_Y_MARGIN,
 				 1+GAIGSpane.JHAVÉ_X_MARGIN,
 				 1+GAIGSpane.JHAVÉ_Y_MARGIN,
@@ -125,20 +125,20 @@ public class BoothMultiplication {
         header.add(decimal);
         header.add(decLabel);
         
-        math = new GAIGSpane(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
+        math = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
         math.setName("Math");
         
         math.add(new GAIGSline(new double[] {0,0}, new double[] {0, math.getHeight()+FONT_SIZE}));
         math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Math/CPU"));
         
-        trace = new GAIGSpane(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
+        trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
         
         main.add(header);
         main.add(trace);
         main.add(math);
 
-        GAIGSpane trace_labels = new GAIGSpane();
+        GAIGSpane<GAIGSmonospacedText> trace_labels = new GAIGSpane<GAIGSmonospacedText>();
 //        math.add(new GAIGSpolygon(4, new double[] {0, math.getWidth(), math.getWidth(), 0}, 
 //            new double[] {0, 0, math.getHeight(), math.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
 
@@ -219,11 +219,6 @@ public class BoothMultiplication {
         easySnap("β is initialized to 0", easyPseudo(5), null);
 
         //Count
-//      I assume there's a good reason why these aren't equivalent?
-        //Yes, get Bounds gives its coordinates on the screen.
-        //Get Width gives the width of the coordinate system within the object
-//      init[0] = trace.getBounds()[2] - FONT_SIZE;
-//      init[2] = trace.getBounds()[2];
         init[0] = trace.getWidth() - FONT_SIZE - RIGHT_MARGIN;
         init[2] = trace.getWidth() - RIGHT_MARGIN;
     	trace_labels.add(new GAIGSmonospacedText(
@@ -238,7 +233,6 @@ public class BoothMultiplication {
 
         boothsMultiplication();
 
-        //We are done.
         //----Finished Frame----
         setAllRegBitsColor(INACTIVE_TEXT);
         setRowRegisterOutlineColor(INACTIVE_OUTLINE);
@@ -299,7 +293,7 @@ public class BoothMultiplication {
                 getRegisterFromRow(trace.size()-2, Q1).setBitColor(0         , BLUE);
                 
                 question que = quest.getComparisonQuestion();
-                GAIGSpane temp = (GAIGSpane)trace.remove(trace.size()-1);
+                GAIGSpane<?> temp = trace.remove(trace.size()-1);
                 easySnap("Determine the operation", easyPseudo(10, PseudoCodeDisplay.BLUE), que);
                 trace.add(temp);
                 
@@ -527,7 +521,7 @@ public class BoothMultiplication {
      * currentRow
      */
     private static GAIGSprimitiveRegister getRegisterFromRow(int row, int reg) {
-        return (GAIGSprimitiveRegister) ((GAIGSpane) trace.get(row)).get(reg);
+        return (GAIGSprimitiveRegister) trace.get(row).get(reg);
     }
     
     private static void addRow(){
