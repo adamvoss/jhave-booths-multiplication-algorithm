@@ -8,15 +8,15 @@ import exe.XMLmcQuestion;
 import exe.XMLmsQuestion;
 import exe.XMLtfQuestion;
 import exe.question;
-import exe.boothsMultiplication.BoothsMultiplication;//to access constant RegN defs
+import exe.boothsMultiplication.BoothMultiplication;//to access constant RegN defs
 
 
 public class QuestionGenerator {
-    public static final int REGM = BoothsMultiplication.REGM;
-    public static final int REGA = BoothsMultiplication.REGA;
-    public static final int REGQ = BoothsMultiplication.REGQ;
-    public static final int Q1   = BoothsMultiplication.Q1;
-    public static final int COUNT= BoothsMultiplication.COUNT;
+    public static final int REGM = BoothMultiplication.REGM;
+    public static final int REGA = BoothMultiplication.REGA;
+    public static final int REGQ = BoothMultiplication.REGQ;
+    public static final int Q1   = BoothMultiplication.Q1;
+    public static final int COUNT= BoothMultiplication.COUNT;
 
     public final int NUMQUESTIONS = 7;
 	private ShowFile show;
@@ -309,7 +309,7 @@ public class QuestionGenerator {
             ret1.setAnswer(1);
             ret1.addChoice("" + (2 * getRegister(-1, REGQ).getSize() ));
             ret1.addChoice("It depends on values in Q");
-            ret1.addChoice("" + BoothsMultiplication.numLines(getRegister(0, REGQ).toString() ));//((GAIGSprimitiveRegister)trace.get(0, "RegQ")).toString() ) );
+            ret1.addChoice("" + BoothMultiplication.numLines(getRegister(0, REGQ).toString() ));//((GAIGSprimitiveRegister)trace.get(0, "RegQ")).toString() ) );
 
             ret = ret1;
         }

@@ -138,7 +138,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 
 		 //Expand string to register size
 		 if (binStr.length() < getSize() ){
-			 binStr = BoothsMultiplication.signExtend(binStr, getSize()-binStr.length());
+			 binStr = BoothMultiplication.signExtend(binStr, getSize()-binStr.length());
 		 }
 
 		 //If string too big, cut off most significant bits

@@ -19,7 +19,7 @@ public class boothsMultiplication{
         toPass[1] = temp[0];
         toPass[2] = temp[1];
 
-        BoothsMultiplication.main(toPass);
+        BoothMultiplication.main(toPass);
 
 //      BoothsMultiplication.main(new String[] {args[0] + ".sho",
 //                                             param.get("Multiplicand"),
