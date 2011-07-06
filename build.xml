@@ -28,7 +28,7 @@
   <target name="run" depends="compile" description="Generate the visualization script">
     <java fork="true" dir="../../../build/classes"
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
-          classname="exe.boothsMultiplication.BoothsMultiplication">
+          classname="exe.boothsMultiplication.BoothMultiplication">
       <arg value="foo.sho" />  <!--  Name of the output visualization script-->
       <arg value="11111101" />
       <arg value="10010011" />
