@@ -9,40 +9,41 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
  */
 //TODO Grab documentation from the interface that can be found in history
 public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
-	protected int[] bits;
-	private String[] colors;
-	private GAIGSpolygon wrapped;
+	private GAIGSpane<GAIGSrectangle> wrapped;
 
 
 	public GAIGSprimitiveRegister(GAIGSprimitiveRegister source){
-		this.bits = source.bits.clone();
-		this.colors = source.colors.clone();
-		this.wrapped = new GAIGSpolygon(source.wrapped);
+		this.wrapped = new GAIGSpane<GAIGSrectangle>(source.wrapped);
 	}
 
-	public GAIGSprimitiveRegister(int length, String name, String color,
-			String fontColor, String outlineColor, double x1, double y1,
-			double x2, double y2, double fontSize) {
-		this.bits = new int[length];
-		this.colors = new String[length];
-
-		length--;
-		while (length >= 0) {
-			this.bits[length] = 0;
-			this.colors[length] = "\\" + DEFAULT_COLOR;
-			length--;
-		}
+	public GAIGSprimitiveRegister(int length, String name, String fillColor,
+			String fontColor, String outlineColor, double x0, double y0,
+			double x1, double y1, double fontSize) {
 
 		int line_width = 1;
 		
-		wrapped = new GAIGSrectangle(x1, y1, x2, y2,
-				color, fontColor, outlineColor,
-				name, fontSize, line_width);
+		wrapped = new GAIGSpane<GAIGSrectangle>();
+		wrapped.setName("GAIGSregister");
+
+		double width = (x1-x0)/2;
+		
+		length--;
+		while (length >= 0){
+			wrapped.add(new GAIGSrectangle(x1-width*(length+1), y0, x1-width*length, y1,
+						fillColor, fillColor, fontColor,
+						"0", fontSize, line_width));
+			length--;
+		}
+		
+		//The outline rectangle, here last so it is always on top.
+		wrapped.add(new GAIGSrectangle(x0, y0, x1, y1,
+				"", fontColor, outlineColor,
+				"", fontSize, line_width));
 	}
 	
-	public GAIGSprimitiveRegister(int length, String name, String color,
+	public GAIGSprimitiveRegister(int length, String name, String fillColor,
 			String fontColor, String outlineColor, double[] bounds, double fontSize) {
-		this(length, name, color, fontColor, outlineColor , bounds[0], bounds[1], bounds[2], bounds[3], fontSize);
+		this(length, name, fillColor, fontColor, outlineColor , bounds[0], bounds[1], bounds[2], bounds[3], fontSize);
 	}
 
 
@@ -67,11 +68,6 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  */
 	 @Override
 	 public String toXML() {
-		 String label = "";
-		 for (int loc = 0 ; loc < bits.length; loc++){
-			 label += "\\" + colors[loc] + bits[loc];
-		 }
-		 wrapped.setLabel(label);
 		 return wrapped.toXML();
 	 }
 
@@ -79,66 +75,73 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  * @see exe.boothsMultiplication.GAIGSregister#getSize()
 	  */
 	 public int getSize() {
-		 return bits.length;
+		 return wrapped.size()-1;
 	 }
 
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#getBit(int)
 	  */
 	 public int getBit(int loc) {
-		 return bits[loc];
+		 return Integer.valueOf(wrapped.get(loc).getLabel());
 	 }
 
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setBit(int, int)
 	  */
 	 public void setBit(int value, int loc) {
-		 bits[loc] = value;
+		 this.wrapped.get(loc).setLabel("" + value);
 	 }
 
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setBit(int, int, java.lang.String)
 	  */
+	 @Deprecated
 	 public void setBit(int value, int loc, String color) {
-		 bits[loc] = value;
-		 this.colors[loc] = color;
+		 setBit(value, loc);
+		 setBitColor(loc, color);
 	 }
 
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setColor(int, java.lang.String)
 	  */
 	 public void setBitColor(int loc, String color) {
-		 this.colors[loc] = color;
+		 this.wrapped.get(loc).setLabelColor(color);
 	 }
 
 	 public void setColor(String color) {
-		 this.wrapped.setColor(color);
+		 for (int loc = wrapped.size()-2; loc > 0; loc--){
+			 wrapped.get(loc).setColor(color);
+		 }
 	 }
 	 
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setAllToColor(java.lang.String)
 	  */
 	 public void setAllToColor(String color) {
-		 for (int loc = 0 ; loc < bits.length; loc++){
-			 this.colors[loc]=color;
+		 for (int loc = wrapped.size()-2; loc > 0; loc--){
+			 wrapped.get(loc).setLabelColor(color);
 		 }
 	 }
 
+	 /**
+	  * Sets the outline color of the perimeter of the register.
+	  * @param color
+	  */
      public void setOutlineColor(String color) {
-         wrapped.setOutlineColor(color);
+    	 //The outline is always the last item on the pane
+         wrapped.get(wrapped.size()-1).setOutlineColor(color);
      }
 
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#set(java.lang.String)
 	  */
-	 //TODO Move Sign Extend out of BoothsMultiplication
 	 public void set(String binStr) {
 		 //Empty String == 0
 		 if (binStr.isEmpty()){binStr="0";}
 
 		 //Expand string to register size
 		 if (binStr.length() < getSize() ){
-			 binStr = BoothMultiplication.signExtend(binStr, getSize()-binStr.length());
+			 binStr = signExtend(binStr, getSize()-binStr.length());
 		 }
 
 		 //If string too big, cut off most significant bits
@@ -149,10 +152,29 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	 }
 
 	 /**
+	  * Sign extends a binary number by i bits
+	  * @param binStr The binary number represented as a string
+	  * @param i The number of bits to extend
+	  * @return
+	  */
+	 public static String signExtend(String binStr, int i){
+		 String firstBit = String.valueOf(binStr.charAt(0));
+		 String extension = "";
+		 while (i>0){extension = extension.concat(firstBit); i--;}
+		 return extension.concat(binStr);
+	 }
+
+	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#toIntArray()
 	  */
 	 public int[] toIntArray() {
-		 return bits;
+		 int[] ret = new int[wrapped.size()-1];
+		 
+		 for (int loc = wrapped.size()-2; loc > 0; loc--){
+			 ret[loc] = Integer.valueOf(wrapped.get(loc).getLabel());
+		 }
+		 
+		 return ret;
 	 }
 
     /**
@@ -162,6 +184,8 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
     @Override
     public String toString() {
         String ret = "";
+        
+        int[] bits = this.toIntArray();
 
         for (int i = 0; i < bits.length; ++i)
             ret = ret + bits[i];
