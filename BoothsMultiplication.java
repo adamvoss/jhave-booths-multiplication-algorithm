@@ -20,11 +20,11 @@ public class BoothsMultiplication {
     private static GAIGSprimitiveRegister RegQ;
     private static GAIGSprimitiveRegister Q_1;
     private static CountBox Count;
-    private static GAIGSpane main;
-    private static GAIGSpane header;
-    private static GAIGSpane math;
-    private static GAIGSpane trace;
-    private static GAIGSpane currentRow;
+    private static GAIGSpane<MutableGAIGSdatastr> main;
+    private static GAIGSpane<MutableGAIGSdatastr> header;
+    private static GAIGSpane<MutableGAIGSdatastr> math;
+    private static GAIGSpane<MutableGAIGSdatastr> trace;
+    private static GAIGSpane<MutableGAIGSdatastr> currentRow;
     private static int rowNumber; //This is only used for comments in the XML
     private static ShowFile show;
     private static int REG_SIZE;
@@ -630,6 +630,17 @@ public class BoothsMultiplication {
         }
         return "Something went wrong";
     }
+    
+    /**
+        * Sign extends binStr by i bits
+        */
+        public static String signExtend(String binStr, int i){
+            String firstBit = String.valueOf(binStr.charAt(0));
+            String extension = "";
+            while (i>0){extension = extension.concat(firstBit); i--;}
+            return extension.concat(binStr);
+        }
+    
     
     private static String easyPseudo(int selected, int lineColor){
         try {
