@@ -216,7 +216,7 @@ public class BoothMultiplication {
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
-        easySnap("β is initialized to 0", easyPseudo(5), null);
+        easySnap("β is initialized to Zero", easyPseudo(5), null);
 
         //Count
         init[0] = trace.getWidth() - FONT_SIZE - RIGHT_MARGIN;
