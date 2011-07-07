@@ -129,7 +129,7 @@ public class BoothMultiplication {
         math.setName("Math");
         
         math.add(new GAIGSline(new double[] {0,0}, new double[] {0, math.getHeight()+FONT_SIZE}));
-        math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Math/CPU"));
+        math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Math/ALU"));
         
         trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
@@ -263,7 +263,7 @@ public class BoothMultiplication {
             /* Note: This logic for drawing these frames is dictated by the QuestionGenerator,
       	    * not Booth's Multiplication Algorithm.  Previous revisions were cleaner. 
     	    */
-    		int cmpVal = RegQ.getBit(REG_SIZE-1) - Q_1.getBit(0);
+    		int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
     		
             if (cmpVal == 1 || cmpVal == -1) {                
                 positionAdditionRow();//clones all registers
@@ -388,7 +388,7 @@ public class BoothMultiplication {
             Q.setBit(i, Q.getBit(i+1));
         }
 
-            Q.setBit(0, shiftOverToQ);
+            Q.setBit(REG_SIZE-1, shiftOverToQ);
     }
 
     /**
@@ -399,7 +399,7 @@ public class BoothMultiplication {
     public static void addIntoReg(GAIGSprimitiveRegister toAdd, GAIGSprimitiveRegister A) {
         int carry = 0;
         int sum = 0;
-        for (int i = A.getSize()-1; i >= 0; --i) {
+        for (int i = 0; i < REG_SIZE; i++) {
             sum = carry + A.getBit(i) + toAdd.getBit(i);
             A.setBit(i, sum % 2);
             carry = sum / 2;
@@ -415,7 +415,7 @@ public class BoothMultiplication {
         int carry = 1;
         GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister(M);
 
-        for (int i = M.getSize()-1; i >= 0; --i) {
+        for (int i = 0; i < M.getSize(); i++) {
             int negPart = 0;
 
             if (M.getBit(i) == 0) negPart = 1;

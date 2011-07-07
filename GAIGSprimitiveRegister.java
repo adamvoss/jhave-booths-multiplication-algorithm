@@ -145,8 +145,8 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 
 		 //If string too big, cut off most significant bits
 		 binStr = binStr.substring(binStr.length()-this.getSize());
-		 for (int count = (this.getSize()-1); count >= 0; count--){
-			 this.setBit(count, Character.getNumericValue(binStr.charAt(count)));
+		 for (int count = 0; count < this.getSize(); count++){
+			 this.setBit(count, Character.getNumericValue(binStr.charAt(binStr.length()-1-count)));
 		 }
 	 }
 
@@ -192,7 +192,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
         int[] bits = this.toIntArray();
 
         for (int i = 0; i < bits.length; ++i)
-            ret = ret + bits[i];
+            ret = bits[i] + ret;
 
         return ret;
     }
