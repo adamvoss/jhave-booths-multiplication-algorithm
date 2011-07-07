@@ -87,7 +87,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setBit(int, int)
 	  */
-	 public void setBit(int value, int loc) {
+	 public void setBit(int loc, int value) {
 		 this.wrapped.get(loc).setLabel("" + value);
 	 }
 
@@ -128,7 +128,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	  */
      public void setOutlineColor(String color) {
     	 //The outline is always the last item on the pane
-         wrapped.get(this.getSize()-1).setOutlineColor(color);
+         wrapped.get(wrapped.size()-1).setOutlineColor(color);
      }
 
 	 /**
@@ -146,7 +146,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 		 //If string too big, cut off most significant bits
 		 binStr = binStr.substring(binStr.length()-this.getSize());
 		 for (int count = (this.getSize()-1); count >= 0; count--){
-			 this.setBit(Character.getNumericValue(binStr.charAt(count)), count);
+			 this.setBit(count, Character.getNumericValue(binStr.charAt(count)));
 		 }
 	 }
 

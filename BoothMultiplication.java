@@ -289,8 +289,8 @@ public class BoothMultiplication {
                 }
                 
                 //----Comparison Frame----
-                getRegisterFromRow(trace.size()-2, REGQ).setBitColor(REG_SIZE-1, BLUE);
-                getRegisterFromRow(trace.size()-2, Q1).setBitColor(0         , BLUE);
+                getRegisterFromRow(trace.size()-2, REGQ).setBitColor(0, BLUE);
+                getRegisterFromRow(trace.size()-2, Q1).setBitColor(0, BLUE);
                 
                 question que = quest.getComparisonQuestion();
                 GAIGSpane<?> temp = trace.remove(trace.size()-1);
@@ -300,7 +300,7 @@ public class BoothMultiplication {
                 //Reset/deactivate colors
                 setRowRegisterBitsColor(trace.size()-2,    INACTIVE_TEXT);
                 setRowRegisterOutlineColor(trace.size()-2, INACTIVE_OUTLINE);
-                RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
+                RegQ.setBitColor(0, FONT_COLOR);
                 Q_1.setBitColor(0, FONT_COLOR);
 
                 
@@ -320,7 +320,7 @@ public class BoothMultiplication {
             else {
                 //----Comparison Frame---- (yep, again)
                 //Colors
-                RegQ.setBitColor(REG_SIZE-1, BLUE);
+                RegQ.setBitColor(0, BLUE);
                 Q_1.setBitColor(0, BLUE);
                 
                 //Question pane-hopping
@@ -330,7 +330,7 @@ public class BoothMultiplication {
                 easySnap("Determine the operation", easyPseudo(10, PseudoCodeDisplay.BLUE), que);
 
                 //Reset colors
-                RegQ.setBitColor(REG_SIZE-1, FONT_COLOR);
+                RegQ.setBitColor(0, FONT_COLOR);
                 Q_1.setBitColor(0, FONT_COLOR);
             }
             //Deactivate text
@@ -352,7 +352,7 @@ public class BoothMultiplication {
             setRowRegisterOutlineColor(OUTLINE_COLOR);
     		RegA.setAllToColor(GREEN);
     		RegQ.setAllToColor(BLUE);
-    		RegQ.setBitColor(0, GREEN);
+    		RegQ.setBitColor(REG_SIZE-1, GREEN);
     		Q_1.setBitColor(0, BLUE);
     		currentRow.remove(COUNT); //Oops...We don't want Count
     		easySnap("Sign-Preserving Right Shift", easyPseudo(21, PseudoCodeDisplay.BLUE), que);
@@ -380,15 +380,15 @@ public class BoothMultiplication {
     public static void rightShift(GAIGSprimitiveRegister A, GAIGSprimitiveRegister Q, GAIGSprimitiveRegister Q_1) {
         if (A.getSize() < 1) return;
 
-        Q_1.setBit(Q.getBit(Q.getSize()-1), 0);
-        int shiftOverToQ = A.getBit(Q.getSize()-1);
+        Q_1.setBit(0, Q.getBit(0));
+        int shiftOverToQ = A.getBit(0);
 
-        for (int i = A.getSize() - 1; i >= 1; --i) {
-            A.setBit(A.getBit(i-1), i);
-            Q.setBit(Q.getBit(i-1), i);
+        for (int i = 0; i < REG_SIZE - 1; i++) {
+            A.setBit(i, A.getBit(i+1));
+            Q.setBit(i, Q.getBit(i+1));
         }
 
-            Q.setBit(shiftOverToQ, 0);
+            Q.setBit(0, shiftOverToQ);
     }
 
     /**
@@ -401,7 +401,7 @@ public class BoothMultiplication {
         int sum = 0;
         for (int i = A.getSize()-1; i >= 0; --i) {
             sum = carry + A.getBit(i) + toAdd.getBit(i);
-            A.setBit(sum % 2, i);
+            A.setBit(i, sum % 2);
             carry = sum / 2;
         }
     }
@@ -421,7 +421,7 @@ public class BoothMultiplication {
             if (M.getBit(i) == 0) negPart = 1;
             else negPart = 0;
 
-            ret.setBit((negPart + carry) % 2, i);
+            ret.setBit(i, (negPart + carry) % 2);
             carry = (negPart + carry) / 2;
         }
 
