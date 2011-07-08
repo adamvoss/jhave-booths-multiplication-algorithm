@@ -65,14 +65,9 @@ public class GAIGSdashedLine extends AbstractPrimitive {
 	private GAIGSpane<GAIGSline> initLines() {
 		GAIGSpane<GAIGSline> lines = new GAIGSpane<GAIGSline>();
 		
-		System.out.println("Initing lines");
-		
 		double dist = Math.sqrt((x[1] - x[0])*(x[1] - x[0]) + (y[1] - y[0])*(y[1] - y[0]));
-
-		System.out.println("Dist: " + dist + " + " + "Dash: " + dashSize + " = ");
 		int numLines = ((int)Math.ceil(dist / dashSize))/2;
-		System.out.println(numLines + " lines");
-		
+
 		if (numLines == 0) System.err.println("You need a smaller dashSize in GAIGSdashedLine");
 
 		double [] xvals = new double[2];
@@ -88,7 +83,6 @@ public class GAIGSdashedLine extends AbstractPrimitive {
 					  (i == numLines|| i==numLines-1 ? label : ""), //That is messy, but at least it now always draws the label
 					  this.fontSize, this.lineWidth));
 		}
-		System.out.println("returing lines");
 		return lines;
 	}
 	

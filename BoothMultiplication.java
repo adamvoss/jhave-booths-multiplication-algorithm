@@ -25,6 +25,7 @@ public class BoothMultiplication {
     private static GAIGSpane<MutableGAIGSdatastr> math;
     private static GAIGSpane<GAIGSpane<?>> trace;
     private static GAIGSpane<MutableGAIGSdatastr> currentRow;
+    private static GAIGSmonospacedText title;
     private static int rowNumber; //This is only used for comments in the XML
     private static ShowFile show;
     private static int REG_SIZE;
@@ -102,6 +103,9 @@ public class BoothMultiplication {
         		WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
 
+        title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
+        header.add(title);
+        
         GAIGSArithmetic binary = new TwosComplementMultiplication(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
         GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
@@ -231,7 +235,7 @@ public class BoothMultiplication {
         double[] last =  currentRow.get(0).getBounds();
 		currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
 
-//        boothsMultiplication();
+        boothsMultiplication();
 
         //----Finished Frame----
         setAllRegBitsColor(INACTIVE_TEXT);
@@ -564,36 +568,23 @@ public class BoothMultiplication {
     }
 
     private static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
+    	BoothMultiplication.title.setText(title);
         try {
             if (que == null)
-                show.writeSnap(title, FONT_SIZE+.01, info, pseudo, stuff);
+                show.writeSnap(" ", info, pseudo, stuff);
             else
-                show.writeSnap(title, FONT_SIZE+.01, info, pseudo, que, stuff);
+                show.writeSnap(" ", info, pseudo, que, stuff);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
     private static void easySnap(String title, String pseudo, question que, GAIGSdatastr... stuff){
-        try {
-            if (que == null)
-                show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, stuff);
-            else
-                show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, que, stuff);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    	easySnap(title, docURI.toASCIIString(), pseudo, que, stuff);
     }
     
     private static void easySnap(String title, String pseudo, question que){
-        try {
-            if (que == null)
-                show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, main);
-            else
-                show.writeSnap(title, FONT_SIZE+.01, docURI.toASCIIString(), pseudo, que, main);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    	easySnap(title, pseudo, que, main);
     }
 
     private static String easyPseudo(int[] selected, int[] lineColors){
