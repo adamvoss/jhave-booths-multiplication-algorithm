@@ -171,23 +171,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	public void addDashedLine(double x[], double y[], String color, String lcolor,
 			String label, double dashSize, double textHeight, int lineWidth)
 	{
-
-		double dist = Math.sqrt((x[1] - x[0])*(x[1] - x[0]) + (y[1] - y[0])*(y[1] - y[0]));
-		double size = dashSize;
-
-		int numLines = ((int)Math.ceil(dist / size)) / 2;
-
-		double [] xvals = new double[2];
-		double [] yvals = new double[2];
-
-		for(int i = 0; i < numLines; i+=2) {
-			xvals[0] = x[0] + (i / (2*(double)numLines)) * x[1];
-			yvals[0] = y[0] + (i / (2*(double)numLines)) * y[1];
-			xvals[1] = x[0] + ((i+1) / (2*(double)numLines)) * x[1];
-			yvals[1] = y[0] + ((i+1) / (2*(double)numLines)) * y[1];
-			primitives.add(new GAIGSline(xvals, yvals, color, lcolor, (i == numLines/2 ? label : ""), textHeight, lineWidth));
-		}
-
+		primitives.add(new GAIGSdashedLine(x, y, color, lcolor, label, dashSize, textHeight, lineWidth));
 	}
 
 	/**
@@ -201,33 +185,10 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 * @param textHeight The Height of the text in the label
 	 * @param lineWidth The thickness of the line
 	 */
-	//TODO make this a class
 	public void addArrow(double x[], double y[], String color, String lcolor,
 			String label, double headSize, double textHeight, int lineWidth)
 	{
-		primitives.add(new GAIGSline(x, y, color, lcolor, "", textHeight, lineWidth));
-
-		double size = headSize;
-
-		double [] x1 = {x[1], 0};
-		double [] y1 = {y[1], 0};
-		double [] x2 = {x[1], 0};
-		double [] y2 = {y[1], 0};
-
-		double theta = Math.atan((y[1] - y[0])/(x[1] - x[0]));
-		double end1 = theta + Math.toRadians(30);
-		double end2 = theta - Math.toRadians(30);
-
-		x1[1] = x[1] - size * Math.cos(end1);
-		x2[1] = x[1] - size * Math.cos(end2);
-		y1[1] = y[1] - size * Math.sin(end1);
-		y2[1] = y[1] - size * Math.sin(end2);
-
-		double [] xvals = {x[1], x1[1], x2[1]};
-		double [] yvals = {y[1], y1[1], y2[1]};
-
-		primitives.add(new GAIGSpolygon(3, xvals, yvals, color, color, lcolor, label, textHeight, lineWidth));
-
+		primitives.add(new GAIGSarrow(x, y, color, lcolor, label, headSize, textHeight, lineWidth));
 	}
 
 	/**
@@ -294,7 +255,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 */
 	public void addLine(double x[], double y[], String color, String lcolor, String label)
 	{
-		primitives.add(new GAIGSline(x, y, color,lcolor, label, TEXT_HEIGHT, LINE_WIDTH));
+		primitives.add(new GAIGSline(x, y, color, lcolor, label, TEXT_HEIGHT, LINE_WIDTH));
 	}
 
 	/**
@@ -307,26 +268,10 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 * @param dashSize The length of the dash in the line
 
 	 */
-	//TODO make this a constructor
 	public void addDashedLine(double x[], double y[], String color, String lcolor,
 			String label, double dashSize)
 	{
-
-		double dist = Math.sqrt((x[1] - x[0])*(x[1] - x[0]) + (y[1] - y[0])*(y[1] - y[0]));
-		double size = dashSize;
-
-		int numLines = ((int)Math.ceil(dist / size)) / 2;
-
-		double [] xvals = new double[2];
-		double [] yvals = new double[2];
-
-		for(int i = 0; i < numLines; i+=2) {
-			xvals[0] = x[0] + (i / (2*(double)numLines)) * x[1];
-			yvals[0] = y[0] + (i / (2*(double)numLines)) * y[1];
-			xvals[1] = x[0] + ((i+1) / (2*(double)numLines)) * x[1];
-			yvals[1] = y[0] + ((i+1) / (2*(double)numLines)) * y[1];
-			primitives.add(new GAIGSline(xvals, yvals, color, lcolor, (i == numLines/2 ? label : ""), TEXT_HEIGHT, LINE_WIDTH));
-		}
+			primitives.add(new GAIGSdashedLine(x, y, color, lcolor, label, dashSize, TEXT_HEIGHT, LINE_WIDTH));
 
 	}
 
