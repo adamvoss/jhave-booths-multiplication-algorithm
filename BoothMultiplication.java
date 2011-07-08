@@ -56,8 +56,8 @@ public class BoothMultiplication {
     public static final String INACTIVE_OUTLINE= GREY;
     public static final String OUTLINE_COLOR   = FONT_COLOR;
     
-    private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVE_X_MARGIN*2;
-    private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
+    private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVÉ_X_MARGIN*2;
+    private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVÉ_Y_MARGIN*2;
 
     private static       double ARLABEL_SPACE;
 
