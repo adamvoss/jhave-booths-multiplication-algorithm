@@ -28,7 +28,7 @@ public class TwosComplementMultiplication extends GAIGSArithmetic {
 	public TwosComplementMultiplication(String term1, String term2,
 			double x0, double y0, double fontSize,
 			double digitWidth, String color) {
-		super('×', term1, term2, 2, x0, y0, fontSize, digitWidth, color);
+		super('*', term1, term2, 2, x0, y0, fontSize, digitWidth, color);
 		if (term1.length() != term2.length()) System.err.println("TwosComplementMultiplication requires same length terms");
 		this.maxLength = term1.length() + term2.length();
 		

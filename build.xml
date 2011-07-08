@@ -19,7 +19,7 @@
 
   <target name="compile" depends="clean, install" description="Build the visualization generator">
     <mkdir dir="../../../build/classes"/>
-    <javac srcdir="." destdir="../../../build/classes"
+    <javac srcdir="." destdir="../../../build/classes" encoding="iso-8859-1"
            classpath=".:../../../build/classes:../../../lib/jdom.jar" debug="true"
            includes="*.java" excludes="IGListeningTextField.java" includeantruntime="false"/>
   </target>

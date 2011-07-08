@@ -5,9 +5,9 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
 
 //TODO, raise and lower methods
 public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E> implements MutableGAIGSdatastr {
-	public static final double JHAVÉ_X_MARGIN = 0.203;
-	public static final double JHAVÉ_Y_MARGIN = 0.067;
-	public static final double JHAVÉ_ASPECT_RATIO = (1+2*JHAVÉ_X_MARGIN)/(1+2*JHAVÉ_Y_MARGIN);
+	public static final double JHAVE_X_MARGIN = 0.203;
+	public static final double JHAVE_Y_MARGIN = 0.067;
+	public static final double JHAVE_ASPECT_RATIO = (1+2*JHAVE_X_MARGIN)/(1+2*JHAVE_Y_MARGIN);
 	public static final double DEFAULT_ASPECT_RATIO = 1.0;
 	private double width;
 	private double height;
@@ -31,7 +31,7 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
 	
 	
 	public GAIGSpane(double width, double height){
-		this(0-JHAVÉ_X_MARGIN, 0-JHAVÉ_Y_MARGIN, 1+JHAVÉ_X_MARGIN, 1+JHAVÉ_Y_MARGIN, width, height);
+		this(0-JHAVE_X_MARGIN, 0-JHAVE_Y_MARGIN, 1+JHAVE_X_MARGIN, 1+JHAVE_Y_MARGIN, width, height);
 	}
 	
 	public GAIGSpane(){

@@ -65,12 +65,11 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 
 		switch (op){
 		case '*':
-			this.op='×'; break;
-		case '/':
-			this.op='÷'; break;
+			this.op='x'; break;
 		default:
 			this.op=op;
 		}
+		
 		terms.add(inplaceReverse(term1.toCharArray()));
 		terms.add(inplaceReverse(term2.toCharArray()));
 		lastTermIndex = terms.size()-1;
@@ -224,7 +223,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 			switch (op){
 			case '+':
 				additionStep(); break;
-			case '×':
+			case 'x':
 				multiplicationStep(); break;
 			}
 		}

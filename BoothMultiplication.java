@@ -55,8 +55,8 @@ public class BoothMultiplication {
     public static final String INACTIVE_OUTLINE= GREY;
     public static final String OUTLINE_COLOR   = FONT_COLOR;
     
-    private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVÉ_X_MARGIN*2;
-    private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVÉ_Y_MARGIN*2;
+    private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVE_X_MARGIN*2;
+    private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
 
     private static       double ARLABEL_SPACE;
 
@@ -91,10 +91,10 @@ public class BoothMultiplication {
         
         REG_SIZE = multiplicand.length();
         
-        main = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVÉ_X_MARGIN,
-				 0-GAIGSpane.JHAVÉ_Y_MARGIN,
-				 1+GAIGSpane.JHAVÉ_X_MARGIN,
-				 1+GAIGSpane.JHAVÉ_Y_MARGIN,
+        main = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVE_X_MARGIN,
+				 0-GAIGSpane.JHAVE_Y_MARGIN,
+				 1+GAIGSpane.JHAVE_X_MARGIN,
+				 1+GAIGSpane.JHAVE_Y_MARGIN,
 				 WINDOW_WIDTH,
 				 WINDOW_HEIGHT);
         main.setName("Main");
@@ -206,17 +206,17 @@ public class BoothMultiplication {
         decLabel.setText("M\nQ");
         easySnap("Q is the Multiplier\nThe final product will span A and Q", easyPseudo(4), null);
 
-        //Bit β
+        //Bit Beta
     	init[0] = init[2]+(COL_SPACE);
     	init[2] = init[0]+FONT_SIZE;
     	trace_labels.add(new GAIGSmonospacedText(
 				(init[2]-init[0])/2.0+init[0], init[3],
 				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-				FONT_SIZE, FONT_COLOR, "β", FONT_SIZE/2));
+				FONT_SIZE, FONT_COLOR, "Beta", FONT_SIZE/2));
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
-        easySnap("β is initialized to Zero", easyPseudo(5), null);
+        easySnap("Beta is initialized to Zero", easyPseudo(5), null);
 
         //Count
         init[0] = trace.getWidth() - FONT_SIZE - RIGHT_MARGIN;
