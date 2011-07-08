@@ -102,7 +102,7 @@ public class BoothMultiplication {
         		WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
 
-        GAIGSArithmetic binary = new GAIGSArithmetic('*', multiplicand, multiplier, 2, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
+        GAIGSArithmetic binary = new TwosComplementMultiplication(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
         GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR);

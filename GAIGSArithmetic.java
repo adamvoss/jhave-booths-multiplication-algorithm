@@ -17,26 +17,28 @@ import exe.boothsMultiplication.GAIGSmonospacedText;
  */
 //TODO add support for more operations
 public class GAIGSArithmetic implements MutableGAIGSdatastr {
-	private static final boolean DEBUG = false;
-	private static final double LINE_TWEAK = 0.85;
-	private final static double FONT_SIZE =.05;
-	private static final String COLOR = "#000000";
+	protected static final boolean DEBUG = false;
+	protected static final double LINE_TWEAK = 0.85;
+	protected final static double FONT_SIZE =.05;
+	protected static final String COLOR = "#000000";
 					//Multiplier of Text height, because the class misrepresents its bounds/alignment
-	private String name = "";
+	
+	
+	protected String name = "";
 	//	private ArrayList<ArrayList<Character>> terms = new ArrayList<ArrayList<Character>>();
-	private ArrayList<char[]> terms = new ArrayList<char[]>();
-	private ArrayList<String[]> colors = new ArrayList<String[]>();
-	private int firstTermIndex;
-	private int lastTermIndex;
+	protected ArrayList<char[]> terms = new ArrayList<char[]>();
+	protected ArrayList<String[]> colors = new ArrayList<String[]>();
+	protected int firstTermIndex;
+	protected int lastTermIndex;
 	private String color;
 	private double fontSize;
 	private double digitWidth;
-	private char op;
-	private int currentDigit;
-	private int maxLength;
+	protected char op;
+	protected int currentDigit;
+	protected int maxLength;
 	private double xright;
 	private double ytop;
-	private int radix;
+	protected int radix;
 	
 
 	public GAIGSArithmetic(char op, String term1, String term2, int radix,
@@ -84,7 +86,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 
 	public GAIGSArithmetic(char op, String term1, String term2, int radix,
 			double x0, double y0, double fontSize) {
-		this(op, term1, term2, radix, x0, y0, fontSize, fontSize, COLOR);
+		this(op, term1, term2, radix, x0, y0, fontSize, COLOR);
 	}
 	
 	/**
@@ -99,7 +101,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 	 * @param ytop The y coordinate of upper right-hand corner of the drawing.
 	 */
 	public GAIGSArithmetic(char op, String term1, String term2, int radix, double x0, double y0){
-		this(op, term1, term2, radix, x0, y0, FONT_SIZE, FONT_SIZE, COLOR);
+		this(op, term1, term2, radix, x0, y0, FONT_SIZE);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -199,7 +201,7 @@ public class GAIGSArithmetic implements MutableGAIGSdatastr {
 	/**
 	 * Adds a new row for carry operations and adjusts Indexes accordingly.
 	 */
-	public void addCarryRow(){
+	private void addCarryRow(){
 		terms.add(0,emptyRow());
 		colors.add(0, new String[maxLength]);
 		firstTermIndex++;
