@@ -167,7 +167,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 * @param textHeight The Height of the text in the label
 	 * @param lineWidth The thickness of the line dashes
 	 */
-	//TODO make this a class
+	@Deprecated
 	public void addDashedLine(double x[], double y[], String color, String lcolor,
 			String label, double dashSize, double textHeight, int lineWidth)
 	{
@@ -266,8 +266,8 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 * @param lcolor The color of the text in the label
 	 * @param label The text to printed near the line
 	 * @param dashSize The length of the dash in the line
-
 	 */
+	@Deprecated
 	public void addDashedLine(double x[], double y[], String color, String lcolor,
 			String label, double dashSize)
 	{

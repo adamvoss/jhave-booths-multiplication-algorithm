@@ -9,37 +9,60 @@ package exe.boothsMultiplication;
 
 //This should maybe instead be a Decorator of GAIGSline;
 public class GAIGSarrow extends AbstractPrimitive {
-	GAIGSpane<AbstractPrimitive> primitives = new GAIGSpane<AbstractPrimitive>(); 
+	protected GAIGSline line;
+	protected GAIGSpolygon head;
+	protected double headSize;
 
 	public GAIGSarrow(double x[], double y[], String color, String labelColor,
 			String label, double headSize, double textHeight, int lineWidth){
 		
-		primitives.add(new GAIGSline(x, y, color, labelColor, "", textHeight, lineWidth));
+		this.headSize = headSize;
+		
+		this.ocolor = color;
+		this.lcolor = labelColor;
+		this.label = label;
+		this.fontSize = textHeight;
+		this.lineWidth = lineWidth;
+		
+		this.line = new GAIGSline(x, y, color, labelColor, "", textHeight, lineWidth);
+		this.head = makeArrowHead();
+	}
+	
+	//This could be cleaned a lot, but not touching because it works
+	//TODO clean this code.
+	private GAIGSpolygon makeArrowHead(){
+	    double [] x1 = {this.line.x[1], 0};
+	    double [] y1 = {this.line.y[1], 0};
+	    double [] x2 = {this.line.x[1], 0};
+	    double [] y2 = {this.line.y[1], 0};
 
-		double size = headSize;
+	    double theta = Math.atan((this.line.y[1] - this.line.y[0])/(this.line.x[1] - this.line.x[0]));
+	    double end1 = theta + Math.toRadians(30);
+	    double end2 = theta - Math.toRadians(30);
 
-		double [] x1 = {x[1], 0};
-		double [] y1 = {y[1], 0};
-		double [] x2 = {x[1], 0};
-		double [] y2 = {y[1], 0};
+	    x1[1] = this.line.x[1] - headSize * Math.cos(end1);
+	    x2[1] = this.line.x[1] - headSize * Math.cos(end2);
+	    y1[1] = this.line.y[1] - headSize * Math.sin(end1);
+	    y2[1] = this.line.y[1] - headSize * Math.sin(end2);
 
-		double theta = Math.atan((y[1] - y[0])/(x[1] - x[0]));
-		double end1 = theta + Math.toRadians(30);
-		double end2 = theta - Math.toRadians(30);
+	    double [] xvals = {this.line.x[1], x1[1], x2[1]};
+	    double [] yvals = {this.line.y[1], y1[1], y2[1]};
 
-		x1[1] = x[1] - size * Math.cos(end1);
-		x2[1] = x[1] - size * Math.cos(end2);
-		y1[1] = y[1] - size * Math.sin(end1);
-		y2[1] = y[1] - size * Math.sin(end2);
-
-		double [] xvals = {x[1], x1[1], x2[1]};
-		double [] yvals = {y[1], y1[1], y2[1]};
-
-		primitives.add(new GAIGSpolygon(3, xvals, yvals, color, color, labelColor, label, textHeight, lineWidth));
+		return new GAIGSpolygon(3, xvals, yvals,
+								this.ocolor, this.ocolor, this.lcolor,
+								this.label, this.fontSize, this.lineWidth);
 	}
 	
 	public GAIGSarrow(GAIGSarrow source){
-		this.primitives = source.primitives.clone();
+		this.head = source.head.clone();
+		this.line = source.line.clone();
+		this.headSize = source.headSize;
+		
+		this.ocolor = source.ocolor;
+		this.lcolor = source.lcolor;
+		this.label = source.label;
+		this.fontSize = source.fontSize;
+		this.lineWidth = source.lineWidth;
 	}
 	
 	public GAIGSarrow(double x[], double y[], String color, String labelColor,
@@ -52,23 +75,7 @@ public class GAIGSarrow extends AbstractPrimitive {
 	 */
 	@Override
 	public double[] getBounds() {
-		double x1 = Double.POSITIVE_INFINITY;
-		double y1 = Double.POSITIVE_INFINITY;
-		double x2 = Double.NEGATIVE_INFINITY;
-		double y2 = Double.NEGATIVE_INFINITY;
-
-		for (AbstractPrimitive prim : this.primitives){
-			double[] bounds = prim.getBounds();
-			
-			for(int j = 0; j < 3; j+=2) {
-				x1 = (x1 < bounds[j]    ? x1 : bounds[j]);
-				y1 = (y1 < bounds[j+1]  ? y1 : bounds[j+1]);
-				x2 = (x2 > bounds[j]    ? x2 : bounds[j]);
-				y2 = (y2 > bounds[j+1]  ? y2 : bounds[j+1]);
-			}
-		}
-
-		return new double[] {x1, y1, x2, y2};
+		return this.line.getBounds();
 	}
 
 	/* (non-Javadoc)
@@ -76,28 +83,14 @@ public class GAIGSarrow extends AbstractPrimitive {
 	 */
 	@Override
 	public void setBounds(double x1, double y1, double x2, double y2) {
-		double[] bounds = this.getBounds();
-		double scaleX = (x2-x1)/(bounds[2]-bounds[0]);
-		double scaleY = (y2-y1)/(bounds[3]-bounds[1]);
+		double newLen = Math.sqrt(Math.pow(x2-x1, 2)+Math.pow(y2-y1,2));
+		double[] oldBds = this.line.getBounds();
+		double oldLen = Math.sqrt(Math.pow(oldBds[2]-oldBds[0], 2)+Math.pow(oldBds[3]-oldBds[1],2));
 		
-		for (int i = 0; i < primitives.size(); i++){
-			double[] currentBds = primitives.get(i).getBounds();
-			
-			
-			
-			
-			
-
-			double translateX = x1-((currentBds[0]-bounds[0])*scaleX);
-			double translateY = y1-(currentBds[1]*scaleY);
-			
-			primitives.get(i).setBounds(currentBds[0]*scaleX + realBounds[0],
-					currentBds[1]*scaleY + realBounds[1],
-					currentBds[2]*scaleX + realBounds[0],
-					currentBds[3]*scaleY + realBounds[1]
-			
-		}
-
+		this.headSize*=(newLen/oldLen);
+		
+		this.line.setBounds(x1, y1, x2, y2);
+		this.head = makeArrowHead();
 	}
 
 	/* (non-Javadoc)
@@ -105,12 +98,7 @@ public class GAIGSarrow extends AbstractPrimitive {
 	 */
 	@Override
 	protected String toCollectionXML() {
-		String ret = "";
-		
-		for (AbstractPrimitive prim : primitives){
-			ret += prim.toCollectionXML();
-		}
-		return ret;
+		return this.line.toCollectionXML() + this.head.toCollectionXML();
 	}
 
 	/* (non-Javadoc)

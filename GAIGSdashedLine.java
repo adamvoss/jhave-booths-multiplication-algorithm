@@ -3,9 +3,17 @@ package exe.boothsMultiplication;
 /**
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- *
+ * 
+ * This is not XML equivalent to the GAIGSprimitiveCollection.addDashedLine from before
+ * refactoring, only because the old code had serious bugs which are here fixed.
+ * 
+ * This class still contains bugs; it is unused so has been deprecated;  Its use is not
+ * recommended unless you first fix bugs.  Problems exist when using this GAIGSdashedLine
+ * with-in a pane in that the wrong coordinates will be used.  It is recommended setBounds
+ * be changed to resize existing lines so that the number or line segments remains constant.
  */
 //TODO this needs further refactoring because many of the inherited methods have no effect
+@Deprecated
 public class GAIGSdashedLine extends AbstractPrimitive {
 	private double dashSize;
 	public double x[] = new double[2];
@@ -41,6 +49,8 @@ public class GAIGSdashedLine extends AbstractPrimitive {
 		
 		this.x = source.x.clone();
 		this.y = source.y.clone();
+		this.dashSize = source.dashSize;
+		
 		this.fcolor = source.fcolor;
 		this.ocolor = source.ocolor;
 		this.lcolor = source.lcolor;
@@ -51,27 +61,34 @@ public class GAIGSdashedLine extends AbstractPrimitive {
 	}
 	
 	//This was used instead of resizing existing lines so that dashSize is constant
+	//The logic for calculating dashes could be improved.
 	private GAIGSpane<GAIGSline> initLines() {
 		GAIGSpane<GAIGSline> lines = new GAIGSpane<GAIGSline>();
 		
+		System.out.println("Initing lines");
+		
 		double dist = Math.sqrt((x[1] - x[0])*(x[1] - x[0]) + (y[1] - y[0])*(y[1] - y[0]));
 
-		int numLines = ((int)Math.ceil(dist / dashSize)) / 2;
+		System.out.println("Dist: " + dist + " + " + "Dash: " + dashSize + " = ");
+		int numLines = ((int)Math.ceil(dist / dashSize))/2;
+		System.out.println(numLines + " lines");
+		
+		if (numLines == 0) System.err.println("You need a smaller dashSize in GAIGSdashedLine");
 
 		double [] xvals = new double[2];
 		double [] yvals = new double[2];
 
-		for(int i = 0; i < numLines; i+=2) {
+		for(int i = 0; i < 2*numLines; i+=2) {
 			xvals[0] = x[0] + (i / (2*(double)numLines)) * x[1];
 			yvals[0] = y[0] + (i / (2*(double)numLines)) * y[1];
 			xvals[1] = x[0] + ((i+1) / (2*(double)numLines)) * x[1];
 			yvals[1] = y[0] + ((i+1) / (2*(double)numLines)) * y[1];
 			lines.add(new GAIGSline(xvals, yvals,
 					  this.ocolor, this.lcolor,
-					  (i == numLines/2 ? label : ""),
+					  (i == numLines|| i==numLines-1 ? label : ""), //That is messy, but at least it now always draws the label
 					  this.fontSize, this.lineWidth));
 		}
-		
+		System.out.println("returing lines");
 		return lines;
 	}
 	
