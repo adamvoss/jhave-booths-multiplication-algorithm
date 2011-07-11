@@ -54,5 +54,31 @@ The Innovation and Technology in Computer Science Education Working group (ITiCS
 They have accordingly developed an engagement taxonomy, the five levels of which are directly correlated with our three listed motivations.
 The levels of engagement our visualization supports are the following: Viewing, Responding, and Changing, as defined by ITiSCE.
 
+\section{Implementation of the Visualization}
+In our design and implementation of the visualization for Booth's algorithm, our primary consideration was for active user engagement.
+Prior research by ITiSCE suggests that this is the most important aspect for an effective visualization.\cite{ITiSCE}
+Organized by level of engagement, our visualization supports the following: at the "Viewing" level, it includes graphical representations of registers and binary arithmetic, text annotations and pseudo code
+ display; at the level of "Responding", we include pop-up questions designed to check the user's basic understanding of the algorithm; and at the "Changing" level, we designed a set of exercises in which the user is given a constraint or set of constraints on the behavior of the executing algorithm and must provide data to meet that constraint.
+In the standard use of the visualization, we also allow the user to choose their own input data or use the provided default values.
+
+JHAVÉ was chosen as the system to develop a visualization for Booth's algorithm, as it supported these features and was in fact designed with these three levels of engagement in mind.\cite{JHAVE}
+
+\subsection{Standard Mode}
+Our visualization was designed so that the user would step through each of the major operations of Booth's multiplication algorithm.
+For each of these operations, there is a corresponding text annotation at the top of the screen and highlighted line of pseudo code in the right pane.
+For addition and subtraction operations, we provide space on the right side of the screen, designated in the visualization as "Math/ALU", to reinforce binary arithmetic.
+We also chose to keep a running history of the execution of the algorithm on screen for the user's reference.
+Registers in history are grayed out so as to distinguish them from the registers which are active in the algorithm.
+\subsection{Questions}
+JHAVÉ also supports the inclusion of questions which appear during the visualization of the algorithm.
+These were created to test the user on multiple levels of understanding, as defined by Bloom's taxonomy(NEEDS JUSTIFICATION).
+These questions are strategically placed and appear approximately once every -- snapshots to ensure the user in engaged at important moments of the algorithm's execution.
+To prevent boredom in the user and predictability in the questions, multiple presentations of the same "type" of question are used.
+Questions are in the following formats: true or false, fill in the blank, multiple choice and multiple selection.
+\subsection{Exercises}%potentially something subject to change.
+Finally, through the use of input generators to JHAVÉ, we included several exercises to go along with the visualization.
+The user is given certain constraints, in the form of an expected behavior in or result of the algorithm and is asked to provide data which will meet those constraints.
+There are -- exercises available to the student.
+Exercise modes will not include questions, but instead a status message accepting or rejecting the user's input at the end of the visualization.
 \balancecolumns
 \end{document}
