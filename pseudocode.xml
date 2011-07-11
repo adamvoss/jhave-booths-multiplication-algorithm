@@ -11,7 +11,7 @@
     <line num="07" indent="1"></line>
     <line num="08" indent="1">while (count > 0) {</line>
     <line num="09" indent="2"></line>
-    <line num="10" indent="2">switch ([leastSignificanBit(Q),Beta)] {</line>
+    <line num="10" indent="2">switch ([leastSignificanBit(Q),Beta]) {</line>
     <line num="11" indent="3">case [1,0]: A=A-M</line>
     <line num="12" indent="4">break</line>
     <line num="13" indent="3"></line>
