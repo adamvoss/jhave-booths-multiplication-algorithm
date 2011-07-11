@@ -313,7 +313,7 @@ public class BoothMultiplication {
                 math.add(sum);
                 math.add(sumLabel);
                 sum.complete();
-                easySnap("Added " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo(11, PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
+                easySnap("Add " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo(11, PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
                 //Remove Label
                 math.remove(math.size()-1);
                 //Remove Addition

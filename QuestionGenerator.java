@@ -121,7 +121,7 @@ public class QuestionGenerator {
 		}
 		else if (select == 1) {
 			XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
-			ret1.setQuestionText("Which operation will occur on the next snapshot?");
+			ret1.setQuestionText("Which of these operations shall be executed next.");
 			ret1.addChoice("Addition");
 			ret1.addChoice("Subtraction");
 			ret1.addChoice("Arithmetic Right Shift");
@@ -138,7 +138,7 @@ public class QuestionGenerator {
             int asked = ((int)(Math.abs(rand.nextInt() ) ) % 3) - 1;
 
             String quetext = (asked != 0 ? (asked == -1 ? "An addition (A + M) and an " : "A subtraction (A - M) and an ") : "Only an ") + 
-                "arithmetic right shift will occur during the next iteration of the loop";
+                "arithmetic right shift will occur during the current iteration of the loop";
 
             ret1.setQuestionText(quetext);
             ret1.setAnswer(asked==pcalc);
@@ -187,8 +187,8 @@ public class QuestionGenerator {
 
             int select2 = ((int) Math.abs(rand.nextInt() )) % 2;
 
-            if (select2 == 0) {ret1.setQuestionText("What will the value in register " + regName + " be on the next snapshot?");}
-            else             {ret1.setQuestionText("What will the value in register " + regName + " be after the " 
+            if (select2 == 0) {ret1.setQuestionText("What will the binary value in register " + regName + " be after the next operation is executed?");}
+            else             {ret1.setQuestionText( "What will the binary value in register " + regName + " be after the " 
                 + (pcalc == 0 ? "SHIFT" : (pcalc == -1) ? "ADDITION" : "SUBTRACTION") + " operation finishes executing?");}
 			ret1.setAnswer(correctChoice);
 
@@ -196,7 +196,7 @@ public class QuestionGenerator {
 		}
 		else if (select == 1) {
 			XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
-			ret1.setQuestionText("What will the value in register " + regName + " be on the next snapshot?");
+			ret1.setQuestionText("What will the value in register " + regName + " be after the next operation is executed?");
 			ret1.addChoice(correctChoice);
 			ret1.setAnswer(1);
             if (!oldValChoice.equals(correctChoice)) { 
@@ -215,15 +215,8 @@ public class QuestionGenerator {
             int select2 = ((int)Math.abs(rand.nextInt() )) % 2;
             XMLtfQuestion ret1 = new XMLtfQuestion(show, id.next() );
             
-            switch(select2) {
-                case 0: ret1.setQuestionText("The value of register " + regName + " will be " + correctChoice + " on the next snapshot.");
-                    ret1.setAnswer(true);
-                    break;
-                case 1: ret1.setQuestionText("The value of register " + regName + " will be " + confuseChoice + " on the next snapshot.");
-                    ret1.setAnswer(false);
-                    break;
-                default: break;
-            }
+            ret1.setQuestionText("After the next operation finishes executing, the value of register " + regName + 
+                "will be " + (select2 == 0 ? correctChoice : confuseChoice));
 
             ret = ret1;
 		}

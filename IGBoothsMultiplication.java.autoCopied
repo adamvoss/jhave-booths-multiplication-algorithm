@@ -52,10 +52,13 @@ public class IGBoothsMultiplication extends IGComponent {
     public static final String LTF_NAME        = "name"         ;
     public static final String LTF_DEFAULT_DEC = "default_dec"  ;
     public static final String LTF_DEFAULT_BIN = "default_bin"  ;
-    public static final String LTF_DEFAULT     = "default_dec"  ;
     public static final String LTF_PARTNER     = "bin_partner"  ;
     public static final String LTF_ENTERED_VAL = "value_entered";
-    
+ 
+    //values of the defaults
+    public static       String[] defaultDec;
+    public static       String[] defaultBin;
+   
     public static ListeningManager manager;
 
     public IGBoothsMultiplication(Element root, IGComponentFactory factory) throws IGComponentInstantiationException {
@@ -69,8 +72,11 @@ public class IGBoothsMultiplication extends IGComponent {
         panel = new JPanel(border);
         JPanel centerPanel = new JPanel(grid);
         JLabel descriptiveArea = new JLabel();
-        String[] textTmp = new String[2];
-        int count = 0;
+
+        defaultDec = new String[2];
+        int decCount = 0;
+        defaultBin = new String[2];
+        int binCount = 0;
 
         while (ltxt_iter.hasNext() ) {
             Element ltxt_child = (Element) ltxt_iter.next();
@@ -85,12 +91,15 @@ public class IGBoothsMultiplication extends IGComponent {
             }
 
             else if (ltxt_child.getName().equalsIgnoreCase(LTEXTFIELDS) ) {
-                textTmp[count++] = ltxt_child.getChildTextTrim(LTF_DEFAULT);
-                System.out.println(textTmp[count-1]);
+                defaultDec[decCount++] = ltxt_child.getChildTextTrim(LTF_DEFAULT_DEC);
+                defaultBin[binCount++] = ltxt_child.getChildTextTrim(LTF_DEFAULT_BIN);
+
+                System.out.println(defaultBin[binCount-1]);
+                System.out.println(defaultDec[decCount-1]);
             }
         }
         
-        manager = new ListeningManager(Integer.parseInt(textTmp[0]), Integer.parseInt(textTmp[1] ));
+        manager = new ListeningManager(Integer.parseInt(defaultDec[0]), Integer.parseInt(defaultDec[1] ));
 
         JTextField[] tFields = manager.getTextFields();
         centerPanel.add(new JLabel(" ")); //A lazy way to add a blank item to grid
@@ -132,16 +141,16 @@ public class IGBoothsMultiplication extends IGComponent {
         lTextElementQ.addContent(ltNameQ);
 
         Element ltDefM        = new Element(LTF_DEFAULT_DEC);
-        ltDefM.setText("7");//TODO fix this
+        ltDefM.setText(defaultDec[0]);
         Element ltDefQ        = new Element(LTF_DEFAULT_DEC);
-        ltDefQ.setText("3");//TODO also this
+        ltDefQ.setText(defaultDec[1]);
         lTextElementM.addContent(ltDefM);
         lTextElementQ.addContent(ltDefQ);
 
         Element ltBinM        = new Element(LTF_DEFAULT_BIN);
-        ltBinM.setText("0011");
+        ltBinM.setText(defaultBin[0]);
         Element ltBinQ        = new Element(LTF_DEFAULT_BIN);
-        ltBinQ.setText("0111");
+        ltBinQ.setText(defaultBin[1]);
         lTextElementM.addContent(ltBinM);
         lTextElementQ.addContent(ltBinQ);
 
@@ -190,7 +199,9 @@ class ListeningManager {
 
     public ListeningManager(int multiplicand, int multiplier) {
         this.multiplicand = new TextChunkListener(multiplicand, error);
-        this.multiplier   = new TextChunkListener(multiplier, error);       
+        this.multiplier   = new TextChunkListener(multiplier, error);
+
+        this.sizeAllTo("Automatic");
     }
 
     /**
