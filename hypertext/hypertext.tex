@@ -94,42 +94,91 @@ To understand how the process of multiplication can be translated into an effici
 Before using this module, it is best the student be familiar with addition at the machine level and with two's complement representations of negative numbers, and has some knowledge of computer design.
 
 \section{Introduction}
-The process of multiplication is significantly more complex than that of addition. The "simple" way to calculate a product would be through repeated additions. Using this approach to calculate, for example, 11 x 23, you would start with 0 and add 11 to it 23 times. This method is terribly inefficient to execute, especially using pencil and paper, and execution time varies wildly depending on the values multiplied, a property undesirable from a computer design point of view. Several modifications must be made to this algorithm before we are ready to implement it in hardware.
+The process of multiplication is significantly more complex than that of addition.
+The "simple" way to calculate a product would be through repeated additions.
+Using this approach to calculate, for example, 11 x 23, you would start with 0 and add 11 to it 23 times.
+This method is terribly inefficient to execute, especially using pencil and paper, and execution time varies wildly depending on the values multiplied, a property undesirable from a computer design point of view.
+Several modifications must be made to this algorithm before we are ready to implement it in hardware.
 
 \section{Shift-and-Add Multiplication}
-Observe first the standard method taught to students to multiply two numbers, called by some "shift and add multiplication". Recall that this involves multiplying one number, hereafter called the multiplicand (or the value in register M), by successively more significant digits of the other number, hereafter referred to as the multiplier (or the value in register Q). We notate this as the sum of all M * Q(i), where i ranges from 0 to one less than the number of digits in Q. For binary values, there are only two cases to consider: M * 0 = 0, or M * 1 = M. Consider the following calculation of the multiplication of 001011 and 010111, which in two's complement notation are 11 and 23, respectively. To stay consistent with register conventions, we use the same number of bits to represent both values. %diagram goes here
+Observe first the standard method taught to students to multiply two numbers, called by some "shift and add multiplication".
+Recall that this involves multiplying one number, hereafter called the multiplicand (or the value in register M), by successively more significant digits of the other number, hereafter referred to as the multiplier (or the value in register Q).
+We notate this as the sum of all M * Q(i), where i ranges from 0 to one less than the number of digits in Q.
+For binary values, there are only two cases to consider: M * 0 = 0, or M * 1 = M.
+Consider the following calculation of the multiplication of 001011 and 010111, which in two's complement notation are 11 and 23, respectively.
+To stay consistent with register conventions, we use the same number of bits to represent both values.
+%diagram goes here
 
-We see already a vast improvement in the performance of this algorithm. Each of the partial products shown corresponds to an addition operation (+M or +0). In every line except the first, there is also an implicit shift operation. There are 5 operations and 4 shifts for a total of 9 operations, compared to the proposed 23 earlier in the textbook. The speedup is even greater if one considers that on some machines shift operations can potentially take less time than addition operations.
+We see already a vast improvement in the performance of this algorithm.
+Each of the partial products shown corresponds to an addition operation (+M or +0).
+In every line except the first, there is also an implicit shift operation.
+There are 5 operations and 4 shifts for a total of 9 operations, compared to the proposed 23 earlier in the textbook.
+The speedup is even greater if one considers that on some machines shift operations can potentially take less time than addition operations.
 
 \section{Problems with Shift-and-Add Multiplication}
-There are several issues that prevent us from directly implementing the shift-and-add algorithm into hardware. To begin with, most ALUs are capable only of adding two numbers together at a time. This means a partial sum must be calculated with every partial product, instead of at the very end of the process. We will call the space used to store the running product register A.
+There are several issues that prevent us from directly implementing the shift-and-add algorithm into hardware.
+To begin with, most ALUs are capable only of adding two numbers together at a time.
+This means a partial sum must be calculated with every partial product, instead of at the very end of the process.
+We will call the space used to store the running product register A.
 
-Also note that as the algorithm progresses, the position at which the numbers are added incrementally slides to the left. It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right.
+Also note that as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
+It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right.
 
-Finally, we need to consider register size. In the previous example, the numbers we multiplied were represented as 6 digit binary values; their result, however, required 10 bits to represent. In general, if two n-bit numbers are multiplied, then their result can require as many as 2n bits to represent it. Thus the convention is to store the result of multiplication in two registers.
+Finally, we need to consider register size.
+In the previous example, the numbers we multiplied were represented as 6 digit binary values; their result, however, required 10 bits to represent.
+In general, if two n-bit numbers are multiplied, then their result can require as many as 2n bits to represent it.
+Thus the convention is to store the result of multiplication in two registers.
 
 \section{Improved Shift-and-Add Multiplication}
 Here is a revision of the shift-and-add multiplication algorithm, with all the proposed amendments: %diagram goes here
 
-There is one more detail to consider before implementing this algorithm in hardware: in the last example, the bit in the multiplier Q we are using to calculate a partial product is always one to the left of the previous bit we used, or it is the rightmost (least significant) bit of Q. To make this process easier, we could instead choose to always examine the least significant bit of Q, and for every right shift operation on register A, we would also do a right shift on Q. Thus, when the algorithm finishes, all of the previous values in Q will be discarded. This fact will allow us to be even more efficient: instead of using another register to store the lower half of the product, we can use Q, because for every bit discarded from Q, we can place into Q's most significant bit the least significant bit of A, saving ourselves from using a whole other register!
+There is one more detail to consider before implementing this algorithm in hardware: in the last example, the bit in the multiplier Q we are using to calculate a partial product is always one to the left of the previous bit we used, or it is the rightmost (least significant) bit of Q.
+To make this process easier, we could instead choose to always examine the least significant bit of Q, and for every right shift operation on register A, we would also do a right shift on Q.
+Thus, when the algorithm finishes, all of the previous values in Q will be discarded.
+This fact will allow us to be even more efficient: instead of using another register to store the lower half of the product, we can use Q, because for every bit discarded from Q, we can place into Q's most significant bit the least significant bit of A, saving ourselves from using a whole other register!
 
 \section{The Problem with Negative Numbers}
-Consider the multiplication of the following 4 bit 2's complement numbers using the above-described algorithm: 0011 (3) and 1011 (-5). We should expect a result of -15 (11110001); however, our current method is unable to distinguish between signed and unsigned values, and would potentially multiply 3 by 11 (unsigned value of 1011). One way around this behavior would be to calculate the absolute values for any given M and Q. Then, after the positive product was calculated, if either M or Q but not both are negative, calculate the two's complement of the product.
+Consider the multiplication of the following 4 bit 2's complement numbers using the above-described algorithm: 0011 (3) and 1011 (-5).
+We should expect a result of -15 (11110001); however, our current method is unable to distinguish between signed and unsigned values, and would potentially multiply 3 by 11 (unsigned value of 1011).
+One way around this behavior would be to calculate the absolute values for any given M and Q.
+Then, after the positive product was calculated, if either M or Q but not both are negative, calculate the two's complement of the product.
 
 \section{Booth's Encoding}
-In 1951, Andrew Booth introduced an alternative method for multiplying two's complement numbers. At its heart is the observation that a number like 0111, which is understood to mean $2^2 + 2^1 + 2^0 = 4 + 2 + 1 = 7$, can also be thought of as $2^3 - 2^0 = 8 - 1 = 7$. This can be written ("encoded") as $100\bar{1}$, where 1 and 0 have there understood meanings, and $\bar{1}$ represents a subtraction of the power of 2 of its position, in this case $-(2^0)$ or -1.
+In 1951, Andrew Booth introduced an alternative method for multiplying two's complement numbers.
+At its heart is the observation that a number like 0111, which is understood to mean $2^2 + 2^1 + 2^0 = 4 + 2 + 1 = 7$, can also be thought of as $2^3 - 2^0 = 8 - 1 = 7$.
+This can be written ("encoded") as $100\bar{1}$, where 1 and 0 have there understood meanings, and $\bar{1}$ represents a subtraction of the power of 2 of its position, in this case $-(2^0)$ or -1.
 
-    In general, it can be shown that any number of the form $2^n + 2^{n-1} + ... + 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$. For binary values, this translates into the following: for every string of 1s in the binary value, replace the right-most (least significant) 1 with -, replace the first 0 on the left of the string (if it exists) with 1, and set all the 1s between these two to 0. For the case where the "string" of ones is a single bit, ie $...010...$, the appropriate encoding would be $...1\bar{1}0...$, which is correct because $2^n = 2^{n+1} - 2^n$.
+    In general, it can be shown that any number of the form $2^n + 2^{n-1} + ...
++ 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
+For binary values, this translates into the following: for every string of 1s in the binary value, replace the right-most (least significant) 1 with -, replace the first 0 on the left of the string (if it exists) with 1, and set all the 1s between these two to 0.
+For the case where the "string" of ones is a single bit, ie $...010...$,
+the appropriate encoding would be $...1\bar{1}0...$,
+which is correct because $2^n = 2^{n+1} - 2^n$.
 
-This method also works for negative two's complement values as well. There are two cases to consider: either the most significant bit is followed by 0 (such as 1001, or -7) or else it terminates a longer string of 1s (such as 1101 or 1111, which are -3 and -1 respectively). In the first case, the most significant bit is converted to $\bar{1}$ or a subtraction. Since this bit represents a lager value than the sum of the powers of two all the other bits represent, the final value will be negative. In the second case, all of the 1s in the leftmost string will turn into 0s except for the right most bit, which will be converted into $\bar{1}$. Again, this guarantees that the most significant non-zero bit in the binary value is negative, so that the whole number itself will be negative.
+This method also works for negative two's complement values as well.
+There are two cases to consider: either the most significant bit is followed by 0 (such as 1001, or -7) or else it terminates a longer string of 1s (such as 1101 or 1111, which are -3 and -1 respectively).
+In the first case, the most significant bit is converted to $\bar{1}$ or a subtraction.
+Since this bit represents a lager value than the sum of the powers of two all the other bits represent, the final value will be negative.
+In the second case, all of the 1s in the leftmost string will turn into 0s except for the right most bit, which will be converted into $\bar{1}$.
+Again, this guarantees that the most significant non-zero bit in the binary value is negative, so that the whole number itself will be negative.
 
 \section{Booth's Algorithm in Hardware}
-    At the hardware level we are only allowed the use of 0 and 1 for values, so instead we must examine pairs of bits in order to determine our case. In a binary number, a pair '10' signifies the beginning of a string of 1s and thus corresponds to a subtraction. A '01' pair signifies the end of a string of 1s and corresponds to an addition. The pairs '00' and '11' signify that no arithmetic operation need occur. Since we would like to stay as close as possible to the algorithm outlined earlier, all cases will still require a shift.
+    At the hardware level we are only allowed the use of 0 and 1 for values, so instead we must examine pairs of bits in order to determine our case.
+In a binary number, a pair '10' signifies the beginning of a string of 1s and thus corresponds to a subtraction.
+A '01' pair signifies the end of a string of 1s and corresponds to an addition.
+The pairs '00' and '11' signify that no arithmetic operation need occur.
+Since we would like to stay as close as possible to the algorithm outlined earlier, all cases will still require a shift.
 
-    In order to examine pairs of bits, we add an extra 1 bit register, called $\beta$ (or Beta) to hold the bit shifted out of Q. $\beta$ is initialized to 0, so that at the start of the algorithm, if the least significant bit of Q is 1, it will rightly correspond to a subtraction. Keep in mind now that whenever a shift occurs, the least significant bit of A is moved into the most significant bit of Q, and the least significant bit of Q is moved into $\beta$. The old value of $\beta$ is discarded.
+    In order to examine pairs of bits, we add an extra 1 bit register, called $\beta$ (or Beta) to hold the bit shifted out of Q.
+$\beta$ is initialized to 0, so that at the start of the algorithm, if the least significant bit of Q is 1, it will rightly correspond to a subtraction.
+Keep in mind now that whenever a shift occurs, the least significant bit of A is moved into the most significant bit of Q, and the least significant bit of Q is moved into $\beta$.
+The old value of $\beta$ is discarded.
 
 \section{Visualization of Booth's Multiplication}
-Everything we have considered so far for an appropriate machine level algorithm to multiply two's complement values has been implemented as a JHAVE visualization. Instead of using the form of the previous examples, it more closely resembles the way the algorithm might be executed in hardware, placing explicitly the multiplicand and multiplier in registers M and Q respectively, and storing the result between registers A and Q. An example run-through is provided below, without the questions. Step through the visualization as many times as you need, answering the questions as they appear, then proceed on to the exercises.
+Everything we have considered so far for an appropriate machine level algorithm to multiply two's complement values has been implemented as a JHAVE visualization.
+Instead of using the form of the previous examples, it more closely resembles the way the algorithm might be executed in hardware, placing explicitly the multiplicand and multiplier in registers M and Q respectively, and storing the result between registers A and Q.
+An example run-through is provided below, without the questions.
+Step through the visualization as many times as you need, answering the questions as they appear, then proceed on to the exercises.
 
 %-------------------------------------------------------------------
 % to create references, un-comment \bibliographystyle{plain} and
