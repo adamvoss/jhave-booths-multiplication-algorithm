@@ -282,6 +282,7 @@ public class QuestionGenerator {
     * Returns a question regarding the relation of the size of the registers to the number of shift operations.
     * Should only be called once.
     * Probably after a shift occurs
+    * TODO change to how many shifts are left
     */
     private question getType5Question(ShowFile show) {
         question ret = null;
@@ -385,7 +386,7 @@ public class QuestionGenerator {
         return (GAIGSprimitiveRegister)((GAIGSpane)trace.get(level+1)).get(reg);
     }
 
-	//Heavy Duty, tis even its own class
+	//Heavy Duty, t'is even its own class
     //You know it.
 	private static class UniqueIDGen {
 		private int id;
