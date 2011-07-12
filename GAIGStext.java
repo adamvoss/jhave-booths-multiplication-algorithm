@@ -116,25 +116,25 @@ public class GAIGStext implements GAIGSdatastr{
     public static final int VTOP = 2;
 
     // The x-coordinate for the text.
-    private double x;
+    protected double x;
 
     // The y-coordinate for the text.
-    private double y;
+    protected double y;
 
     // The horizontal alignment of the text.
-    private int halign;
+    protected int halign;
 
     // The vertical alignment of the text.
-    private int valign;
+    protected int valign;
 
     // The fontsize for the text.
-    private double fontsize;
+    protected double fontsize;
 
     // The default coloring for the text.
-    private String color;
+    protected String color;
 
     // The text that is to be displayed.
-    private String text;
+    protected String text;
 
     /**
      * Default constructor that assigns default values to all fields.
