@@ -30,8 +30,8 @@ import exe.GAIGSdatastr;
  * need only define a clone method to be able to implement MutatableGAIGSdatastr.
  * 
  * @author Myles McNally
- * @author Adam Voss <vossad01@luther.edu> Added getters and setters.
- * @version 6/20/06
+ * @author Adam Voss <vossad01@luther.edu>
+ * @version 07/12/11
  */
 
 public abstract class GAIGSbase implements GAIGSdatastr {

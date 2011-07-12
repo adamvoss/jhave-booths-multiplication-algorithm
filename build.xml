@@ -53,6 +53,14 @@
     </java> 
   </target>
 
+  <target name="bound" depends="compile" description="Runs boundedText">
+    <java fork="true" dir="../../../build/classes"
+          classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
+          classname="exe.boothsMultiplication.GAIGSboundedText">
+      <arg value="bound" />
+    </java> 
+  </target>
+
   <target name="clean" description="Remove 'compile' files. Does not clean up after 'run'">
     <delete verbose="true" includeemptydirs="true" failonerror="false"> 
       <fileset dir="../../../build/classes/exe/BoothsMultiplication"/>
