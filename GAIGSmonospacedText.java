@@ -2,7 +2,6 @@ package exe.boothsMultiplication;
 
 import java.io.IOException;
 
-import exe.GAIGStext;
 import exe.ShowFile;
 
 /**
@@ -24,8 +23,8 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	 */
 	public GAIGSmonospacedText() {
 		super();
-		charWidth = getFontsize();
-		charHalign = this.getHalign();
+		charWidth = this.fontsize;
+		charHalign = this.halign;
 	}
 
 	/**
@@ -33,8 +32,8 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	 */
 	public GAIGSmonospacedText(double x, double y) {
 		super(x, y);
-		charWidth = getFontsize();
-		charHalign = this.getHalign();
+		charWidth = this.fontsize;
+		charHalign = this.halign;
 	}
 
 	/**
@@ -42,8 +41,8 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	 */
 	public GAIGSmonospacedText(double x, double y, String text) {
 		super(x, y, text);
-		charWidth = getFontsize();
-		charHalign = this.getHalign();
+		charWidth = this.fontsize;
+		charHalign = this.halign;
 	}
 
 	/**
@@ -51,8 +50,8 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	 */
 	public GAIGSmonospacedText(double x, double y, String text, int halign, int valign) {
 		super(x, y, halign, valign, DEFAULT_FONT_SIZE, DEFAULT_COLOR, text);
-		charWidth = getFontsize();
-		charHalign = this.getHalign();
+		charWidth = this.fontsize;
+		charHalign = this.halign;
 	}
 	
 	/**
@@ -62,8 +61,8 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	public GAIGSmonospacedText(double x, double y, int halign, int valign,
 			double fontsize, String color, String text) {
 		super(x, y, halign, valign, fontsize, color, text);
-		charWidth = getFontsize();
-		charHalign = this.getHalign();
+		charWidth = this.fontsize;
+		charHalign = this.halign;
 	}
 	
 	/**
@@ -85,14 +84,13 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 		this.charHalign = source.charHalign;
 		
 		//Text Stuff
-		this.setX(source.getX());
-		this.setY(source.getY());
-		this.setHalign(source.getHalign());
-		this.setValign(source.getValign());
-		this.setFontsize(source.getFontsize());
-		this.setColor(source.getColor());
-		this.setText(source.getText());
-		
+		this.x = source.x;
+		this.y = source.y;
+		this.halign = source.halign;
+		this.valign = source.valign;
+		this.fontsize = source.fontsize;
+		this.color = source.color;
+		this.text = source.text;
 	}
 
 	/**
@@ -151,12 +149,12 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	
 
 	public double getHeight(){
-		return getFontsize()*getLineCount();
+		return this.fontsize*getLineCount();
 	}
 
 	//This method is inefficient beyond the fact it computes every time
 	public int getLineCount(){
-		return getText().split("\n").length;
+		return this.text.split("\n").length;
 	}
 	
 	/**
@@ -172,14 +170,14 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	public String toXML(){
 		String ret = "";
 		String colorBuffer = "";
-		//It seems like the parent should just have protected fields 
+		//Now that parent's fields are protected, some of these lines may be culled 
 		double X; //Initialized later
-		double Y = getY();
-		int Halign = getHalign();
-		int Valign = getValign();
-		double fontsize = getFontsize();
-		String color = getColor();
-		String[] lines = getText().split("\n");
+		double Y = this.y;
+		int Halign = this.halign;
+		int Valign = this.valign;
+		double fontsize = this.fontsize;
+		String color = this.color;
+		String[] lines = this.text.split("\n");
 		
 		char[][] texts = new char[lines.length][];
 		for (int i = 0 ; i < lines.length; i++){
@@ -298,36 +296,36 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	}
 
 	@Override
-	public void setBounds(double x1, double y1, double x2, double y2) {
-		if (DEBUG) System.out.println("Setting Monspaced Text Bounds:\n"+ "X0: " + x1 + " Y0: " + y1 + " X1: " + x2 + " Y1: " + y2);
+	public void setBounds(double x0, double y0, double x1, double y1) {
+		if (DEBUG) System.out.println("Setting Monspaced Text Bounds:\n"+ "X0: " + x0 + " Y0: " + y0 + " X1: " + x1 + " Y1: " + y1);
 		//Move
 		switch (getHalign()){
 		case HRIGHT:
-			setX(x2);
+			this.x = x1;
 			break;
 		case HLEFT:
-			setX(x1);
+			this.x = x0;
 			break;
 		case HCENTER:
-			setX((x2-x1)/2+x1);
+			this.x = (x1+x0)/2;
 			break;
 		}
 		
 		switch (getValign()){
 		case VTOP:
-			setY(y2);
+			this.y = y1;
 			break;
 		case HLEFT:
-			setY(y1);
+			this.y = y0;
 			break;
 		case HCENTER:
-			setY((y2-y1)/2+y1);
+			this.y = (y1+y0)/2;
 			break;
 		}
 		
 		//Then Scale
-		setFontSize( (y2-y1)/getHeight() *getFontSize());
-		setCharacterWidth( (x2-x1)/getWidth() *getCharacterWidth());
+		this.fontsize = (y1-y0)/getHeight() * this.fontsize;
+		this.charWidth = (x1-x0)/getWidth() * this.charWidth;
 		
 		if (DEBUG) {
 			double[] bds=this.getBounds();
@@ -339,13 +337,25 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
 	@Override
 	public double getFontSize() {
-		return super.getFontsize();
+		return this.fontsize;
+	}
+	
+	@Override
+	@Deprecated
+	public double getFontsize() {
+		return this.getFontSize();
 	}
 
 
 	@Override
 	public void setFontSize(double fontSize) {
-		super.setFontsize(fontSize);
+		this.fontsize = fontSize;
+	}
+	
+	@Override
+	@Deprecated
+	public void setFontsize(double fontSize) {
+		this.setFontSize(fontSize);
 	}
 	
 	public GAIGSmonospacedText clone(){
@@ -355,10 +365,21 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 	public static void main(String[] args) throws IOException {
 		ShowFile show = new ShowFile("mono.sho");
 		
-		GAIGSmonospacedText text1 = new GAIGSmonospacedText(.5, .5);
-		text1.setText("Default");
-		show.writeSnap("Easy", text1);
+		/* Width Testing */
+		GAIGSmonospacedText test = new GAIGSmonospacedText(.5, .5, HCENTER, HCENTER, DEFAULT_FONT_SIZE, DEFAULT_COLOR, "ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghilkmnopqrstuvwxyz");
 		
+		for (double i = 1.0; i >0 ;i-=.01){
+			test.setCharacterWidth(test.getFontSize()*i);
+			show.writeSnap(String.valueOf(test.getCharacterWidth()/test.getFontSize()), test);
+		}
+		
+		//GAIGSmonospacedText text1 = new GAIGSmonospacedText(.5, .5);
+		//text1.setText("Default");
+		//show.writeSnap("Easy", text1);
+		
+		
+		/* Alignment Testing */
+		/*
 		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VCENTER, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HC VC", text1);
 		
@@ -385,7 +406,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 		
 		text1 = new GAIGSmonospacedText(.5, .5, GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VTOP, GAIGSmonospacedText.DEFAULT_FONT_SIZE, GAIGSmonospacedText.DEFAULT_COLOR, "Defa\nult");
 		show.writeSnap("HR VT", text1);
-		
+		*/
 		
 		show.close();
 	}
