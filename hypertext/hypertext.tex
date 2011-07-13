@@ -25,6 +25,9 @@
 % to generate an output file using only the packages supported by Tralics as described
 % above.
 
+%Is this in base?
+%\usepackage{epsfig}
+%\usepackage{epstopdf}
 % Tralics supports the following AMS packages
 % (see http://www-sop.inria.fr/apics/tralics/packages.html for details on full/partial
 % support of package commands)
@@ -107,9 +110,15 @@ The results of these individual multiplications are referred to as "partial prod
 
 We notate this as the sum of all $M \cdot q_i$, where $q_i$ is bit $i$ from Q and $i$ ranges from 0 to one less than the number of digits in Q.
 For binary values, there are only two cases to consider: $M \cdot 0 = 0$, or $M \cdot 1 = M$.
+
 Consider the following calculation of the multiplication of 001011 and 010111, which in two's complement notation are 11 and 23, respectively.
 To stay consistent with register conventions, we use the same number of bits to represent both values.
 %diagram goes here
+
+%\begin{figure}
+%\centering
+\includegraphics[scale=0.5]{saam2.pdf}
+%\end{figure}
 
 We see already a vast improvement in the performance of this algorithm, compared to the repeated additions method.
 Each of the partial products shown corresponds to an addition operation (+M or +0).
@@ -125,6 +134,8 @@ We will call the space used to store the running product register A.
 
 Also note that as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
 It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right.
+This will be referred to as an \emph{arithmetic shift right}, or \emph{asr} for short.
+It is an arithmetic shift, instead of a logic shift, because we wish to preserve the sign of the running product as we do our calculations.
 
 Finally, we need to consider register size.
 In the previous example, the numbers we multiplied were represented as 6-digit binary values; their result, however, required 10 bits to represent.
@@ -133,6 +144,8 @@ Thus the convention is to store the result of multiplication in two registers.
 
 \section{Improved Shift-and-Add Multiplication}
 Here is an improved of the shift-and-add multiplication algorithm, with the proposed changes: %diagram goes here
+
+\includegraphics[scale=0.5]{isaam3.pdf}
 
 There is another detail to consider before implementing this algorithm in hardware: in the last example, the bit in the multiplier Q we are using to calculate a partial product is always positioned one to the left of the previous bit we used, or it is the rightmost (least significant) bit of Q.
 To make this process easier, we could instead choose to always examine the least significant bit of Q, and for every right shift operation on register A, we would also do a right shift on Q.
@@ -158,6 +171,7 @@ For binary values, this translates into the following: for every string of 1s in
 For the case where the "string" of ones is a single bit, ie $...010...$,
 the appropriate encoding would be $...1\bar{1}0...$,
 which is correct because $2^n = 2^{n+1} - 2^n$.
+%TODO better math
 
 This method works for negative two's complement values as well.
 There are two cases to consider: either the most significant bit is followed by 0 (such as 1001, or -7) or else it terminates a longer string of 1s (such as 1101 or 1111, which are -3 and -1 respectively).
