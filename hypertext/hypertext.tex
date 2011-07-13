@@ -28,6 +28,7 @@
 %Is this in base?
 %\usepackage{epsfig}
 %\usepackage{epstopdf}
+
 % Tralics supports the following AMS packages
 % (see http://www-sop.inria.fr/apics/tralics/packages.html for details on full/partial
 % support of package commands)
@@ -98,17 +99,17 @@ Before using this module, it is best that the student be familiar with binary ad
 
 \section{Introduction}
 The process of multiplication is significantly more complex than that of addition.
-The "simple" way to calculate a product would be through repeated additions.
-Using this approach to calculate, for example, 11 x 23, you would start with 0 and add 11 to it 23 times.
+The ``simple'' way to calculate a product would be through repeated additions.
+Using this approach to calculate, for example, $11 \cdot 23$, you would start with 0 and add 11 to it 23 times.
 This method is inefficient, especially using pencil and paper, and execution time varies wildly depending on the values multiplied, an undesirable property from a computer design point of view.
 Several modifications must be made to this algorithm before we are ready to implement it in hardware.
 
 \section{Shift-and-Add Multiplication}
-First, recall the standard method taught to students to multiply two numbers, sometimes called the "shift and add" method.
+First, recall the standard method taught to multiply two numbers, sometimes called the ``shift and add'' method.
 This involves multiplying one number, hereafter called the multiplicand (or the value in register M, which we will come back to shortly), by successively more significant digits of the other number, hereafter referred to as the multiplier (or the value in register Q).
-The results of these individual multiplications are referred to as "partial products".
+The results of these individual multiplications are referred to as ``partial products''.
 
-We notate this as the sum of all $M \cdot q_i$, where $q_i$ is bit $i$ from Q and $i$ ranges from 0 to one less than the number of digits in Q.
+We notate this as the sum of all $M \cdot q_i$, where $M$ is the multiplicand, $q_i$ is bit $i$ from Q and $i$ ranges from 0 to one less than the number of digits in Q.
 For binary values, there are only two cases to consider: $M \cdot 0 = 0$, or $M \cdot 1 = M$.
 
 Consider the following calculation of the multiplication of 001011 and 010111, which in two's complement notation are 11 and 23, respectively.
@@ -133,7 +134,7 @@ This means a running total must be calculated with every partial product, instea
 We will call the space used to store the running product register A.
 
 Also note that as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
-It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right.
+It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right by 1.
 This will be referred to as an \emph{arithmetic shift right}, or \emph{asr} for short.
 It is an arithmetic shift, instead of a logic shift, because we wish to preserve the sign of the running product as we do our calculations.
 
@@ -163,33 +164,33 @@ Then, after the positive product was calculated, if either M or Q but not both a
 \section{Booth's Encoding}
 In 1951, Andrew Booth introduced an alternative method for multiplying two's complement numbers.
 At its heart is the observation that a number like 0111, which is understood to mean $2^2 + 2^1 + 2^0 = 4 + 2 + 1 = 7$, can also be thought of as $2^3 - 2^0 = 8 - 1 = 7$.
-This can be written ("encoded") as $100\bar{1}$, where 1 and 0 have their understood meanings, and $\bar{1}$ represents a subtraction of the power of 2 of its position, in this case $-(2^0)$ or -1.
+This can be written (``encoded'') as $100\bar{1}$, where 1 and 0 have their understood meanings, and $\bar{1}$ represents a subtraction of the power of 2 of its position, in this case $-(2^0)$ or -1.
 
     In general, it can be shown that any number of the form $2^n + 2^{n-1} + ...
 + 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
-For binary values, this translates into the following: for every string of 1s in the binary value, replace the rightmost (least significant) 1 with -, replace the first 0 on the left of the string (if it exists) with 1, and set all the 1s between these two to 0.
-For the case where the "string" of ones is a single bit, ie $...010...$,
+For use in binary multiplication, this translates into the following: for every string of 1s in the multiplier (Q), replace the rightmost (least significant) 1 with $\bar{1}$, replace the first 0 on the left of the string (if it exists) with 1, and set all the 1s between these two to 0.
+For the case where the ``string'' of ones is a single bit, ie $...010...$,
 the appropriate encoding would be $...1\bar{1}0...$,
 which is correct because $2^n = 2^{n+1} - 2^n$.
 %TODO better math
 
-This method works for negative two's complement values as well.
+This method also works if the multiplier is negative.
 There are two cases to consider: either the most significant bit is followed by 0 (such as 1001, or -7) or else it terminates a longer string of 1s (such as 1101 or 1111, which are -3 and -1 respectively).
-In the first case, the most significant bit is converted to $\bar{1}$, representing a subtraction of the value in M.
-Since this bit represents a lager value than the sum of the powers of two all the other bits represent, the final value will be negative.
-In the second case, all of the 1s in the leftmost string will turn into 0s except for the right most bit, which will be converted into $\bar{1}$.
-Again, this guarantees that the most significant non-zero bit in the binary value is negative, so that the whole number itself will be negative.
-Let $k$ be the most significant $\bar{1}$ in an encoded negative number.
-The value of that encoded number can then be expressed as $-2^k + \sum_{i=0}^k q_i^{\prime} \cdot 2^i$ (where $q_i^{\prime}$ is the value of bit i in the encoded binary number).
-Recall that the original negative two's complement number has the value $-2^k + \sum_{i=0}^k q_i \cdot 2^i$.
-Since from our given description $k$ is the same in both equations, and we have shown the sums to be equivalent, we verify that the two represent the same value.
-
+In the first case, the most significant bit is converted to $\bar{1}$, representing a subtraction of the value in multiplicand (M).
+Since this bit represents a lager value than the sum of the powers of two which all the other bits to the left of it represent, the final value will be negative.
+In the second case, all of the 1s in the leftmost string will turn into 0s except for the right most bit of the string, which will be converted into $\bar{1}$.
+Again, this guarantees that the most significant non-zero bit in the multiplier (Q) is negative, so that the whole number itself will be negative.
+Let $k$ be the most significant $\bar{1}$ in the encoded negative multiplier.
+The value of the multiplier can then be expressed as $-2^k + \sum_{i=0}^{k-1} q_i^{\prime} \cdot 2^i$ (where $q_i^{\prime}$ is the value of bit i in the encoded binary number).
+Recall that the original negative two's complement number has the value $-2^k + \sum_{i=0}^{k-1} q_i \cdot 2^i$.
+Since by the way we created the encoded multiplier $k$ is the same for both the encoded and original number, and we have already shown the sums to be equivalent, we verify that the two represent the same value.
+(Remember though that these equations are different: the values of $q_i^{prime}$ can be 0, 1, or $\bar{1}$, whereas the values of $q_i$ can only be 0 or 1.)
 
 \section{Booth's Algorithm in Hardware}
-    At the hardware level we are only allowed the use of 0 and 1 for values, so we must examine pairs of bits in order to determine our case.
+    At the hardware level we are only allowed the use of 0 and 1 to represent values, so we must examine pairs of bits in order to determine our case.
 Scanning a binary number from right to left, a pair '10' signifies the beginning of a string of 1s and thus corresponds to a subtraction.
 A '01' pair signifies the end of a string of 1s and corresponds to an addition.
-The pairs '00' and '11' signify that no arithmetic operations need occur.
+The pairs '00' and '11' signify that no arithmetic operations need occur (the equivalent of adding 0).
 Since we would like to stay as close as possible to the algorithm outlined earlier, all cases will still require a shift.
 
     In order to examine pairs of bits, we add an extra 1 bit register, called $\beta$ (or Beta) to hold the bit shifted out of Q.
