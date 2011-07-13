@@ -31,22 +31,17 @@ Voss\\
 \end{abstract}
 
 \section{Introduction}
-%Computer design has been described as the art by which a use or need for computation is mapped onto economic, temporal and technological constraints \cite{ibm370}.
-%It is therefore appropriate that any education of computer design and computer organization keep this paradigm in focus.
-%At the same time, due to a limit on the time in undergraduate courses, it is general beneficial to teach students at a more abstract and higher level view of computer architecture.
-%A good example of theres consideration are the process by which two binary values are multiplied.
-%Issues of efficiency, special hardware considerations, and the problem of handling signed binary values must be taken into account from a design standpoint.
-%However, the algorithm for binary number multiplication is of sufficient complexity to allow the student to view it in terms of a hardware's instruction set architecture, instead of at the logic-circuit level.
-
 In teaching computer design, it is important to discuss the process by which binary numbers are multiplied at the machine level.
-However, there is variation in how this subject is covered, for example over which method(s) to discuss, how negative numbers are dealt with, how efficiency is achieved, and how much hardware-level detail should be included in the explanation of the process.
-Additionally, there is always a trade-off between the time spent and the amount of material covered in class.
+However, there is variation in how this subject is covered, for example over which method(s) of multiplication to discuss, how negative numbers are dealt with, how efficiency is achieved, and how much hardware-level detail should be included in the explanation of the process.
+Additionally, there is always a trade-off between the time spent in class and the amount of material covered.
 Because of this, the professor may choose to spend less class time discussing methods for binary multiplication in order to cover other topics.
 
+%constructivism?
 We propose that an effective, self-contained learning module available online could resolve these issues.
 The module we designed for this purpose is composed of an online text resource for the subject and an algorithm visualization.
 As current research in the field of algorithm visualizations suggests that the most important aspect of an effective algorithm visualization is the level of user engagement\cite{ExploringAV}, we developed questions and exercises to go along with the module.
-To ensure these reach the user at multiple levels of understanding, a number from Bloom's taxonomy as it applies to computer science is used to rank each of the questions and exercises used.
+We use the engagement taxonomy developed by the Innovation and Technology in Computer Science Education Working Group in 2002 (ITiCSE02) to describe the different components of our visualization.
+
 
 An effective method for the multiplication of signed binary values was introduced by Andrew Booth in 1951.
 Unlike other methods, it involves the comparison of pairs of bits as the algorithm is executed.
@@ -54,16 +49,15 @@ At its heart lies the observation that a series of powers of two $2^n + 2^{n-1} 
 + 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
 The most important contribution of this method is that little hardware or processing is needed to derive the correct result for all cases\cite{needsCitation}.
 Another result of this method is that in many cases significant speedup over other methods of binary multiplication can be achieved due to a reduced number of arithmetic operations.\cite{needsCitation}
-For its use of mathematical insight into a problem to meet design, requirements, we deemed that Booth's algorithm was of educational value and chose to use it in our hypertext and visualization.
+For its use of mathematical insight into a problem to meet design, requirements, we believe that Booth's algorithm is of educational value and chose to use it in our hypertext and visualization.
 However, while some textbooks include a discussion of Booth's algorithm in their chapter(s) regarding binary multiplication, it is not universally discussed in textbooks, and furthermore because of the time constraints mentioned above a professor may choose to gloss over or elide the topic completely.
 
-%Many textbooks also include figures depicting the execution of binary multiplication algorithms.
-%We have chosen to include with our hyper-textbook an algorithm visualization, developed for the Java Hosted Algorithm Visualization Environment (JHAVÉ).
-%The motivation behind this desire was three-fold: first we felt an explicit step-by-step demonstration of the running algorithm would preferred by the student over a static diagram; second, the JHAVÉ framework provides tools for automated assessment in the form of questions generated during the algorithm visualization; finally, the algorithm framework enabled the creation and assessment of additional exercises associated with the textbook, through its "input generator" feature.
-%This is in keeping with the current research in the field of algorithm visualization\cite{needsCitation}.
-%The Innovation and Technology in Computer Science Education Working group (ITiCSE) has shown the effectiveness of visualization is largely dependant on the level of engagement of the learner\cite{needsCitation}.
-%They have accordingly developed an engagement taxonomy, the five levels of which are directly correlated with our three listed motivations.
-%The levels of engagement our visualization supports are the following: Viewing, Responding, and Changing, as defined by ITiSCE.
+Many textbooks include figures depicting the execution of the binary multiplication algorithm(s) along with their description.
+Such a figure can be considered a kind of algorithm visualization, and as such lack an effective form of engagement other than primitive "Viewing".
+It would be beneficial if, for example, the student were able to view multiple visualizations with hand-picked values.
+For this reason we have chosen to include with our hyper-textbook an algorithm visualization, developed for the Java Hosted Algorithm Visualization Environment (JHAVÉ)\cite{JHAVE}.
+The motivation behind this decision was three-fold: first, we felt that an interactive and step-by-step demonstration of the running algorithm would be preferred by the student over a static diagram; second, the JHAVÉ framework provides tools for automated assessment in the form of questions generated during the visualization; finally, through the use of the framework's "input generator" feature, we were both able to allow students to create their own test data for the visualization and to create additional exercises which require the student to input data which will cause specific results during or on the completion of the algorithm.
+These three motivations are directly correlated to three levels of the engagement taxonomy defined by ITiCSE02: "Viewing", "Responding", and "Changing".
 
 \section{Implementation of the Visualization}
 In our design and implementation of the visualization for Booth's algorithm, our primary consideration was for active user engagement.
