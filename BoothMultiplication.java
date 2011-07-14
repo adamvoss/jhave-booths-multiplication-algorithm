@@ -106,14 +106,14 @@ public class BoothMultiplication {
 
 //        GAIGSpane temptest = new GAIGSpane();
 //
-//	    GAIGSrectangle rect = new GAIGSrectangle(0-GAIGSpane.JHAVE_X_MARGIN,
-//                 0-GAIGSpane.JHAVE_Y_MARGIN,
-//				 1+GAIGSpane.JHAVE_X_MARGIN,
-//				 1+GAIGSpane.JHAVE_Y_MARGIN,
-//                 "#000000", "#FF0000", "#FFFFFF",
-//                  "Hello Bruce", .07,  1);
-//
-//        show.writeSnap("hidden", rect);
+	    GAIGSrectangle rect = new GAIGSrectangle(0-.2874,
+                 0,
+				 1,
+				 1+.0575,
+                 "#FFFFFF", "#FF0000", "#000000",
+                  "Hello Bruce", .07,  1);
+
+        show.writeSnap("hidden", rect);
 
         title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
         header.add(title);
