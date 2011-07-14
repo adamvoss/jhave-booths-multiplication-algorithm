@@ -62,7 +62,7 @@ public class BoothMultiplication {
     private static       double ARLABEL_SPACE;
     private static final double REG_WIDTH_PER_BIT = 0.04;
     private static final double FONT_SIZE         = REG_WIDTH_PER_BIT;//was 5
-    private static final double REG_SPACE_CHUNK   = 0.32;
+    private static final double REG_SPACE_CHUNK   = 0.35;
     private static final double REG_HEIGHT        = 0.06;
     private static       double REG_WIDTH;
     private static final double ROW_SPACE         = 0.03;
