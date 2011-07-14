@@ -7,16 +7,25 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
 public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E> implements MutableGAIGSdatastr {
 	
 	//These are from Adam Voss's Arch Linux install, probably atypical.
-	private static final double arch_JHAVE_X_MARGIN = 0.203;
-	private static final double arch_JHAVE_Y_MARGIN = 0.067;
-//	private static final double arch_JHAVE_ASPECT_RATIO = (1+2*arch_JHAVE_X_MARGIN)/(1+2*arch_JHAVE_Y_MARGIN);
+	public static final double arch_JHAVE_X_MARGIN = 0.203;
+	public static final double arch_JHAVE_Y_MARGIN = 0.067;
 	
-	//These are from Ubuntu 11.04 Natty Narwhal
-	private static final double narwhal_JHAVE_X_MARGIN = 0.2874;
-	private static final double narwhal_JHAVE_Y_MARGIN = 0.0575;
+	//These are from Ubuntu 11.04 Natty Narwhal, left and top margins
+	public static final double narwhal_JHAVE_X_MARGIN = 0.2075;
+	public static final double narwhal_JHAVE_Y_MARGIN = 0.0025;
 	
-	public static final double JHAVE_X_MARGIN = 0.203;
-	public static final double JHAVE_Y_MARGIN = 0.067;
+	//These are from the UWOSH Windows 7 Image, left and top margins
+	public static final double win7_JHAVE_X_MARGIN = 0.196;
+	public static final double win7_JHAVE_Y_MARGIN = 0.0525;
+	
+	//These are from OS X 10.6 (UWOSH Image), left and top margins
+	public static final double OSX10_6_JHAVE_X_MARGIN = 0.1875;
+	public static final double OSX10_6_JHAVE_Y_MARGIN = 0.035;
+	
+	//These are the Minimum chosen from the above collected 
+	public static final double JHAVE_X_MARGIN = 0.1875;
+	public static final double JHAVE_Y_MARGIN = 0.0025;
+	
 	public static final double JHAVE_ASPECT_RATIO = (1+2*JHAVE_X_MARGIN)/(1+2*JHAVE_Y_MARGIN);
 	public static final double DEFAULT_ASPECT_RATIO = 1.0;
 	private double width;

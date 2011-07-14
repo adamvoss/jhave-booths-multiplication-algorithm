@@ -104,16 +104,43 @@ public class BoothMultiplication {
         		WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
 
-//        GAIGSpane temptest = new GAIGSpane();
-//
-	    GAIGSrectangle rect = new GAIGSrectangle(0-.2874,
-                 0,
-				 1,
-				 1+.0575,
-                 "#FFFFFF", "#FF0000", "#000000",
-                  "Hello Bruce", .07,  1);
+        GAIGSpane temptest = new GAIGSpane();
+        
+	    GAIGSrectangle rect = new GAIGSrectangle(0-GAIGSpane.OSX10_6_JHAVE_X_MARGIN,
+				 0-GAIGSpane.OSX10_6_JHAVE_Y_MARGIN,
+				 1+GAIGSpane.OSX10_6_JHAVE_X_MARGIN,
+				 1+GAIGSpane.OSX10_6_JHAVE_Y_MARGIN,
+		 "#FFFFFF", "#FF0000", "#000000",
+		  "Hello,\nI'm A Mac", .07,  1);
+	    
+	    show.writeSnap("hidden", rect);
+	    
+	    rect = new GAIGSrectangle(0-GAIGSpane.win7_JHAVE_X_MARGIN,
+				 0-GAIGSpane.win7_JHAVE_Y_MARGIN,
+				 1+GAIGSpane.win7_JHAVE_X_MARGIN,
+				 1+GAIGSpane.win7_JHAVE_Y_MARGIN,
+		 "#FFFFFF", "#FF0000", "#000000",
+		  "Hello,\nI'm A PC", .07,  1);
+	    
+	    show.writeSnap("hidden", rect);
+	    
+	    rect = new GAIGSrectangle(0-GAIGSpane.narwhal_JHAVE_X_MARGIN,
+				 0-GAIGSpane.narwhal_JHAVE_Y_MARGIN,
+				 1+GAIGSpane.narwhal_JHAVE_X_MARGIN,
+				 1+GAIGSpane.narwhal_JHAVE_Y_MARGIN,
+		 "#FFFFFF", "#FF0000", "#000000",
+		  "Hello,\nI'm A Ubuntu", .07,  1);
+	    
+	    show.writeSnap("hidden", rect);
+	    
+	    
 
-        show.writeSnap("hidden", rect);
+	    GAIGSrectangle rect2 = new GAIGSrectangle(0, 0, main.getWidth(), main.getHeight(),
+	    		"", "#FF0000", "#000000", "I'm a main pane", 0.07, 1);
+	    
+	    temptest.add(rect2);
+	    main.add(temptest);
+
 
         title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
         header.add(title);
