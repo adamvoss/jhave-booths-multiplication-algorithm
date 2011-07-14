@@ -92,36 +92,35 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 	 }
 
 	 /**
-	  * @see exe.boothsMultiplication.GAIGSregister#setBit(int, int, java.lang.String)
-	  */
-	 @Deprecated
-	 public void setBit(int value, int loc, String color) {
-		 setBit(value, loc);
-		 setBitColor(loc, color);
-	 }
-
-	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#setColor(int, java.lang.String)
 	  */
-	 public void setBitColor(int loc, String color) {
+	 public void setTextColor(int loc, String color) {
 		 this.wrapped.get(loc).setLabelColor(color);
 	 }
 
-	 public void setColor(String color) {
-		 for (int loc = this.getSize()-1; loc >= 0; loc--){
-			 wrapped.get(loc).setColor(color);
-		 }
-	 }
-	 
 	 /**
-	  * @see exe.boothsMultiplication.GAIGSregister#setAllToColor(java.lang.String)
+	  * @see exe.boothsMultiplication.GAIGSregister#setTextColor(java.lang.String)
 	  */
-	 public void setAllToColor(String color) {
+	 public void setTextColor(String color) {
 		 for (int loc = this.getSize()-1; loc >= 0; loc--){
 			 wrapped.get(loc).setLabelColor(color);
 		 }
 	 }
+	 
+	 public void setFillColor(int loc, String color) {
+		 this.wrapped.get(loc).setColor(color);
+	 }
+	 
+	 public void setFillColor(String color) {
+		 for (int loc = this.getSize()-1; loc >= 0; loc--){
+			 wrapped.get(loc).setColor(color);
+		 }
+	 }
 
+	 public void setOutlineColor(int loc, String color) {
+		 this.wrapped.get(loc).setOutlineColor(color);
+	 }
+	 
 	 /**
 	  * Sets the outline color of the perimeter of the register.
 	  * @param color
