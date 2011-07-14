@@ -1,10 +1,14 @@
 \documentclass{acm_proc_article-sp}
 
 \usepackage[utf8]{inputenc}
+\usepackage{biblatex}
+
+\bibstyle{abbrv}
+\bibliography{pbib}
 
 \begin{document}
 
-\title{Booth's Multiplication}
+\title{An Effective Pedagogical Module for Booth's Multiplication Algorithm}
 
 \numberofauthors{2}
 \author{
@@ -39,7 +43,7 @@ Because of this, the professor may choose to spend less class time discussing me
 %constructivism?
 We propose that an effective, self-contained learning module available online could resolve these issues.
 The module we designed for this purpose is composed of an online text resource for the subject and an algorithm visualization.
-As current research in the field of algorithm visualizations suggests that the most important aspect of an effective algorithm visualization is the level of user engagement\cite{ExploringAV}, we developed questions and exercises to go along with the module.
+As current research in the field of algorithm visualizations suggests that the most important aspect of an effective algorithm visualization is the level of user engagement\cite{tnaps:visengage}, we developed questions and exercises to go along with the module.
 We use the engagement taxonomy developed by the Innovation and Technology in Computer Science Education Working Group in 2002 (ITiCSE02) to describe the different components of our visualization.
 
 
@@ -47,7 +51,7 @@ An effective method for the multiplication of signed binary values was introduce
 Unlike other methods, it involves the comparison of pairs of bits as the algorithm is executed.
 At its heart lies the observation that a series of powers of two $2^n + 2^{n-1} + ...
 + 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
-The most important contribution of this method is that little hardware or processing is needed to derive the correct result for all cases\cite{needsCitation}.
+The most important contribution of this method is that little hardware or processing is needed to derive the correct result for all cases\cite{booth}.
 Another result of this method is that in many cases significant speedup over other methods of binary multiplication can be achieved due to a reduced number of arithmetic operations.\cite{needsCitation}
 For its use of mathematical insight into a problem to meet design, requirements, we believe that Booth's algorithm is of educational value and chose to use it in our hypertext and visualization.
 However, while some textbooks include a discussion of Booth's algorithm in their chapter(s) regarding binary multiplication, it is not universally discussed in textbooks, and furthermore because of the time constraints mentioned above a professor may choose to gloss over or elide the topic completely.
@@ -61,7 +65,7 @@ These three motivations are directly correlated to three levels of the engagemen
 
 \section{Implementation of the Visualization}
 In our design and implementation of the visualization for Booth's algorithm, our primary consideration was for active user engagement.
-Prior research by ITiSCE suggests that this is the most important aspect for an effective visualization.\cite{ITiSCE}
+Prior research by ITiSCE suggests that this is the most important aspect for an effective visualization.\cite{tnaps:visengage}
 Organized by level of engagement, our visualization supports the following: at the "Viewing" level, it includes graphical representations of registers and binary arithmetic, text annotations and pseudo code
  display; at the level of "Responding", we include pop-up questions designed to check the user's basic understanding of the algorithm; and at the "Changing" level, we designed a set of exercises in which the user is given a constraint or set of constraints on the behavior of the executing algorithm and must provide data to meet that constraint.
 In the standard use of the visualization, we also allow the user to choose their own input data or use the provided default values.
@@ -85,5 +89,8 @@ Finally, through the use of input generators to JHAVÉ, we included several exer
 The user is given certain constraints, in the form of an expected behavior in or result of the algorithm and is asked to provide data which will meet those constraints.
 There are -- exercises available to the student.
 Exercise modes will not include questions, but instead a status message accepting or rejecting the user's input at the end of the visualization.
+
+\printbibliography
+
 \balancecolumns
 \end{document}
