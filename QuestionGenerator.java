@@ -46,7 +46,7 @@ public class QuestionGenerator {
                                         OldQ_1.getBit(0));
             }
             //an ask-once-only question
-            else if (type == 2) {ret = (asked[2] ? null : getType2Question(show));}
+            else if (type == 2) {getType2Question(show);}
             //to be called right after new registers are added, but before they're drawn.
             else if (type == 3) {
                 GAIGSprimitiveRegister OldQ   = getRegister(-2, REGQ);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"RegQ");
@@ -81,11 +81,7 @@ public class QuestionGenerator {
 
     public question getAdditionQuestion()   {return getQuestion(selectOnCount(2) == 0 ? 2 : 5);}//ditto
 
-    public question getShiftQuestion() {
-        int select = selectOnCount(2);
-
-        return getQuestion(select == 0 ? 4 : 6);
-    }
+    public question getShiftQuestion()      {return getInRange(2) == 0 ? getQuestion(6) : null;}
 
     private int selectOnCount(int mod) {
         //return (((GAIGSprimitiveRegister)trace.get("RegQ")).getSize() - ((CountBox)trace.get("Count")).getCount() ) % mod;
@@ -121,11 +117,11 @@ public class QuestionGenerator {
 		}
 		else if (select == 1) {
 			XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
-			ret1.setQuestionText("Which of these operations shall be executed next.");
+			ret1.setQuestionText("Which of these operations shall be executed next?");
 			ret1.addChoice("Addition");
 			ret1.addChoice("Subtraction");
 			ret1.addChoice("Arithmetic Right Shift");
-			ret1.addChoice("None of the other choices.");
+			ret1.addChoice("None of the other choices");
 
 			ret1.setAnswer(pcalc == 0 ? 3 : (pcalc == 1 ? 2 : 1) );
 
@@ -151,17 +147,42 @@ public class QuestionGenerator {
 		return ret;
 	}
 
-    /**
+    /*
     * Returns a random question of the "What can be done in a loop iteration" flavor.
     * To be called whenever, but only once.
     */
+//  private question getType2Question(ShowFile show) {
+//      XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
+//      ret.setQuestionText("It is possible for an addition and subtraction to occur in the same iteration of the loop.");
+//      ret.setAnswer(false);
+//      return ret;
+//  }
+
     private question getType2Question(ShowFile show) {
-        XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
-        ret.setQuestionText("It is possible for an addition and subtraction to occur in the same iteration of the loop.");
-        ret.setAnswer(false);
+        int select = getInRange(2);
+        question ret = null;
+
+        if (select == 0) {
+            XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
+            ret1.setQuestionText("What will be the most significant bit of register A be after the call to signPreservingRightShift?");
+            ret1.setAnswer("" + getRegister(-1, REGA).getBit(getRegister(-1, REGA).getSize() - 1));
+
+            ret = ret1;
+        }
+
+        if (select == 1) {
+            XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
+            ret1.setQuestionText("What will the most significant bit of register A be after the call to signPreservingRightShift?");
+            ret1.addChoice("0");
+            ret1.addChoice("1");
+            ret1.addChoice("Not possible to determine");
+            ret1.setAnswer("" + getRegister(-1, REGA).getBit(getRegister(-1, REGA).getSize() - 1));
+
+            ret = ret1;
+        }
+
         return ret;
     }
-
 	/**
 	 * Returns a random question of the "Predict the value of the register" flavor.
 	 * Call at the comparison frame of the loop. 
@@ -216,7 +237,7 @@ public class QuestionGenerator {
             XMLtfQuestion ret1 = new XMLtfQuestion(show, id.next() );
             
             ret1.setQuestionText("After the next operation finishes executing, the value of register " + regName + 
-                "will be " + (select2 == 0 ? correctChoice : confuseChoice));
+                " will be " + (select2 == 0 ? correctChoice : confuseChoice));
 
             ret = ret1;
 		}
@@ -291,19 +312,20 @@ public class QuestionGenerator {
 
         if (select == 0) { 
             XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
-            ret1.setQuestionText("In terms of QLEN, the number of bits in register Q, express the total number of shift operations performed" + 
+            ret1.setQuestionText("In terms of QLEN, the number of bits in register Q, " + 
+                "express the total number of shift operations performed" + 
                 " during the exectution of the algorithm.");
             ret1.setAnswer("qlen");
             ret = ret1;
         }
-        else {
+        else{
             XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
-            ret1.setQuestionText("How many shift operations will occur during the execution of the algorithm?");
+            ret1.setQuestionText("How many total shift operations will occur during the execution of the algorithm?");
             ret1.addChoice("" + getRegister(-1, REGQ).getSize() );
             ret1.setAnswer(1);
-            ret1.addChoice("" + (2 * getRegister(-1, REGQ).getSize() ));
-            ret1.addChoice("It depends on values in Q");
-            ret1.addChoice("" + BoothMultiplication.numLines(getRegister(0, REGQ).toString() ));//((GAIGSprimitiveRegister)trace.get(0, "RegQ")).toString() ) );
+            ret1.addChoice("" + ((getInRange(2) + 1) * getRegister(-1, REGQ).getSize() ));
+            ret1.addChoice("It depends on the bit values in Q");
+            ret1.addChoice("" + BoothMultiplication.numLines(getRegister(0, REGQ).toString() ));
 
             ret = ret1;
         }
@@ -311,24 +333,32 @@ public class QuestionGenerator {
         return ret;
     }
 
-    /**
+    private question getType6Question(ShowFile show) {
+            XMLfibQuestion ret = new XMLfibQuestion(show, id.next() );
+            ret.setQuestionText("From now until the algorithm finishes executing, how many more shift operations will occur" + 
+                "(not including this one)?");
+            ret.setAnswer("" + (((CountBox)getRegister(-1, COUNT)).getCount() - 1) );
+            return ret;
+    }
+
+    /*
     * Returns a question regarding the mathematical significance of a right sign-preserving shift.
     * Should be called after a shift occurs.
     * And only once.
     */
-    private question getType6Question(ShowFile show) {
-        XMLmcQuestion ret = new XMLmcQuestion(show, id.next() );
-        ret.setQuestionText("What is the significance of the arithmetic (sign-preserving) right shift?");
-        ret.addChoice("Multiply the value of registers A and Q by 2");
-        ret.addChoice("Divide the value of A and Q by 2");
-        ret.setAnswer(2);
-        ret.addChoice("Adds 1 to the value in A and Q");
-        ret.addChoice("Moves unneccessary bits out of registers A and Q");
+//  private question getType6Question(ShowFile show) {
+//      XMLmcQuestion ret = new XMLmcQuestion(show, id.next() );
+//      ret.setQuestionText("What is the significance of the arithmetic (sign-preserving) right shift?");
+//      ret.addChoice("Multiply the value of registers A and Q by 2");
+//      ret.addChoice("Divide the value of A and Q by 2");
+//      ret.setAnswer(2);
+//      ret.addChoice("Adds 1 to the value in A and Q");
+//      ret.addChoice("Moves unneccessary bits out of registers A and Q");
+//
+//      return ret;
+//  }
 
-        return ret;
-    }
-
-	/**
+	/*
 	 * Returns a random question of the "Sign in A matches sign of final product" flavor.
 	 * Call after a shift operation.
 	 *
@@ -340,9 +370,9 @@ public class QuestionGenerator {
 //      int finalProd = binStrToInt(getRegister(0, REGQ).toString() ) * binStrToInt(getRegister(0, REGM).toString() );
 //      ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd) || 
 //          (curAValue == 0 && finalProd >= 0) );
-
+//
 //      System.out.println("" + curAValue + "\t" + finalProd + "\t" + RegA);
-
+//
 //      return ret;
 //  }
 
@@ -376,7 +406,7 @@ public class QuestionGenerator {
 
     private String rightSignShift(String num) {return ((new Character(num.charAt(0))).toString() + num.substring(0, num.length()-1) );}
 
-    /** Returns a random number from 1 to range-1*/
+    /** Returns a random number from 0 to range-1*/
     private int getInRange(int range) {return rand.nextInt(range);}
 
     private GAIGSprimitiveRegister getRegister(int level, int reg) {

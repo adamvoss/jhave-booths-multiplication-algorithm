@@ -40,14 +40,13 @@ public class BoothMultiplication {
     //Definitions
     private static final boolean DEBUG = false;
 
-    private static final double FONT_SIZE = 0.05;
     public static final String WHITE     = "#FFFFFF";
     public static final String BLACK     = "#000000";
     public static final String GREY      = "#DDDDDD";
     public static final String DARK_GREY = "#666666";
     public static final String RED       = "#FF0000";
-    public static final String GREEN     = "#00AA00";
-    public static final String BLUE      = "#0000FF";
+    public static final String GREEN     = "#AAFFAA";
+    public static final String BLUE      = "#BACBFF";
     public static final String YELLOW    = "#FFFF00";
     public static final String GOLD      = "#CDAD00";
     public static final String FONT_COLOR      = BLACK;
@@ -61,16 +60,17 @@ public class BoothMultiplication {
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
 
     private static       double ARLABEL_SPACE;
+    private static final double REG_WIDTH_PER_BIT = 0.04;
+    private static final double FONT_SIZE         = REG_WIDTH_PER_BIT;//was 5
+    private static final double REG_SPACE_CHUNK   = 0.32;
+    private static final double REG_HEIGHT        = 0.06;
+    private static       double REG_WIDTH;
+    private static final double ROW_SPACE         = 0.03;
+    private static       double COL_SPACE         = 0.02;
 
     private static final double LEFT_MARGIN       = 0.0;
     private static final double RIGHT_MARGIN      = FONT_SIZE;
     private static final double TOP_MARGIN        = 0.0;
-    private static       double REG_WIDTH;
-    private static final double REG_WIDTH_PER_BIT = 0.035;
-    private static final double REG_SPACE_CHUNK   = 0.32;
-    private static final double REG_HEIGHT        = 0.06;
-    private static final double ROW_SPACE         = 0.03;
-    private static       double COL_SPACE         = 0.02;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
