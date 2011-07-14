@@ -130,6 +130,18 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
          wrapped.get(wrapped.size()-1).setOutlineColor(color);
      }
 
+	 public void setFillOutlineColor(int loc, String color) {
+		 wrapped.get(loc).setColor(color);
+		 wrapped.get(loc).setOutlineColor(color);
+	 }
+     
+	 public void setFillOutlineColor(String color) {
+		 for (int loc = this.getSize()-1; loc >= 0; loc--){
+			 wrapped.get(loc).setColor(color);
+			 wrapped.get(loc).setOutlineColor(color);
+		 }
+	 }
+     
 	 /**
 	  * @see exe.boothsMultiplication.GAIGSregister#set(java.lang.String)
 	  */

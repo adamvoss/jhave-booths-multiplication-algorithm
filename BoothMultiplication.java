@@ -54,6 +54,7 @@ public class BoothMultiplication {
     public static final String DEFAULT_COLOR   = WHITE;
     public static final String INACTIVE_TEXT   = DARK_GREY;
     public static final String INACTIVE_OUTLINE= GREY;
+    public static final String INACTIVE_FILL   = WHITE;
     public static final String OUTLINE_COLOR   = FONT_COLOR;
     
     private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVE_X_MARGIN*2;
@@ -249,13 +250,13 @@ public class BoothMultiplication {
         boothsMultiplication();
 
         //----Finished Frame----
-        setAllRegBitsColor(INACTIVE_TEXT);
-        setRowRegisterOutlineColor(INACTIVE_OUTLINE);
+        setRowTextColor(INACTIVE_TEXT);
+        setRowOutlineColor(INACTIVE_OUTLINE);
         decimal.complete();
         binary.complete();
-        RegA.setFillColor(YELLOW);
+        RegA.setFillOutlineColor(YELLOW);
         RegA.setTextColor(FONT_COLOR);
-        RegQ.setFillColor(YELLOW);
+        RegQ.setFillOutlineColor(YELLOW);
         RegQ.setTextColor(FONT_COLOR);
         easySnap("Check the result.", easyPseudo(25), null);
         
@@ -304,8 +305,8 @@ public class BoothMultiplication {
                 }
                 
                 //----Comparison Frame----
-                getRegisterFromRow(trace.size()-2, REGQ).setTextColor(0, BLUE);
-                getRegisterFromRow(trace.size()-2, Q1).setTextColor(0, BLUE);
+                getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(0, BLUE);
+                getRegisterFromRow(trace.size()-2, Q1).setFillOutlineColor(0, BLUE);
                 
                 question que = quest.getComparisonQuestion();
                 GAIGSpane<?> temp = trace.remove(trace.size()-1);
@@ -313,14 +314,13 @@ public class BoothMultiplication {
                 trace.add(temp);
                 
                 //Reset/deactivate colors
-                setRowRegisterBitsColor(trace.size()-2,    INACTIVE_TEXT);
-                setRowRegisterOutlineColor(trace.size()-2, INACTIVE_OUTLINE);
-                RegQ.setTextColor(0, FONT_COLOR);
-                Q_1.setTextColor(0, FONT_COLOR);
+                fadeRow(trace.size()-2);
+                RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
+                Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
 
                 
                 //----Addition/Subtraction frame----
-                RegA.setTextColor(GREEN);
+                RegA.setFillOutlineColor(GREEN);
                 math.add(sum);
                 math.add(sumLabel);
                 sum.complete();
@@ -335,8 +335,8 @@ public class BoothMultiplication {
             else {
                 //----Comparison Frame---- (yep, again)
                 //Colors
-                RegQ.setTextColor(0, BLUE);
-                Q_1.setTextColor(0, BLUE);
+                RegQ.setFillOutlineColor(0, BLUE);
+                Q_1.setFillOutlineColor(0, BLUE);
                 
                 //Question pane-hopping
                 trace.add(null);
@@ -345,16 +345,16 @@ public class BoothMultiplication {
                 easySnap("Determine the operation", easyPseudo(10, PseudoCodeDisplay.BLUE), que);
 
                 //Reset colors
-                RegQ.setTextColor(0, FONT_COLOR);
-                Q_1.setTextColor(0, FONT_COLOR);
+                RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
+                Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
             }
             //Deactivate text
-            setAllRegBitsColor(INACTIVE_TEXT);
-            setRowRegisterOutlineColor(INACTIVE_OUTLINE);
+            setRowTextColor(INACTIVE_TEXT);
+            setRowOutlineColor(INACTIVE_OUTLINE);
             
     		//----Shift Frame----
     		positionMajorRow(); //Remember this clones
-            setAllRegBitsColor(FONT_COLOR);
+            setRowTextColor(FONT_COLOR);
     		addRow();
     		rightShift(RegA, RegQ, Q_1);
            
@@ -362,32 +362,32 @@ public class BoothMultiplication {
             question que = quest.getShiftQuestion(); 
 
             //Colors
-            getRegisterFromRow(trace.size()-2, REGA).setTextColor(GREEN);
-            getRegisterFromRow(trace.size()-2, REGQ).setTextColor(BLUE);
-            setRowRegisterOutlineColor(OUTLINE_COLOR);
-    		RegA.setTextColor(GREEN);
-    		RegQ.setTextColor(BLUE);
-    		RegQ.setTextColor(REG_SIZE-1, GREEN);
-    		Q_1.setTextColor(0, BLUE);
+            getRegisterFromRow(trace.size()-2, REGA).setFillOutlineColor(GREEN);
+            getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(BLUE);
+            setRowOutlineColor(OUTLINE_COLOR);
+    		RegA.setFillOutlineColor(GREEN);
+    		RegQ.setFillOutlineColor(BLUE);
+    		RegQ.setFillOutlineColor(REG_SIZE-1, GREEN);
+    		Q_1.setFillOutlineColor(0, BLUE);
     		currentRow.remove(COUNT); //Oops...We don't want Count
     		easySnap("Sign-Preserving Right Shift", easyPseudo(21, PseudoCodeDisplay.BLUE), que);
-    		RegQ.setTextColor(FONT_COLOR);
-    		Q_1.setTextColor(FONT_COLOR);
+//    		RegQ.setTextColor(FONT_COLOR);
+    		Q_1.setFillOutlineColor(DEFAULT_COLOR);
     		
             //Clean Color of A and Q on the previous line
-            getRegisterFromRow(trace.size()-2, REGA).setTextColor(INACTIVE_TEXT);
-            getRegisterFromRow(trace.size()-2, REGQ).setTextColor(INACTIVE_TEXT);
-    		RegA.setTextColor(FONT_COLOR);
-    		RegQ.setTextColor(FONT_COLOR);
+            getRegisterFromRow(trace.size()-2, REGA).setFillOutlineColor(INACTIVE_FILL);
+            getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(INACTIVE_FILL);
+    		RegA.setFillOutlineColor(DEFAULT_COLOR);
+    		RegQ.setFillOutlineColor(DEFAULT_COLOR);
     		
     		//----Decrement Count Frame---
     		Count.decrement();
     		currentRow.add(Count); //Now we do want Count
-    		Count.setTextColor(RED);
+    		Count.setFillOutlineColor(RED);
     		double[] last =  currentRow.get(0).getBounds();
     		currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
     		easySnap("Decrement Count", easyPseudo(23, PseudoCodeDisplay.RED), null);
-    		Count.setTextColor(FONT_COLOR);
+    		Count.setFillOutlineColor(DEFAULT_COLOR);
     		//Hey!  We're ready to loop!
     		}
     }
@@ -475,15 +475,30 @@ public class BoothMultiplication {
     	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
 	}
     
-    private static void setAllRegBitsColor(String color) {
+    private static void setRowTextColor(String color) {
         RegM.setTextColor(color) ;
         RegA.setTextColor(color) ;
         RegQ.setTextColor(color) ;
-        Q_1.setTextColor( color) ;
+        Q_1.setTextColor(color) ;
         Count.setTextColor(color);
     }
-
-    private static void setRowRegisterBitsColor(int row, String color) {
+	
+    private static void setRowOutlineColor(String color) {
+        RegM.setOutlineColor(color) ;
+        RegA.setOutlineColor(color) ;
+        RegQ.setOutlineColor(color) ;
+        Q_1.setOutlineColor(color) ;
+        Count.setOutlineColor(color);
+    }
+	
+    
+	private static void fadeRow(int row){
+		setRowTextColor(row, INACTIVE_TEXT);
+		setRowOutlineColor(row, INACTIVE_OUTLINE);
+		setRegRowFillColor(row, INACTIVE_FILL);
+	}
+    
+    private static void setRowTextColor(int row, String color) {
         getRegisterFromRow(row, REGM).setTextColor(color);
         getRegisterFromRow(row, REGA).setTextColor(color);
         getRegisterFromRow(row, REGQ).setTextColor(color);
@@ -491,16 +506,20 @@ public class BoothMultiplication {
         getRegisterFromRow(row,COUNT).setTextColor(color);
     }
 
-    private static void setRowRegisterOutlineColor(int row, String color) {
+    private static void setRowOutlineColor(int row, String color) {
         getRegisterFromRow(row, REGM).setOutlineColor(color);
         getRegisterFromRow(row, REGA).setOutlineColor(color);
         getRegisterFromRow(row, REGQ).setOutlineColor(color);
         getRegisterFromRow(row, Q1  ).setOutlineColor(color);
         getRegisterFromRow(row,COUNT).setOutlineColor(color);
     }
-
-    private static void setRowRegisterOutlineColor(String color) {
-        setRowRegisterOutlineColor(trace.size()-1, color);
+    
+    private static void setRegRowFillColor(int row, String color) {
+        getRegisterFromRow(row, REGM).setFillColor(color);
+        getRegisterFromRow(row, REGA).setFillColor(color);
+        getRegisterFromRow(row, REGQ).setFillColor(color);
+        getRegisterFromRow(row, Q1  ).setFillColor(color);
+        getRegisterFromRow(row,COUNT).setFillColor(color);
     }
 
     private static void positionMajorRow(){
