@@ -68,7 +68,7 @@ public class QuestionGenerator {
             }
             else if (type == 5) {ret = (asked[5] ? null : getType5Question(show));}
             else if (type == 6) {ret = (asked[6] ? null : getType6Question(show));}
-            else if (type == 7) {ret = (asked[7] ? null : getType7Question(getRegister(-1, REGA), show));}
+//          else if (type == 7) {ret = (asked[7] ? null : getType7Question(getRegister(-1, REGA), show));}
 
             else {}
  
@@ -82,9 +82,9 @@ public class QuestionGenerator {
     public question getAdditionQuestion()   {return getQuestion(selectOnCount(2) == 0 ? 2 : 5);}//ditto
 
     public question getShiftQuestion() {
-        int select = selectOnCount(3);
+        int select = selectOnCount(2);
 
-        return getQuestion(select == 0 ? 7 : (select == 1 ? 4 : 6));
+        return getQuestion(select == 0 ? 4 : 6);
     }
 
     private int selectOnCount(int mod) {
@@ -333,18 +333,18 @@ public class QuestionGenerator {
 	 * Call after a shift operation.
 	 *
 	 */
-    private question getType7Question(GAIGSprimitiveRegister RegA, ShowFile show) {
-        XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
-        ret.setQuestionText("The sign of the current value in register A matches the sign of the final product.");
-        int curAValue = binStrToInt(RegA.toString() );
-        int finalProd = binStrToInt(getRegister(0, REGQ).toString() ) * binStrToInt(getRegister(0, REGM).toString() );
-        ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd) || 
-            (curAValue == 0 && finalProd >= 0) );
+//  private question getType7Question(GAIGSprimitiveRegister RegA, ShowFile show) {
+//      XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
+//      ret.setQuestionText("The sign of the current value in register A matches the sign of the final product.");
+//      int curAValue = binStrToInt(RegA.toString() );
+//      int finalProd = binStrToInt(getRegister(0, REGQ).toString() ) * binStrToInt(getRegister(0, REGM).toString() );
+//      ret.setAnswer(Math.signum((double)curAValue) == Math.signum((double)finalProd) || 
+//          (curAValue == 0 && finalProd >= 0) );
 
 //      System.out.println("" + curAValue + "\t" + finalProd + "\t" + RegA);
 
-        return ret;
-    }
+//      return ret;
+//  }
 
     private int binStrToInt(String binstr) {
         int sum   =  0 ;
