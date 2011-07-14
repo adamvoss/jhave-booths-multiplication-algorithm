@@ -42,7 +42,7 @@ public class QuestionGenerator {
             if (type == 1){
                 GAIGSprimitiveRegister OldQ   = getRegister(-2, REGQ);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"RegQ");
                 GAIGSprimitiveRegister OldQ_1 = getRegister(-2, Q1);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"Q_1");
-                ret = getType1Question(OldQ.getBit(OldQ.getSize()-1),
+                ret = getType1Question(OldQ.getBit(0),
                                         OldQ_1.getBit(0));
             }
             //an ask-once-only question
@@ -60,7 +60,7 @@ public class QuestionGenerator {
                 GAIGSprimitiveRegister newReg = getRegister(-1, select);//(GAIGSprimitiveRegister)trace.get("Reg" + ref);
                 GAIGSprimitiveRegister phony  = getRegister(-1, (select+1) % 3);//(GAIGSprimitiveRegister)trace.get("Reg" + phref);
 
-               ret = getType3Question(OldQ.getBit(OldQ.getSize()-1), OldQ_1.getBit(0), oldReg, newReg, phony, ref); 
+               ret = getType3Question(OldQ.getBit(0), OldQ_1.getBit(0), oldReg, newReg, phony, ref); 
             }
             else if (type == 4) {
                 if (asked[4])

@@ -21,7 +21,7 @@
     <line num="18" indent="2"></line>
     <line num="19" indent="2">//[0,0] and [1,1] cases only shift</line>
     <line num="20" indent="2"></line>
-    <line num="21" indent="2">signPreservinRightShift(1, A, Q, Beta)</line>
+    <line num="21" indent="2">signPreservingRightShift(1, A, Q, Beta)</line>
     <line num="22" indent="2"></line>
     <line num="23" indent="2">count--</line>
     <line num="24" indent="1">}</line>
