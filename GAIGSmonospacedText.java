@@ -188,13 +188,17 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
 		//New lines assumed to be rare thus the extra cost of this compare
 		if (lines.length > 1){
-			switch (Valign){ //We want the flow through behavior
+			switch (Valign){
 			case VBOTTOM:
+				//TODO combine following lines
+				Y+=(((lines.length-1)/2.0) * fontsize);
 				Y+=(((lines.length-1)/2.0) * fontsize);
 				if (DEBUG) System.out.println("in VBOTTOM case");
+				break;
 			case VCENTER:
 				Y+=(((lines.length-1)/2.0) * fontsize);
 				if (DEBUG) System.out.println("in VCENTER case");
+				break;
 			}
 		}
 		for (int line = 0; line < texts.length ; line++){
@@ -205,9 +209,13 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 			String cleanedText = lines[line].replaceAll("\\\\#[0-9A-Fa-f]{6}", "");
 			switch (Halign){ //We want the flow through behavior
 			case HRIGHT:
+				//TODO combine following lines
 				X=X-(((cleanedText.length()-1)/2.0) * charWidth);
+				X=X-(((cleanedText.length()-1)/2.0) * charWidth);
+				break;
 			case HCENTER:
 				X=X-(((cleanedText.length()-1)/2.0) * charWidth);
+				break;
 			}
 			
 			for (int i = 0 ; i < text.length ; i++){
