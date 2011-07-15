@@ -40,12 +40,11 @@ However, there is variation in how this subject is covered, for example over whi
 Additionally, there is always a trade-off between the time spent in class and the amount of material covered.
 Because of this, the professor may choose to spend less class time discussing methods for binary multiplication in order to cover other topics.
 
-%constructivism?
 We propose that an effective, self-contained learning module available online could resolve these issues.
-The module we designed for this purpose is composed of an online text resource for the subject and an algorithm visualization.
-As current research in the field of algorithm visualizations suggests that the most important aspect of an effective algorithm visualization is the level of user engagement\cite{tnaps:visengage}, we developed questions and exercises to go along with the module.
+The module we designed for this purpose is composed of an online text resource (hyper-textbook) for the subject and an algorithm visualization.
+We used a constructivist model for the approach of the hyper-textbook, beginning with the ``pencil and paper'' algorithm familiar to most students and demonstrating by successive modifications how it can be mapped onto hardware.
+For the visualization, since current research in the field of algorithm visualizations suggests that the most important aspect of an effective algorithm visualization is the level of user engagement\cite{tnaps:visengage}, we developed questions and exercises with its use.
 We use the engagement taxonomy developed by the Innovation and Technology in Computer Science Education Working Group in 2002 (ITiCSE02) to describe the different components of our visualization.
-
 
 An effective method for the multiplication of signed binary values was introduced by Andrew Booth in 1951.
 Unlike other methods, it involves the comparison of pairs of bits as the algorithm is executed.
@@ -56,16 +55,26 @@ Another result of this method is that in many cases significant speedup over oth
 For its use of mathematical insight into a problem to meet design, requirements, we believe that Booth's algorithm is of educational value and chose to use it in our hypertext and visualization.
 However, while some textbooks include a discussion of Booth's algorithm in their chapter(s) regarding binary multiplication, it is not universally discussed in textbooks, and furthermore because of the time constraints mentioned above a professor may choose to gloss over or elide the topic completely.
 
-Many textbooks include figures depicting the execution of the binary multiplication algorithm(s) along with their description.
-Such a figure can be considered a kind of algorithm visualization, and as such lack an effective form of engagement other than primitive "Viewing".
-It would be beneficial if, for example, the student were able to view multiple visualizations with hand-picked values.
+Many textbooks include figures depicting the execution of the binary multiplication algorithm(s) along with their description\cite{needsCitation}.
+Such a figure can be considered a kind of algorithm visualization, and as such lacks an effective form of engagement other than a primitive "Viewing".
+It would be beneficial if, for example, the student were able to view multiple visualizations with hand-picked values to reinforce their understanding of the algorithm.
 For this reason we have chosen to include with our hyper-textbook an algorithm visualization, developed for the Java Hosted Algorithm Visualization Environment (JHAVÉ)\cite{JHAVE}.
 The motivation behind this decision was three-fold: first, we felt that an interactive and step-by-step demonstration of the running algorithm would be preferred by the student over a static diagram; second, the JHAVÉ framework provides tools for automated assessment in the form of questions generated during the visualization; finally, through the use of the framework's "input generator" feature, we were both able to allow students to create their own test data for the visualization and to create additional exercises which require the student to input data which will cause specific results during or on the completion of the algorithm.
 These three motivations are directly correlated to three levels of the engagement taxonomy defined by ITiCSE02: "Viewing", "Responding", and "Changing".
 
+\section{Related Work}
+Constructivism, which holds that students ``[build] recursively on [prior] knowledge'', is the dominant theory of learning in the field of education.
+It is supposed that constructivism is a more effective educational paradigm because it anticipates the idiosyncratic process by which students acquire knowledge\cite{constr}.
+Following this, it is important that the educational material anticipate students' ``effective model'' for a subject first and then guide them to a better understanding.
+Critically, constructivism also gives an explanation for the ineffectiveness of passive learning, as by definition it considers education an active process\cite{constr}.
+
+Ever since the first algorithm visualization, the 1981 video ``Sorting out sorting'' by Ronald Baeker, AVs have played a role in the discussion on computer science education.
+Research in the field of the effectiveness of algorithm visualizations has shown that, while AVs are almost universally deemed by educators to have educational value, there is no evidence to support the claim that an AV by itself will improve a student's understanding of an algorithm.
+Instead, the research shows that in order for AVs to be effective, they must actively engage the student\cite{tnaps:visengage}.
+
 \section{Implementation of the Visualization}
 In our design and implementation of the visualization for Booth's algorithm, our primary consideration was for active user engagement.
-Prior research by ITiSCE suggests that this is the most important aspect for an effective visualization.\cite{tnaps:visengage}
+Prior research by ITiSCE02 suggests that this is the most important aspect for an effective visualization.\cite{tnaps:visengage}
 Organized by level of engagement, our visualization supports the following: at the "Viewing" level, it includes graphical representations of registers and binary arithmetic, text annotations and pseudo code
  display; at the level of "Responding", we include pop-up questions designed to check the user's basic understanding of the algorithm; and at the "Changing" level, we designed a set of exercises in which the user is given a constraint or set of constraints on the behavior of the executing algorithm and must provide data to meet that constraint.
 In the standard use of the visualization, we also allow the user to choose their own input data or use the provided default values.

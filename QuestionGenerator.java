@@ -176,7 +176,8 @@ public class QuestionGenerator {
             ret1.addChoice("0");
             ret1.addChoice("1");
             ret1.addChoice("Not possible to determine");
-            ret1.setAnswer("" + getRegister(-1, REGA).getBit(getRegister(-1, REGA).getSize() - 1));
+            ret1.addChoice("" + getRegister(-1, REGA).getBit(getRegister(-1, REGA).getSize() - 1));
+            ret1.setAnswer(4);
 
             ret = ret1;
         }
