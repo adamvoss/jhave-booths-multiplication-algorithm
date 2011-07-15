@@ -17,7 +17,7 @@ import exe.GAIGSdatastr;
 public interface MutableGAIGSdatastr extends GAIGSdatastr {
 	//TODO rethink the difference of parameters here.
 	public double[] getBounds();
-	public void setBounds(double x1, double y1, double x2, double y2);
+	public void setBounds(double x0, double y0, double x1, double y1);
 	
 	//Note there is no storage requirement for the font size 
 	public double getFontSize();
