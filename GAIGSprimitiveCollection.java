@@ -30,15 +30,19 @@ import exe.GAIGSdatastr;
  * This class supports a variety of 2D graphics primitives, including lines, polygons, circles, ellipises, etc.
  * Creation of the primitives adheres to the other GAIGS classes and colors are specified with the standard color string.
  * </p>
+ * 
+ * <code>GAIGSprimitiveCollection</code> has been refactored to allow direct use of the primitive shapes.
+ * For new applications consider use of the generic <code>GAIGScollection<code> over
+ * <code>GAIGSprimitiveCollection</code>.
  *
  * @author Shawn Recker
- * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
+ * @author Adam Voss <vossad01@luther.edu> (refactored)
  * @version 6/22/2010
  */
 
 public class GAIGSprimitiveCollection implements GAIGSdatastr {
-	private final double TEXT_HEIGHT = .03;
-	private final int LINE_WIDTH = 12;
+	private final double TEXT_HEIGHT = AbstractPrimitive.TEXT_HEIGHT;
+	private final int LINE_WIDTH = AbstractPrimitive.LINE_WIDTH;
 
 	/**
 	 * The Current collection of graphical primitives

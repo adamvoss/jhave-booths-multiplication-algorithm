@@ -8,9 +8,9 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
  * by having its xml contained within &lt;primitivecollection&gt; tags.
  * <br/>
  * <br/>
- * GAIGSprimitives were originally developed for the Sutherland-Hodgman 
+ * GAIGSprimitiveCollection was originally developed for the Sutherland-Hodgman 
  * clipping algorithm visualization by Shawn Recker and Alejandro Carrasquilla.
- * They have since been refactored for more general use.
+ * The primitives have since been refactored for more general use.
  * 
  * @author Adam Voss <vossad01@luther.edu>
  */
@@ -30,12 +30,12 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
 	/**
 	 * The default fontSize used by primitives
 	 */
-	final static double TEXT_HEIGHT = .03;
+	final public static double TEXT_HEIGHT = .03;
 	
 	/**
 	 * The default lineWidth or Outline Thickness used by primitives
 	 */
-	final static int LINE_WIDTH = 12;
+	final public static int LINE_WIDTH = 12;
 	
 	protected String fcolor;
 	protected String ocolor;
