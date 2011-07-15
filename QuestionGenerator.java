@@ -52,7 +52,7 @@ public class QuestionGenerator {
                 GAIGSprimitiveRegister OldQ   = getRegister(-2, REGQ);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"RegQ");
                 GAIGSprimitiveRegister OldQ_1 = getRegister(-2, Q1);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"Q_1");
 
-                int select  = ((int)Math.abs(rand.nextInt() )) % 3;
+                int select  = rand.nextInt(3);
                 String ref  = (select == 0 ? "M": (select == 1 ? "A" : "Q"));
                 String phref= (select == 0 ? "A": (select == 1 ? "Q" : "M"));
 
@@ -93,7 +93,7 @@ public class QuestionGenerator {
 	 *
 	 */
 	private question getType1Question(int Q0, int Q_1) {
-		int select = ((int)Math.abs(rand.nextInt() )) % 3;
+		int select = rand.nextInt(3);
 		question ret = null;
 		int pcalc = Q0 - Q_1;
 
@@ -131,7 +131,7 @@ public class QuestionGenerator {
 			XMLtfQuestion ret1 = new XMLtfQuestion(show, id.next() );
 //			ret1.setQuestionText("Both an addition (A + M) and an arithmetic right shift will occur in the next iteration of the loop.");
 //			ret1.setAnswer(pcalc != 0 && pcalc != 1);
-            int asked = ((int)(Math.abs(rand.nextInt() ) ) % 3) - 1;
+            int asked = rand.nextInt(3) - 1;
 
             String quetext = (asked != 0 ? (asked == -1 ? "An addition (A + M) and an " : "A subtraction (A - M) and an ") : "Only an ") + 
                 "arithmetic right shift will occur during the current iteration of the loop";
@@ -192,7 +192,7 @@ public class QuestionGenerator {
 	private question getType3Question(int Q0, int Q_1, GAIGSprimitiveRegister oldReg, GAIGSprimitiveRegister newReg, GAIGSprimitiveRegister phony, 
 			String regName) {
 
-		int select = ((int)Math.abs(rand.nextInt() )) % 4;
+		int select = rand.nextInt(4);
 		question ret = null;
 		int pcalc = Q0 - Q_1;
 
@@ -207,7 +207,7 @@ public class QuestionGenerator {
 		if (select == 0) {
 			XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
 
-            int select2 = ((int) Math.abs(rand.nextInt() )) % 2;
+            int select2 = rand.nextInt(2);
 
             if (select2 == 0) {ret1.setQuestionText("What will the binary value in register " + regName + " be after the next operation is executed?");}
             else             {ret1.setQuestionText( "What will the binary value in register " + regName + " be after the " 
@@ -234,7 +234,7 @@ public class QuestionGenerator {
             ret = ret1;
 		}
 		else {
-            int select2 = ((int)Math.abs(rand.nextInt() )) % 2;
+            int select2 = rand.nextInt(2);
             XMLtfQuestion ret1 = new XMLtfQuestion(show, id.next() );
             
             ret1.setQuestionText("After the next operation finishes executing, the value of register " + regName + 
@@ -252,7 +252,7 @@ public class QuestionGenerator {
     * Probably needs to be called only once, or only once per variation.
     */
     private question getType4Question(int QLEN, CountBox count, ShowFile show) {
-        int select = ((int)Math.abs(rand.nextInt() ) ) % 2;
+        int select = rand.nextInt(2);
         question ret = null;
 
         if (select == 0) {
@@ -309,7 +309,7 @@ public class QuestionGenerator {
     private question getType5Question(ShowFile show) {
         question ret = null;
 
-        int select = ((int)Math.abs(rand.nextInt() )) % 2;
+        int select = rand.nextInt(2);
 
         if (select == 0) { 
             XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
