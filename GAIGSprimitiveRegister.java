@@ -21,7 +21,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
 
     /**
      * A deep-copy constructor
-     * @param The object to be copied
+     * @param The GAIGSregister to be copied
      */
     public GAIGSprimitiveRegister(GAIGSprimitiveRegister source){
         this.wrapped = new GAIGSpane<GAIGSrectangle>(source.wrapped);
