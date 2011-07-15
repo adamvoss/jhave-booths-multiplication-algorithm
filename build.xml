@@ -21,7 +21,9 @@
     <mkdir dir="../../../build/classes"/>
     <javac srcdir="." destdir="../../../build/classes" encoding="iso-8859-1"
            classpath=".:../../../build/classes:../../../lib/jdom.jar" debug="true"
-           includes="*.java" excludes="IGListeningTextField.java" includeantruntime="false"/>
+           includes="*.java" excludes="IGListeningTextField.java" includeantruntime="false">
+        <compilerarg value="-Xlint"/>
+    </javac>
   </target>
 
 
