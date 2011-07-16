@@ -40,8 +40,8 @@ public class QuestionGenerator {
         else {
             question ret = null;
             if (type == 1){
-                GAIGSprimitiveRegister OldQ   = getRegister(-2, REGQ);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"RegQ");
-                GAIGSprimitiveRegister OldQ_1 = getRegister(-2, Q1);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"Q_1");
+                GAIGSregister OldQ   = getRegister(-2, REGQ);//(GAIGSregister)trace.get(trace.size()-2,"RegQ");
+                GAIGSregister OldQ_1 = getRegister(-2, Q1);//(GAIGSregister)trace.get(trace.size()-2,"Q_1");
                 ret = getType1Question(OldQ.getBit(0),
                                         OldQ_1.getBit(0));
             }
@@ -49,16 +49,16 @@ public class QuestionGenerator {
             else if (type == 2) {getType2Question(show);}
             //to be called right after new registers are added, but before they're drawn.
             else if (type == 3) {
-                GAIGSprimitiveRegister OldQ   = getRegister(-2, REGQ);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"RegQ");
-                GAIGSprimitiveRegister OldQ_1 = getRegister(-2, Q1);//(GAIGSprimitiveRegister)trace.get(trace.size()-2,"Q_1");
+                GAIGSregister OldQ   = getRegister(-2, REGQ);//(GAIGSregister)trace.get(trace.size()-2,"RegQ");
+                GAIGSregister OldQ_1 = getRegister(-2, Q1);//(GAIGSregister)trace.get(trace.size()-2,"Q_1");
 
                 int select  = rand.nextInt(3);
                 String ref  = (select == 0 ? "M": (select == 1 ? "A" : "Q"));
                 String phref= (select == 0 ? "A": (select == 1 ? "Q" : "M"));
 
-                GAIGSprimitiveRegister oldReg = getRegister(-2, select);//(GAIGSprimitiveRegister)trace.get(trace.size()-2, "Reg" + ref);
-                GAIGSprimitiveRegister newReg = getRegister(-1, select);//(GAIGSprimitiveRegister)trace.get("Reg" + ref);
-                GAIGSprimitiveRegister phony  = getRegister(-1, (select+1) % 3);//(GAIGSprimitiveRegister)trace.get("Reg" + phref);
+                GAIGSregister oldReg = getRegister(-2, select);//(GAIGSregister)trace.get(trace.size()-2, "Reg" + ref);
+                GAIGSregister newReg = getRegister(-1, select);//(GAIGSregister)trace.get("Reg" + ref);
+                GAIGSregister phony  = getRegister(-1, (select+1) % 3);//(GAIGSregister)trace.get("Reg" + phref);
 
                ret = getType3Question(OldQ.getBit(0), OldQ_1.getBit(0), oldReg, newReg, phony, ref); 
             }
@@ -84,7 +84,7 @@ public class QuestionGenerator {
     public question getShiftQuestion()      {return getInRange(2) == 0 ? getQuestion(6) : null;}
 
     private int selectOnCount(int mod) {
-        //return (((GAIGSprimitiveRegister)trace.get("RegQ")).getSize() - ((CountBox)trace.get("Count")).getCount() ) % mod;
+        //return (((GAIGSregister)trace.get("RegQ")).getSize() - ((CountBox)trace.get("Count")).getCount() ) % mod;
         return (getRegister(-1, REGQ).getSize() - ((CountBox) getRegister(-1, COUNT) ).getCount() ) % mod;
     }
 	/**
@@ -189,7 +189,7 @@ public class QuestionGenerator {
 	 * Call at the comparison frame of the loop. 
 	 *
 	 */
-	private question getType3Question(int Q0, int Q_1, GAIGSprimitiveRegister oldReg, GAIGSprimitiveRegister newReg, GAIGSprimitiveRegister phony, 
+	private question getType3Question(int Q0, int Q_1, GAIGSregister oldReg, GAIGSregister newReg, GAIGSregister phony, 
 			String regName) {
 
 		int select = rand.nextInt(4);
@@ -364,7 +364,7 @@ public class QuestionGenerator {
 	 * Call after a shift operation.
 	 *
 	 */
-//  private question getType7Question(GAIGSprimitiveRegister RegA, ShowFile show) {
+//  private question getType7Question(GAIGSregister RegA, ShowFile show) {
 //      XMLtfQuestion ret = new XMLtfQuestion(show, id.next() );
 //      ret.setQuestionText("The sign of the current value in register A matches the sign of the final product.");
 //      int curAValue = binStrToInt(RegA.toString() );
@@ -410,11 +410,11 @@ public class QuestionGenerator {
     /** Returns a random number from 0 to range-1*/
     private int getInRange(int range) {return rand.nextInt(range);}
 
-    private GAIGSprimitiveRegister getRegister(int level, int reg) {
+    private GAIGSregister getRegister(int level, int reg) {
     	if (level < 0){ //Get Relative to the length of the trace
-    		return (GAIGSprimitiveRegister)((GAIGSpane)trace.get(trace.size()+level)).get(reg);
+    		return (GAIGSregister)((GAIGSpane)trace.get(trace.size()+level)).get(reg);
     	} //Level 0 is actually labels
-        return (GAIGSprimitiveRegister)((GAIGSpane)trace.get(level+1)).get(reg);
+        return (GAIGSregister)((GAIGSpane)trace.get(level+1)).get(reg);
     }
 
 	//Heavy Duty, t'is even its own class

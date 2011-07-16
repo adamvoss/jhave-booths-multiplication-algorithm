@@ -19,10 +19,10 @@ public class BoothMultiplication {
     private static PseudoCodeDisplay pseudo;
     private static URI docURI;
     private static QuestionGenerator quest;
-    private static GAIGSprimitiveRegister RegM;
-    private static GAIGSprimitiveRegister RegA;
-    private static GAIGSprimitiveRegister RegQ;
-    private static GAIGSprimitiveRegister Q_1;
+    private static GAIGSregister RegM;
+    private static GAIGSregister RegA;
+    private static GAIGSregister RegQ;
+    private static GAIGSregister Q_1;
     private static CountBox Count;
     private static GAIGSpane<GAIGSpane<?>> main; //Is this the same as GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>?
     private static GAIGSpane<MutableGAIGSdatastr> header;
@@ -180,7 +180,7 @@ public class BoothMultiplication {
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
                 FONT_SIZE, FONT_COLOR, "M", FONT_SIZE/2));
-        RegM= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegM= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.set(multiplicand);
 
         currentRow.add(RegM);
@@ -195,7 +195,7 @@ public class BoothMultiplication {
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
                 FONT_SIZE, FONT_COLOR, "A", FONT_SIZE/2));
-        RegA= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
@@ -207,7 +207,7 @@ public class BoothMultiplication {
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
                 FONT_SIZE, FONT_COLOR, "Q", FONT_SIZE/2));
-        RegQ= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         currentRow.add(RegQ);
         //multiplier label appears here.
@@ -222,7 +222,7 @@ public class BoothMultiplication {
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
                 FONT_SIZE, FONT_COLOR, "Beta", FONT_SIZE/2));
-        Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+        Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
         easySnap("Beta is initialized to Zero", easyPseudo(5), null);
@@ -385,7 +385,7 @@ public class BoothMultiplication {
         }
     }
 
-    public static void rightShift(GAIGSprimitiveRegister A, GAIGSprimitiveRegister Q, GAIGSprimitiveRegister Q_1) {
+    public static void rightShift(GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
         if (A.getSize() < 1) return;
 
         Q_1.setBit(0, Q.getBit(0));
@@ -404,7 +404,7 @@ public class BoothMultiplication {
      * @param toAdd other addend, not modified by function.
      * @param A	Destination Register and addend.
      */
-    public static void addIntoReg(GAIGSprimitiveRegister toAdd, GAIGSprimitiveRegister A) {
+    public static void addIntoReg(GAIGSregister toAdd, GAIGSregister A) {
         int carry = 0;
         int sum = 0;
         for (int i = 0; i < REG_SIZE; i++) {
@@ -419,9 +419,9 @@ public class BoothMultiplication {
      * @param M The register to negate
      * @return A new register with the negated value.
      */
-    public static GAIGSprimitiveRegister negateValue(GAIGSprimitiveRegister M) {
+    public static GAIGSregister negateValue(GAIGSregister M) {
         int carry = 1;
-        GAIGSprimitiveRegister ret = new GAIGSprimitiveRegister(M);
+        GAIGSregister ret = new GAIGSregister(M);
 
         for (int i = 0; i < M.getSize(); i++) {
             int negPart = 0;
@@ -454,14 +454,14 @@ public class BoothMultiplication {
         return sum;
     }
 
-    private static void adjustRegister(GAIGSprimitiveRegister reg){
+    private static void adjustRegister(GAIGSregister reg){
         double[] bds = reg.getBounds();
         bds[3] = bds[1]-(ROW_SPACE);
         bds[1] = bds[3]-REG_HEIGHT;
         reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
     }
 
-    private static void minorAdjustRegister(GAIGSprimitiveRegister reg){
+    private static void minorAdjustRegister(GAIGSregister reg){
         double[] bds = reg.getBounds();
         bds[3] = bds[1]-(ROW_SPACE/2);
         bds[1] = bds[3]-REG_HEIGHT;
@@ -548,8 +548,8 @@ public class BoothMultiplication {
      * Now we are restricted and must be very careful what goes on the trace and 
      * currentRow
      */
-    private static GAIGSprimitiveRegister getRegisterFromRow(int row, int reg) {
-        return (GAIGSprimitiveRegister) trace.get(row).get(reg);
+    private static GAIGSregister getRegisterFromRow(int row, int reg) {
+        return (GAIGSregister) trace.get(row).get(reg);
     }
 
     private static void addRow(){

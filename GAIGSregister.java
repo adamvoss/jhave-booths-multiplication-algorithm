@@ -15,7 +15,7 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 
-public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
+public class GAIGSregister implements MutableGAIGSdatastr {
     private GAIGSpane<GAIGSrectangle> wrapped;
 
 
@@ -23,7 +23,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
      * A deep-copy constructor
      * @param The GAIGSregister to be copied
      */
-    public GAIGSprimitiveRegister(GAIGSprimitiveRegister source){
+    public GAIGSregister(GAIGSregister source){
         this.wrapped = new GAIGSpane<GAIGSrectangle>(source.wrapped);
     }
 
@@ -40,7 +40,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
      * @param y1 upper right-hand corner's y-coordinate.
      * @param fontSize font size of the bits in the register.
      */
-    public GAIGSprimitiveRegister(int length, String name, String fillColor,
+    public GAIGSregister(int length, String name, String fillColor,
             String fontColor, String outlineColor, double x0, double y0,
             double x1, double y1, double fontSize) {
 
@@ -74,7 +74,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
      * @param bounds an array containing x0, y0, x1, y1 in that order.
      * @param fontSize font size of the bits in the register.
      */
-    public GAIGSprimitiveRegister(int length, String name, String fillColor,
+    public GAIGSregister(int length, String name, String fillColor,
             String fontColor, String outlineColor, double[] bounds, double fontSize) {
         this(length, name, fillColor, fontColor, outlineColor , bounds[0], bounds[1], bounds[2], bounds[3], fontSize);
     }
@@ -326,7 +326,7 @@ public class GAIGSprimitiveRegister implements MutableGAIGSdatastr {
      * @see java.lang.Object#clone()
      */
     @Override
-    public GAIGSprimitiveRegister clone(){
-        return new GAIGSprimitiveRegister(this);
+    public GAIGSregister clone(){
+        return new GAIGSregister(this);
     }
 }
