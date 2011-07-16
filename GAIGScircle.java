@@ -64,10 +64,8 @@ public class GAIGScircle extends AbstractPrimitive {
         this(cx, cy, r, fillColor, outlineColor, labelColor, labelText, TEXT_HEIGHT, LINE_WIDTH);
     }
 
-
-    /**
-     * Returns the bounds of the <code>GAIGS</code> Structure.
-     * @return      Array of coordinates.
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
      */
     public double[] getBounds(){
         double x1 = Double.POSITIVE_INFINITY;

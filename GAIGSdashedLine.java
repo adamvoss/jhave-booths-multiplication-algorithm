@@ -1,6 +1,8 @@
 package exe.boothsMultiplication;
 
 /**
+ * <p>GAIGSdashedLine provides a convienint way do represent a dashed line in GAIGS XML</p>
+ * 
  * <p>This is not XML equivalent to the GAIGSprimitiveCollection.addDashedLine from before
  * refactoring, only because the old code had serious bugs which are here fixed.</p>
  * 
@@ -89,7 +91,7 @@ public class GAIGSdashedLine extends AbstractPrimitive {
     }
 
     /* (non-Javadoc)
-     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
+     * @see exe.MutableGAIGSdatastr#getBounds()
      */
     @Override
     public double[] getBounds() {
@@ -113,7 +115,7 @@ public class GAIGSdashedLine extends AbstractPrimitive {
     }
 
     /* (non-Javadoc)
-     * @see exe.boothsMultiplication.MutableGAIGSdatastr#setBounds(double, double, double, double)
+     * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override
     public void setBounds(double x1, double y1, double x2, double y2) {
@@ -126,7 +128,7 @@ public class GAIGSdashedLine extends AbstractPrimitive {
     }
 
     /* (non-Javadoc)
-     * @see exe.boothsMultiplication.AbstractPrimitive#toCollectionXML()
+     * @see exe.AbstractPrimitive#toCollectionXML()
      */
     @Override
     protected String toCollectionXML() {
@@ -140,7 +142,7 @@ public class GAIGSdashedLine extends AbstractPrimitive {
     }
 
     /* (non-Javadoc)
-     * @see exe.boothsMultiplication.AbstractPrimitive#clone()
+     * @see exe.AbstractPrimitive#clone()
      */
     @Override
     public GAIGSdashedLine clone() {

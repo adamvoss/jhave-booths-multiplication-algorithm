@@ -1,25 +1,46 @@
 package exe.boothsMultiplication;
 
 /**
- * <p><code>GAIGSprimitiveCollection</code> provides the ability to draw 2D graphics for use in visualizations.
- * This class supports a variety of 2D graphics primitives, including lines, polygons, circles, ellipises, etc.
- * Creation of the primitives adheres to the other GAIGS classes and colors are specified with the standard color string.
- * </p>
+ * <p>GAIGSellipse provides a convenient way to represent eclipses in GAIGS XML.
+ * GAIGSellipse does not support drawing a filled ellipse.</p>
  *
  * @author Shawn Recker
- * @author Adam Voss <vossad01@luther.edu>, Separated out protected classes
+ * @author Adam Voss <vossad01@luther.edu>
  * @version 2011-07-16
  */
 public class GAIGSellipse extends AbstractPrimitive {
-    public double x;
-    public double y;
-    public double stAngle;
-    public double endAngle;
-    public double xR;
-    public double yR;
+    /**
+     * The lower right hand x coordinate of the ellipse bounds.
+     */
+    protected double x;
 
     /**
-     * Creates an ellipse.  Does not support a filled ellipse.
+     * The lower right hand y coordinate of the ellipse bounds.
+     */
+    protected double y;
+
+    /**
+     * The starting angle of the ellipse in radians.
+     */
+    protected double stAngle;
+
+    /**
+     * The ending angle of the ellipse in radians.
+     */
+    protected double endAngle;
+
+    /**
+     * The radius value along the x axis.
+     */
+    protected double xR;
+
+    /**
+     * The radius value along the y axis.
+     */
+    protected double yR;
+
+    /**
+     * Creates an ellipse.
      * @param x The lower right hand x coordinate of the ellipse bounds
      * @param y The lower right hand y coordinate of the ellipse bounds
      * @param stAngle The starting angle in radians of the ellipse
@@ -49,7 +70,7 @@ public class GAIGSellipse extends AbstractPrimitive {
     }
 
     /**
-     * Creates an ellipse.  Does not support a filled ellipse.
+     * Creates an using the default font size and outline thickness.
      * @param x The lower right hand x coordinate of the ellipse bounds
      * @param y The lower right hand y coordinate of the ellipse bounds
      * @param stAngle The starting angle in radians of the ellipse
@@ -67,9 +88,8 @@ public class GAIGSellipse extends AbstractPrimitive {
         this(x,y,stAngle,endAngle,xR,yR,color,lcolor,label,TEXT_HEIGHT,LINE_WIDTH);
     }
 
-    /**
-     * Returns the bounds of the <code>GAIGS</code> Structure.
-     * @return      Array of coordinates.
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
      */
     public double[] getBounds(){
         double x1 = Double.POSITIVE_INFINITY;

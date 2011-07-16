@@ -14,15 +14,15 @@ public class GAIGSpolygon extends AbstractPrimitive {
 
     /**
      * Creates a polygon.
-     * @param nSides The number of sides to the polygon.
-     * @param ptsX Array containing the x coordinate values for the polygon.
-     * @param ptsY Array containing the y coordinate values for the polygon.
-     * @param fillColor The internal color of the polygon (use an empty string for no fill color).
-     * @param outlineColor The outline color of the polygon.
-     * @param labelColor The color of the text in the polygon.
-     * @param labelText The text to be drawn in the center of the polygon.
-     * @param textHeight The height of the text in the label.
-     * @param lineWidth The thickness of the outline of the polygon.
+     * @param nSides The number of sides to the polygon
+     * @param ptsX Array containing the x coordinate values for the polygon
+     * @param ptsY Array containing the y coordinate values for the polygon
+     * @param fillColor The internal color of the polygon (use an empty string for no fill color)
+     * @param outlineColor The outline color of the polygon
+     * @param labelColor The color of the text in the polygon
+     * @param labelText The text to be drawn in the center of the polygon
+     * @param textHeight The height of the text in the label
+     * @param lineWidth The thickness of the outline of the polygon
      */
     public GAIGSpolygon(int nSides, double ptsX[], double ptsY[],
             String fillColor, String outlineColor, String labelColor, String labelText,
@@ -42,14 +42,14 @@ public class GAIGSpolygon extends AbstractPrimitive {
         this.lineWidth = lineWidth;
     }
     /**
-     * Creates a polygon.
-     * @param nSides The number of sides to the polygon.
-     * @param ptsX Array containing the x coordinate values for the polygon.
-     * @param otsY Array containing the y coordinate values for the polygon.
-     * @param fillColor The internal color of the polygon (use an empty string for no fill color).
-     * @param outlineColor The outline color of the polygon.
-     * @param labelColor The color of the text in the polygon.
-     * @param labelText The text to be drawn in the center of the polygon.
+     * Creates a polygon using the default font size and outline thickness
+     * @param nSides The number of sides to the polygon
+     * @param ptsX Array containing the x coordinate values for the polygon
+     * @param otsY Array containing the y coordinate values for the polygon
+     * @param fillColor The internal color of the polygon (use an empty string for no fill color)
+     * @param outlineColor The outline color of the polygon
+     * @param labelColor The color of the text in the polygon
+     * @param labelText The text to be drawn in the center of the polygon
      */
     public GAIGSpolygon(int nSides, double ptsX[], double ptsY[], String fillColor, String outlineColor,
             String labelColor, String labelText){
@@ -57,7 +57,7 @@ public class GAIGSpolygon extends AbstractPrimitive {
     }
 
     /**
-     * A deep-copy constructor
+     * A deep-copy constructor.
      * @param The GAIGSpolygon to be copied
      */
     public GAIGSpolygon(GAIGSpolygon source) {
@@ -73,10 +73,10 @@ public class GAIGSpolygon extends AbstractPrimitive {
         this.name = source.name;
     }
 
-    /**
-     * Returns the bounds of the <code>GAIGS</code> Structure.
-     * @return      Array of coordinates.
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
      */
+    @Override
     public double[] getBounds(){
         double x1 = Double.POSITIVE_INFINITY;
         double y1 = Double.POSITIVE_INFINITY;

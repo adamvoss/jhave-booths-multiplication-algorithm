@@ -7,7 +7,7 @@ package exe.boothsMultiplication;
  * </p>
  *
  * @author Shawn Recker
- * @author Adam Voss <vossad01@luther.edu>, Seperated out protected classes
+ * @author Adam Voss <vossad01@luther.edu>
  * @version 2011-07-16
  */
 public class GAIGSline extends AbstractPrimitive {
@@ -16,13 +16,13 @@ public class GAIGSline extends AbstractPrimitive {
 
     /**
      * Creates a line.
-     * @param x Array of 2 containing the x coordinates for the start point and end point
-     * @param y Array of 2 containing the y coordinates for the start point and end point
-     * @param color The color of the line
-     * @param labelColor The color of the text in the label
-     * @param label The text to printed near the line
-     * @param textHeight The Height of the text in the label
-     * @param lineWidth The thickness of the line
+     * @param x Array of 2 containing the x coordinates for the start point and end point.
+     * @param y Array of 2 containing the y coordinates for the start point and end point.
+     * @param color The color of the line.
+     * @param labelColor The color of the text in the label.
+     * @param label The text to printed near the line.
+     * @param textHeight The Height of the text in the label.
+     * @param lineWidth The thickness of the line.
      */
     public GAIGSline(double x[], double y[], String color, String labelColor,
             String label, double textHeight, int lineWidth)
@@ -41,20 +41,20 @@ public class GAIGSline extends AbstractPrimitive {
 
     /**
      * Adds a line to the primitive collection
-     * @param x Array of 2 containing the x coordinates for the start point and end point
-     * @param y Array of 2 containing the y coordinates for the start point and end point
-     * @param color The color of the line
-     * @param lcolor The color of the text in the label
-     * @param label The text to printed near the line
+     * @param x Array of 2 containing the x coordinates for the start point and end point.
+     * @param y Array of 2 containing the y coordinates for the start point and end point.
+     * @param color The color of the line.
+     * @param lcolor The color of the text in the label.
+     * @param label The text to printed near the line.
      */
     public GAIGSline(double x[], double y[], String color, String lcolor, String label){
         this(x, y, color,lcolor, label, TEXT_HEIGHT, LINE_WIDTH);
     }
 
     /**
-     * Creates a line between two points
-     * @param x Array of 2 containing the x coordinates for the start point and end point
-     * @param y Array of 2 containing the y coordinates for the start point and end point
+     * Creates a line between two points.
+     * @param x Array of 2 containing the x coordinates for the start point and end point.
+     * @param y Array of 2 containing the y coordinates for the start point and end point.
      */
     public GAIGSline(double x[], double y[]){
         this(x, y, DEFAULT_COLOR, DEFAULT_COLOR, "", TEXT_HEIGHT, LINE_WIDTH);
@@ -72,9 +72,8 @@ public class GAIGSline extends AbstractPrimitive {
         this.name = source.name;
     }
 
-    /**
-     * Returns the bounds of the <code>GAIGS</code> Structure.
-     * @return      Array of coordinates.
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
      */
     public double[] getBounds(){
         double x1 = Double.POSITIVE_INFINITY;
