@@ -1,9 +1,7 @@
 package exe.boothsMultiplication;
 
 /**
- * <p><code>GAIGSprimitiveCollection</code> provides the ability to draw 2D graphics for use in visualizations.
- * This class supports a variety of 2D graphics primitives, including lines, polygons, circles, ellipises, etc.
- * Creation of the primitives adheres to the other GAIGS classes and colors are specified with the standard color string.
+ * <p>GAIGSline provides a convenient way to represent a line in GAIGS XML.
  * </p>
  *
  * @author Shawn Recker
@@ -11,18 +9,24 @@ package exe.boothsMultiplication;
  * @version 2011-07-16
  */
 public class GAIGSline extends AbstractPrimitive {
-    public double x[] = new double[2];
-    public double y[] = new double[2];
+    /**
+     * The x coordinates of the line.
+     */
+    protected double x[] = new double[2];
+    /**
+     * The y coordinates of the line.
+     */
+    protected double y[] = new double[2];
 
     /**
-     * Creates a line.
-     * @param x Array of 2 containing the x coordinates for the start point and end point.
-     * @param y Array of 2 containing the y coordinates for the start point and end point.
-     * @param color The color of the line.
-     * @param labelColor The color of the text in the label.
-     * @param label The text to printed near the line.
-     * @param textHeight The Height of the text in the label.
-     * @param lineWidth The thickness of the line.
+     * Creates a line from the specified parameters.
+     * @param x Array of 2 containing the x coordinates for the start point and end point
+     * @param y Array of 2 containing the y coordinates for the start point and end point
+     * @param color The color of the line
+     * @param labelColor The color of the text in the label
+     * @param label The text to printed near the line
+     * @param textHeight The height of the text in the label
+     * @param lineWidth The thickness of the line
      */
     public GAIGSline(double x[], double y[], String color, String labelColor,
             String label, double textHeight, int lineWidth)
@@ -40,26 +44,30 @@ public class GAIGSline extends AbstractPrimitive {
     }
 
     /**
-     * Adds a line to the primitive collection
-     * @param x Array of 2 containing the x coordinates for the start point and end point.
-     * @param y Array of 2 containing the y coordinates for the start point and end point.
-     * @param color The color of the line.
-     * @param lcolor The color of the text in the label.
-     * @param label The text to printed near the line.
+     * Creates a line with the default font size and thickness. 
+     * @param x Array of 2 containing the x coordinates for the start point and end point
+     * @param y Array of 2 containing the y coordinates for the start point and end point
+     * @param color The color of the line
+     * @param lcolor The color of the text in the label
+     * @param label The text to printed near the line
      */
     public GAIGSline(double x[], double y[], String color, String lcolor, String label){
         this(x, y, color,lcolor, label, TEXT_HEIGHT, LINE_WIDTH);
     }
 
     /**
-     * Creates a line between two points.
-     * @param x Array of 2 containing the x coordinates for the start point and end point.
-     * @param y Array of 2 containing the y coordinates for the start point and end point.
+     * Creates a line between two points using default parameters.
+     * @param x Array of 2 containing the x coordinates for the start point and end point
+     * @param y Array of 2 containing the y coordinates for the start point and end point
      */
     public GAIGSline(double x[], double y[]){
         this(x, y, DEFAULT_COLOR, DEFAULT_COLOR, "", TEXT_HEIGHT, LINE_WIDTH);
     }
 
+    /**
+     * A deep copy constructor.
+     * @param source The GAIGSline to be copied
+     */
     public GAIGSline(GAIGSline source) {
         this.x = source.x.clone();
         this.y = source.y.clone();
