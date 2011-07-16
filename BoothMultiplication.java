@@ -11,6 +11,10 @@ import exe.ShowFile;
 import exe.question;
 import exe.pseudocode.*;
 
+/**
+ * @author Adam Voss <vossad01@luther.edu>
+ * @author Chris Jenkins <cjenkin1@trinity.edu>
+ */
 public class BoothMultiplication {
     private static PseudoCodeDisplay pseudo;
     private static URI docURI;
@@ -29,14 +33,14 @@ public class BoothMultiplication {
     private static int rowNumber; //This is only used for comments in the XML
     private static ShowFile show;
     private static int REG_SIZE;
-    
+
     public final static int REGM  = 0;
     public final static int REGA  = 1;
     public final static int REGQ  = 2;
     public final static int Q1    = 3;
     public final static int COUNT = 4;
-    
-    
+
+
     //Definitions
     private static final boolean DEBUG = false;
 
@@ -55,7 +59,7 @@ public class BoothMultiplication {
     public static final String INACTIVE_OUTLINE= GREY;
     public static final String INACTIVE_FILL   = WHITE;
     public static final String OUTLINE_COLOR   = FONT_COLOR;
-    
+
     private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVE_X_MARGIN*2;
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
 
@@ -78,7 +82,7 @@ public class BoothMultiplication {
 
         //Load the Pseudocode
         try{
-        pseudo = new PseudoCodeDisplay("exe/boothsMultiplication/pseudocode.xml");
+            pseudo = new PseudoCodeDisplay("exe/boothsMultiplication/pseudocode.xml");
         } catch (JDOMException e){
             e.printStackTrace();
         }
@@ -90,119 +94,119 @@ public class BoothMultiplication {
         //Our Stuff
         String multiplicand = args[1];
         String multiplier   = args[2];
-        
+
         REG_SIZE = multiplicand.length();
-        
+
         main = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVE_X_MARGIN,
-				 0-GAIGSpane.JHAVE_Y_MARGIN,
-				 1+GAIGSpane.JHAVE_X_MARGIN,
-				 1+GAIGSpane.JHAVE_Y_MARGIN,
-				 WINDOW_WIDTH,
-				 WINDOW_HEIGHT);
+                0-GAIGSpane.JHAVE_Y_MARGIN,
+                1+GAIGSpane.JHAVE_X_MARGIN,
+                1+GAIGSpane.JHAVE_Y_MARGIN,
+                WINDOW_WIDTH,
+                WINDOW_HEIGHT);
         main.setName("Main");
         header = new GAIGSpane<MutableGAIGSdatastr>(0, WINDOW_HEIGHT*(3/4.0),
-        		WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
+                WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
 
         title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
         header.add(title);
-        
+
         GAIGSArithmetic binary = new TwosComplementMultiplication(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
-            header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
+                header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
         GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
-            header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
-        
+                header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
+
         ARLABEL_SPACE  = header.getWidth()/20;
         double[] binBds = binary.getBounds();
 
         GAIGSmonospacedText binLabel = new GAIGSmonospacedText(
-        	binBds[0]-ARLABEL_SPACE, binBds[3],
-            GAIGStext.HCENTER, GAIGStext.VTOP,
-            binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
+                binBds[0]-ARLABEL_SPACE, binBds[3],
+                GAIGStext.HCENTER, GAIGStext.VTOP,
+                binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
         double[] deciBds = decimal.getBounds();
         GAIGSmonospacedText decLabel = new GAIGSmonospacedText(
-        	deciBds[2]+ARLABEL_SPACE, deciBds[3],
-        	GAIGStext.HCENTER, GAIGStext.VTOP,
-        	decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
+                deciBds[2]+ARLABEL_SPACE, deciBds[3],
+                GAIGStext.HCENTER, GAIGStext.VTOP,
+                decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
 
         header.add(binary);
         header.add(binLabel);
         header.add(decimal);
         header.add(decLabel);
-        
+
         math = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
         math.setName("Math");
-        
+
         math.add(new GAIGSline(new double[] {0,0}, new double[] {0, math.getHeight()+FONT_SIZE}));
         math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Math/ALU"));
-        
+
         trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
-        
+
         main.add(header);
         main.add(trace);
         main.add(math);
 
         GAIGSpane<GAIGSmonospacedText> trace_labels = new GAIGSpane<GAIGSmonospacedText>();
-//        math.add(new GAIGSpolygon(4, new double[] {0, math.getWidth(), math.getWidth(), 0}, 
-//            new double[] {0, 0, math.getHeight(), math.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
+        //        math.add(new GAIGSpolygon(4, new double[] {0, math.getWidth(), math.getWidth(), 0}, 
+        //            new double[] {0, 0, math.getHeight(), math.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
 
         trace.add(trace_labels);
-        
+
         currentRow = new GAIGSpane<MutableGAIGSdatastr>();
         currentRow.setName("Row " + rowNumber++);
-        
+
         trace.add(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
-    	quest = new QuestionGenerator(show, trace);
-    	
-    	
-    	//One could add Register Spacing/Sizing Logic Here
+        quest = new QuestionGenerator(show, trace);
+
+
+        //One could add Register Spacing/Sizing Logic Here
         //int numRows = numLines(multiplier);
         REG_WIDTH = REG_WIDTH_PER_BIT * multiplier.length();
         COL_SPACE = REG_SPACE_CHUNK - REG_WIDTH;
-        
 
-    	//Initialize Register Location
-    	double[] init = new double[] {
-    			LEFT_MARGIN,
-    			trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
-    			LEFT_MARGIN+REG_WIDTH,
-    			trace.getHeight()-TOP_MARGIN};
-    	
-    	//----Init Frame----
+
+        //Initialize Register Location
+        double[] init = new double[] {
+                LEFT_MARGIN,
+                trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
+                LEFT_MARGIN+REG_WIDTH,
+                trace.getHeight()-TOP_MARGIN};
+
+        //----Init Frame----
         //Reg M
-    	trace_labels.add(new GAIGSmonospacedText(
-    						(init[2]-init[0])/2.0+init[0], init[3],
-    						GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-    						FONT_SIZE, FONT_COLOR, "M", FONT_SIZE/2));
+        trace_labels.add(new GAIGSmonospacedText(
+                (init[2]-init[0])/2.0+init[0], init[3],
+                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                FONT_SIZE, FONT_COLOR, "M", FONT_SIZE/2));
         RegM= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegM.set(multiplicand);
-        
+
         currentRow.add(RegM);
         easySnap("M is the multiplicand", easyPseudo(2), null);
-        
+
         REG_SIZE = RegM.getSize();
 
         //Reg A
-    	init[0] = init[2]+(COL_SPACE);
-    	init[2] = init[0]+REG_WIDTH;
-    	trace_labels.add(new GAIGSmonospacedText(
-				(init[2]-init[0])/2.0+init[0], init[3],
-				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-				FONT_SIZE, FONT_COLOR, "A", FONT_SIZE/2));
+        init[0] = init[2]+(COL_SPACE);
+        init[2] = init[0]+REG_WIDTH;
+        trace_labels.add(new GAIGSmonospacedText(
+                (init[2]-init[0])/2.0+init[0], init[3],
+                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                FONT_SIZE, FONT_COLOR, "A", FONT_SIZE/2));
         RegA= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegA.set("0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
 
         //Reg Q
-    	init[0] = init[2]+(COL_SPACE);
-    	init[2] = init[0]+REG_WIDTH;
-    	trace_labels.add(new GAIGSmonospacedText(
-				(init[2]-init[0])/2.0+init[0], init[3],
-				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-				FONT_SIZE, FONT_COLOR, "Q", FONT_SIZE/2));
+        init[0] = init[2]+(COL_SPACE);
+        init[2] = init[0]+REG_WIDTH;
+        trace_labels.add(new GAIGSmonospacedText(
+                (init[2]-init[0])/2.0+init[0], init[3],
+                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                FONT_SIZE, FONT_COLOR, "Q", FONT_SIZE/2));
         RegQ= new GAIGSprimitiveRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         currentRow.add(RegQ);
@@ -212,12 +216,12 @@ public class BoothMultiplication {
         easySnap("Q is the Multiplier\nThe final product will span A and Q", easyPseudo(4), null);
 
         //Bit Beta
-    	init[0] = init[2]+(COL_SPACE);
-    	init[2] = init[0]+FONT_SIZE;
-    	trace_labels.add(new GAIGSmonospacedText(
-				(init[2]-init[0])/2.0+init[0], init[3],
-				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-				FONT_SIZE, FONT_COLOR, "Beta", FONT_SIZE/2));
+        init[0] = init[2]+(COL_SPACE);
+        init[2] = init[0]+FONT_SIZE;
+        trace_labels.add(new GAIGSmonospacedText(
+                (init[2]-init[0])/2.0+init[0], init[3],
+                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                FONT_SIZE, FONT_COLOR, "Beta", FONT_SIZE/2));
         Q_1 = new GAIGSprimitiveRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
@@ -226,15 +230,15 @@ public class BoothMultiplication {
         //Count
         init[0] = trace.getWidth() - FONT_SIZE - RIGHT_MARGIN;
         init[2] = trace.getWidth() - RIGHT_MARGIN;
-    	trace_labels.add(new GAIGSmonospacedText(
-				(init[2]-init[0])/2.0+init[0], init[3],
-				GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-				FONT_SIZE, FONT_COLOR, "Count", FONT_SIZE/2));
+        trace_labels.add(new GAIGSmonospacedText(
+                (init[2]-init[0])/2.0+init[0], init[3],
+                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                FONT_SIZE, FONT_COLOR, "Count", FONT_SIZE/2));
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         currentRow.add(Count);
         easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
         double[] last =  currentRow.get(0).getBounds();
-		currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
+        currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
 
         boothsMultiplication();
 
@@ -248,66 +252,66 @@ public class BoothMultiplication {
         RegQ.setFillOutlineColor(YELLOW);
         RegQ.setTextColor(FONT_COLOR);
         easySnap("Check the result.", easyPseudo(25), null);
-        
+
 
         show.close();
     }
 
     public static void boothsMultiplication(){
-    	while (Count.getCount() >= 0){
-    		//----Count Frame----
-    		Count.setFillColor(YELLOW);
-    		easySnap("Check the value of Count", easyPseudo(8, PseudoCodeDisplay.YELLOW), null);
-    		//Change color back
-    		Count.setFillColor(DEFAULT_COLOR);
-    		
-    		if (Count.getBit(0) == 0) break; //Thats so we get the final check
-    		
-    		//----Start of Comparison and Addition/Subtraction Frame Logic----
-    		
+        while (Count.getCount() >= 0){
+            //----Count Frame----
+            Count.setFillColor(YELLOW);
+            easySnap("Check the value of Count", easyPseudo(8, PseudoCodeDisplay.YELLOW), null);
+            //Change color back
+            Count.setFillColor(DEFAULT_COLOR);
+
+            if (Count.getBit(0) == 0) break; //Thats so we get the final check
+
+            //----Start of Comparison and Addition/Subtraction Frame Logic----
+
             /* Note: This logic for drawing these frames is dictated by the QuestionGenerator,
-      	    * not Booth's Multiplication Algorithm.  Previous revisions were cleaner. 
-    	    */
-    		int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
-    		
+             * not Booth's Multiplication Algorithm.  Previous revisions were cleaner. 
+             */
+            int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
+
             if (cmpVal == 1 || cmpVal == -1) {                
                 positionAdditionRow();//clones all registers
                 addRow();//now we have enough information for question type 3, calculations pending
                 GAIGSArithmetic sum;
                 GAIGSmonospacedText sumLabel;
-                
-               	//Subtraction case   
+
+                //Subtraction case   
                 if (cmpVal == 1) {
                     sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(), 2,
-                    		math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
+                            math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
                     sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
-                        GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(-M)");
+                            GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(-M)");
                     addIntoReg(negateValue(RegM), RegA);
                 }
-               	//Addition case
+                //Addition case
                 else {
                     sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2,
-                    		math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
+                            math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
                     sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
                             GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(M)");
                     addIntoReg(RegM, RegA);
                 }
-                
+
                 //----Comparison Frame----
                 getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(0, BLUE);
                 getRegisterFromRow(trace.size()-2, Q1).setFillOutlineColor(0, BLUE);
-                
+
                 question que = quest.getComparisonQuestion();
                 GAIGSpane<?> temp = trace.remove(trace.size()-1);
                 easySnap("Determine the operation", easyPseudo(10, PseudoCodeDisplay.BLUE), que);
                 trace.add(temp);
-                
+
                 //Reset/deactivate colors
                 fadeRow(trace.size()-2);
                 RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
                 Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
 
-                
+
                 //----Addition/Subtraction frame----
                 RegA.setFillOutlineColor(GREEN);
                 math.add(sum);
@@ -326,7 +330,7 @@ public class BoothMultiplication {
                 //Colors
                 RegQ.setFillOutlineColor(0, BLUE);
                 Q_1.setFillOutlineColor(0, BLUE);
-                
+
                 //Question pane-hopping
                 trace.add(null);
                 question que = quest.getQuestion(1);
@@ -340,13 +344,13 @@ public class BoothMultiplication {
             //Deactivate text
             setRowTextColor(INACTIVE_TEXT);
             setRowOutlineColor(INACTIVE_OUTLINE);
-            
-    		//----Shift Frame----
-    		positionMajorRow(); //Remember this clones
+
+            //----Shift Frame----
+            positionMajorRow(); //Remember this clones
             setRowTextColor(FONT_COLOR);
-    		addRow();
-    		rightShift(RegA, RegQ, Q_1);
-           
+            addRow();
+            rightShift(RegA, RegQ, Q_1);
+
             //Question and write
             question que = quest.getShiftQuestion(); 
 
@@ -354,31 +358,31 @@ public class BoothMultiplication {
             getRegisterFromRow(trace.size()-2, REGA).setFillOutlineColor(GREEN);
             getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(BLUE);
             setRowOutlineColor(OUTLINE_COLOR);
-    		RegA.setFillOutlineColor(GREEN);
-    		RegQ.setFillOutlineColor(BLUE);
-    		RegQ.setFillOutlineColor(REG_SIZE-1, GREEN);
-    		Q_1.setFillOutlineColor(0, BLUE);
-    		currentRow.remove(COUNT); //Oops...We don't want Count
-    		easySnap("Sign-Preserving Right Shift", easyPseudo(21, PseudoCodeDisplay.BLUE), que);
-//    		RegQ.setTextColor(FONT_COLOR);
-    		Q_1.setFillOutlineColor(DEFAULT_COLOR);
-    		
+            RegA.setFillOutlineColor(GREEN);
+            RegQ.setFillOutlineColor(BLUE);
+            RegQ.setFillOutlineColor(REG_SIZE-1, GREEN);
+            Q_1.setFillOutlineColor(0, BLUE);
+            currentRow.remove(COUNT); //Oops...We don't want Count
+            easySnap("Sign-Preserving Right Shift", easyPseudo(21, PseudoCodeDisplay.BLUE), que);
+            //    		RegQ.setTextColor(FONT_COLOR);
+            Q_1.setFillOutlineColor(DEFAULT_COLOR);
+
             //Clean Color of A and Q on the previous line
             getRegisterFromRow(trace.size()-2, REGA).setFillOutlineColor(INACTIVE_FILL);
             getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(INACTIVE_FILL);
-    		RegA.setFillOutlineColor(DEFAULT_COLOR);
-    		RegQ.setFillOutlineColor(DEFAULT_COLOR);
-    		
-    		//----Decrement Count Frame---
-    		Count.decrement();
-    		currentRow.add(Count); //Now we do want Count
-    		Count.setFillOutlineColor(RED);
-    		double[] last =  currentRow.get(0).getBounds();
-    		currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
-    		easySnap("Decrement Count", easyPseudo(23, PseudoCodeDisplay.RED), null);
-    		Count.setFillOutlineColor(DEFAULT_COLOR);
-    		//Hey!  We're ready to loop!
-    		}
+            RegA.setFillOutlineColor(DEFAULT_COLOR);
+            RegQ.setFillOutlineColor(DEFAULT_COLOR);
+
+            //----Decrement Count Frame---
+            Count.decrement();
+            currentRow.add(Count); //Now we do want Count
+            Count.setFillOutlineColor(RED);
+            double[] last =  currentRow.get(0).getBounds();
+            currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
+            easySnap("Decrement Count", easyPseudo(23, PseudoCodeDisplay.RED), null);
+            Count.setFillOutlineColor(DEFAULT_COLOR);
+            //Hey!  We're ready to loop!
+        }
     }
 
     public static void rightShift(GAIGSprimitiveRegister A, GAIGSprimitiveRegister Q, GAIGSprimitiveRegister Q_1) {
@@ -392,7 +396,7 @@ public class BoothMultiplication {
             Q.setBit(i, Q.getBit(i+1));
         }
 
-            Q.setBit(REG_SIZE-1, shiftOverToQ);
+        Q.setBit(REG_SIZE-1, shiftOverToQ);
     }
 
     /**
@@ -433,10 +437,10 @@ public class BoothMultiplication {
     }
 
     /**
-    * Calculates the number of lines the final display will occupy
-    */
+     * Calculates the number of lines the final display will occupy
+     */
     public static int numLines(String binNum) {
-    if (DEBUG){System.out.println("BinNum is: ");}
+        if (DEBUG){System.out.println("BinNum is: ");}
         int sum = binNum.length();
         char prev = '0';
 
@@ -451,19 +455,19 @@ public class BoothMultiplication {
     }
 
     private static void adjustRegister(GAIGSprimitiveRegister reg){
-    	double[] bds = reg.getBounds();
-    	bds[3] = bds[1]-(ROW_SPACE);
-    	bds[1] = bds[3]-REG_HEIGHT;
-    	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
-	}
-	
-	private static void minorAdjustRegister(GAIGSprimitiveRegister reg){
-    	double[] bds = reg.getBounds();
-    	bds[3] = bds[1]-(ROW_SPACE/2);
-    	bds[1] = bds[3]-REG_HEIGHT;
-    	reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
-	}
-    
+        double[] bds = reg.getBounds();
+        bds[3] = bds[1]-(ROW_SPACE);
+        bds[1] = bds[3]-REG_HEIGHT;
+        reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
+    }
+
+    private static void minorAdjustRegister(GAIGSprimitiveRegister reg){
+        double[] bds = reg.getBounds();
+        bds[3] = bds[1]-(ROW_SPACE/2);
+        bds[1] = bds[3]-REG_HEIGHT;
+        reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
+    }
+
     private static void setRowTextColor(String color) {
         RegM.setTextColor(color) ;
         RegA.setTextColor(color) ;
@@ -471,7 +475,7 @@ public class BoothMultiplication {
         Q_1.setTextColor(color) ;
         Count.setTextColor(color);
     }
-	
+
     private static void setRowOutlineColor(String color) {
         RegM.setOutlineColor(color) ;
         RegA.setOutlineColor(color) ;
@@ -479,14 +483,14 @@ public class BoothMultiplication {
         Q_1.setOutlineColor(color) ;
         Count.setOutlineColor(color);
     }
-	
-    
-	private static void fadeRow(int row){
-		setRowTextColor(row, INACTIVE_TEXT);
-		setRowOutlineColor(row, INACTIVE_OUTLINE);
-		setRegRowFillColor(row, INACTIVE_FILL);
-	}
-    
+
+
+    private static void fadeRow(int row){
+        setRowTextColor(row, INACTIVE_TEXT);
+        setRowOutlineColor(row, INACTIVE_OUTLINE);
+        setRegRowFillColor(row, INACTIVE_FILL);
+    }
+
     private static void setRowTextColor(int row, String color) {
         getRegisterFromRow(row, REGM).setTextColor(color);
         getRegisterFromRow(row, REGA).setTextColor(color);
@@ -502,7 +506,7 @@ public class BoothMultiplication {
         getRegisterFromRow(row, Q1  ).setOutlineColor(color);
         getRegisterFromRow(row,COUNT).setOutlineColor(color);
     }
-    
+
     private static void setRegRowFillColor(int row, String color) {
         getRegisterFromRow(row, REGM).setFillColor(color);
         getRegisterFromRow(row, REGA).setFillColor(color);
@@ -512,32 +516,32 @@ public class BoothMultiplication {
     }
 
     private static void positionMajorRow(){
-    	RegM = RegM.clone();
-    	RegA = RegA.clone();
-    	RegQ = RegQ.clone();
-    	Q_1 = Q_1.clone();
-    	Count = Count.clone();
-    	
-		adjustRegister(RegM);
-		adjustRegister(RegA);
-		adjustRegister(RegQ);
-		adjustRegister(Q_1);
-		adjustRegister(Count);
+        RegM = RegM.clone();
+        RegA = RegA.clone();
+        RegQ = RegQ.clone();
+        Q_1 = Q_1.clone();
+        Count = Count.clone();
+
+        adjustRegister(RegM);
+        adjustRegister(RegA);
+        adjustRegister(RegQ);
+        adjustRegister(Q_1);
+        adjustRegister(Count);
     }
-    
+
     //TODO figure out when to use this, then make it actually do something
     private static void positionAdditionRow(){
-    	RegM  = RegM.clone();
-    	RegA  = RegA.clone();
-    	RegQ  = RegQ.clone();
-    	Q_1   = Q_1.clone();
-    	Count = Count.clone();
-    	
-		adjustRegister(RegM);
-		adjustRegister(RegA);
-		adjustRegister(RegQ);
-		adjustRegister(Q_1);
-		adjustRegister(Count);
+        RegM  = RegM.clone();
+        RegA  = RegA.clone();
+        RegQ  = RegQ.clone();
+        Q_1   = Q_1.clone();
+        Count = Count.clone();
+
+        adjustRegister(RegM);
+        adjustRegister(RegA);
+        adjustRegister(RegQ);
+        adjustRegister(Q_1);
+        adjustRegister(Count);
     }
 
     /*
@@ -547,29 +551,29 @@ public class BoothMultiplication {
     private static GAIGSprimitiveRegister getRegisterFromRow(int row, int reg) {
         return (GAIGSprimitiveRegister) trace.get(row).get(reg);
     }
-    
+
     private static void addRow(){
-    	currentRow = new GAIGSpane<MutableGAIGSdatastr>();
-    	currentRow.setName("Row " + rowNumber);
-    	
-    	trace.add(currentRow);
-    	
-    	currentRow.add(RegM);
-    	currentRow.add(RegA);
-    	currentRow.add(RegQ);
-    	currentRow.add(Q_1);
-    	currentRow.add(Count);
+        currentRow = new GAIGSpane<MutableGAIGSdatastr>();
+        currentRow.setName("Row " + rowNumber);
+
+        trace.add(currentRow);
+
+        currentRow.add(RegM);
+        currentRow.add(RegA);
+        currentRow.add(RegQ);
+        currentRow.add(Q_1);
+        currentRow.add(Count);
     }
-    
+
     /**
-    * Converts an int to its shortest-length two's complement binary representative
-    */
+     * Converts an int to its shortest-length two's complement binary representative
+     */
     public static String toBinary(int a){
         if (a<0){
             return Integer.toBinaryString(a).replaceFirst("11*", "1");
         }
         //positive numbers are already shortest length
-       return "0"+Integer.toBinaryString(a);
+        return "0"+Integer.toBinaryString(a);
     }
 
     private static String toDecimal(String binstr) {
@@ -587,7 +591,7 @@ public class BoothMultiplication {
     }
 
     private static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
-    	BoothMultiplication.title.setText(title);
+        BoothMultiplication.title.setText(title);
         try {
             if (que == null)
                 show.writeSnap(" ", info, pseudo, stuff);
@@ -597,19 +601,19 @@ public class BoothMultiplication {
             e.printStackTrace();
         }
     }
-    
+
     private static void easySnap(String title, String pseudo, question que, GAIGSdatastr... stuff){
-    	easySnap(title, docURI.toASCIIString(), pseudo, que, stuff);
+        easySnap(title, docURI.toASCIIString(), pseudo, que, stuff);
     }
-    
+
     private static void easySnap(String title, String pseudo, question que){
-    	easySnap(title, pseudo, que, main);
+        easySnap(title, pseudo, que, main);
     }
 
     private static String easyPseudo(int[] selected, int[] lineColors){
         try {
-           return pseudo.pseudo_uri(new HashMap<String, String>(),
-                                        selected, lineColors);
+            return pseudo.pseudo_uri(new HashMap<String, String>(),
+                    selected, lineColors);
         } catch (JDOMException e) {
             e.printStackTrace();
         }
@@ -618,8 +622,8 @@ public class BoothMultiplication {
 
     private static String easyPseudo(int[] selected){
         try {
-           return pseudo.pseudo_uri(new HashMap<String, String>(),
-                                        selected);
+            return pseudo.pseudo_uri(new HashMap<String, String>(),
+                    selected);
         } catch (JDOMException e) {
             e.printStackTrace();
         }
@@ -628,29 +632,29 @@ public class BoothMultiplication {
 
     private static String easyPseudo(int selected){
         try {
-           return pseudo.pseudo_uri(new HashMap<String, String>(),
-                                        selected, PseudoCodeDisplay.GRAY);
+            return pseudo.pseudo_uri(new HashMap<String, String>(),
+                    selected, PseudoCodeDisplay.GRAY);
         } catch (JDOMException e) {
             e.printStackTrace();
         }
         return "Something went wrong";
     }
-    
+
     /**
-        * Sign extends binStr by i bits
-        */
-        public static String signExtend(String binStr, int i){
-            String firstBit = String.valueOf(binStr.charAt(0));
-            String extension = "";
-            while (i>0){extension = extension.concat(firstBit); i--;}
-            return extension.concat(binStr);
-        }
-    
-    
+     * Sign extends binStr by i bits
+     */
+    public static String signExtend(String binStr, int i){
+        String firstBit = String.valueOf(binStr.charAt(0));
+        String extension = "";
+        while (i>0){extension = extension.concat(firstBit); i--;}
+        return extension.concat(binStr);
+    }
+
+
     private static String easyPseudo(int selected, int lineColor){
         try {
-           return pseudo.pseudo_uri(new HashMap<String, String>(),
-                                        selected, lineColor);
+            return pseudo.pseudo_uri(new HashMap<String, String>(),
+                    selected, lineColor);
         } catch (JDOMException e) {
             e.printStackTrace();
         }

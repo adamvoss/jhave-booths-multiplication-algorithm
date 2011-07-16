@@ -40,7 +40,8 @@ package exe.boothsMultiplication;
  * A default array cell color can be set by using the appropriate constructor. </p>
  * 
  * @author Myles McNally 
- * @version 6/20/06
+ * @author Adam Voss (implemented MutableGAIGSdatastr)
+ * @version 7/15/11
  */
 
 
@@ -540,6 +541,9 @@ public class GAIGSarray extends GAIGSbase implements MutableGAIGSdatastr {
     
     @Override
    /**
+    * Returns a deep copy of the array, with shallow copies of its contents.
+    */
+    /*
     * Granted, this is not the conventional way to implement clone, but I can't give
     * super clone because it may break backwards compatibility. 
     */

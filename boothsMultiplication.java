@@ -6,6 +6,10 @@ import java.util.*;
 import exe.XMLParameterParser;
 import org.jdom.JDOMException;
 
+/**
+ * @author Adam Voss <vossad01@luther.edu>
+ * @author Chris Jenkins <cjenkin1@trinity.edu>
+ */
 public class boothsMultiplication{
 
     public static void main(String[] args)throws IOException, JDOMException

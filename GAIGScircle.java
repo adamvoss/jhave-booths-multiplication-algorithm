@@ -9,7 +9,7 @@ package exe.boothsMultiplication;
  *
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- * @version 6/22/2010
+ * @version 2011-07-16
  */
 public class GAIGScircle extends AbstractPrimitive {
 	public double x;

@@ -12,6 +12,7 @@ package exe.boothsMultiplication;
  * 
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  * @author Adam Voss <vossad01@luther.edu>
+ * @version 2011-07-15
  */
 public class CountBox extends GAIGSprimitiveRegister {
     public CountBox(int count, String color, String fontColor, String outlineColor, double x1, double y1, double x2, double y2, double fontSize) {

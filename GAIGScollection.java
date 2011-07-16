@@ -11,24 +11,38 @@ import exe.GAIGSdatastr;
  * This is powered by an ArrayList
  * 
  * @author Adam Voss <vossad01@luther.edu>
- *
+ * @version 2011-07-16
  */
 public class GAIGScollection<E extends GAIGSdatastr> extends AbstractCollection<E> implements GAIGSdatastr{
 	protected ArrayList<E> items = new ArrayList<E>();
 	protected String name = "";
 	
-	@Override
-	//TODO add a lock to prevent infinite loops
-	public String toXML() {
-		String xmlString = "";
-		
-		
-		for (E item:items){
-			xmlString += item.toXML();
-		}
-		return xmlString;
-	}
+	//A semaphore would be overkill 
+	private boolean drawing = false;
 	
+	@Override
+	public String toXML() {
+	    if (drawing){
+	        System.err.println("A loop exists among GAIGScollections," +
+	                           "safely aborting excessive toXML calls");
+	        return "<-- A loop exists among GAIGScollections, this should be fixed -->";
+	    }
+
+	    else{  
+	        drawing = true;
+	        
+	        String xmlString = "";
+
+
+	        for (E item:items){
+	            xmlString += item.toXML();
+	        }
+	        
+	        drawing = false;
+	        return xmlString;
+	    }
+	}
+
 	/**
 	 * Note: this name is never displayed in the visualization.
 	 */

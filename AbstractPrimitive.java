@@ -5,7 +5,7 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
 /** 
  * This is the abstract base class for primitives intended for use in the
  * GAIGSprimitiveCollection.  All primitives should be supported client side
- * by having its xml contained within &lt;primitivecollection&gt; tags.
+ * by having its XML contained within &lt;primitivecollection&gt; tags.
  * <br/>
  * <br/>
  * GAIGSprimitiveCollection was originally developed for the Sutherland-Hodgman 
@@ -13,6 +13,7 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
  * The primitives have since been refactored for more general use.
  * 
  * @author Adam Voss <vossad01@luther.edu>
+ * @version 2011-07-15
  */
 public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
     private enum TextResizeMode{NONE}

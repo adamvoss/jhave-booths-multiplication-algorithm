@@ -11,7 +11,7 @@ package exe.boothsMultiplication;
 
 public class GAIGSrectangle extends GAIGSpolygon {
     /**
-     * Creates a GAIGSrectangle with the given parameters
+     * Creates a GAIGSrectangle with the given parameters.
      * @param x0 lower left-hand corner's x-coordinate.
      * @param y0 lower left-hand corner's y-coordinate.
      * @param x1 upper right-hand corner's x-coordinate.

@@ -37,7 +37,7 @@ import exe.GAIGSdatastr;
  *
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu> (refactored)
- * @version 6/22/2010
+ * @version 7/15/2011
  */
 
 public class GAIGSprimitiveCollection implements GAIGSdatastr {

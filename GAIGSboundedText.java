@@ -9,7 +9,7 @@ import exe.ShowFile;
 
 /**
  * @author Adam Voss <vossad01@luther.edu>
- *
+ * @version 2011-07
  */
 public class GAIGSboundedText implements MutableGAIGSdatastr {
 	GAIGSmonospacedText wrapped;

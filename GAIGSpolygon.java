@@ -5,7 +5,7 @@ package exe.boothsMultiplication;
  * 
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- * @version 7/15/2011
+ * @version 2011-07-15
  */
 public class GAIGSpolygon extends AbstractPrimitive {
     protected int nSides;

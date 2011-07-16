@@ -75,7 +75,7 @@ import exe.GAIGSdatastr;
  * </pre>
  *
  * @author Andrew Jungwirth
- * @version 1.0 (28 June 2006)
+ * @version 1.1 (16 July 2011)
  */
 
 public class GAIGStext implements GAIGSdatastr{

@@ -13,6 +13,7 @@ import exe.boothsMultiplication.GAIGSmonospacedText;
  * Currently only addition of two terms is fully implemented.
  * 
  * @author Adam Voss <vossad01@luther.edu>
+ * @version 2011-07-15
  *
  */
 //TODO add support for more operations
