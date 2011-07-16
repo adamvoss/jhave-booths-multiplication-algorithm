@@ -14,8 +14,19 @@ import exe.ShowFile;
  */
 
 public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatastr {
+    /**
+     * Boolean for enabling and disabling extra information printed to standard out.
+     */
     private static final boolean DEBUG = false;
+
+    /**
+     * The width of each character, including white space.
+     */
     private double charWidth;
+
+    /**
+     * The alignment of each character within the text.
+     */
     private int charHalign;
 
     /**
@@ -29,6 +40,8 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
     /**
      * Constructor that only sets the location of the text.
+     * @param x The x coordinate of the text 
+     * @param y The y coordinate of the text
      */
     public GAIGSmonospacedText(double x, double y) {
         super(x, y);
@@ -38,6 +51,9 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
     /**
      * Constructor that sets the text and its location.
+     * @param x The x coordinate of the text 
+     * @param y The y coordinate of the text
+     * @param text The text to be displayed
      */
     public GAIGSmonospacedText(double x, double y, String text) {
         super(x, y, text);
@@ -47,6 +63,19 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
     /**
      * Constructor that sets the text, location, and alignment.
+     * @param x The x coordinate of the text 
+     * @param y The y coordinate of the text
+     * @param text The text to be displayed
+     * @param halign   The horizontal alignment.
+     *                 One of the three possible constant values used to define
+     *                 the horizontal alignment of the text relative to
+     *                 <code>x</code>. An invalid input defaults to
+     *                 centered.
+     * @param valign   The vertial alignment.
+     *                 One of the three possible constant values used to define
+     *                 the vertical alignment of the text relative to
+     *                 <code>y</code>. An invalid input defaults to
+     *                 centered.
      */
     public GAIGSmonospacedText(double x, double y, String text, int halign, int valign) {
         super(x, y, halign, valign, DEFAULT_FONT_SIZE, DEFAULT_COLOR, text);
@@ -57,6 +86,23 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
     /**
      * Constructor that provides parity with
      * the all-fields constructor of GAIGStext.
+     * @param x The x coordinate of the text 
+     * @param y The y coordinate of the text
+     * @param text The text to be displayed
+     * @param halign   The horizontal alignment.
+     *                 One of the three possible constant values used to define
+     *                 the horizontal alignment of the text relative to
+     *                 <code>x</code>. An invalid input defaults to
+     *                 centered.
+     * @param valign   The vertial alignment.
+     *                 One of the three possible constant values used to define
+     *                 the vertical alignment of the text relative to
+     *                 <code>y</code>. An invalid input defaults to
+     *                 centered.
+     * @param fontsize The size of the text that is to be displayed. Functions
+     *                 similarly to other GAIGS structures.
+     * @param color    The default color in which the text is to be drawn
+     * @param text     The text that is to be displayed on the screen
      */
     public GAIGSmonospacedText(double x, double y, int halign, int valign,
             double fontsize, String color, String text) {
@@ -67,9 +113,24 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
     /**
      * Constructor that also allows setting of the character width.
-     * 
-     * @param charWidth Width of each character,
-     * shares the same scale as fontSize.
+     * @param x The x coordinate of the text 
+     * @param y The y coordinate of the text
+     * @param text The text to be displayed
+     * @param halign   The horizontal alignment.
+     *                 One of the three possible constant values used to define
+     *                 the horizontal alignment of the text relative to
+     *                 <code>x</code>. An invalid input defaults to
+     *                 centered.
+     * @param valign   The vertial alignment.
+     *                 One of the three possible constant values used to define
+     *                 the vertical alignment of the text relative to
+     *                 <code>y</code>. An invalid input defaults to
+     *                 centered.
+     * @param fontsize The size of the text that is to be displayed. Functions
+     *                 similarly to other GAIGS structures.
+     * @param color    The default color in which the text is to be drawn
+     * @param text     The text that is to be displayed on the screen
+     * @param charWidth Width of each character, shares the same scale as fontsize
      */
     public GAIGSmonospacedText(double x, double y, int halign, int valign,
             double fontsize, String color, String text, double charWidth) {
@@ -79,6 +140,10 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
     }
 
 
+    /**
+     * A deep copy constructor.
+     * @param source
+     */
     public GAIGSmonospacedText(GAIGSmonospacedText source) {
         this.charWidth = source.charWidth;
         this.charHalign = source.charHalign;
@@ -98,7 +163,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
      * "monospace box".
      * Uses same constants as the inherited Halign.
      * 
-     * @return the charHalign
+     * @return the current character alignment value.
      */
     public int getCharHalign() {
         return charHalign;
@@ -108,7 +173,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
      * Set the horizontal alignment of each character
      * Default is HCENTER. Uses same constants as parent's Halign.
      * 
-     * @param charHalign the charHalign to set
+     * @param charHalign the alignment value to set
      */
     public void setCharHalign(int charHalign) {
         this.charHalign = charHalign;
@@ -118,21 +183,25 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
      * Sets the width of all characters.
      * Defaults to the fontsize
      * 
-     * @param width the desired character_width
+     * @param width the desired character width
      */
     public void setCharacterWidth(double width){
         this.charWidth = width;
     }
 
     /**
-     * Returns the width of all characters.
+     * Returns the width used for all characters.
      *  
-     * @return the character_width
+     * @return the character width
      */
     public double getCharacterWidth() {
         return charWidth;
     }
 
+    /**
+     * Returns the displaying width of all characters (including white-space).
+     * @return The total width of all characters
+     */
     public double getWidth(){
         double width = 0;
 
@@ -148,22 +217,32 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
     }
 
 
+    /**
+     * Returns the displaying height of this text.
+     * @return The displaying height
+     */
     public double getHeight(){
         return this.fontsize*getLineCount();
     }
 
+
+    /**
+     * Returns the number of lines in this text based on the number of new-line characters.
+     * @return The line count
+     */
     //This method is inefficient beyond the fact it computes every time
     public int getLineCount(){
         return this.text.split("\n").length;
     }
 
-    /**
+    /* (non-Javadoc)
      * This outputs ever character as an equally spaced GAIGS text element.
      * This is the lazy way to accomplish this, but it is 
      * less efficient (because processing has to be redone every draw).
      * The alternative would be to calculate all this information ahead
      * of time, so that multiple draws would be quicker.
      * 
+     * @see exe.boothsMultiplication.GAIGStext#toXML()
      * @return ret The XML string.
      */
     @Override
@@ -261,6 +340,9 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
         return ret;
     }
 
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
+     */
     @Override
     public double[] getBounds() {
         double width = getWidth();
@@ -303,6 +385,9 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
         return ret;
     }
 
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#setBounds(double, double, double, double)
+     */
     @Override
     public void setBounds(double x0, double y0, double x1, double y1) {
         if (DEBUG) System.out.println("Setting Monspaced Text Bounds:\n"+ "X0: " + x0 + " Y0: " + y0 + " X1: " + x1 + " Y1: " + y1);
@@ -343,11 +428,17 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
         }
     }
 
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getFontSize()
+     */
     @Override
     public double getFontSize() {
         return this.fontsize;
     }
 
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.GAIGStext#getFontsize()
+     */
     @Override
     @Deprecated
     public double getFontsize() {
@@ -355,21 +446,35 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
     }
 
 
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#setFontSize(double)
+     */
     @Override
     public void setFontSize(double fontSize) {
         this.fontsize = fontSize;
     }
 
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.GAIGStext#setFontsize(double)
+     */
     @Override
     @Deprecated
     public void setFontsize(double fontSize) {
         this.setFontSize(fontSize);
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#clone()
+     */
     public GAIGSmonospacedText clone(){
         return new GAIGSmonospacedText(this);
     }
 
+    /**
+     * A test case/playground.  This should be removed soon.
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         ShowFile show = new ShowFile("mono.sho");
 
