@@ -119,21 +119,9 @@ public class BoothMultiplication {
         ARLABEL_SPACE  = header.getWidth()/20;
         double[] binBds = binary.getBounds();
 
-        GAIGSmonospacedText binLabel = new GAIGSmonospacedText(
-                binBds[0]-ARLABEL_SPACE, binBds[3],
-                GAIGStext.HCENTER, GAIGStext.VTOP,
-                binary.getFontSize(), FONT_COLOR, "M\n ", header.getHeight()/13);
-        double[] deciBds = decimal.getBounds();
-        GAIGSmonospacedText decLabel = new GAIGSmonospacedText(
-                deciBds[2]+ARLABEL_SPACE, deciBds[3],
-                GAIGStext.HCENTER, GAIGStext.VTOP,
-                decimal.getFontSize(), FONT_COLOR,"M\n ", header.getHeight()/13);
-
         header.add(binary);
-        header.add(binLabel);
         header.add(decimal);
-        header.add(decLabel);
-
+        
         math = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
         math.setName("Math");
 
@@ -210,9 +198,6 @@ public class BoothMultiplication {
         RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         currentRow.add(RegQ);
-        //multiplier label appears here.
-        binLabel.setText("M\nQ");
-        decLabel.setText("M\nQ");
         easySnap("Q is the Multiplier\nThe final product will span A and Q", easyPseudo(4), null);
 
         //Bit Beta
