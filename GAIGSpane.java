@@ -6,7 +6,7 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
  * @author Adam Voss <vossad01@luther.edu>
  * @version 2011-07-16
  *
- * @param <E> Any implementer of sub-interface of MutableGAIGSdatastr (inclusive).
+ * @param <E> Any implementer or sub-interface of MutableGAIGSdatastr (inclusive)
  */
 public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E> implements MutableGAIGSdatastr {
 
@@ -26,16 +26,57 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
     public static final double OSX10_6_JHAVE_X_MARGIN = 0.1875;
     public static final double OSX10_6_JHAVE_Y_MARGIN = 0.035;
 
-    //These are the Minimum chosen from the above collected 
+    /**
+     * This is the minimum x margin from those collected.  Use of this margin should provide a
+     * reasonable guarantee that a visualization within these bounds will display without being
+     * clipped.
+     */
     public static final double JHAVE_X_MARGIN = 0.1875;
+
+    /**
+     * This is the minimum y margin from those collected.  Use of this margin should provide a
+     * reasonable guarantee that a visualization within these bounds will display without being
+     * clipped.
+     */
     public static final double JHAVE_Y_MARGIN = 0.0025;
 
+    /**
+     * This is the aspect ratio of the JHAVE view port when using the margins specified
+     */
     public static final double JHAVE_ASPECT_RATIO = (1+2*JHAVE_X_MARGIN)/(1+2*JHAVE_Y_MARGIN);
+
+    /**
+     *  This is the default aspect ratio of the coordinate system in a pane.
+     *  It is square meaning an a data structure with the same width and height will visually
+     *  have the same width and height.
+     */
     public static final double DEFAULT_ASPECT_RATIO = 1.0;
+
+    /**
+     * The maximum value of the x coordinate system.
+     */
     private double width;
+
+    /**
+     * The maximum value of the y coordinate system. 
+     */
     private double height;
+
+    /**
+     * The location of the pane on screen. 
+     */
     private double[] realBounds;
 
+    /**
+     * Creates a pane with its own coordinate system.
+     * Pass null for (only) one of width or height to get a square aspect ratio.
+     * @param x0 lower left-hand corner's x-coordinate.
+     * @param y0 lower left-hand corner's y-coordinate.
+     * @param x1 upper right-hand corner's x-coordinate.
+     * @param y1 upper right-hand corner's y-coordinate.
+     * @param width the maximum x value in the internal coordinate system.
+     * @param height the maximum y value in the internal coordinate system.
+     */
     public GAIGSpane(double x0, double y0, double x1, double y1, Double width, Double height){
         super();
 
@@ -48,19 +89,29 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
         this.height = height;
     }
 
-    public GAIGSpane(double x0, double y0, double x1, double y1){
-        this(x0, y0, x1, y1, (x1-x0), (y1-y0));
-    }
-
-
+    /**
+     * Creates a GAIGSpane that fills the whole viewport (on the margin constants) with
+     * the specified internal coordinate system. 
+     * @param width the maximum x value in the internal coordinate system.
+     * @param height the maximum y value in the internal coordinate system.
+     */
     public GAIGSpane(double width, double height){
         this(0-JHAVE_X_MARGIN, 0-JHAVE_Y_MARGIN, 1+JHAVE_X_MARGIN, 1+JHAVE_Y_MARGIN, width, height);
     }
 
+    /**
+     * Creates a pane that has no scaling or resizing effect.
+     */
     public GAIGSpane(){
         this(0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
     }
 
+    /**
+     * A deep copy constructor that has
+     * a deep copy of structure in the pane.
+     * 
+     * @param source the GAIGSpane to be copied
+     */
     @SuppressWarnings("unchecked")
     public GAIGSpane(GAIGSpane<E> source){
         super();
@@ -73,6 +124,9 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
         }
     }
 
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.GAIGScollection#toXML()
+     */
     @Override
     public String toXML() {
         String xml = "<!-- Start GAIGSpane: "+ name +" -->\n";
@@ -87,26 +141,54 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
         return xml;
     }
 
+    /**
+     * Returns the x value of the coordinate system that corresponds to the right edge of the pane.
+     * @return the width of the coordinate system
+     */
     public double getWidth() {
         return width;
     }
 
+    /**
+     * Sets the x value of the coordinate system that will correspond to the right edge of the pane.
+     * @param width the new width of the coordinate system
+     */
     public void setWidth(double width) {
         this.width = width;
     }
 
+    /**
+     * Returns the y value of the coordinate system that corresponds to the top edge of the pane.
+     * @return the height of the coordinate system
+     */
     public double getHeight() {
         return height;
     }
 
+    /**
+     * Sets the y value of the coordinate system that will correspond to the top edge of the pane.
+     * @param height the new height of the coordinate system
+     */
     public void setHeight(double height) {
         this.height = height;
     }
 
+    /**
+     * Returns the aspect ratio of the coordinate system in the pane.
+     * @return the aspect ratio
+     */
     public double getAspectRatio(){
         return (width/(realBounds[2]-realBounds[0]))/(height/(realBounds[3]-realBounds[1]));
     }
 
+    /**
+     * Gets the coordinates the given coordinates would map to
+     * if a data structure with the given coordinates were drawn
+     * in this pane.
+     * 
+     * @param srcBounds four doubles representing the bounds of an object.
+     * @return an array with the coordinates
+     */
     public double[] getRealCoordinates(double[] srcBounds){
         double scaleX = (realBounds[2]-realBounds[0])/width;
         double scaleY = (realBounds[3]-realBounds[1])/height;
@@ -116,12 +198,19 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
                 srcBounds[3]*scaleY + realBounds[1]};
     }
 
+    /**
+     * Gets the coordinates the the given data structure would have have
+     * when being displayed in this pane.
+     *  
+     * @param data The data structure, it does not need to be in the pane
+     * @return an array with the coordinates
+     */
     public double[] getRealCoordinates(MutableGAIGSdatastr data){
         return getRealCoordinates(data.getBounds());
     }
 
-    /**
-     * @see exe.MutableGAIGSdatastr#getBounds()
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
      */
     @Override
     public double[] getBounds() {
@@ -136,8 +225,8 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
         this.realBounds = new double[] {x1, y1, x2, y2};
     }
 
-    /**
-     * @see exe.MutableGAIGSdatastr#getFontSize()
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getFontSize()
      */
     @Override
     public double getFontSize() {
@@ -148,8 +237,8 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
         return sum/items.size();
     }
 
-    /**
-     * @see exe.MutableGAIGSdatastr#setFontSize(double)
+    /* (non-Javadoc)
+     * @see exe.boothsMultiplication.MutableGAIGSdatastr#setFontSize(double)
      */
     @Override
     public void setFontSize(double fontSize) {
@@ -158,6 +247,11 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
         }
     }
 
+    /**
+     * Returns a deep copy of of the pane that has a deep copy of everything it contains.
+     * 
+     * @return A deep copy.
+     */
     public GAIGSpane<E> clone(){
         return new GAIGSpane<E>(this);
     }

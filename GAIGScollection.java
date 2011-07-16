@@ -14,6 +14,8 @@ import exe.GAIGSdatastr;
  * 
  * @author Adam Voss <vossad01@luther.edu>
  * @version 2011-07-16
+ * 
+ * @param <E> Any implementer or sub-interface of GAIGSdatastr (inclusive)
  */
 //TODO, add raise and lower methods
 public class GAIGScollection<E extends GAIGSdatastr> extends AbstractCollection<E> implements GAIGSdatastr{
