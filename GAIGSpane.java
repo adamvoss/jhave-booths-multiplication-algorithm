@@ -2,8 +2,6 @@ package exe.boothsMultiplication;
 
 import exe.boothsMultiplication.MutableGAIGSdatastr;
 
-
-//TODO, raise and lower methods
 /**
  * @author Adam Voss <vossad01@luther.edu>
  * @version 2011-07-16
