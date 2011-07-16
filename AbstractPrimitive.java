@@ -56,7 +56,7 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
 
 
     /**
-     * Returns the XML that is to be used within <primitivecollection> tags
+     * Returns the XML that is to be used within &lt;primitivecollection&gt; tags
      * for use in GAIGSprimitiveCollection.
      * @return String representation of XML elements.
      */

@@ -1,7 +1,7 @@
 package exe.boothsMultiplication;
 
 /**
- * GAIGSpolygon provides an way to draw 2D polygons in GAIGS XML.
+ * GAIGSpolygon provides a way to draw 2D polygons in GAIGS XML.
  * 
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
