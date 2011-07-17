@@ -89,22 +89,28 @@ public class GAIGSarrow extends AbstractPrimitive {
     //This could be cleaned a lot, but not touching because it works
     //TODO clean this code.
     private GAIGSpolygon makeArrowHead(){
-        double [] x0 = {this.line.x[1], 0};
-        double [] y0 = {this.line.y[1], 0};
+        double headSize = this.headSize;
+        
+        if (!legacy_primitiveCollection && (line.x[0] > line.x[1])){
+            headSize *= -1; 
+        }
+        
+        double [] x0 = {this.line.x[0], 0};
+        double [] y0 = {this.line.y[0], 0};
         double [] x1 = {this.line.x[1], 0};
         double [] y1 = {this.line.y[1], 0};
 
-        double theta = Math.atan((this.line.y[1] - this.line.y[0])/(this.line.x[1] - this.line.x[0]));
+        double theta = Math.atan((y1[0] - y0[0])/(x1[0] - x0[0]));
         double end1 = theta + Math.toRadians(30);
         double end2 = theta - Math.toRadians(30);
 
-        x0[1] = this.line.x[1] - headSize * Math.cos(end1);
-        x1[1] = this.line.x[1] - headSize * Math.cos(end2);
-        y0[1] = this.line.y[1] - headSize * Math.sin(end1);
-        y1[1] = this.line.y[1] - headSize * Math.sin(end2);
+        x0[1] = x1[0] - headSize * Math.cos(end1);
+        x1[1] = x1[0] - headSize * Math.cos(end2);
+        y0[1] = y1[0] - headSize * Math.sin(end1);
+        y1[1] = y1[0] - headSize * Math.sin(end2);
 
-        double [] xvals = {this.line.x[1], x0[1], x1[1]};
-        double [] yvals = {this.line.y[1], y0[1], y1[1]};
+        double [] xvals = {x1[0], x0[1], x1[1]};
+        double [] yvals = {y1[0], y0[1], y1[1]};
 
         return new GAIGSpolygon(3, xvals, yvals,
                 this.ocolor, this.ocolor, this.lcolor,

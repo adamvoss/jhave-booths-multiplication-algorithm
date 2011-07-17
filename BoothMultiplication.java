@@ -176,20 +176,28 @@ public class BoothMultiplication {
         //Let's draw arrows
         GAIGSarrow leftArrow;
         GAIGSarrow rightArrow;
+        GAIGSrectangle debug;
         {
         title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
         double[] titlebounds = title.getBounds();
         double[] decbounds = decimal.getBounds();
         double[] binbounds = binary.getBounds();
+        
+        debug = new GAIGSrectangle(titlebounds[0], titlebounds[1], titlebounds[2], titlebounds[3], "", BLACK, RED, "Test", FONT_SIZE, 1);
+        
+        System.out.println(title.getHeight());
+        System.out.println(title.getFontSize());
         leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
                                    new double[]{(titlebounds[3]+titlebounds[1])/2, decbounds[3]},
                                    FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
         rightArrow = new GAIGSarrow(new double[]{titlebounds[2], binbounds[0]},
-                new double[]{(titlebounds[3]+titlebounds[1])/2, binbounds[1]},
+                new double[]{(titlebounds[3]+titlebounds[1])/2, binbounds[3]},
                 FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
         }
         header.add(leftArrow);
         header.add(rightArrow);
+//        header.add(debug);
+        
         easySnap("M is the multiplicand", easyPseudo(2), null);
         header.remove(rightArrow);
         header.remove(leftArrow);

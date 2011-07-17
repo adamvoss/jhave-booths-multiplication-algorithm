@@ -480,10 +480,11 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
 
         /* Width Testing */
         GAIGSmonospacedText test = new GAIGSmonospacedText(.5, .5, HCENTER, HCENTER, DEFAULT_FONT_SIZE, DEFAULT_COLOR, "ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghilkmnopqrstuvwxyz");
+        GAIGStext text = new GAIGStext(.5, .5, HCENTER, HCENTER, DEFAULT_FONT_SIZE, DEFAULT_COLOR, "ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghilkmnopqrstuvwxyz");
 
         for (double i = 1.0; i >0 ;i-=.01){
             test.setCharacterWidth(test.getFontSize()*i);
-            show.writeSnap(String.valueOf(test.getCharacterWidth()/test.getFontSize()), test);
+            show.writeSnap(String.valueOf(test.getCharacterWidth()/test.getFontSize()), test, text);
         }
 
         //GAIGSmonospacedText text1 = new GAIGSmonospacedText(.5, .5);
