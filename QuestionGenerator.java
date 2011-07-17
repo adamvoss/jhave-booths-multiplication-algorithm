@@ -77,11 +77,11 @@ public class QuestionGenerator {
         }
 	}
 
-    public question getComparisonQuestion() {return getQuestion(selectOnCount(2) == 0 ? 1 : 3);}//could be random also.
+    public question getComparisonQuestion() {return getQuestion(getInRange(2) == 0 ? 1 : 3);}//could be random also.
 
-    public question getAdditionQuestion()   {return getQuestion(selectOnCount(2) == 0 ? 2 : 5);}//ditto
+    public question getAdditionQuestion()   {return getQuestion(2);}//ditto
 
-    public question getShiftQuestion()      {return getInRange(2) == 0 ? getQuestion(6) : null;}
+    public question getShiftQuestion()      {return getQuestion(getInRange(2) == 0 ? 5 : 4);}
 
     private int selectOnCount(int mod) {
         //return (((GAIGSregister)trace.get("RegQ")).getSize() - ((CountBox)trace.get("Count")).getCount() ) % mod;
@@ -109,7 +109,7 @@ public class QuestionGenerator {
 				ret1.setAnswer(pcalc == -1 ? 1 : 2);
 			}
 
-			ret1.addChoice("Arithmetic Right Shift");
+			ret1.addChoice("Sign-preserving Right Shift");
 			ret1.setAnswer(3);
 
 			ret = ret1;
@@ -120,7 +120,7 @@ public class QuestionGenerator {
 			ret1.setQuestionText("Which of these operations shall be executed next?");
 			ret1.addChoice("Addition");
 			ret1.addChoice("Subtraction");
-			ret1.addChoice("Arithmetic Right Shift");
+			ret1.addChoice("Sign-preserving Right Shift");
 			ret1.addChoice("None of the other choices");
 
 			ret1.setAnswer(pcalc == 0 ? 3 : (pcalc == 1 ? 2 : 1) );
@@ -133,8 +133,8 @@ public class QuestionGenerator {
 //			ret1.setAnswer(pcalc != 0 && pcalc != 1);
             int asked = rand.nextInt(3) - 1;
 
-            String quetext = (asked != 0 ? (asked == -1 ? "An addition (A + M) and an " : "A subtraction (A - M) and an ") : "Only an ") + 
-                "arithmetic right shift will occur during the current iteration of the loop";
+            String quetext = (asked != 0 ? (asked == -1 ? "An addition (A + M) and a " : "A subtraction (A - M) and a ") : "Only a ") + 
+                "sign-preserving right shift will occur during the current iteration of the loop";
 
             ret1.setQuestionText(quetext);
             ret1.setAnswer(asked==pcalc);
@@ -237,8 +237,10 @@ public class QuestionGenerator {
             int select2 = rand.nextInt(2);
             XMLtfQuestion ret1 = new XMLtfQuestion(show, id.next() );
             
-            ret1.setQuestionText("After the next operation finishes executing, the value of register " + regName + 
-                " will be " + (select2 == 0 ? correctChoice : confuseChoice));
+            ret1.setQuestionText("After the next operation finishes executing, " + 
+                "the value of register " + regName + " will be " + 
+                (select2 == 0 ? correctChoice : confuseChoice));
+            ret1.setAnswer(select2 == 0);
 
             ret = ret1;
 		}
@@ -252,7 +254,7 @@ public class QuestionGenerator {
     * Probably needs to be called only once, or only once per variation.
     */
     private question getType4Question(int QLEN, CountBox count, ShowFile show) {
-        int select = rand.nextInt(2);
+        int select = rand.nextInt(QLEN-1);
         question ret = null;
 
         if (select == 0) {
@@ -263,10 +265,14 @@ public class QuestionGenerator {
             ret1.addChoice("" + (count.getCount() == QLEN-count.getCount()+1 ? QLEN-count.getCount() : count.getCount() ) );
             ret1.addChoice("None");
 
+            int extra = getInRange(QLEN - 1) + 1;
+            if (extra != QLEN - count.getCount() + 1 && extra != (count.getCount() == QLEN-count.getCount()+1 ? QLEN-count.getCount() : count.getCount() ))
+                ret1.addChoice("" + extra);
+
             ret1.shuffle();
             ret = ret1;
         }
-        else {
+/*      else {
             XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
             ret1.setQuestionText("QLEN is the number of bits in register Q. COUNT is the current value of the variable count." +
                  " Express in terms of QLEN and COUNT the number of bits in register Q which will be represented in the final answer. " + 
@@ -295,7 +301,7 @@ public class QuestionGenerator {
             ret1.setAnswer("-((-1+count)-qlen)");
 
             ret = ret1;
-        }
+        }*/
 
         return ret;
     }
@@ -311,23 +317,23 @@ public class QuestionGenerator {
 
         int select = rand.nextInt(2);
 
-        if (select == 0) { 
-            XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
-            ret1.setQuestionText("In terms of QLEN, the number of bits in register Q, " + 
-                "express the total number of shift operations performed" + 
-                " during the exectution of the algorithm.");
-            ret1.setAnswer("qlen");
-            ret = ret1;
-        }
-        else{
+        if (select == 0) {
             XMLmcQuestion ret1 = new XMLmcQuestion(show, id.next() );
             ret1.setQuestionText("How many total shift operations will occur during the execution of the algorithm?");
             ret1.addChoice("" + getRegister(-1, REGQ).getSize() );
             ret1.setAnswer(1);
-            ret1.addChoice("" + ((getInRange(2) + 1) * getRegister(-1, REGQ).getSize() ));
             ret1.addChoice("It depends on the bit values in Q");
             ret1.addChoice("" + BoothMultiplication.numLines(getRegister(0, REGQ).toString() ));
+            ret1.addChoice("" + (((CountBox)getRegister(-1, COUNT)).getCount() - 1) );;
 
+            ret = ret1;
+        }
+        else {
+            XMLfibQuestion ret1 = new XMLfibQuestion(show, id.next() );
+            ret1.setQuestionText("From now until the algorithm finishes executing, " + 
+                "how many more shift operations will occur" + 
+                "(not including this one)?");
+            ret1.setAnswer("" + (((CountBox)getRegister(-1, COUNT)).getCount() - 1) );
             ret = ret1;
         }
 
@@ -335,11 +341,7 @@ public class QuestionGenerator {
     }
 
     private question getType6Question(ShowFile show) {
-            XMLfibQuestion ret = new XMLfibQuestion(show, id.next() );
-            ret.setQuestionText("From now until the algorithm finishes executing, how many more shift operations will occur" + 
-                "(not including this one)?");
-            ret.setAnswer("" + (((CountBox)getRegister(-1, COUNT)).getCount() - 1) );
-            return ret;
+        return null;
     }
 
     /*
