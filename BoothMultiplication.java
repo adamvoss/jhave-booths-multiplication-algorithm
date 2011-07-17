@@ -117,7 +117,6 @@ public class BoothMultiplication {
                 header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
 
         ARLABEL_SPACE  = header.getWidth()/20;
-        double[] binBds = binary.getBounds();
 
         header.add(binary);
         header.add(decimal);
@@ -172,7 +171,28 @@ public class BoothMultiplication {
         RegM.set(multiplicand);
 
         currentRow.add(RegM);
+        
+        
+        //Let's draw arrows
+        GAIGSarrow leftArrow;
+        GAIGSarrow rightArrow;
+        {
+        title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
+        double[] titlebounds = title.getBounds();
+        double[] decbounds = decimal.getBounds();
+        double[] binbounds = binary.getBounds();
+        leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
+                                   new double[]{(titlebounds[3]+titlebounds[1])/2, decbounds[3]},
+                                   FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        rightArrow = new GAIGSarrow(new double[]{titlebounds[2], binbounds[0]},
+                new double[]{(titlebounds[3]+titlebounds[1])/2, binbounds[1]},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        }
+        header.add(leftArrow);
+        header.add(rightArrow);
         easySnap("M is the multiplicand", easyPseudo(2), null);
+        header.remove(rightArrow);
+        header.remove(leftArrow);
 
         REG_SIZE = RegM.getSize();
 

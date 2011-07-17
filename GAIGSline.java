@@ -117,11 +117,75 @@ public class GAIGSline extends AbstractPrimitive {
      * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override
-    public void setBounds(double x1, double y1, double x2, double y2) {
-        x[0] = x1;
-        y[0] = y1;
-        x[1] = x2;
-        y[1] = y2;
+    public void setBounds(double x0, double y0, double x1, double y1) {     
+        //Handle X
+        
+        if (x0 < x1){
+            //User doesn't want to change orientation
+            if (x[0] < x[1]){
+                //We point right
+                x[0] = x0;
+                x[1] = x1;
+                //We still point right
+            }
+            else{
+                //We point left
+                x[0] = x1;
+                x[1] = x0;
+                //We still point left
+            }
+
+        }
+        else{
+            //User indicated a flip
+            if (x[0] < x[1]){
+                //We point right
+                x[0] = x1;
+                x[1] = x0;
+                //Now we point left
+            }
+            else{
+                //We point left
+                x[0] = x0;
+                x[1] = x1;
+                //Now we point right
+            }
+        }
+        
+        //Handle Y
+        
+        if (y0 < y1){
+            //User doesn't want to change orientation
+            if (y[0] < y[1]){
+                //We point up
+                y[0] = y0;
+                y[1] = y1;
+                //We still up
+            }
+            else{
+                //We point down
+                y[0] = y1;
+                y[1] = y0;
+                //We still point down
+            }
+
+        }
+        else{
+            //User indicated a flip
+            if (y[0] < y[1]){
+                //We point up
+                y[0] = y1;
+                y[1] = y0;
+                //Now we down
+            }
+            else{
+                //We point down
+                y[0] = y0;
+                y[1] = y1;
+                //Now we point up
+            }
+        }
+        
     }
 
     /* (non-Javadoc)

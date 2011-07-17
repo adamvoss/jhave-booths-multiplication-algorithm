@@ -193,6 +193,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 			String label, double headSize, double textHeight, int lineWidth)
 	{
 		primitives.add(new GAIGSarrow(x, y, color, lcolor, label, headSize, textHeight, lineWidth));
+		((GAIGSarrow) primitives.get(primitives.size()-1)).legacy_primitiveCollection = true;
 	}
 
 	/**
@@ -229,7 +230,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	public void addCircle(double cx, double cy, double r, String fillColor, String outlineColor,
 			String labelColor, String labelText)
 	{
-		primitives.add(new GAIGScircle(cx, cy, r, fillColor, outlineColor, labelColor, labelText, TEXT_HEIGHT, LINE_WIDTH));
+		this.addCircle(cx, cy, r, fillColor, outlineColor, labelColor, labelText, TEXT_HEIGHT, LINE_WIDTH);
 	}
 
 	/**
@@ -246,7 +247,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	public void addPolygon(int nSides, double ptsX[], double ptsY[], String fillColor, String outlineColor,
 			String labelColor, String labelText)
 	{
-		primitives.add(new GAIGSpolygon(nSides, ptsX, ptsY, fillColor, outlineColor, labelColor, labelText, TEXT_HEIGHT, LINE_WIDTH));
+		this.addPolygon(nSides, ptsX, ptsY, fillColor, outlineColor, labelColor, labelText, TEXT_HEIGHT, LINE_WIDTH);
 	}
 
 	/**
@@ -259,7 +260,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 */
 	public void addLine(double x[], double y[], String color, String lcolor, String label)
 	{
-		primitives.add(new GAIGSline(x, y, color, lcolor, label, TEXT_HEIGHT, LINE_WIDTH));
+		this.addLine(x, y, color, lcolor, label, TEXT_HEIGHT, LINE_WIDTH);
 	}
 
 	/**
@@ -275,7 +276,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	public void addDashedLine(double x[], double y[], String color, String lcolor,
 			String label, double dashSize)
 	{
-			primitives.add(new GAIGSdashedLine(x, y, color, lcolor, label, dashSize, TEXT_HEIGHT, LINE_WIDTH));
+			this.addDashedLine(x, y, color, lcolor, label, dashSize, TEXT_HEIGHT, LINE_WIDTH);
 
 	}
 
@@ -288,33 +289,10 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	 * @param label The text to printed near the line
 	 * @param headSize The size of the arrow head
 	 */
-	//TODO make this a constructor
 	public void addArrow(double x[], double y[], String color, String lcolor,
 			String label, double headSize)
 	{
-		primitives.add(new GAIGSline(x, y, color, lcolor, "", TEXT_HEIGHT, LINE_WIDTH));
-
-		double size = headSize;
-
-		double [] x1 = {x[1], 0};
-		double [] y1 = {y[1], 0};
-		double [] x2 = {x[1], 0};
-		double [] y2 = {y[1], 0};
-
-		double theta = Math.atan((y[1] - y[0])/(x[1] - x[0]));
-		double end1 = theta + Math.toRadians(30);
-		double end2 = theta - Math.toRadians(30);
-
-		x1[1] = x[1] - size * Math.cos(end1);
-		x2[1] = x[1] - size * Math.cos(end2);
-		y1[1] = y[1] - size * Math.sin(end1);
-		y2[1] = y[1] - size * Math.sin(end2);
-
-		double [] xvals = {x[1], x1[1], x2[1]};
-		double [] yvals = {y[1], y1[1], y2[1]};
-
-		primitives.add(new GAIGSpolygon(3, xvals, yvals, color, color, lcolor, label, TEXT_HEIGHT, LINE_WIDTH));
-
+		this.addArrow(x, y, color, lcolor, "", TEXT_HEIGHT, headSize, LINE_WIDTH);
 	}
 
 	/**
@@ -333,7 +311,7 @@ public class GAIGSprimitiveCollection implements GAIGSdatastr {
 	public void addEllipse(double x, double y, double stAngle, double endAngle, double xR,
 			double yR, String color, String lcolor, String label)
 	{
-		primitives.add(new GAIGSellipse(x,y,stAngle,endAngle,xR,yR,color,lcolor,label,TEXT_HEIGHT,LINE_WIDTH));
+		this.addEllipse(x,y,stAngle,endAngle,xR,yR,color,lcolor,label,TEXT_HEIGHT,LINE_WIDTH);
 	}
 }
 

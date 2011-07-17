@@ -12,12 +12,19 @@ package exe.boothsMultiplication;
  * @version 2011-07-15
  */
 //TODO this needs further refactoring because many of the inherited methods have no effect
-
+//TODO Scaling of arrows forces the head to always be on the right-hand side when it shouldn't.
+//(what happens on a vertical line)
 //This should maybe instead be a Decorator of GAIGSline;
 public class GAIGSarrow extends AbstractPrimitive {
     protected GAIGSline line;
     protected GAIGSpolygon head;
     protected double headSize;
+    
+    /**
+     * Arrows heads can end up backwards in the primitiveCollection,
+     * when true, this ensures that functionality.
+     */
+    protected boolean legacy_primitiveCollection = false;
 
     /**
      * Creates an arrow from the specified parameters.
@@ -82,22 +89,22 @@ public class GAIGSarrow extends AbstractPrimitive {
     //This could be cleaned a lot, but not touching because it works
     //TODO clean this code.
     private GAIGSpolygon makeArrowHead(){
+        double [] x0 = {this.line.x[1], 0};
+        double [] y0 = {this.line.y[1], 0};
         double [] x1 = {this.line.x[1], 0};
         double [] y1 = {this.line.y[1], 0};
-        double [] x2 = {this.line.x[1], 0};
-        double [] y2 = {this.line.y[1], 0};
 
         double theta = Math.atan((this.line.y[1] - this.line.y[0])/(this.line.x[1] - this.line.x[0]));
         double end1 = theta + Math.toRadians(30);
         double end2 = theta - Math.toRadians(30);
 
-        x1[1] = this.line.x[1] - headSize * Math.cos(end1);
-        x2[1] = this.line.x[1] - headSize * Math.cos(end2);
-        y1[1] = this.line.y[1] - headSize * Math.sin(end1);
-        y2[1] = this.line.y[1] - headSize * Math.sin(end2);
+        x0[1] = this.line.x[1] - headSize * Math.cos(end1);
+        x1[1] = this.line.x[1] - headSize * Math.cos(end2);
+        y0[1] = this.line.y[1] - headSize * Math.sin(end1);
+        y1[1] = this.line.y[1] - headSize * Math.sin(end2);
 
-        double [] xvals = {this.line.x[1], x1[1], x2[1]};
-        double [] yvals = {this.line.y[1], y1[1], y2[1]};
+        double [] xvals = {this.line.x[1], x0[1], x1[1]};
+        double [] yvals = {this.line.y[1], y0[1], y1[1]};
 
         return new GAIGSpolygon(3, xvals, yvals,
                 this.ocolor, this.ocolor, this.lcolor,
