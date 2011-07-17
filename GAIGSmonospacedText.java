@@ -6,7 +6,7 @@ import exe.ShowFile;
 
 /**
  * Behaves the same as <code>GAIGStext</code> except providing
- * monospaced output.
+ * monospaced output. 
  * 
  * @see exe.GAIGStext
  * @author Adam Voss <vossad01@luther.edu>
@@ -45,6 +45,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
      */
     public GAIGSmonospacedText(double x, double y) {
         super(x, y);
+        //This is initialized because super was already called
         charWidth = this.fontsize;
         charHalign = this.halign;
     }
@@ -94,7 +95,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
      *                 the horizontal alignment of the text relative to
      *                 <code>x</code>. An invalid input defaults to
      *                 centered.
-     * @param valign   The vertial alignment.
+     * @param valign   The vertical alignment.
      *                 One of the three possible constant values used to define
      *                 the vertical alignment of the text relative to
      *                 <code>y</code>. An invalid input defaults to
@@ -121,7 +122,7 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
      *                 the horizontal alignment of the text relative to
      *                 <code>x</code>. An invalid input defaults to
      *                 centered.
-     * @param valign   The vertial alignment.
+     * @param valign   The vertical alignment.
      *                 One of the three possible constant values used to define
      *                 the vertical alignment of the text relative to
      *                 <code>y</code>. An invalid input defaults to
@@ -385,7 +386,8 @@ public class GAIGSmonospacedText extends GAIGStext implements MutableGAIGSdatast
         return ret;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Font size is scaled according to the change in height, Character width according to the change in width. 
      * @see exe.boothsMultiplication.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override

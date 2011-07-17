@@ -53,6 +53,7 @@ public class BoothMultiplication {
     public static final String BLUE      = "#BACBFF";
     public static final String YELLOW    = "#FFFF00";
     public static final String GOLD      = "#CDAD00";
+    public static final String PURPLE    = "#880088";
     public static final String FONT_COLOR      = BLACK;
     public static final String DEFAULT_COLOR   = WHITE;
     public static final String INACTIVE_TEXT   = DARK_GREY;
@@ -63,7 +64,7 @@ public class BoothMultiplication {
     private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVE_X_MARGIN*2;
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
 
-    private static       double ARLABEL_SPACE;
+    private static       double MATH_LABEL_SPACE;
     private static final double REG_WIDTH_PER_BIT = 0.04;
     private static final double FONT_SIZE         = REG_WIDTH_PER_BIT;//was 5
     private static final double REG_SPACE_CHUNK   = 0.35;
@@ -116,7 +117,7 @@ public class BoothMultiplication {
         GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
                 header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
 
-        ARLABEL_SPACE  = header.getWidth()/20;
+        MATH_LABEL_SPACE  = header.getWidth()/20;
 
         header.add(binary);
         header.add(decimal);
@@ -124,7 +125,9 @@ public class BoothMultiplication {
         math = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
         math.setName("Math");
 
-        math.add(new GAIGSline(new double[] {0,0}, new double[] {0, math.getHeight()+FONT_SIZE}));
+        math.add(new GAIGSline(new double[] {0,0},
+                new double[] {math.getHeight()+FONT_SIZE,
+                    math.getHeight() - (numLines(multiplier)+1) * (REG_HEIGHT + ROW_SPACE) + ROW_SPACE/2 }));
         math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Math/ALU"));
 
         trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
@@ -161,8 +164,9 @@ public class BoothMultiplication {
                 LEFT_MARGIN+REG_WIDTH,
                 trace.getHeight()-TOP_MARGIN};
 
-        //----Init Frame----
-        //Reg M
+        //**** Initialization Frames ****
+        
+        //----Register M Initialization Frame----
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
@@ -176,35 +180,30 @@ public class BoothMultiplication {
         //Let's draw arrows
         GAIGSarrow leftArrow;
         GAIGSarrow rightArrow;
-        GAIGSrectangle debug;
         {
         title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
         double[] titlebounds = title.getBounds();
         double[] decbounds = decimal.getBounds();
         double[] binbounds = binary.getBounds();
         
-        debug = new GAIGSrectangle(titlebounds[0], titlebounds[1], titlebounds[2], titlebounds[3], "", BLACK, RED, "Test", FONT_SIZE, 1);
-        
-        System.out.println(title.getHeight());
-        System.out.println(title.getFontSize());
         leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
-                                   new double[]{(titlebounds[3]+titlebounds[1])/2, decbounds[3]},
-                                   FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
-        rightArrow = new GAIGSarrow(new double[]{titlebounds[2], binbounds[0]},
-                new double[]{(titlebounds[3]+titlebounds[1])/2, binbounds[3]},
+                new double[]{titlebounds[3], decbounds[3]},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
+                new double[]{titlebounds[3], binbounds[3]},
                 FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
         }
         header.add(leftArrow);
         header.add(rightArrow);
-//        header.add(debug);
+        //We are done drawing arrows
         
-        easySnap("M is the multiplicand", easyPseudo(2), null);
+        easySnap(null, easyPseudo(2), null); //A null title indicates to keep the last one.
         header.remove(rightArrow);
         header.remove(leftArrow);
 
         REG_SIZE = RegM.getSize();
 
-        //Reg A
+        //----Register A Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
         init[2] = init[0]+REG_WIDTH;
         trace_labels.add(new GAIGSmonospacedText(
@@ -216,7 +215,7 @@ public class BoothMultiplication {
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
 
-        //Reg Q
+        //----Register Q Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
         init[2] = init[0]+REG_WIDTH;
         trace_labels.add(new GAIGSmonospacedText(
@@ -226,9 +225,30 @@ public class BoothMultiplication {
         RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         RegQ.set(multiplier);
         currentRow.add(RegQ);
-        easySnap("Q is the Multiplier\nThe final product will span A and Q", easyPseudo(4), null);
+        
+        //Let's draw arrows
+        {
+        title.setText("Q is the Multiplier\nThe final product will span A and Q"); //Must do this here so we get the correct bounds
+        double[] titlebounds = title.getBounds();
+        double[] decbounds = decimal.getBounds();
+        double[] binbounds = binary.getBounds();
+        
+        leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
+                new double[]{titlebounds[3], decbounds[3]-decimal.getFontSize()},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
+                new double[]{titlebounds[3], binbounds[3]-binary.getFontSize()},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        }
+        header.add(leftArrow);
+        header.add(rightArrow);
+        //We are done drawing arrows
+        
+        easySnap(null, easyPseudo(4), null);
+        header.remove(rightArrow);
+        header.remove(leftArrow);
 
-        //Bit Beta
+        //----Bit Beta Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
         init[2] = init[0]+FONT_SIZE;
         trace_labels.add(new GAIGSmonospacedText(
@@ -238,9 +258,10 @@ public class BoothMultiplication {
         Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
+        
         easySnap("Beta is initialized to Zero", easyPseudo(5), null);
 
-        //Count
+        //----Count Initialization Frame----
         init[0] = trace.getWidth() - FONT_SIZE - RIGHT_MARGIN;
         init[2] = trace.getWidth() - RIGHT_MARGIN;
         trace_labels.add(new GAIGSmonospacedText(
@@ -256,14 +277,14 @@ public class BoothMultiplication {
         boothsMultiplication();
 
         //----Finished Frame----
-        setRowTextColor(INACTIVE_TEXT);
-        setRowOutlineColor(INACTIVE_OUTLINE);
+        //setRowTextColor(INACTIVE_TEXT);
+        //setRowOutlineColor(INACTIVE_OUTLINE);
         decimal.complete();
         binary.complete();
-        RegA.setFillOutlineColor(YELLOW);
-        RegA.setTextColor(FONT_COLOR);
-        RegQ.setFillOutlineColor(YELLOW);
-        RegQ.setTextColor(FONT_COLOR);
+        RegA.setFillOutlineColor(PURPLE);
+//        RegA.setTextColor(FONT_COLOR);
+        RegQ.setFillOutlineColor(PURPLE);
+//        RegQ.setTextColor(FONT_COLOR);
         easySnap("Check the result.", easyPseudo(25), null);
 
 
@@ -297,16 +318,16 @@ public class BoothMultiplication {
                 if (cmpVal == 1) {
                     sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(), 2,
                             math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
-                            GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(-M)");
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+MATH_LABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
+                            GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(-M)", sum.getFontSize()*1.5);
                     addIntoReg(negateValue(RegM), RegA);
                 }
                 //Addition case
                 else {
                     sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2,
                             math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+ARLABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
-                            GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(M)");
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+MATH_LABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
+                            GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(M)", sum.getFontSize()*1.5);
                     addIntoReg(RegM, RegA);
                 }
 
@@ -330,7 +351,7 @@ public class BoothMultiplication {
                 math.add(sum);
                 math.add(sumLabel);
                 sum.complete();
-                easySnap("Add " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo(11, PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
+                easySnap("Add " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo((cmpVal == 1 ? 11 : 14), PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
                 //Remove Label
                 math.remove(math.size()-1);
                 //Remove Addition
@@ -604,7 +625,7 @@ public class BoothMultiplication {
     }
 
     private static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
-        BoothMultiplication.title.setText(title);
+        if (title != null) BoothMultiplication.title.setText(title);
         try {
             if (que == null)
                 show.writeSnap(" ", info, pseudo, stuff);
