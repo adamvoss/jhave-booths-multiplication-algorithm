@@ -67,7 +67,7 @@
 
   <target name="clean" description="Remove 'compile' files. Does not clean up after 'run'">
     <delete verbose="true" includeemptydirs="true" failonerror="false"> 
-      <fileset dir="../../../build/classes/exe/BoothsMultiplication"/>
+      <fileset dir="../../../build/classes/exe/boothsMultiplication"/>
     </delete>
   </target>
 

@@ -114,8 +114,8 @@ public class BoothMultiplication {
 
         GAIGSArithmetic binary = new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
                 header.getHeight()/6, header.getHeight()/13, FONT_COLOR, PURPLE);
-        GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
-                header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
+        ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
+                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, PURPLE);
 
         MATH_LABEL_SPACE  = header.getWidth()/20;
 
