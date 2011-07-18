@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="4212.9922"
+   height="2979.9211"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.14949297"
+     inkscape:cx="1623.3477"
+     inkscape:cy="1452.9333"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer4"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="846"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Background"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,1927.559)"
+     style="display:inline">
+    <rect
+       style="fill:#ffffff"
+       id="background"
+       width="4212.9922"
+       height="2979.9211"
+       x="0"
+       y="0"
+       transform="translate(0,-1927.559)"
+       inkscape:label="#rect2995"
+       sodipodi:insensitive="true" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Header">
+    <rect
+       style="fill:#0000ff"
+       id="rect3043"
+       width="4209.73"
+       height="704.77502"
+       x="1.6311035"
+       y="0" />
+    <rect
+       style="fill:#000080"
+       id="rect3043-3"
+       width="4209.73"
+       height="638.55457"
+       x="1.6311035"
+       y="3.8146973e-05" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="2112.0859"
+       y="193.93144"
+       id="text3063"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3065"
+         x="2112.0859"
+         y="193.93144"
+         style="font-size:144px;fill:#ffffff">Visualizing Booth's Multiplication Algorithm</tspan></text>
+    <g
+       id="g3189"
+       transform="translate(1.6313477,0)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text2997"
+         y="350.02249"
+         x="2538.9058"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3001"
+           y="350.02249"
+           x="2538.9058"
+           sodipodi:role="line">Adam D. Voss</tspan><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3003"
+           y="400.02249"
+           x="2538.9058"
+           sodipodi:role="line">Luther College</tspan><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3005"
+           y="450.02249"
+           x="2538.9058"
+           sodipodi:role="line">700 College Drive</tspan><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3007"
+           y="500.02249"
+           x="2538.9058"
+           sodipodi:role="line"> Decorah, IA 52101</tspan><tspan
+           id="tspan3037"
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           y="550.02246"
+           x="2538.9058"
+           sodipodi:role="line">vossad01@luther.edu</tspan><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3009"
+           y="600.02246"
+           x="2538.9058"
+           sodipodi:role="line" /><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3011"
+           y="650.02246"
+           x="2538.9058"
+           sodipodi:role="line" /></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3013"
+         y="350.02249"
+         x="1746.02"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           y="350.02249"
+           x="1746.02"
+           id="tspan3015"
+           sodipodi:role="line">Christopher W. Jenkins</tspan><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3017"
+           y="400.02249"
+           x="1746.02"
+           sodipodi:role="line">Trinity University</tspan><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3019"
+           y="450.02249"
+           x="1746.02"
+           sodipodi:role="line">One Trinity Place</tspan><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3023"
+           y="500.02249"
+           x="1746.02"
+           sodipodi:role="line">San Antonio, TX 78212-7200</tspan><tspan
+           style="text-align:center;text-anchor:middle;fill:#ffffff"
+           id="tspan3021"
+           y="550.02246"
+           x="1746.02"
+           sodipodi:role="line">cjenkin1@trinity.euu</tspan></text>
+    </g>
+  </g>
+</svg>
