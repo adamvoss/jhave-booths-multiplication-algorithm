@@ -65,8 +65,8 @@ public class BoothMultiplication {
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
 
     private static       double MATH_LABEL_SPACE;
-    private static final double REG_WIDTH_PER_BIT = 0.04;
-    private static final double FONT_SIZE         = REG_WIDTH_PER_BIT;//was 5
+    private static final double FONT_SIZE         = 0.04;//was 0.05
+    private static final double REG_WIDTH_PER_BIT = FONT_SIZE;
     private static final double REG_SPACE_CHUNK   = 0.35;
     private static final double REG_HEIGHT        = 0.06;
     private static       double REG_WIDTH;
@@ -668,46 +668,25 @@ public class BoothMultiplication {
         easySnap(title, pseudo, que, main);
     }
 
-    private static String easyPseudo(int[] selected, int[] lineColors){
-        try {
-            return pseudo.pseudo_uri(new HashMap<String, String>(),
-                    selected, lineColors);
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        }
-        return "Something went wrong";
-    }
-
-    private static String easyPseudo(int[] selected){
-        try {
-            return pseudo.pseudo_uri(new HashMap<String, String>(),
-                    selected);
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        }
-        return "Something went wrong";
-    }
-
     private static String easyPseudo(int selected){
         try {
             return pseudo.pseudo_uri(new HashMap<String, String>(),
-                    selected, PseudoCodeDisplay.GRAY);
+                    selected, "#000000", "#FFFFFF");
         } catch (JDOMException e) {
             e.printStackTrace();
         }
         return "Something went wrong";
     }
-
-    /**
-     * Sign extends binStr by i bits
-     */
-    public static String signExtend(String binStr, int i){
-        String firstBit = String.valueOf(binStr.charAt(0));
-        String extension = "";
-        while (i>0){extension = extension.concat(firstBit); i--;}
-        return extension.concat(binStr);
+    
+    private static String easyPseudo(int selected, String highlight, String textColor){
+        try {
+            return pseudo.pseudo_uri(new HashMap<String, String>(),
+                    selected, highlight, textColor);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
+        return "Something went wrong";
     }
-
 
     private static String easyPseudo(int selected, int lineColor){
         try {

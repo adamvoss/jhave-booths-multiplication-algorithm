@@ -34,6 +34,8 @@
       <arg value="foo.sho" />  <!--  Name of the output visualization script-->
       <arg value="11111101" />
       <arg value="01010101" />
+      <jvmarg value="-Dfile.encoding=ISO-8859-1" />
+      <!--jvmarg value="-Dfile.encoding=UTF8" /-->
     </java> 
   </target>
 
