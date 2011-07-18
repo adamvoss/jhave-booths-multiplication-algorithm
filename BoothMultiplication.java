@@ -325,23 +325,29 @@ public class BoothMultiplication {
             if (cmpVal == 1 || cmpVal == -1) {                
                 positionAdditionRow();//clones all registers
                 addRow();//now we have enough information for question type 3, calculations pending
-                GAIGSArithmetic sum;
+                DiscardOverflowAddition sum;
                 GAIGSmonospacedText sumLabel;
+                GAIGSmonospacedText discardLabel;
 
                 //Subtraction case   
                 if (cmpVal == 1) {
-                    sum = new GAIGSArithmetic('+', RegA.toString(), negateValue(RegM).toString(), 2,
-                            math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
+                    sum = new DiscardOverflowAddition('+', RegA.toString(), negateValue(RegM).toString(), 2,
+                            math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR, GREEN);
                     sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+MATH_LABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
                             GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(-M)", sum.getFontSize()*1.5);
+                    discardLabel = new GAIGSmonospacedText(sum.getBounds()[0], sum.getBounds()[3]+ sum.getFontSize()/2,
+                            GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VBOTTOM, sumLabel.getFontSize(), FONT_COLOR, "Discard any\nOverflow", sumLabel.getFontSize()*1.25);
+                    
                     addIntoReg(negateValue(RegM), RegA);
                 }
                 //Addition case
                 else {
-                    sum = new GAIGSArithmetic('+', RegA.toString(), RegM.toString(), 2,
-                            math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR);
+                    sum = new DiscardOverflowAddition('+', RegA.toString(), RegM.toString(), 2,
+                            math.getWidth()/1.4, math.getHeight()/1.5, FONT_SIZE+.005, FONT_SIZE+.01, FONT_COLOR, GREEN);
                     sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]+MATH_LABEL_SPACE/2, sum.getBounds()[3]-sum.getFontSize(), 
                             GAIGStext.HCENTER, GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR, "(A)\n(M)", sum.getFontSize()*1.5);
+                    discardLabel = new GAIGSmonospacedText(sum.getBounds()[0], sum.getBounds()[3]+ sum.getFontSize()/2,
+                            GAIGSmonospacedText.HLEFT, GAIGSmonospacedText.VBOTTOM, sumLabel.getFontSize(), FONT_COLOR, "Discard any\nOverflow", sumLabel.getFontSize()*1.25);
                     addIntoReg(RegM, RegA);
                 }
 
@@ -364,6 +370,7 @@ public class BoothMultiplication {
                 RegA.setFillOutlineColor(GREEN);
                 math.add(sum);
                 math.add(sumLabel);
+                math.add(discardLabel);
                 sum.complete();
                 
                 last =  currentRow.get(0).getBounds();
@@ -371,6 +378,8 @@ public class BoothMultiplication {
                         last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, (cmpVal == 1 ? "Subtraction" : "Addition"), FONT_SIZE*0.5));
                 
                 easySnap((cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A", easyPseudo((cmpVal == 1 ? 11 : 14), PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
+                //Remove Overflow Label
+                math.remove(math.size()-1);
                 //Remove Label
                 math.remove(math.size()-1);
                 //Remove Addition
