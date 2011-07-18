@@ -1,0 +1,231 @@
+\documentclass{article}
+
+% The LaTeX-to-CNXML translator makes use of Tralics, a LaTeX-to-XML conversion
+% utility.  Tralics has implemented all the packages in the LaTeX base directory,
+% and it also supports a good number of supplemental LaTeX packages.  These
+% supplemental packages are included in the \usepackage{} statements below.
+% Packages not in the LaTeX base directory or \usepackage{} statements in this
+% template are not supported by Tralics and, hence, not supported by the
+% LaTeX-to-CNXML converter.
+
+% If you have a question as to whether a specific LaTeX command is supported,
+% please refer to the "HTML Documentation of all TeX commands" section at
+% http://www-sop.inria.fr/apics/tralics/.  Here you will find links to manual pages
+% organized alphabetically by the first letter of the command.  These pages indicate
+% how Tralics handles conversion of each supported command, which informs how the
+% LaTeX-to-CNXML translator behaves.
+
+% To prepare your LaTeX document for import, copy the body of that document from its
+% source and paste it into this template between the \begin{document} and \end{document}
+% statements.  Do not attempt to use any packages other than the ones contained in this
+% template.  You may, however, insert user-defined macros directly in this template
+% before the \begin{document} statement.  Following this preparation, check to see if
+% your template-compliant document can generate a .dvi (.pdf) using latex (pdflatex).
+% If so, then your document is ready for import; if not, you must modify your document
+% to generate an output file using only the packages supported by Tralics as described
+% above.
+
+%Is this in base?
+%\usepackage{epsfig}
+%\usepackage{epstopdf}
+
+% Tralics supports the following AMS packages
+% (see http://www-sop.inria.fr/apics/tralics/packages.html for details on full/partial
+% support of package commands)
+\usepackage{amsbsy,amscd,amsfonts,amsgen,amsmath,amsopn,amssymb,amstext,amsthm,amsxtra}
+
+% Tralics supports \includegraphics and \scalebox, but not all other graphicx package
+% commands; check the web documentation on supported commands before attempting to use
+% other commands in the graphicx package:
+\usepackage{graphicx}
+
+% We must specifically invoke the verbatim package as follows to direct Tralics to handle
+% the verbatim environment properly:
+\usepackage{verbatim}
+
+% Tralics also allows the following packages:
+% (see http://www-sop.inria.fr/apics/tralics/packages.html for details on full/partial
+% support of package commands)
+
+%\usepackage{alltt}
+%\usepackage{array}
+%\usepackage{bracket}
+%\usepackage{calc}
+%\usepackage{delarray}
+%\usepackage{eucal}
+%\usepackage{eufrak}
+%\usepackage{fancyverb}
+%\usepackage{fix-cm}
+%\usepackage{fixltx2e}
+%\usepackage{flafter}
+%\usepackage{fontenc}
+%\usepackage{fp}
+%\usepackage{graphpap}
+%\usepackage{html}
+%\usepackage{ifthen}
+%\usepackage{index}
+\usepackage[utf8]{inputenc}
+%\usepackage{latexsym}
+%\usepackage{lipsum}
+%\usepackage{makeidx}
+%\usepackage{minimal}
+%\usepackage{mml}
+%\usepackage{natbib}
+%\usepackage{newlfont}
+%\usepackage{oldlfont}
+%\usepackage{shortvrb}
+%\usepackage{showidx}
+%\usepackage{soul}
+%\usepackage{syntonly}
+%\usepackage{textcase}
+%\usepackage{textcomp}
+%\usepackage{tloop}
+%\usepackage{theorem}
+%\usepackage{upref}
+
+%-------------------------------------------------------------------
+% You can insert user-defined macros (using the supported packages
+% only) here...
+\DeclareUnicodeCharacter{03B2}{\beta}
+%-------------------------------------------------------------------
+
+\title{Guide for Visualizing Booth's Multiplication Algorithm}
+\date{July 2011}
+
+\begin{document}
+
+\section{Getting Started with JHAVÉ}
+The easiest way to start the visualization for Booth's multiplication algorithm is by going to \emph{http://jhave.org}.
+Under the section titled ``Getting Started'' click the button which says ``Click Here to WebStart Me Now!''.
+If a dialogue window appears, select the ``Open'' option, rather than ``Save'', and press OK.
+If you have any difficulties getting the JHAVÉ client to run, consult the ``Problems with Java WebStart?'' subsection at \emph{http://jhave.org}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{start.pdf}
+\caption{The JHAVÉ client}
+\end{figure}
+
+\section{The Input Generator}
+
+When the JHAVÉ client is running, select ``Connect''.
+On the next screen, select ``Booth's Multiplication Algorithm'' from the drop-down menu of algorithms, and select ``Visualize''.
+The algorithm's input generator will appear, with four text fields and a drop-down menu.
+The first row of text fields is used for the input of the multiplicand, and the second row for the input of the multiplier.
+The first column of text fields are for decimal input values, and the second column for binary input values.
+Thus, the top-left text field is used to input a decimal value for the multiplicand, and the bottom right text field is used to input a binary value for the multiplier.
+Finally, the drop-down menu is used to indicate the number of bits of a register.
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{ingen.pdf}
+\caption{Booth's Multiplication Algorithm Input Generator}
+\end{figure}
+
+Whenever you change one of the values in the four text fields, it will update the binary text fields according to the register size option selected, or signal an error for invalid input.
+The ``Automatic'' option will use the least number of bits necessary for the binary representation of both the multiplicand and the multiplier; however, it will never use fewer than 3 bits or greater than 8 bits.
+If you select a fixed-register size from the drop-down menu, every value entered in the binary text fields will be resized to the number of bits selected.
+If the values entered for the multiplicand or multiplier cannot be represented in the number of bits selected, then an ``Overflow'' error is signalled and the input generator will do its best to correct the mistake.
+
+\section{Starting the Visualization}
+
+Once you have selected the desired input values, click ``OK''.
+This will take you to the first snapshot of the visualization.
+You should see figures depicting decimal and binary multiplication on the top left and top right, respectively.
+On the right side of the visualization is an area marked ``Math/ALU''.
+Whenever binary addition or subtraction occurs, a diagram appears in this area to show you how the result is derived.
+To the right of this is a pane with two tabs.
+One tab, titled ``Pseudo Code'' displays pseudo code for the executing algorithm.
+For every snapshot, a line in the pseudo code is highlighted indicating what has just happened in the visualization.
+Finally, the text in the top center of the screen also provides information about the current step of the visualization.
+
+\pagebreak
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{initreg.pdf}
+\caption{The Initialization of M, A, Q, Beta, and Count}
+\end{figure}
+
+The first few slides are dedicated to setting up the initial values the algorithm will use.
+After this, the visualization goes into the main loop of the algorithm.
+Depending on your screen size, you may at this time see text annotation on the left of the registers describing what occurred during that step.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{looptop.pdf}
+\caption{Beginning of the main loop}
+\end{figure}
+
+As the visualization progresses, the state history of the algorithm is preserved on screen, along with an appropriate annotation.
+This is done for your convenient reference.
+The current values for the algorithm are drawn in black text and in black boxes, and values for past states of the algorithm are drawn in grey text in grey boxes.
+
+\pagebreak
+\section{An Example Iteration of the Loop}
+After the beginning of the main loop is reached, first the case is determined:
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{cases.pdf}
+\caption{Check the case}
+\end{figure}
+
+The bits being compared are highlighted in blue; the corresponding line of pseudo-code is highlighted in blue as well.
+
+\pagebreak
+Then the operations for that case are executed:
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{sub.pdf}
+\caption{Execute subtraction operation}
+\end{figure}
+
+When an arithmetic operation occurs, register A is highlighted green to indicate its updated value, along with the corresponding line of pseudo-code.
+The result of the arithmetic in the ``Math/ALU'' pane is also highlighted green, except for any overflow, which is discarded.
+
+\pagebreak
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{shift.pdf}
+\caption{Execute shift operation}
+\end{figure}
+
+When an shift operation occurs, the old values of registers A and Q are highlighted green and blue, respectively.
+The current values of A and Q are also highlighted green and blue, with two notable exceptions: the most significant bit of Q is highlighted green, indicating its value came from register A, and Beta is highlighted blue, indicating its value came from register Q.
+
+\pagebreak
+Finally, the value of ``Count'' is decremented, and the algorithm returns to the top of the loop.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{dec.pdf}
+\caption{Decrement Count}
+\end{figure}
+
+Pop-up questions will appear during the algorithm visualizations.
+These questions are designed to test your understanding of the algorithm, and come in the following formats: fill in the blank, multiple choice, multiple selection, and true/false.
+If you prefer, you may disable the questions for the time being by going to the ``Options'' menu and unchecking ``Show Questions''.
+However, once you are more comfortable with the algorithm visualization, it is strongly recommended that you re-enable questions.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{que.pdf}
+\caption{An example question}
+\end{figure}
+
+\pagebreak
+
+\section{The Visualization's Conclusion}
+When ``Count'' is equal to 0, the algorithm finishes executing, and the result is highlighted in purple.
+The diagrams at the top left and top right of the screen are also updated with the decimal and binary representation of the result, respectively.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{finish.pdf}
+\caption{The last snapshot of the algorithm}
+\end{figure}
+
+\end{document}
