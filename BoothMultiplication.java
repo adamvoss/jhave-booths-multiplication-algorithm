@@ -112,8 +112,8 @@ public class BoothMultiplication {
         title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
         header.add(title);
 
-        GAIGSArithmetic binary = new TwosComplementMultiplication(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
-                header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
+        GAIGSArithmetic binary = new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
+                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, PURPLE);
         GAIGSArithmetic decimal = new GAIGSArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
                 header.getHeight()/6, header.getHeight()/13, FONT_COLOR);
 
