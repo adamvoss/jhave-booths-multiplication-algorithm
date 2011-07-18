@@ -114,11 +114,12 @@ For binary values, there are only two cases to consider for partial products: $M
 Consider the following calculation of the multiplication of 001011 and 010111, which, in two's complement notation, is 11 and 23, respectively.
 To stay consistent with register conventions, we use the same number of bits to represent both values.
 %diagram goes here
-
-%\begin{figure}
-%\centering
+\pagebreak
+\begin{figure}
+\centering
 \includegraphics[scale=0.7]{saam3.pdf}
-%\end{figure}
+\caption{Shift-and-Add Multiplication}
+\end{figure}
 
 We see already a vast improvement in the performance of this algorithm, compared to the repeated additions method.
 Each partial product shown corresponds to an addition operation (+M or +0).
@@ -144,17 +145,28 @@ In the previous example, the numbers we multiplied were represented as 6-digit b
 In general, if two n-bit numbers are multiplied, then the result can require as many as 2n bits to represent.
 Thus the convention is to store the result of multiplication in two registers.
 
-\section{Improved Shift-and-Add Multiplication}
-Here is an improved version of the shift-and-add multiplication algorithm, with the proposed changes: %diagram goes here
+\pagebreak
 
+\begin{figure}
+\centering
 \includegraphics[scale=0.7]{isaam2.pdf}
+\caption{Improved Shift-and-Add Multiplication}
+\end{figure}
 
-There is another detail to consider before implementing this algorithm in hardware: in the last example, the bit in the multiplier Q we are using to calculate a partial product is always positioned one to the left of the previous bit we used, or else it is the right-most (least significant) bit of Q when the multiplication starts.
+\section{Improved Shift-and-Add Multiplication}
+Depicted above is an improved version of the shift-and-add multiplication algorithm, with the proposed changes.
+
+There is still another detail to consider before implementing this algorithm in hardware: in the last example, the bit in the multiplier Q we are using to calculate a partial product is always positioned one to the left of the previous bit we used, or else it is the right-most (least significant) bit of Q when the multiplication starts.
 To make this process easier, we could instead choose to always examine the least significant bit of Q, and for every right shift operation on register A, we would also do a right shift on Q.
 Thus, when the algorithm finishes, all of the previous values in Q will be discarded.
 This fact will allow us to be even more efficient: instead of using another register to store the lower half of the product, we can use Q, because, for every bit discarded from Q, we can place into Q's most significant bit the least significant bit of A, saving ourselves from using a whole other register!
 
-%TODO diagram with registers from visualization
+\pagebreak
+\begin{figure}
+\centering
+\includegraphics{init.pdf}
+\caption{Registers M, A, and Q, initialized for the multiplication of 11 and 23}
+\end{figure}
 
 \section{The Problem with Negative Numbers}
 Consider the multiplication of the following 4-bit 2's complement numbers using the algorithm from the previous section: 0011 (3) and 1011 (-5).
@@ -191,11 +203,11 @@ Again, this guarantees that the most significant non-zero bit in the multiplier 
 
 So far we have only shown that our encoding process will preserve the sign of the original value.
 To show that the two values are equivalent, first recall that the value of $N$, a negative binary number in two's complement representation, can be expressed as:
-\[-2^k + \sum_{i=0}^{k-1} n_i \cdot 2^i\]
-where $n_i$ is value of the $i$th bit of $N$, and $k$ is the \emph{position} (not value) of the rightmost bit in the largest leftmost sequence of 1s.
+\[-2^k + \sum_{i=0}^{k-1} (n_i \cdot 2^i)\]
+where $n_i$ is value of the $i$th bit of $N$, and $k$ is the \emph{position} (not value) of the rightmost bit in the largest leftmost sequence of 1s in $N$.
 Similarly, the encoded value of $N$, which we will call $N^{\prime}$, can be expressed as:
-\[-2^{k^{\prime}} + \sum_{i=0}^{k^{\prime}-1} n_i^{\prime} \cdot 2^i\]
-where $n_i^{\prime}$ is the value of the $i$th bit of $N^{\prime}$ and $k^{\prime}$ is the position fo the most significant bit with value $\bar{1}$.
+\[-2^{k^{\prime}} + \sum_{i=0}^{k^{\prime}-1} (n_i^{\prime} \cdot 2^i)\]
+where $n_i^{\prime}$ is the value of the $i$th bit of $N^{\prime}$ and $k^{\prime}$ is the position for the most significant bit with value $\bar{1}$.
 From our discussion of case three, we know the position of the rightmost bit in the largest leftmost sequence of 1s in $N$ is the same as the position of the most significant bit with value $\bar{1}$ in $N^{\prime}$, so we know that $k$ and $k^{\prime}$ are equal.
 Finally, since the sums represent positive values (if they do not, we have picked the wrong values for $k$ and $k^{\prime}$), and since from our earlier discussion in this section we have shown (informally) why Booth's algorithm works for positive values, we can now say the two equations are equivalent.
 (Note: be careful not to think the two equations say the same thing: the values of $n_i^{\prime}$ can be 0, 1, or -1 ($\bar{1}$), whereas the values of $n_i$ can only be 0 or 1)
@@ -212,11 +224,29 @@ $\beta$ is initialized to 0, so that at the start of the algorithm, if the least
 Keep in mind now that whenever a shift occurs, the least significant bit of A is moved into the most significant bit of Q, and the least significant bit of Q is moved into $\beta$.
 The old value of $\beta$ is discarded.
 
-\section{Visualization of Booth's Multiplication}
-Everything we have considered so far for an appropriate machine level algorithm to multiply two's complement values has been implemented as a JHAVE visualization.
+\begin{figure}[h]
+\centering
+\includegraphics{init2.pdf}
+\caption{Registers M, A, Q, and Beta, initialized for the multiplication of 11 and 23}
+\end{figure}
+
+\section{Visualizing Booth's Multiplication}
+Everything we have considered so far for an appropriate machine level algorithm to multiply two's complement values has been implemented as a JHAVÉ visualization.
 Instead of using the form of the previous examples, it more closely resembles the way the algorithm might be executed in hardware, placing explicitly the multiplicand and multiplier in registers M and Q respectively, and storing the final result in registers A and Q.
-An example run-through is provided below.
+An example run-through is provided below, as well as a link to a use-case video.
 Step through the visualization as many times as you need, answering the questions as they appear, then proceed on to the exercises.
+
+%\section{Example Run of the Visualization}
+%After starting the JHAVÉ client and selecting ``Booth's Multiplication Algorithm'', an input generator window will appear with four text fields, two for decimal input and two four binary input, and a menu to select register size.
+%You may choose your own values for the visualization, or use the default values provided (if you are having trouble getting the input generator to take your values, make sure you selected an appropriate register size for your values).
+%When you are ready to begin the visualization, press ``OK''.
+
+%\begin{figure}[h]
+%\centering
+%\includegraphics{vis1.pdf}
+%\end{figure}
+
+%The next few snapshots of the visualization 
 
 %-------------------------------------------------------------------
 % to create references, un-comment \bibliographystyle{plain} and
