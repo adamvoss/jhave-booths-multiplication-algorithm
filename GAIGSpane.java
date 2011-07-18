@@ -208,7 +208,7 @@ public class GAIGSpane<E extends MutableGAIGSdatastr> extends GAIGScollection<E>
     public double[] getRealCoordinates(MutableGAIGSdatastr data){
         return getRealCoordinates(data.getBounds());
     }
-
+    
     /* (non-Javadoc)
      * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
      */

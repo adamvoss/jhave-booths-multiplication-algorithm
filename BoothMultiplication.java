@@ -272,8 +272,16 @@ public class BoothMultiplication {
         currentRow.add(Count);
         easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
         double[] last =  currentRow.get(0).getBounds();
+        
         currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
-
+        
+        //Maybe this should be a function of GAIGSpane
+        double[] unitLengths = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates(new double[]{0,0,1,1})));
+        double unitLengthX = unitLengths[2]-unitLengths[0];
+        
+        currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
+                last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Initialization", FONT_SIZE*0.5));
+        
         boothsMultiplication();
 
         //----Finished Frame----
@@ -285,13 +293,19 @@ public class BoothMultiplication {
 //        RegA.setTextColor(FONT_COLOR);
         RegQ.setFillOutlineColor(PURPLE);
 //        RegQ.setTextColor(FONT_COLOR);
-        easySnap("Check the result.", easyPseudo(25), null);
+        easySnap("The result is " + RegA + RegQ + "\nwhich is "
+                + ((Integer.parseInt(toDecimal(args[1])))*(Integer.parseInt(toDecimal(args[2])))) + " in decimal", easyPseudo(25), null);
 
 
         show.close();
     }
 
     public static void boothsMultiplication(){
+        //Maybe this should be a function of GAIGSpane
+        double[] unitLengths = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates(new double[]{0,0,1,1})));
+        double unitLengthX = unitLengths[2]-unitLengths[0];
+        double[] last;
+        
         while (Count.getCount() >= 0){
             //----Count Frame----
             Count.setFillColor(YELLOW);
@@ -351,7 +365,12 @@ public class BoothMultiplication {
                 math.add(sum);
                 math.add(sumLabel);
                 sum.complete();
-                easySnap("Add " + (cmpVal == 1 ? "-M " : " M") + " to A", easyPseudo((cmpVal == 1 ? 11 : 14), PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
+                
+                last =  currentRow.get(0).getBounds();
+                currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
+                        last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, (cmpVal == 1 ? "Subtraction" : "Addition"), FONT_SIZE*0.5));
+                
+                easySnap((cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A", easyPseudo((cmpVal == 1 ? 11 : 14), PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
                 //Remove Label
                 math.remove(math.size()-1);
                 //Remove Addition
@@ -397,6 +416,11 @@ public class BoothMultiplication {
             RegQ.setFillOutlineColor(REG_SIZE-1, GREEN);
             Q_1.setFillOutlineColor(0, BLUE);
             currentRow.remove(COUNT); //Oops...We don't want Count
+            
+            last =  currentRow.get(0).getBounds();
+            currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
+                    last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Shift", FONT_SIZE*0.5));
+            
             easySnap("Sign-Preserving Right Shift", easyPseudo(21, PseudoCodeDisplay.BLUE), que);
             //    		RegQ.setTextColor(FONT_COLOR);
             Q_1.setFillOutlineColor(DEFAULT_COLOR);
@@ -409,9 +433,9 @@ public class BoothMultiplication {
 
             //----Decrement Count Frame---
             Count.decrement();
-            currentRow.add(Count); //Now we do want Count
+            currentRow.add(COUNT, Count); //Now we do want Count
             Count.setFillOutlineColor(RED);
-            double[] last =  currentRow.get(0).getBounds();
+            last =  currentRow.get(0).getBounds();
             currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
             easySnap("Decrement Count", easyPseudo(23, PseudoCodeDisplay.RED), null);
             Count.setFillOutlineColor(DEFAULT_COLOR);

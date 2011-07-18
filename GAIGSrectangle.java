@@ -44,8 +44,17 @@ public class GAIGSrectangle extends GAIGSpolygon {
     public GAIGSrectangle(double x0, double y0, double x1, double y1,
             String fillColor, String outlineColor, String labelColor,
             String labelText) {
-        this(x0, y0, y1, x1, fillColor, outlineColor, labelColor,
+        this(x0, y0, x1, y1, fillColor, outlineColor, labelColor,
                 labelText, TEXT_HEIGHT, LINE_WIDTH);
+    }
+    
+    /**
+     * Creates a rectangle with no fill and a black outline.
+     * Useful for drawing a box around a data structure.
+     * @param bounds The coordinates of the rectangle
+     */
+    public GAIGSrectangle(double[] bounds){
+        this(bounds[0], bounds[1], bounds[2], bounds[3], "", "#000000", "#000000", "");
     }
 
     /**
