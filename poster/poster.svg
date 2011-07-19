@@ -3991,11 +3991,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.14854381"
-     inkscape:cx="1895.1361"
-     inkscape:cy="1590.0874"
+     inkscape:zoom="0.10503634"
+     inkscape:cx="1317.4092"
+     inkscape:cy="1411.6398"
      inkscape:document-units="mm"
-     inkscape:current-layer="g3106"
+     inkscape:current-layer="g6137"
      showgrid="false"
      inkscape:window-width="1440"
      inkscape:window-height="848"
@@ -4192,42 +4192,10 @@
            y="860.86609" /></flowRegion><flowPara
          id="flowPara4076" /></flowRoot>  </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="Visualization"
      id="g3198"
      inkscape:groupmode="layer">
-    <g
-       id="g3200">
-      <g
-         id="g3202">
-        <rect
-           y="993.20569"
-           x="252.52023"
-           height="990.01312"
-           width="1344.5448"
-           id="rect3204"
-           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
-        <rect
-           y="993.20569"
-           x="252.52023"
-           height="218.80156"
-           width="1344.5448"
-           id="rect3206"
-           style="fill:#000080;stroke:none" />
-      </g>
-      <text
-         xml:space="preserve"
-         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="926.93127"
-         y="1147.3428"
-         id="text3208"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           id="tspan3210"
-           x="926.93127"
-           y="1147.3428"
-           style="font-size:120px;fill:#ffffff;fill-opacity:1">Visualization</tspan></text>
-    </g>
     <flowRoot
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        id="flowRoot3212"
@@ -4336,42 +4304,10 @@
            id="rect3172" /></flowRegion><flowPara
          id="flowPara3174" /></flowRoot>  </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="Hypertextbook"
      id="g3132"
      inkscape:groupmode="layer">
-    <g
-       id="g3134">
-      <g
-         id="g3136">
-        <rect
-           y="993.20569"
-           x="252.52023"
-           height="990.01312"
-           width="1344.5448"
-           id="rect3138"
-           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
-        <rect
-           y="993.20569"
-           x="252.52023"
-           height="218.80156"
-           width="1344.5448"
-           id="rect3140"
-           style="fill:#000080;stroke:none" />
-      </g>
-      <text
-         xml:space="preserve"
-         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="926.93127"
-         y="1147.3428"
-         id="text3142"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           id="tspan3144"
-           x="926.93127"
-           y="1147.3428"
-           style="font-size:120px;fill:#ffffff;fill-opacity:1">Hypertextbook</tspan></text>
-    </g>
     <flowRoot
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        id="flowRoot3146"
@@ -6057,70 +5993,152 @@
          y="1270.0142"></tspan></text>
     <g
        id="g6090"
-       transform="translate(2132.5472,674.83552)">
+       transform="translate(-156.3398,1119.1489)">
       <g
          id="g6074">
         <g
            id="g6137">
           <g
-             id="g3082">
+             id="g10432"
+             transform="matrix(0.88811643,0,0,0.84872422,-20.297591,110.88429)">
             <g
-               id="g3084">
-              <rect
-                 style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none"
-                 id="rect3086"
-                 width="1344.5448"
-                 height="990.01312"
-                 x="252.52023"
-                 y="993.20569" />
-              <rect
-                 style="fill:#000080;stroke:none"
-                 id="rect3088"
-                 width="1344.5448"
-                 height="218.80156"
-                 x="252.52023"
-                 y="993.20569" />
-            </g>
-            <text
-               sodipodi:linespacing="125%"
-               id="text3090"
-               y="1147.3428"
-               x="926.93127"
-               style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-               xml:space="preserve"><tspan
-                 id="tspan3102"
-                 style="font-size:120px;fill:#ffffff;fill-opacity:1"
-                 y="1147.3428"
+               id="g3082">
+              <g
+                 id="g3084">
+                <rect
+                   y="993.20569"
+                   x="252.52023"
+                   height="990.01312"
+                   width="1344.5448"
+                   id="rect3086"
+                   style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+                <rect
+                   y="993.20569"
+                   x="252.52023"
+                   height="218.80156"
+                   width="1344.5448"
+                   id="rect3088"
+                   style="fill:#000080;stroke:none" />
+              </g>
+              <text
+                 xml:space="preserve"
+                 style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
                  x="926.93127"
-                 sodipodi:role="line">Related Works</tspan></text>
-          </g>
+                 y="1147.3428"
+                 id="text3090"
+                 sodipodi:linespacing="125%"><tspan
+                   sodipodi:role="line"
+                   x="926.93127"
+                   y="1147.3428"
+                   style="font-size:120px;fill:#ffffff;fill-opacity:1"
+                   id="tspan3102">Related Works</tspan></text>
+            </g>
+            <flowRoot
+               transform="translate(99.965406,126.14683)"
+               xml:space="preserve"
+               id="flowRoot6058"
+               style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+                 id="flowRegion6060"><rect
+                   id="rect6062"
+                   width="1212.9543"
+                   height="681.70282"
+                   x="221.49551"
+                   y="1162.863" /></flowRegion><flowPara
+                 style="text-align:justify;text-anchor:start"
+                 id="flowPara6064">Constructivist theory of learning was used as inspiration for approach in textbook</flowPara><flowPara
+                 style="text-align:justify;text-anchor:start"
+                 id="flowPara6109" /><flowPara
+                 style="text-align:justify;text-anchor:start"
+                 id="flowPara6066">&quot;Sorting out sorting&quot;, the first algorithm visualization, created interest in AVs as pedagogical tools</flowPara><flowPara
+                 style="text-align:justify;text-anchor:start"
+                 id="flowPara6107" /><flowPara
+                 style="text-align:justify;text-anchor:start"
+                 id="flowPara6068">Engagement taxonomy developed by Naps et al. for describing learner's level of active engagement</flowPara><flowPara
+                 style="text-align:justify;text-anchor:start"
+                 id="flowPara6111" /><flowPara
+                 style="text-align:justify;text-anchor:start"
+                 id="flowPara6070">Work by Rhodes et al. in the effectiveness of pop-up questions in AVs</flowPara><flowPara
+                 id="flowPara6072"
+                 style="text-align:justify;text-anchor:start" /></flowRoot>          </g>
           <flowRoot
-             style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-             id="flowRoot6058"
+             style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+             id="flowRoot6058-6"
              xml:space="preserve"
-             transform="translate(99.965406,126.14683)"><flowRegion
-               id="flowRegion6060"><rect
+             transform="matrix(0.82712966,0,0,1.4241465,1498.8227,-1315.8545)"><flowRegion
+               id="flowRegion6060-5"><rect
                  y="1162.863"
                  x="221.49551"
                  height="681.70282"
                  width="1212.9543"
-                 id="rect6062" /></flowRegion><flowPara
-               id="flowPara6064"
+                 id="rect6062-6" /></flowRegion><flowPara
+               id="flowPara6064-9"
                style="text-align:justify;text-anchor:start">Constructivist theory of learning was used as inspiration for approach in textbook</flowPara><flowPara
-               id="flowPara6109"
+               id="flowPara6109-3"
                style="text-align:justify;text-anchor:start" /><flowPara
-               id="flowPara6066"
+               id="flowPara6066-7"
                style="text-align:justify;text-anchor:start">&quot;Sorting out sorting&quot;, the first algorithm visualization, created interest in AVs as pedagogical tools</flowPara><flowPara
-               id="flowPara6107"
+               id="flowPara6107-4"
                style="text-align:justify;text-anchor:start" /><flowPara
-               id="flowPara6068"
+               id="flowPara6068-5"
                style="text-align:justify;text-anchor:start">Engagement taxonomy developed by Naps et al. for describing learner's level of active engagement</flowPara><flowPara
-               id="flowPara6111"
+               id="flowPara6111-2"
                style="text-align:justify;text-anchor:start" /><flowPara
-               id="flowPara6070"
+               id="flowPara6070-5"
                style="text-align:justify;text-anchor:start">Work by Rhodes et al. in the effectiveness of pop-up questions in AVs</flowPara><flowPara
                style="text-align:justify;text-anchor:start"
-               id="flowPara6072" /></flowRoot>        </g>
+               id="flowPara6072-4" /></flowRoot>          <flowRoot
+             style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+             id="flowRoot6058-7"
+             xml:space="preserve"
+             transform="matrix(1.0628619,0,0,1.5655287,2703.0028,-1519.6865)"><flowRegion
+               id="flowRegion6060-4"><rect
+                 y="1162.863"
+                 x="221.49551"
+                 height="681.70282"
+                 width="1212.9543"
+                 id="rect6062-4" /></flowRegion><flowPara
+               id="flowPara6064-3"
+               style="text-align:justify;text-anchor:start">Constructivist theory of learning was used as inspiration for approach in textbook</flowPara><flowPara
+               id="flowPara6109-0"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6066-78"
+               style="text-align:justify;text-anchor:start">&quot;Sorting out sorting&quot;, the first algorithm visualization, created interest in AVs as pedagogical tools</flowPara><flowPara
+               id="flowPara6107-6"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6068-8"
+               style="text-align:justify;text-anchor:start">Engagement taxonomy developed by Naps et al. for describing learner's level of active engagement</flowPara><flowPara
+               id="flowPara6111-8"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6070-4"
+               style="text-align:justify;text-anchor:start">Work by Rhodes et al. in the effectiveness of pop-up questions in AVs</flowPara><flowPara
+               style="text-align:justify;text-anchor:start"
+               id="flowPara6072-3" /></flowRoot>          <flowRoot
+             style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+             id="flowRoot6058-1"
+             xml:space="preserve"
+             transform="matrix(1.9743601,0,0,0.50516242,1243.1876,-771.62835)"><flowRegion
+               id="flowRegion6060-49"><rect
+                 y="1162.863"
+                 x="221.49551"
+                 height="681.70282"
+                 width="1212.9543"
+                 id="rect6062-2" /></flowRegion><flowPara
+               id="flowPara6064-0"
+               style="text-align:justify;text-anchor:start">Constructivist theory of learning was used as inspiration for approach in textbook</flowPara><flowPara
+               id="flowPara6109-6"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6066-8"
+               style="text-align:justify;text-anchor:start">&quot;Sorting out sorting&quot;, the first algorithm visualization, created interest in AVs as pedagogical tools</flowPara><flowPara
+               id="flowPara6107-9"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6068-2"
+               style="text-align:justify;text-anchor:start">Engagement taxonomy developed by Naps et al. for describing learner's level of active engagement</flowPara><flowPara
+               id="flowPara6111-6"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6070-6"
+               style="text-align:justify;text-anchor:start">Work by Rhodes et al. in the effectiveness of pop-up questions in AVs</flowPara><flowPara
+               style="text-align:justify;text-anchor:start"
+               id="flowPara6072-49" /></flowRoot>        </g>
         <flowRoot
            xml:space="preserve"
            id="flowRoot6113"
@@ -6155,12 +6173,13 @@
     </g>
   </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="Solution"
      id="g3106"
      inkscape:groupmode="layer">
     <g
-       id="g3108">
+       id="g3108"
+       transform="matrix(2.1323138,0,0,1.6819218,794.05216,-913.8641)">
       <g
          id="g3110">
         <rect
@@ -6173,22 +6192,23 @@
         <rect
            y="993.20569"
            x="252.52023"
-           height="218.80156"
+           height="86.716537"
            width="1344.5448"
            id="rect3114"
            style="fill:#000080;stroke:none" />
       </g>
       <text
          xml:space="preserve"
-         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="926.93127"
-         y="1147.3428"
+         style="font-size:75.54521942px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="583.54358"
+         y="1674.6962"
          id="text3116"
-         sodipodi:linespacing="125%"><tspan
+         sodipodi:linespacing="125%"
+         transform="scale(1.5884525,0.62954352)"><tspan
            sodipodi:role="line"
-           x="926.93127"
-           y="1147.3428"
-           style="font-size:120px;fill:#ffffff;fill-opacity:1"
+           x="583.54358"
+           y="1674.6962"
+           style="font-size:75.54521942px;fill:#ffffff;fill-opacity:1"
            id="tspan3128">Solution</tspan></text>
     </g>
     <flowRoot
@@ -6201,7 +6221,31 @@
            height="1296.0292"
            width="1702.8121"
            id="rect3124" /></flowRegion><flowPara
-         id="flowPara3126" /></flowRoot>  </g>
+         id="flowPara3126" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1494.7208"
+       y="1447.1182"
+       id="text10297"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan10299"
+         x="1494.7208"
+         y="1447.1182"
+         style="font-size:144px">Thing 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+       x="2829.8345"
+       y="1424.6377"
+       id="text10297-4"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="2829.8345"
+         y="1424.6377"
+         style="font-size:144px"
+         id="tspan10326">Thing 2</tspan></text>
+  </g>
   <g
      inkscape:label="Problem"
      id="g4038"
