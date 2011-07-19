@@ -7,9 +7,7 @@ import java.net.*;
 import org.jdom.*;
 
 import exe.GAIGSdatastr;
-import exe.ShowFile;
 import exe.question;
-import exe.pseudocode.*;
 
 /**
  * @author Adam Voss <vossad01@luther.edu>
@@ -248,18 +246,18 @@ public class BoothMultiplication {
         header.remove(rightArrow);
         header.remove(leftArrow);
 
-        //----Bit Beta Initialization Frame----
+        //----Bit \u03B2 Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
         init[2] = init[0]+FONT_SIZE;
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                FONT_SIZE, FONT_COLOR, "Beta", FONT_SIZE/2));
+                FONT_SIZE, FONT_COLOR, "\u03B2", FONT_SIZE/2));
         Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
         
-        easySnap("Beta is initialized to Zero", easyPseudo(5), null);
+        easySnap("\u03B2 is initialized to Zero", easyPseudo(5), null);
 
         //----Count Initialization Frame----
         init[0] = trace.getWidth() - FONT_SIZE - RIGHT_MARGIN;
@@ -430,7 +428,7 @@ public class BoothMultiplication {
             currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                     last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Shift", FONT_SIZE*0.5));
             
-            easySnap("Sign-Preserving Right Shift", easyPseudo(21, PseudoCodeDisplay.BLUE), que);
+            easySnap("Sign-Preserving Right Shift", easyPseudo(19, PseudoCodeDisplay.BLUE), que);
             //    		RegQ.setTextColor(FONT_COLOR);
             Q_1.setFillOutlineColor(DEFAULT_COLOR);
 
@@ -446,7 +444,7 @@ public class BoothMultiplication {
             Count.setFillOutlineColor(RED);
             last =  currentRow.get(0).getBounds();
             currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
-            easySnap("Decrement Count", easyPseudo(23, PseudoCodeDisplay.RED), null);
+            easySnap("Decrement Count", easyPseudo(21, PseudoCodeDisplay.RED), null);
             Count.setFillOutlineColor(DEFAULT_COLOR);
             //Hey!  We're ready to loop!
         }
