@@ -14,10 +14,17 @@
    height="2979.9211"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.1 r9760"
+   inkscape:version="0.47 r22583"
    sodipodi:docname="poster.svg">
   <defs
      id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 1489.9606 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="4212.9922 : 1489.9606 : 1"
+       inkscape:persp3d-origin="2106.4961 : 993.30705 : 1"
+       id="perspective1138" />
     <radialGradient
        id="radialGradient5179"
        spreadMethod="pad"
@@ -3991,16 +3998,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.21007267"
-     inkscape:cx="2381.2725"
-     inkscape:cy="1134.5532"
+     inkscape:zoom="0.42014534"
+     inkscape:cx="2534.8599"
+     inkscape:cy="1851.1101"
      inkscape:document-units="mm"
      inkscape:current-layer="g9503"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="848"
+     inkscape:window-width="1280"
+     inkscape:window-height="729"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true" />
@@ -4196,36 +4203,6 @@
      inkscape:label="Visualization"
      id="g3198"
      inkscape:groupmode="layer">
-    <g
-       id="g3202"
-       transform="matrix(1,0,0,1.0543625,1117.5154,-255.95376)">
-      <rect
-         style="fill:none;stroke:#0000ff;stroke-width:25.16284943;stroke-miterlimit:4;stroke-dasharray:none"
-         id="rect3204"
-         width="1877.3629"
-         height="1563.6908"
-         x="252.52023"
-         y="993.20569" />
-      <rect
-         style="fill:#000080;stroke:none"
-         id="rect3206"
-         width="1877.3629"
-         height="218.80156"
-         x="252.52023"
-         y="993.20569" />
-    </g>
-    <text
-       sodipodi:linespacing="125%"
-       id="text3208"
-       y="945.38214"
-       x="2313.4045"
-       style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       xml:space="preserve"><tspan
-         style="font-size:120px;fill:#ffffff;fill-opacity:1"
-         y="945.38214"
-         x="2313.4045"
-         id="tspan3210"
-         sodipodi:role="line">Visualization</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text4106"
@@ -4238,40 +4215,6 @@
          x="1478.0599"
          sodipodi:role="line" /></text>
     <flowRoot
-       transform="translate(-114.2462,-280.85519)"
-       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       id="flowRoot4112"
-       xml:space="preserve"><flowRegion
-         id="flowRegion4114"><rect
-           y="1328.1118"
-           x="1518.5221"
-           height="209.45132"
-           width="1813.658"
-           id="rect4116" /></flowRegion><flowPara
-         id="flowPara4118">Infomal survey of other visualizations of multiplication nd boohts multiplicatio in particular.</flowPara><flowPara
-         id="flowPara4122">Found that there weren't very many and the that oneses that there were either didn't have very good assesment or didn't have good control of how the algorithem was executed</flowPara></flowRoot>    <text
-       sodipodi:linespacing="125%"
-       id="text4124"
-       y="1503.7612"
-       x="1503.951"
-       style="font-size:98.10962677px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;font-family:Sans"
-       xml:space="preserve"><tspan
-         id="tspan4128"
-         y="1503.7612"
-         x="1503.951"
-         sodipodi:role="line">User Input:</tspan></text>
-    <text
-       sodipodi:linespacing="125%"
-       id="text4124-4"
-       y="1820.1744"
-       x="1496.3259"
-       style="font-size:98.10962677px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-       xml:space="preserve"><tspan
-         id="tspan4128-7"
-         y="1820.1744"
-         x="1496.3259"
-         sodipodi:role="line">Automated Assesment:</tspan></text>
-    <flowRoot
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        id="flowRoot3212"
        xml:space="preserve"><flowRegion
@@ -4281,27 +4224,95 @@
            height="1296.0292"
            width="1702.8121"
            id="rect3216" /></flowRegion><flowPara
-         id="flowPara3218" /></flowRoot>    <image
-       y="1288.5363"
-       x="2139.498"
-       id="image4304"
-       xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/input.png"
-       height="241"
-       width="824" />
-    <image
-       y="1726.439"
-       x="2720.5583"
-       id="image5487"
-       xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/question.png"
-       height="203"
-       width="414" />
-    <image
-       y="850.16797"
-       x="2857.6609"
-       id="image4161"
-       xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/connexions.gif"
-       height="80"
-       width="235" />
+         id="flowPara3218" /></flowRoot>    <g
+       id="g3944"
+       transform="translate(266.57442,-61.883347)">
+      <g
+         transform="matrix(1,0,0,1.0543625,1117.5154,-255.95376)"
+         id="g3202">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="1563.6908"
+           width="1877.3629"
+           id="rect3204"
+           style="fill:none;stroke:#0000ff;stroke-width:25.16284943;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1877.3629"
+           id="rect3206"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="2313.4045"
+         y="945.38214"
+         id="text3208"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3210"
+           x="2313.4045"
+           y="945.38214"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1">Visualization</tspan></text>
+      <flowRoot
+         xml:space="preserve"
+         id="flowRoot4112"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         transform="translate(-114.2462,-280.85519)"><flowRegion
+           id="flowRegion4114"><rect
+             id="rect4116"
+             width="1813.658"
+             height="209.45132"
+             x="1518.5221"
+             y="1328.1118" /></flowRegion><flowPara
+           id="flowPara4118">Infomal survey of other visualizations of multiplication nd boohts multiplicatio in particular.</flowPara><flowPara
+           id="flowPara4122">Found that there weren't very many and the that oneses that there were either didn't have very good assesment or didn't have good control of how the algorithem was executed</flowPara></flowRoot>      <text
+         xml:space="preserve"
+         style="font-size:98.10962677px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;font-family:Sans"
+         x="1503.951"
+         y="1503.7612"
+         id="text4124"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           x="1503.951"
+           y="1503.7612"
+           id="tspan4128">User Input:</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:98.10962677px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+         x="1496.3259"
+         y="1820.1744"
+         id="text4124-4"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           x="1496.3259"
+           y="1820.1744"
+           id="tspan4128-7">Automated Assesment:</tspan></text>
+      <image
+         width="824"
+         height="241"
+         xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/input.png"
+         id="image4304"
+         x="2139.498"
+         y="1288.5363" />
+      <image
+         width="414"
+         height="203"
+         xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/question.png"
+         id="image5487"
+         x="2720.5583"
+         y="1726.439" />
+      <image
+         width="235"
+         height="80"
+         xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/connexions.gif"
+         id="image4161"
+         x="2857.6609"
+         y="850.16797" />
+    </g>
   </g>
   <g
      style="display:none"
@@ -6084,7 +6095,7 @@
                height="706.89819"
                x="347.49878"
                y="1287.6497" /></flowRegion><flowPara
-             id="flowPara6226">• Perfom ______ study to determine the effectiveness of the module</flowPara><flowPara
+             id="flowPara6226">• Perfom empirical study to determine the effectiveness ofi the modules</flowPara><flowPara
              id="flowPara6234" /><flowPara
              id="flowPara4121">• Add question remediation support to JHAVÉ</flowPara><flowPara
              id="flowPara4119" /><flowPara
@@ -6092,11 +6103,21 @@
              id="flowPara6236" /><flowPara
              id="flowPara6230">• Develop realted modules for more advanced methods of signed binary multiplication</flowPara><flowPara
              id="flowPara6238" /><flowPara
-             id="flowPara6232">• Produce a related module that covers binary division</flowPara></flowRoot>      </g>
+             id="flowPara6232">• Produce a related module that covers binary division</flowPara></flowRoot>        <flowRoot
+           xml:space="preserve"
+           id="flowRoot3963"
+           style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:40px"><flowRegion
+             id="flowRegion3965"><rect
+               id="rect3967"
+               width="323.69751"
+               height="283.23532"
+               x="192.79044"
+               y="1285.2695" /></flowRegion><flowPara
+             id="flowPara3969"></flowPara></flowRoot>      </g>
     </g>
   </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="Related Works"
      id="g3080"
      inkscape:groupmode="layer">
@@ -6123,7 +6144,7 @@
          y="1270.0142" /></text>
     <g
        id="g6090"
-       transform="translate(2132.5472,674.83552)">
+       transform="translate(-138.09563,1046.1356)">
       <g
          id="g6074">
         <g
