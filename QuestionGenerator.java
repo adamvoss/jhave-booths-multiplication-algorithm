@@ -99,7 +99,7 @@ public class QuestionGenerator {
 
 		if (select == 0) {
 			XMLmsQuestion ret1 = new XMLmsQuestion(show, id.next() );
-			ret1.setQuestionText("The least significant bit of Q and the bit Beta are " + Q0 + " and " + Q_1 + 
+			ret1.setQuestionText("The least significant bit of Q and the bit β are " + Q0 + " and " + Q_1 + 
 			" respectively. Select all the operations that will occur on this iteration of the loop.");
 
 			ret1.addChoice("Addition");
