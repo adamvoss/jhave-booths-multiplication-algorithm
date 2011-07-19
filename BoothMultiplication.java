@@ -7,9 +7,7 @@ import java.net.*;
 import org.jdom.*;
 
 import exe.GAIGSdatastr;
-import exe.ShowFile;
 import exe.question;
-import exe.pseudocode.*;
 
 /**
  * @author Adam Voss <vossad01@luther.edu>

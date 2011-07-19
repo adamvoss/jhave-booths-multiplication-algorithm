@@ -2,7 +2,6 @@ package exe.boothsMultiplication;
 
 import java.util.Random;
 
-import exe.ShowFile;
 import exe.XMLfibQuestion;
 import exe.XMLmcQuestion;
 import exe.XMLmsQuestion;
