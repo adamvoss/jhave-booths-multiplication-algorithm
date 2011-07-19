@@ -3991,11 +3991,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.14854381"
-     inkscape:cx="1895.1361"
-     inkscape:cy="1590.0874"
+     inkscape:zoom="0.21007267"
+     inkscape:cx="2381.2725"
+     inkscape:cy="1134.5532"
      inkscape:document-units="mm"
-     inkscape:current-layer="g3106"
+     inkscape:current-layer="g3198"
      showgrid="false"
      inkscape:window-width="1440"
      inkscape:window-height="848"
@@ -4192,42 +4192,85 @@
            y="860.86609" /></flowRegion><flowPara
          id="flowPara4076" /></flowRoot>  </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="Visualization"
      id="g3198"
      inkscape:groupmode="layer">
     <g
-       id="g3200">
-      <g
-         id="g3202">
-        <rect
-           y="993.20569"
-           x="252.52023"
-           height="990.01312"
-           width="1344.5448"
-           id="rect3204"
-           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
-        <rect
-           y="993.20569"
-           x="252.52023"
-           height="218.80156"
-           width="1344.5448"
-           id="rect3206"
-           style="fill:#000080;stroke:none" />
-      </g>
-      <text
-         xml:space="preserve"
-         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="926.93127"
-         y="1147.3428"
-         id="text3208"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           id="tspan3210"
-           x="926.93127"
-           y="1147.3428"
-           style="font-size:120px;fill:#ffffff;fill-opacity:1">Visualization</tspan></text>
+       id="g3202"
+       transform="matrix(1,0,0,1.0543625,1117.5154,-255.95376)">
+      <rect
+         style="fill:none;stroke:#0000ff;stroke-width:25.16284943;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect3204"
+         width="1877.3629"
+         height="1563.6908"
+         x="252.52023"
+         y="993.20569" />
+      <rect
+         style="fill:#000080;stroke:none"
+         id="rect3206"
+         width="1877.3629"
+         height="218.80156"
+         x="252.52023"
+         y="993.20569" />
     </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3208"
+       y="945.38214"
+       x="2313.4045"
+       style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         style="font-size:120px;fill:#ffffff;fill-opacity:1"
+         y="945.38214"
+         x="2313.4045"
+         id="tspan3210"
+         sodipodi:role="line">Visualization</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4106"
+       y="1140.0815"
+       x="1478.0599"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         id="tspan4110"
+         y="1140.0815"
+         x="1478.0599"
+         sodipodi:role="line" /></text>
+    <flowRoot
+       transform="translate(-114.2462,-280.85519)"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot4112"
+       xml:space="preserve"><flowRegion
+         id="flowRegion4114"><rect
+           y="1328.1118"
+           x="1518.5221"
+           height="209.45132"
+           width="1813.658"
+           id="rect4116" /></flowRegion><flowPara
+         id="flowPara4118">Infomal survey of other visualizations of multiplication nd boohts multiplicatio in particular.</flowPara><flowPara
+         id="flowPara4122">Found that there weren't very many and the that oneses that there were either didn't have very good assesment or didn't have good control of how the algorithem was executed</flowPara></flowRoot>    <text
+       sodipodi:linespacing="125%"
+       id="text4124"
+       y="1503.7612"
+       x="1503.951"
+       style="font-size:98.10962677px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         id="tspan4128"
+         y="1503.7612"
+         x="1503.951"
+         sodipodi:role="line">User Input:</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4124-4"
+       y="1820.1744"
+       x="1496.3259"
+       style="font-size:98.10962677px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+       xml:space="preserve"><tspan
+         id="tspan4128-7"
+         y="1820.1744"
+         x="1496.3259"
+         sodipodi:role="line">Automated Assesment:</tspan></text>
     <flowRoot
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        id="flowRoot3212"
@@ -4238,7 +4281,28 @@
            height="1296.0292"
            width="1702.8121"
            id="rect3216" /></flowRegion><flowPara
-         id="flowPara3218" /></flowRoot>  </g>
+         id="flowPara3218" /></flowRoot>    <image
+       y="1288.5363"
+       x="2139.498"
+       id="image4304"
+       xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/input.png"
+       height="241"
+       width="824" />
+    <image
+       y="1726.439"
+       x="2720.5583"
+       id="image5487"
+       xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/question.png"
+       height="203"
+       width="414" />
+    <image
+       y="850.16797"
+       x="2857.6609"
+       id="image4161"
+       xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/connexions.gif"
+       height="80"
+       width="235" />
+  </g>
   <g
      style="display:none"
      inkscape:label="Assessment"
@@ -5968,7 +6032,7 @@
            height="116.6263"
            x="1030.5957"
            y="1506.6215" /></flowRegion><flowPara
-         id="flowPara6210"></flowPara></flowRoot>    <g
+         id="flowPara6210" /></flowRoot>    <g
        id="g6240"
        transform="matrix(0.9589615,0,0,0.9589615,-206.14513,363.77011)">
       <g
@@ -6030,7 +6094,7 @@
     </g>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="Related Works"
      id="g3080"
      inkscape:groupmode="layer">
@@ -6054,7 +6118,7 @@
          sodipodi:role="line"
          id="tspan6056"
          x="314.54721"
-         y="1270.0142"></tspan></text>
+         y="1270.0142" /></text>
     <g
        id="g6090"
        transform="translate(2132.5472,674.83552)">
@@ -6131,7 +6195,7 @@
                height="128.52695"
                x="387.96097"
                y="1344.7727" /></flowRegion><flowPara
-             id="flowPara6119"></flowPara></flowRoot>        <flowRoot
+             id="flowPara6119" /></flowRoot>        <flowRoot
            xml:space="preserve"
            id="flowRoot6121"
            style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
@@ -6141,7 +6205,7 @@
                height="126.14678"
                x="159.46863"
                y="1125.8009" /></flowRegion><flowPara
-             id="flowPara6127"></flowPara></flowRoot>        <flowRoot
+             id="flowPara6127" /></flowRoot>        <flowRoot
            xml:space="preserve"
            id="flowRoot6129"
            style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
@@ -6151,7 +6215,7 @@
                height="61.883347"
                x="1528.0426"
                y="1918.3838" /></flowRegion><flowPara
-             id="flowPara6135"></flowPara></flowRoot>      </g>
+             id="flowPara6135" /></flowRoot>      </g>
     </g>
   </g>
   <g
