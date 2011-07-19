@@ -44,7 +44,8 @@ public class BoothMultiplication {
 
     public static final String WHITE     = "#FFFFFF";
     public static final String BLACK     = "#000000";
-    public static final String GREY      = "#DDDDDD";
+    public static final String LIGHT_GREY= "#DDDDDD";
+    public static final String GREY      = "#BBBBBB";
     public static final String DARK_GREY = "#666666";
     public static final String RED       = "#FF9999";
     public static final String GREEN     = "#55FF55";
@@ -52,11 +53,11 @@ public class BoothMultiplication {
     public static final String BLUE      = "#AAABFF";
     public static final String YELLOW    = "#FFFF00";
     public static final String GOLD      = "#CDAD00";
-    public static final String PURPLE    = "#880088";
+    public static final String PURPLE    = GREEN;
     public static final String FONT_COLOR      = BLACK;
     public static final String DEFAULT_COLOR   = WHITE;
     public static final String INACTIVE_TEXT   = DARK_GREY;
-    public static final String INACTIVE_OUTLINE= GREY;
+    public static final String INACTIVE_OUTLINE= LIGHT_GREY;
     public static final String INACTIVE_FILL   = WHITE;
     public static final String OUTLINE_COLOR   = FONT_COLOR;
 
@@ -112,9 +113,9 @@ public class BoothMultiplication {
         header.add(title);
 
         GAIGSArithmetic binary = new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
-                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, PURPLE);
+                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
         ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
-                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, PURPLE);
+                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
 
         MATH_LABEL_SPACE  = header.getWidth()/20;
 
@@ -288,12 +289,12 @@ public class BoothMultiplication {
         //setRowOutlineColor(INACTIVE_OUTLINE);
         decimal.complete();
         binary.complete();
-        RegA.setFillOutlineColor(PURPLE);
+        RegA.setFillOutlineColor(GREEN);
 //        RegA.setTextColor(FONT_COLOR);
-        RegQ.setFillOutlineColor(PURPLE);
+        RegQ.setFillOutlineColor(GREEN);
 //        RegQ.setTextColor(FONT_COLOR);
         easySnap("The result is " + RegA + RegQ + "\nwhich is "
-                + ((Integer.parseInt(toDecimal(args[1])))*(Integer.parseInt(toDecimal(args[2])))) + " in decimal", easyPseudo(25), null);
+                + ((Integer.parseInt(toDecimal(args[1])))*(Integer.parseInt(toDecimal(args[2])))) + " in decimal", easyPseudo(-1), null);
 
 
         show.close();
@@ -681,7 +682,7 @@ public class BoothMultiplication {
     private static String easyPseudo(int selected){
         try {
             return pseudo.pseudo_uri(new HashMap<String, String>(),
-                    selected, "#000000", "#FFFFFF");
+                    selected, GREY, BLACK);
         } catch (JDOMException e) {
             e.printStackTrace();
         }
