@@ -41,7 +41,7 @@ Additionally, there is always a trade-off between the time spent in class on ind
 Because of this, the professor may choose to spend less class time discussing methods for binary multiplication in order to cover other topics.
 
 We propose that an effective, self-contained learning module available online could resolve these issues.
-The module we designed for this purpose is composed of an online text resource ("hyper-textbook" or "hypertext") for the subject and a visualization of a multiplication algorithm.
+The module we designed for this purpose is composed of an online text resource (``hyper-textbook'' or ``hypertext'') for the subject and a visualization of a multiplication algorithm.
 We used a constructivist model for the approach of the hyper-textbook, beginning with the ``pencil and paper'' algorithm familiar to most students and demonstrating by successive modifications how it can be mapped onto hardware.
 For the visualization, since current research in the field of algorithm visualizations suggests that the most important aspect of an effective algorithm visualization is the level of user engagement\cite{tnaps:visengage}, we developed questions and exercises with its use.
 We use the engagement taxonomy developed by the Innovation and Technology in Computer Science Education Working Group in 2002 (ITiCSE02) to describe the different components of our visualization.
@@ -55,7 +55,7 @@ For its use of mathematical insight into a problem to meet design requirements, 
 However, while some textbooks include a discussion of Booth's algorithm in their discussion of binary multiplication, it is not universally discussed in textbooks, and furthermore because of the time constraints mentioned above a professor may choose to gloss over or elide the topic completely.
 
 Many textbooks include figures depicting the execution of the binary multiplication algorithm along with its description\cite{needsCitation}.
-Such figures can be considered a kind of algorithm visualization, and as such lack an effective form of engagement other than a primitive "Viewing".
+Such figures can be considered a kind of algorithm visualization, and as such lack an effective form of engagement other than a primitive ``Viewing''.
 It would be beneficial if, for example, the student were able to view multiple visualizations with hand-picked values to reinforce their understanding of the algorithm.
 For this reason we have chosen to include with our hyper-textbook an algorithm visualization, developed for the Java Hosted Algorithm Visualization Environment (JHAVÉ)\cite{JHAVE}.
 We made this decision to satisfy three features we felt were required of our visualization in order to make it effective.
@@ -79,7 +79,7 @@ The three levels which are most relevant to our research are listed below.\cite{
 
 \begin{itemize}
 
-\item \textbf{Viewing} is considered the "core form of engagement", without which no visualization is possible.
+\item \textbf{Viewing} is considered the ``core form of engagement'', without which no visualization is possible.
 While viewing is considered the most passive form of engagement, it can be made more active if the learner is allowed to control the pace of the visualization and has access to multiple screens or sources of information.
 
 \item \textbf{Responding} involves having the student provide responses to questions about the algorithm which is visualized.
@@ -95,13 +95,13 @@ Rhodes et al.
 have shown that while questions which are responsive or predictive in nature can improve overall performance and comprehension, their effectiveness is mostly determined by whether immediate feedback is given to students when they submit an incorrect answer.
 Students exposed to questions of these types without feedback performed on average slightly worse than students not exposed to questions.
 One reason suggested for this result was that pop-up questions of these kinds tested students at a lower ``procedural'' level and not a higher ``conceptual'' level.\cite{intquest}
-At the time of this research, JHAVÉ did not support question feedback, so we chose to focus our efforts on developing a richer question schema, designed to test the student on multiple levels with varying formats of questions.
+At the time of this research, JHAVÉ did not support question feedback, so we chose to focus our efforts on developing a richer question schema, designed to test the student on multiple levels with varying question formats.
 
 \section{Implementation of the Visualization}
 In our design and implementation of the visualization for Booth's algorithm, our primary consideration was for active user engagement.
 Prior research by ITiSCE02 suggests that this is the most important aspect for an effective visualization.\cite{tnaps:visengage}
-Organized by level of engagement, our visualization supports the following: at the "Viewing" level, it includes graphical representations of registers and binary arithmetic, text annotations and pseudo code
- display; at the level of "Responding", we include pop-up questions designed to check the user's basic understanding of the algorithm; and at the "Changing" level, we designed a set of exercises in which the user is given a constraint or set of constraints on the behavior of the executing algorithm and must provide data to meet that constraint.
+Organized by level of engagement, our visualization supports the following: at the ``Viewing'' level, it includes graphical representations of registers and binary arithmetic, text annotations and pseudo code
+ display; at the level of ``Responding'', we include pop-up questions designed to check the user's basic understanding of the algorithm; and at the ``Changing'' level, we designed a set of exercises in which the user is given a constraint or set of constraints on the behavior of the executing algorithm and must provide data to meet that constraint.
 In the standard use of the visualization, we also allow the user to choose their own input data or use the provided default values.
 
 JHAVÉ was chosen as the system to develop a visualization for Booth's algorithm, as it supported these features and was in fact designed with these three levels of engagement in mind.\cite{JHAVE}
@@ -109,14 +109,14 @@ JHAVÉ was chosen as the system to develop a visualization for Booth's algorithm
 \subsection{Standard Mode}
 Our visualization was designed so that the user would step through each of the major operations of Booth's multiplication algorithm.
 For each of these operations, there is a corresponding text annotation at the top of the screen and highlighted line of pseudo code in the right pane.
-For addition and subtraction operations, we provide space on the right side of the screen, designated in the visualization as "Math/ALU", to reinforce binary arithmetic.
+For addition and subtraction operations, we provide space on the right side of the screen, designated in the visualization as ``Math/ALU'', to reinforce binary arithmetic.
 We also chose to keep a running history of the execution of the algorithm on screen for the user's reference.
 Registers in history are grayed out so as to distinguish them from the registers which are active in the algorithm.
 \subsection{Questions}
 JHAVÉ also supports the inclusion of questions which appear during the visualization of the algorithm.
 These were created to test the user on multiple levels of understanding, as defined by Bloom's taxonomy(NEEDS JUSTIFICATION).
 These questions are strategically placed and appear approximately once every -- snapshots to ensure the user in engaged at important moments of the algorithm's execution.
-To prevent boredom in the user and predictability in the questions, multiple presentations of the same "type" of question are used.
+To prevent boredom in the user and predictability in the questions, multiple presentations of the same ``type'' of question are used.
 Questions are in the following formats: true or false, fill in the blank, multiple choice and multiple selection.
 \subsection{Exercises}%potentially something subject to change.
 Finally, through the use of input generators to JHAVÉ, we included several exercises to go along with the visualization.
