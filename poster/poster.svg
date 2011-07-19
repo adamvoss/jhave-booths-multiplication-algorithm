@@ -2634,11 +2634,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.14949298"
-     inkscape:cx="1627.1448"
-     inkscape:cy="1699.4298"
+     inkscape:zoom="0.21007267"
+     inkscape:cx="1901.1798"
+     inkscape:cy="1377.0028"
      inkscape:document-units="mm"
-     inkscape:current-layer="g3040"
+     inkscape:current-layer="g3058"
      showgrid="false"
      inkscape:window-width="1440"
      inkscape:window-height="848"
@@ -4484,7 +4484,7 @@
     </g>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="References"
      id="g3036"
      inkscape:groupmode="layer">
@@ -4545,7 +4545,7 @@
          style="font-size:238.35340881px;text-align:start;text-anchor:start">Refer me?</tspan></text>
   </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="Future Work"
      id="g3058"
      inkscape:groupmode="layer">
@@ -4554,31 +4554,31 @@
       <g
          id="g3062">
         <rect
-           y="993.20569"
-           x="252.52023"
-           height="990.01312"
-           width="1344.5448"
+           y="992.70508"
+           x="252.01961"
+           height="805.38367"
+           width="1265.0928"
            id="rect3064"
-           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+           style="fill:none;stroke:#0000ff;stroke-width:14.82425404;stroke-miterlimit:4;stroke-dasharray:none" />
         <rect
-           y="993.20569"
-           x="252.52023"
-           height="218.80156"
-           width="1344.5448"
+           y="992.70508"
+           x="252.01961"
+           height="205.87212"
+           width="1265.0928"
            id="rect3066"
            style="fill:#000080;stroke:none" />
       </g>
       <text
          xml:space="preserve"
          style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="926.93127"
-         y="1147.3428"
+         x="878.91168"
+         y="1140.3774"
          id="text3068"
          sodipodi:linespacing="125%"><tspan
            sodipodi:role="line"
            id="tspan3070"
-           x="926.93127"
-           y="1147.3428"
+           x="878.91168"
+           y="1140.3774"
            style="font-size:120px;fill:#ffffff;fill-opacity:1">Future Work</tspan></text>
     </g>
     <flowRoot
@@ -4591,44 +4591,50 @@
            height="1296.0292"
            width="1702.8121"
            id="rect3076" /></flowRegion><flowPara
-         id="flowPara3078" /></flowRoot>  </g>
+         id="flowPara3078" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="357.01932"
+       y="1318.5913"
+       id="text6156"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6158"
+         x="357.01932"
+         y="1318.5913" /></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6204"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion6206"><rect
+           id="rect6208"
+           width="330.83789"
+           height="116.6263"
+           x="1030.5957"
+           y="1506.6215" /></flowRegion><flowPara
+         id="flowPara6210"></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6220"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-66.643603,-61.883346)"><flowRegion
+         id="flowRegion6222"><rect
+           id="rect6224"
+           width="1230.5265"
+           height="706.89819"
+           x="347.49878"
+           y="1287.6497" /></flowRegion><flowPara
+         id="flowPara6226">• Perfom ______ study to determine the effectiveness of the module</flowPara><flowPara
+         id="flowPara6234" /><flowPara
+         id="flowPara6228">• Implement a more comprehensive set of exercises for the visualization</flowPara><flowPara
+         id="flowPara6236" /><flowPara
+         id="flowPara6230">• Develop realted modules for more advanced methods of signed binary multiplication</flowPara><flowPara
+         id="flowPara6238" /><flowPara
+         id="flowPara6232">• Produce a related module that covers binary division</flowPara></flowRoot>  </g>
   <g
      style="display:none"
      inkscape:label="Related Works"
      id="g3080"
      inkscape:groupmode="layer">
-    <g
-       id="g3082">
-      <g
-         id="g3084">
-        <rect
-           y="993.20569"
-           x="252.52023"
-           height="990.01312"
-           width="1344.5448"
-           id="rect3086"
-           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
-        <rect
-           y="993.20569"
-           x="252.52023"
-           height="218.80156"
-           width="1344.5448"
-           id="rect3088"
-           style="fill:#000080;stroke:none" />
-      </g>
-      <text
-         xml:space="preserve"
-         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="926.93127"
-         y="1147.3428"
-         id="text3090"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           x="926.93127"
-           y="1147.3428"
-           style="font-size:120px;fill:#ffffff;fill-opacity:1"
-           id="tspan3102">Related Works</tspan></text>
-    </g>
     <flowRoot
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        id="flowRoot3094"
@@ -4639,7 +4645,115 @@
            height="1296.0292"
            width="1702.8121"
            id="rect3098" /></flowRegion><flowPara
-         id="flowPara3100" /></flowRoot>  </g>
+         id="flowPara3100" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="314.54721"
+       y="1270.0142"
+       id="text6054"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6056"
+         x="314.54721"
+         y="1270.0142"></tspan></text>
+    <g
+       id="g6090">
+      <g
+         id="g6074">
+        <g
+           id="g6137">
+          <g
+             id="g3082">
+            <g
+               id="g3084">
+              <rect
+                 style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none"
+                 id="rect3086"
+                 width="1344.5448"
+                 height="990.01312"
+                 x="252.52023"
+                 y="993.20569" />
+              <rect
+                 style="fill:#000080;stroke:none"
+                 id="rect3088"
+                 width="1344.5448"
+                 height="218.80156"
+                 x="252.52023"
+                 y="993.20569" />
+            </g>
+            <text
+               sodipodi:linespacing="125%"
+               id="text3090"
+               y="1147.3428"
+               x="926.93127"
+               style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+               xml:space="preserve"><tspan
+                 id="tspan3102"
+                 style="font-size:120px;fill:#ffffff;fill-opacity:1"
+                 y="1147.3428"
+                 x="926.93127"
+                 sodipodi:role="line">Related Works</tspan></text>
+          </g>
+          <flowRoot
+             style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+             id="flowRoot6058"
+             xml:space="preserve"
+             transform="translate(99.965406,126.14683)"><flowRegion
+               id="flowRegion6060"><rect
+                 y="1162.863"
+                 x="221.49551"
+                 height="681.70282"
+                 width="1212.9543"
+                 id="rect6062" /></flowRegion><flowPara
+               id="flowPara6064"
+               style="text-align:justify;text-anchor:start">Constructivist theory of learning was used as inspiration for approach in textbook</flowPara><flowPara
+               id="flowPara6109"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6066"
+               style="text-align:justify;text-anchor:start">&quot;Sorting out sorting&quot;, the first algorithm visualization, created interest in AVs as pedagogical tools</flowPara><flowPara
+               id="flowPara6107"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6068"
+               style="text-align:justify;text-anchor:start">Engagement taxonomy developed by Naps et al. for describing learner's level of active engagement</flowPara><flowPara
+               id="flowPara6111"
+               style="text-align:justify;text-anchor:start" /><flowPara
+               id="flowPara6070"
+               style="text-align:justify;text-anchor:start">Work by Rhodes et al. in the effectiveness of pop-up questions in AVs</flowPara><flowPara
+               style="text-align:justify;text-anchor:start"
+               id="flowPara6072" /></flowRoot>        </g>
+        <flowRoot
+           xml:space="preserve"
+           id="flowRoot6113"
+           style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+             id="flowRegion6115"><rect
+               id="rect6117"
+               width="268.95456"
+               height="128.52695"
+               x="387.96097"
+               y="1344.7727" /></flowRegion><flowPara
+             id="flowPara6119"></flowPara></flowRoot>        <flowRoot
+           xml:space="preserve"
+           id="flowRoot6121"
+           style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+             id="flowRegion6123"><rect
+               id="rect6125"
+               width="130.90709"
+               height="126.14678"
+               x="159.46863"
+               y="1125.8009" /></flowRegion><flowPara
+             id="flowPara6127"></flowPara></flowRoot>        <flowRoot
+           xml:space="preserve"
+           id="flowRoot6129"
+           style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+             id="flowRegion6131"><rect
+               id="rect6133"
+               width="30.941673"
+               height="61.883347"
+               x="1528.0426"
+               y="1918.3838" /></flowRegion><flowPara
+             id="flowPara6135"></flowPara></flowRoot>      </g>
+    </g>
+  </g>
   <g
      style="display:none"
      inkscape:label="Solution"
@@ -4708,7 +4822,8 @@
          y="1393.6428"
          id="tspan3508-5" /></text>
     <g
-       id="g3636">
+       id="g3636"
+       transform="translate(-19.04103,-33.321802)">
       <g
          id="g3629">
         <g
