@@ -46,9 +46,9 @@ public class BoothMultiplication {
     public static final String BLACK     = "#000000";
     public static final String GREY      = "#DDDDDD";
     public static final String DARK_GREY = "#666666";
-    public static final String RED       = "#FF0000";
-    public static final String GREEN     = "#AAFFAA";
-    public static final String BLUE      = "#BACBFF";
+    public static final String RED       = "#FF9999";
+    public static final String GREEN     = "#55FF55";
+    public static final String BLUE      = "#CCCBFF";
     public static final String YELLOW    = "#FFFF00";
     public static final String GOLD      = "#CDAD00";
     public static final String PURPLE    = "#880088";
@@ -307,7 +307,7 @@ public class BoothMultiplication {
         while (Count.getCount() >= 0){
             //----Count Frame----
             Count.setFillColor(YELLOW);
-            easySnap("Check the value of Count", easyPseudo(8, PseudoCodeDisplay.YELLOW), null);
+            easySnap("Check the value of Count", easyPseudo(8, YELLOW, BLACK), null);
             //Change color back
             Count.setFillColor(DEFAULT_COLOR);
 
@@ -355,7 +355,7 @@ public class BoothMultiplication {
 
                 question que = quest.getComparisonQuestion();
                 GAIGSpane<?> temp = trace.remove(trace.size()-1);
-                easySnap("Determine the operation", easyPseudo(10, PseudoCodeDisplay.BLUE), que);
+                easySnap("Determine the operation", easyPseudo(10, BLUE, BLACK), que);
                 trace.add(temp);
 
                 //Reset/deactivate colors
@@ -375,7 +375,7 @@ public class BoothMultiplication {
                 currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                         last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, (cmpVal == 1 ? "Subtraction" : "Addition"), FONT_SIZE*0.5));
                 
-                easySnap((cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A", easyPseudo((cmpVal == 1 ? 11 : 14), PseudoCodeDisplay.GREEN), quest.getAdditionQuestion() );
+                easySnap((cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A", easyPseudo((cmpVal == 1 ? 11 : 14), GREEN, BLACK), quest.getAdditionQuestion() );
                 //Remove Overflow Label
                 math.remove(math.size()-1);
                 //Remove Label
@@ -395,7 +395,7 @@ public class BoothMultiplication {
                 trace.add(null);
                 question que = quest.getQuestion(1);
                 trace.remove(trace.size()-1);
-                easySnap("Determine the operation", easyPseudo(10, PseudoCodeDisplay.BLUE), que);
+                easySnap("Determine the operation", easyPseudo(10, BLUE, BLACK), que);
 
                 //Reset colors
                 RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
@@ -428,7 +428,7 @@ public class BoothMultiplication {
             currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                     last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Shift", FONT_SIZE*0.5));
             
-            easySnap("Sign-Preserving Right Shift", easyPseudo(19, PseudoCodeDisplay.BLUE), que);
+            easySnap("Sign-Preserving Right Shift", easyPseudo(19, BLUE, BLACK), que);
             //    		RegQ.setTextColor(FONT_COLOR);
             Q_1.setFillOutlineColor(DEFAULT_COLOR);
 
@@ -444,7 +444,7 @@ public class BoothMultiplication {
             Count.setFillOutlineColor(RED);
             last =  currentRow.get(0).getBounds();
             currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
-            easySnap("Decrement Count", easyPseudo(21, PseudoCodeDisplay.RED), null);
+            easySnap("Decrement Count", easyPseudo(21, RED, BLACK), null);
             Count.setFillOutlineColor(DEFAULT_COLOR);
             //Hey!  We're ready to loop!
         }
