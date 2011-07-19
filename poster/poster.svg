@@ -4192,13 +4192,12 @@
            y="860.86609" /></flowRegion><flowPara
          id="flowPara4076" /></flowRoot>  </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="Visualization"
      id="g3198"
      inkscape:groupmode="layer">
     <g
-       id="g3200"
-       transform="matrix(1.0395568,0,0,1.6351233,-218.34641,-275.36218)">
+       id="g3200">
       <g
          id="g3202">
         <rect
@@ -4337,13 +4336,12 @@
            id="rect3172" /></flowRegion><flowPara
          id="flowPara3174" /></flowRoot>  </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="Hypertextbook"
      id="g3132"
      inkscape:groupmode="layer">
     <g
-       id="g3134"
-       transform="matrix(1,0,0,1.6540438,1292.548,-865.02466)">
+       id="g3134">
       <g
          id="g3136">
         <rect
@@ -4392,7 +4390,7 @@
      inkscape:groupmode="layer">
     <g
        id="g8846"
-       transform="matrix(0.65813737,0,0,0.65813737,1720.2244,-1114.2104)">
+       transform="translate(639.54196,417.38528)">
       <g
          transform="translate(80.784247,160.2223)"
          id="g6277">
@@ -4407,7 +4405,7 @@
                height="990.01312"
                width="1344.5448"
                id="rect4062"
-               style="fill:#ffffff;stroke:#0000ff;stroke-width:16.94409369999999981;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1" />
+               style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
             <rect
                y="993.20569"
                x="252.52023"
@@ -5876,7 +5874,7 @@
            id="rect3054" /></flowRegion><flowPara
          id="flowPara3056" /></flowRoot>    <g
        id="g7944"
-       transform="translate(-2022.4668,-1545.9286)">
+       transform="translate(-1423.317,-1566.1247)">
       <g
          id="g9421"
          transform="translate(141.37243,1595.4889)">
@@ -5972,13 +5970,13 @@
            y="1506.6215" /></flowRegion><flowPara
          id="flowPara6210"></flowPara></flowRoot>    <g
        id="g6240"
-       transform="matrix(0.9589615,0,0,0.9589615,-270.47867,817.48789)">
+       transform="matrix(0.9589615,0,0,0.9589615,-206.14513,363.77011)">
       <g
          id="g3060"
          transform="matrix(0.63082257,0,0,0.63082257,110.15945,423.31558)" />
       <g
          id="g9503"
-         transform="translate(3081.8308,398.796)">
+         transform="translate(0,-64.531628)">
         <g
            transform="matrix(0.98582062,0,0,0.63082257,20.692989,423.31558)"
            id="g3062"
@@ -6059,7 +6057,7 @@
          y="1270.0142"></tspan></text>
     <g
        id="g6090"
-       transform="matrix(0.87144035,0,0,0.5854985,2730.0882,936.62018)">
+       transform="translate(2132.5472,674.83552)">
       <g
          id="g6074">
         <g
@@ -6157,13 +6155,12 @@
     </g>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="Solution"
      id="g3106"
      inkscape:groupmode="layer">
     <g
-       id="g3108"
-       transform="matrix(0.86649575,0,0,0.69892419,2779.2459,38.568957)">
+       id="g3108">
       <g
          id="g3110">
         <rect
