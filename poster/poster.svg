@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="poster.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,17 +24,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.14949297"
-     inkscape:cx="1623.3477"
-     inkscape:cy="1452.9333"
+     inkscape:zoom="0.42283"
+     inkscape:cx="1479.324"
+     inkscape:cy="1782.9874"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="g4038"
      showgrid="false"
      inkscape:window-width="1440"
-     inkscape:window-height="846"
+     inkscape:window-height="848"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -67,7 +69,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer4"
-     inkscape:label="Header">
+     inkscape:label="Header"
+     style="display:inline">
     <rect
        style="fill:#0000ff"
        id="rect3043"
@@ -85,15 +88,15 @@
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="2112.0859"
+       x="2113.2893"
        y="193.93144"
        id="text3063"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3065"
-         x="2112.0859"
+         x="2113.2893"
          y="193.93144"
-         style="font-size:144px;fill:#ffffff">Visualizing Booth's Multiplication Algorithm</tspan></text>
+         style="font-size:175px;fill:#ffffff">Visualizing Booth's multiplication algorithm</tspan></text>
     <g
        id="g3189"
        transform="translate(1.6313477,0)">
@@ -171,6 +174,608 @@
            y="550.02246"
            x="1746.02"
            sodipodi:role="line">cjenkin1@trinity.euu</tspan></text>
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="TemplateBox"
+     style="display:none">
+    <g
+       id="g4031">
+      <g
+         id="g4027">
+        <rect
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect3997"
+           width="1344.5448"
+           height="990.01312"
+           x="252.52023"
+           y="993.20569" />
+        <rect
+           style="fill:#000080;stroke:none"
+           id="rect3997-1"
+           width="1344.5448"
+           height="218.80156"
+           x="252.52023"
+           y="993.20569" />
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4017"
+         y="1147.3428"
+         x="926.93127"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:120px;fill:#ffffff;fill-opacity:1"
+           y="1147.3428"
+           x="926.93127"
+           id="tspan4019"
+           sodipodi:role="line">This is a box</tspan></text>
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4070"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion4072"><rect
+           id="rect4074"
+           width="1702.8121"
+           height="1296.0292"
+           x="113.52081"
+           y="860.86609" /></flowRegion><flowPara
+         id="flowPara4076" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="Visualization"
+     id="g3198"
+     inkscape:groupmode="layer">
+    <g
+       id="g3200">
+      <g
+         id="g3202">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect3204"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect3206"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text3208"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3210"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1">Visualization</tspan></text>
+    </g>
+    <flowRoot
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3212"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3214"><rect
+           y="860.86609"
+           x="113.52081"
+           height="1296.0292"
+           width="1702.8121"
+           id="rect3216" /></flowRegion><flowPara
+         id="flowPara3218" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="Assessment"
+     id="g3176"
+     inkscape:groupmode="layer">
+    <g
+       id="g3178">
+      <g
+         id="g3180">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect3182"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect3184"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text3186"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3188"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1">Assessment</tspan></text>
+    </g>
+    <flowRoot
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3190"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3192"><rect
+           y="860.86609"
+           x="113.52081"
+           height="1296.0292"
+           width="1702.8121"
+           id="rect3194" /></flowRegion><flowPara
+         id="flowPara3196" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="User Input"
+     id="g3154"
+     inkscape:groupmode="layer">
+    <g
+       id="g3156">
+      <g
+         id="g3158">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect3160"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect3162"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text3164"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3166"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1">User Input</tspan></text>
+    </g>
+    <flowRoot
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3168"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3170"><rect
+           y="860.86609"
+           x="113.52081"
+           height="1296.0292"
+           width="1702.8121"
+           id="rect3172" /></flowRegion><flowPara
+         id="flowPara3174" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="Hypertextbook"
+     id="g3132"
+     inkscape:groupmode="layer">
+    <g
+       id="g3134">
+      <g
+         id="g3136">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect3138"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect3140"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text3142"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3144"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1">Hypertextbook</tspan></text>
+    </g>
+    <flowRoot
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3146"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3148"><rect
+           y="860.86609"
+           x="113.52081"
+           height="1296.0292"
+           width="1702.8121"
+           id="rect3150" /></flowRegion><flowPara
+         id="flowPara3152" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="Acknowledgements"
+     id="g4056"
+     inkscape:groupmode="layer">
+    <g
+       id="g4058"
+       transform="translate(2515.1684,822.78114)">
+      <g
+         id="g4060">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect4062"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect4064"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text4066"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4068"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1">Acknowledgements</tspan></text>
+    </g>
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="References"
+     id="g3036"
+     inkscape:groupmode="layer">
+    <g
+       id="g3038">
+      <g
+         id="g3040">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect3042"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect3044"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text3046"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3048"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1">References</tspan></text>
+    </g>
+    <flowRoot
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3050"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3052"><rect
+           y="860.86609"
+           x="113.52081"
+           height="1296.0292"
+           width="1702.8121"
+           id="rect3054" /></flowRegion><flowPara
+         id="flowPara3056" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="Future Work"
+     id="g3058"
+     inkscape:groupmode="layer">
+    <g
+       id="g3060">
+      <g
+         id="g3062">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect3064"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect3066"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text3068"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3070"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1">Future Work</tspan></text>
+    </g>
+    <flowRoot
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3072"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3074"><rect
+           y="860.86609"
+           x="113.52081"
+           height="1296.0292"
+           width="1702.8121"
+           id="rect3076" /></flowRegion><flowPara
+         id="flowPara3078" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="Related Works"
+     id="g3080"
+     inkscape:groupmode="layer">
+    <g
+       id="g3082">
+      <g
+         id="g3084">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect3086"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect3088"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text3090"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1"
+           id="tspan3102">Related Works</tspan></text>
+    </g>
+    <flowRoot
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3094"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3096"><rect
+           y="860.86609"
+           x="113.52081"
+           height="1296.0292"
+           width="1702.8121"
+           id="rect3098" /></flowRegion><flowPara
+         id="flowPara3100" /></flowRoot>  </g>
+  <g
+     style="display:none"
+     inkscape:label="Solution"
+     id="g3106"
+     inkscape:groupmode="layer">
+    <g
+       id="g3108">
+      <g
+         id="g3110">
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="990.01312"
+           width="1344.5448"
+           id="rect3112"
+           style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+        <rect
+           y="993.20569"
+           x="252.52023"
+           height="218.80156"
+           width="1344.5448"
+           id="rect3114"
+           style="fill:#000080;stroke:none" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="926.93127"
+         y="1147.3428"
+         id="text3116"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           x="926.93127"
+           y="1147.3428"
+           style="font-size:120px;fill:#ffffff;fill-opacity:1"
+           id="tspan3128">Solution</tspan></text>
+    </g>
+    <flowRoot
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3120"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3122"><rect
+           y="860.86609"
+           x="113.52081"
+           height="1296.0292"
+           width="1702.8121"
+           id="rect3124" /></flowRegion><flowPara
+         id="flowPara3126" /></flowRoot>  </g>
+  <g
+     inkscape:label="Problem"
+     id="g4038"
+     inkscape:groupmode="layer"
+     style="display:inline">
+    <g
+       id="g4042"
+       transform="matrix(1.484566,0,0,0.84763197,-342.17807,-84.295441)" />
+    <text
+       xml:space="preserve"
+       style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+       x="202.20621"
+       y="1393.6428"
+       id="text3220-6-6-4-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="202.20621"
+         y="1393.6428"
+         id="tspan3508-5" /></text>
+    <g
+       id="g3636">
+      <g
+         id="g3629">
+        <g
+           transform="matrix(1.484566,0,0,0.84763197,-342.17807,-84.295441)"
+           style="display:inline"
+           id="g3622">
+          <rect
+             y="993.20569"
+             x="252.52023"
+             height="990.01312"
+             width="1344.5448"
+             id="rect4044"
+             style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+          <rect
+             y="993.20569"
+             x="252.52023"
+             height="218.80156"
+             width="1344.5448"
+             id="rect4046"
+             style="fill:#000080;stroke:none" />
+        </g>
+        <text
+           sodipodi:linespacing="125%"
+           id="text4048"
+           y="895.04541"
+           x="1029.976"
+           style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           xml:space="preserve"><tspan
+             id="tspan4052"
+             style="font-size:120px;fill:#ffffff;fill-opacity:1"
+             y="895.04541"
+             x="1029.976"
+             sodipodi:role="line">Problem</tspan></text>
+      </g>
+      <g
+         transform="translate(-107.02844,-30.101748)"
+         id="g3607">
+        <text
+           xml:space="preserve"
+           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="196.22739"
+           y="1064.7925"
+           id="text3220"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             x="196.22739"
+             y="1064.7925"
+             id="tspan3245">• Multiplication of signed numbers is not always taught</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="196.22739"
+           y="1145.8883"
+           id="text3220-6"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             x="196.22739"
+             y="1145.8883"
+             id="tspan3554">• Some textbooks do not provide any coverage</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="196.22739"
+           y="1449.6769"
+           id="text3220-6-6"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             x="196.22739"
+             y="1449.6769"
+             id="tspan3245-5-9">• Time prohibitive for professors to develop this material</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="196.22739"
+           y="1530.7727"
+           id="text3220-6-6-4"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             x="196.22739"
+             y="1530.7727"
+             id="tspan3508">• Limitations on class room time may restrict adding new material</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="196.22739"
+           y="1226.9841"
+           id="text3220-6-69"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             x="196.22739"
+             y="1226.9841"
+             id="tspan3245-5-3">• Those that do varied significantly in approach and method</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="196.81445"
+           y="1308.0801"
+           id="text3220-6-69-7"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             x="196.81445"
+             y="1308.0801"
+             id="tspan3245-5-3-4">• Mathematic background and hardware implementation</tspan><tspan
+             sodipodi:role="line"
+             x="196.81445"
+             y="1379.6855"
+             id="tspan3581">   details were often not both covered</tspan></text>
+      </g>
     </g>
   </g>
 </svg>
