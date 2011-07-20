@@ -4000,7 +4000,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.42014534"
      inkscape:cx="627.20781"
-     inkscape:cy="549.63078"
+     inkscape:cy="347.40931"
      inkscape:document-units="mm"
      inkscape:current-layer="g3080"
      showgrid="false"
@@ -6149,59 +6149,82 @@
       <g
          id="g6074">
         <g
-           id="g6137">
+           id="g3082"
+           transform="translate(5.5457491e-8,23.801287)">
           <g
-             id="g3082">
-            <g
-               id="g3084">
-              <rect
-                 style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none"
-                 id="rect3086"
-                 width="1344.5448"
-                 height="990.01312"
-                 x="252.52023"
-                 y="993.20569" />
-              <rect
-                 style="fill:#000080;stroke:none"
-                 id="rect3088"
-                 width="1344.5448"
-                 height="218.80156"
-                 x="252.52023"
-                 y="993.20569" />
-            </g>
-            <text
-               sodipodi:linespacing="125%"
-               id="text3090"
-               y="1147.3428"
-               x="926.93127"
-               style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-               xml:space="preserve"><tspan
-                 id="tspan3102"
-                 style="font-size:120px;fill:#ffffff;fill-opacity:1"
-                 y="1147.3428"
-                 x="926.93127"
-                 sodipodi:role="line">Related Works</tspan></text>
+             id="g3084">
+            <rect
+               y="993.20569"
+               x="252.52023"
+               height="990.01312"
+               width="1344.5448"
+               id="rect3086"
+               style="fill:none;stroke:#0000ff;stroke-width:16.9440937;stroke-miterlimit:4;stroke-dasharray:none" />
+            <rect
+               y="993.20569"
+               x="252.52023"
+               height="218.80156"
+               width="1344.5448"
+               id="rect3088"
+               style="fill:#000080;stroke:none" />
           </g>
-          <flowRoot
-             style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-             id="flowRoot6058"
+          <text
              xml:space="preserve"
-             transform="translate(99.965406,126.14683)"><flowRegion
-               id="flowRegion6060"><rect
-                 y="1162.863"
-                 x="221.49551"
-                 height="681.70282"
-                 width="1212.9543"
-                 id="rect6062" /></flowRegion><flowPara
-               id="flowPara6064"
-               style="text-align:justify;text-anchor:start">Constructivist theory of learning was used as inspiration for approach in our hypertextbook.</flowPara><flowPara
-               id="flowPara6109"
-               style="text-align:justify;text-anchor:start" /><flowPara
-               id="flowPara6070"
-               style="text-align:justify;text-anchor:start" /><flowPara
-               style="text-align:justify;text-anchor:start"
-               id="flowPara6072" /></flowRoot>        </g>
+             style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+             x="926.93127"
+             y="1147.3428"
+             id="text3090"
+             sodipodi:linespacing="125%"><tspan
+               sodipodi:role="line"
+               x="926.93127"
+               y="1147.3428"
+               style="font-size:120px;fill:#ffffff;fill-opacity:1"
+               id="tspan3102">Related Works</tspan></text>
+        </g>
         <flowRoot
+           transform="translate(61.883346,99.965416)"
+           xml:space="preserve"
+           id="flowRoot6058"
+           style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+             id="flowRegion6060"><rect
+               id="rect6062"
+               width="1291.4985"
+               height="712.64447"
+               x="221.49551"
+               y="1162.863"
+               style="text-align:start;text-anchor:start;fill:#000000" /></flowRegion><flowPara
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+             id="flowPara6064">• Constructivist theory of learning influenced our approach for our hypertextbook. We address the student's pre-existing knowledge and use that as the basis for teaching the algorithm.</flowPara><flowPara
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+             id="flowPara3962" /><flowPara
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+             id="flowPara3964">• Our research turned up few visualizations for the topic of binary multiplication in computer organization.</flowPara><flowPara
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+             id="flowPara3966" /><flowPara
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+             id="flowPara3968">• One at <flowSpan
+   style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000080;font-family:Sans;-inkscape-font-specification:Sans"
+   id="flowSpan3972">http://www.frontiernet.net/~prof_tcarr/Multiplication/applet.html <flowSpan
+   style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+   id="flowSpan3974">allowed for step-by-step viewing and limited questions, but did not include discussion of hardware or signed values.</flowSpan></flowSpan></flowPara><flowPara
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+             id="flowPara3978" /><flowPara
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+             id="flowPara3987">• Others at <flowSpan
+   style="fill:#000080"
+   id="flowSpan3983">http://www.ecs.umass.edu/ece/koren/arith/simulator/ <flowSpan
+   style="fill:#000000"
+   id="flowSpan3985">inlcuded many algorithms and was linked to a (non-free) textbook, but did not support any levels of engagement beyond basic &quot;Viewing&quot;.</flowSpan></flowSpan></flowPara><flowPara
+             style="text-align:start;text-anchor:start;fill:#000000"
+             id="flowPara3958" /><flowPara
+             style="text-align:start;text-anchor:start;fill:#000000"
+             id="flowPara3960" /><flowPara
+             style="text-align:start;text-anchor:start;fill:#000000"
+             id="flowPara6109" /><flowPara
+             style="text-align:start;text-anchor:start;fill:#000000"
+             id="flowPara6070" /><flowPara
+             id="flowPara6072"
+             style="text-align:start;text-anchor:start;fill:#000000" /></flowRoot>        <flowRoot
            xml:space="preserve"
            id="flowRoot6113"
            style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
