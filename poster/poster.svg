@@ -3999,10 +3999,10 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.42014534"
-     inkscape:cx="2534.8599"
-     inkscape:cy="1851.1101"
+     inkscape:cx="627.20781"
+     inkscape:cy="852.96297"
      inkscape:document-units="mm"
-     inkscape:current-layer="g9503"
+     inkscape:current-layer="g3944"
      showgrid="false"
      inkscape:window-width="1280"
      inkscape:window-height="729"
@@ -4294,21 +4294,21 @@
       <image
          width="824"
          height="241"
-         xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/input.png"
+         xlink:href="file:///home/christopher/jhave2-new/server/src/exe/boothsMultiplication/poster/input.png"
          id="image4304"
          x="2139.498"
          y="1288.5363" />
       <image
          width="414"
          height="203"
-         xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/question.png"
+         xlink:href="file:///home/christopher/jhave2-new/server/src/exe/boothsMultiplication/poster/question.png"
          id="image5487"
          x="2720.5583"
          y="1726.439" />
       <image
          width="235"
          height="80"
-         xlink:href="file:///home/user/jhave2/server/src/exe/boothsMultiplication/poster/connexions.gif"
+         xlink:href="file:///home/christopher/jhave2-new/server/src/exe/boothsMultiplication/poster/connexions.gif"
          id="image4161"
          x="2857.6609"
          y="850.16797" />
@@ -6113,7 +6113,7 @@
                height="283.23532"
                x="192.79044"
                y="1285.2695" /></flowRegion><flowPara
-             id="flowPara3969"></flowPara></flowRoot>      </g>
+             id="flowPara3969" /></flowRoot>      </g>
     </g>
   </g>
   <g
