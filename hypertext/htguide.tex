@@ -111,7 +111,7 @@ If you have any difficulties getting the JHAVÉ client to run, consult the ``Pro
 When the JHAVÉ client is running, select ``Connect''.
 On the next screen, select ``Booth's Multiplication Algorithm'' from the drop-down menu of algorithms, and select ``Visualize''.
 The algorithm's input generator will appear, with four text fields and a drop-down menu.
-The first row of text fields is used for the input of the multiplicand, and the second row for the input of the multiplier.
+The first row of text fields is used to input the multiplicand, and the second row to input the multiplier.
 The first column of text fields are for decimal input values, and the second column for binary input values.
 Thus, the top-left text field is used to input a decimal value for the multiplicand, and the bottom right text field is used to input a binary value for the multiplier.
 Finally, the drop-down menu is used to indicate the number of bits of a register.
@@ -124,11 +124,12 @@ Finally, the drop-down menu is used to indicate the number of bits of a register
 \caption{Booth's Multiplication Algorithm Input Generator}
 \end{figure}
 
-Whenever you change one of the values in the four text fields, it will update the binary text fields according to the register size option selected, or signal an error for invalid input.
+Whenever you change one of the values in the four text fields, the input generator will update all text fields according to the input value and register size option selected, or it will signal an error for invalid input.
 The ``Automatic'' option will use the least number of bits necessary for the binary representation of both the multiplicand and the multiplier; however, it will never use fewer than 3 bits or greater than 8 bits.
 If you select a fixed-register size from the drop-down menu, every value entered in the binary text fields will be resized to the number of bits selected.
-If the values entered for the multiplicand or multiplier cannot be represented in the number of bits selected, then an ``Overflow'' error is signalled and the input generator will do its best to correct the mistake.
+If the values entered for the multiplicand or multiplier cannot be represented in the number of bits selected, then an ``Overflow'' error is signalled and the input generator will do its best to correct the mistake, either by using the largest (if you gave a value too large) or smallest (if you gave a value too small) value that can be represented with the selected register size option, or by reverting the the last set of valid values.
 
+\pagebreak
 \section{Starting the Visualization}
 
 Once you have selected the desired input values, click ``OK''.
@@ -141,17 +142,19 @@ One tab, titled ``Pseudo Code'' displays pseudo code for the executing algorithm
 For every snapshot, a line in the pseudo code is highlighted indicating what has just happened in the visualization.
 Finally, the text in the top center of the screen also provides information about the current step of the visualization.
 
-\pagebreak
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{initreg.pdf}
 \caption{The Initialization of M, A, Q, Beta, and Count}
 \end{figure}
 
+To navigate through the visualization, click the arrow buttons on the bottom left of the screen.
 The first few slides are dedicated to setting up the initial values the algorithm will use.
 After this, the visualization goes into the main loop of the algorithm.
 Depending on your screen size, you may at this time see text annotation on the left of the registers describing what occurred during that step.
+If you wish to view these annotations, or if you wish to adjust your view of the visualization in general, you can zoom in and out with the magnifying glass buttons on the bottom left, or click and drag the main screen to move it as you like.
 
+\pagebreak
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{looptop.pdf}
@@ -159,7 +162,7 @@ Depending on your screen size, you may at this time see text annotation on the l
 \end{figure}
 
 As the visualization progresses, the state history of the algorithm is preserved on screen, along with an appropriate annotation.
-This is done for your convenient reference.
+This is done to allow you to refer to previous states for reference.
 The current values for the algorithm are drawn in black text and in black boxes, and values for past states of the algorithm are drawn in grey text in grey boxes.
 
 \pagebreak
@@ -184,7 +187,7 @@ Then the operations for that case are executed:
 \end{figure}
 
 When an arithmetic operation occurs, register A is highlighted green to indicate its updated value, along with the corresponding line of pseudo-code.
-The result of the arithmetic in the ``Math/ALU'' pane is also highlighted green, except for any overflow, which is discarded.
+The result of the arithmetic in the ``Math/ALU'' column is also highlighted green, except for any overflow, which is discarded.
 
 \pagebreak
 \begin{figure}[h]
@@ -193,8 +196,8 @@ The result of the arithmetic in the ``Math/ALU'' pane is also highlighted green,
 \caption{Execute shift operation}
 \end{figure}
 
-When an shift operation occurs, the old values of registers A and Q are highlighted green and blue, respectively.
-The current values of A and Q are also highlighted green and blue, with two notable exceptions: the most significant bit of Q is highlighted green, indicating its value came from register A, and Beta is highlighted blue, indicating its value came from register Q.
+When a shift operation occurs, the old values of registers A and Q are highlighted in green and blue, respectively.
+The current values of A and Q are also highlighted in green and blue, with two notable exceptions: the most significant bit of Q is highlighted green, indicating its value came from register A, and Beta is highlighted blue, indicating its value came from register Q.
 
 \pagebreak
 Finally, the value of ``Count'' is decremented, and the algorithm returns to the top of the loop.
@@ -205,27 +208,27 @@ Finally, the value of ``Count'' is decremented, and the algorithm returns to the
 \caption{Decrement Count}
 \end{figure}
 
-Pop-up questions will appear during the algorithm visualizations.
+Pop-up questions will appear during the algorithm's visualization.
 These questions are designed to test your understanding of the algorithm, and come in the following formats: fill in the blank, multiple choice, multiple selection, and true/false.
 If you prefer, you may disable the questions for the time being by going to the ``Options'' menu and unchecking ``Show Questions''.
 However, once you are more comfortable with the algorithm visualization, it is strongly recommended that you re-enable questions.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.3]{que.pdf}
+\includegraphics[scale=0.5]{que.pdf}
 \caption{An example question}
 \end{figure}
 
 \pagebreak
 
 \section{The Visualization's Conclusion}
-When ``Count'' is equal to 0, the algorithm finishes executing, and the result is highlighted in purple.
-The diagrams at the top left and top right of the screen are also updated with the decimal and binary representation of the result, respectively.
+When ``Count'' is equal to 0, the algorithm finishes executing, and the final result of the multiplication is highlighted in green.
+The diagrams at the top left and top right of the screen are also updated with the decimal and binary representation of the result, respectively, and highlighted in green.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{finish.pdf}
-\caption{The last snapshot of the algorithm}
+\caption{The last snapshot of the visualization}
 \end{figure}
 
 \end{document}
