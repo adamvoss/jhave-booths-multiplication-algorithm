@@ -4007,7 +4007,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.24"
      inkscape:cx="2052.0372"
-     inkscape:cy="1460.6649"
+     inkscape:cy="1452.3316"
      inkscape:document-units="mm"
      inkscape:current-layer="g3132"
      showgrid="false"
@@ -4514,7 +4514,7 @@
            height="383.33334"
            x="1558.3334"
            y="2296.5879" /></flowRegion><flowPara
-         id="flowPara4087"></flowPara></flowRoot>    <flowRoot
+         id="flowPara4087" /></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot4097"
        style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:40px"><flowRegion
@@ -4524,7 +4524,7 @@
            height="404.16666"
            x="1545.8334"
            y="2288.2544" /></flowRegion><flowPara
-         id="flowPara4103"></flowPara></flowRoot>    <g
+         id="flowPara4103" /></flowRoot>    <g
        id="g4208">
       <g
          transform="matrix(1.5326696,0,0,1.3225389,1381.2297,-452.14665)"
@@ -4561,7 +4561,7 @@
       </g>
       <flowRoot
          transform="matrix(0.96543728,0,0,1,336.03743,-1025)"
-         style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
          id="flowRoot4105"
          xml:space="preserve"><flowRegion
            id="flowRegion4107"><rect
@@ -4570,25 +4570,23 @@
              x="1525"
              height="933.33319"
              width="2045.2365"
-             id="rect4109" /></flowRegion><flowPara
-           id="flowPara4113">• Format based on constructivist theory of learning: by addressing what the students know and building on that</flowPara><flowPara
-           id="flowPara4173" /><flowPara
-           id="flowPara4120">• Begins with binary multiplication of repeaded binary addition</flowPara><flowPara
-           id="flowPara4175" /><flowPara
-           id="flowPara4177">• Then the shift-and-add method is introduced</flowPara><flowPara
-           id="flowPara4179"></flowPara><flowPara
-           id="flowPara4197">• Introduce hardware design issues and how that leads to the simple binary multiplication method.</flowPara><flowPara
-           id="flowPara4181"></flowPara><flowPara
-           id="flowPara4199">• We then point out the problems with signed nubmers</flowPara><flowPara
-           id="flowPara4139"></flowPara><flowPara
-           id="flowPara4201">• Introduce Booth's method, along with its mathematical justification</flowPara><flowPara
-           id="flowPara4183"></flowPara><flowPara
-           id="flowPara4203">• We then adapt the algorithem to hardware.</flowPara><flowPara
-           id="flowPara4185"></flowPara><flowPara
-           id="flowPara4205">• The textbook concludes with questions and exercises to test understanding, as well as a link to our visualization</flowPara><flowPara
-           id="flowPara4133" /><flowPara
-           id="flowPara4123" /><flowPara
-           id="flowPara4117" /></flowRoot>    </g>
+             id="rect4109"
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans" /></flowRegion><flowPara
+           id="flowPara4015">• Format based on constructivist theory of learning by addressing what the students know and building on that</flowPara><flowPara
+           id="flowPara4017"></flowPara><flowPara
+           id="flowPara4019">• Begins with binary multiplication as repeated addition</flowPara><flowPara
+           id="flowPara4021"></flowPara><flowPara
+           id="flowPara4023">• Then the shift-and-add method of multiplication is introduced</flowPara><flowPara
+           id="flowPara4025"></flowPara><flowPara
+           id="flowPara4027">• Introduce hardware design issues which then leads to the simple binary multiplication method.</flowPara><flowPara
+           id="flowPara4029"></flowPara><flowPara
+           id="flowPara4031">• We then point out the problems with signed binary numbers</flowPara><flowPara
+           id="flowPara4033"></flowPara><flowPara
+           id="flowPara4035">• Booth's algorithm is introduced, along with a mathematical justification for why it works</flowPara><flowPara
+           id="flowPara4037"></flowPara><flowPara
+           id="flowPara4039">• We then adapt Booth's algorithm to hardware.</flowPara><flowPara
+           id="flowPara4041"></flowPara><flowPara
+           id="flowPara4043">• The textbook concludes with questions and exercises to test student's understanding, as well as a link to our visualization</flowPara></flowRoot>    </g>
   </g>
   <g
      style="display:inline"
