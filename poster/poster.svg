@@ -14,7 +14,7 @@
    height="2979.9211"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="0.48.1 r9760"
    sodipodi:docname="poster.svg">
   <defs
      id="defs4">
@@ -3998,16 +3998,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.42014534"
-     inkscape:cx="627.20781"
-     inkscape:cy="852.96297"
+     inkscape:zoom="0.29708762"
+     inkscape:cx="2104.2755"
+     inkscape:cy="900.73023"
      inkscape:document-units="mm"
-     inkscape:current-layer="g3944"
+     inkscape:current-layer="g3198"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="729"
+     inkscape:window-width="1440"
+     inkscape:window-height="848"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true" />
@@ -4226,7 +4226,7 @@
            id="rect3216" /></flowRegion><flowPara
          id="flowPara3218" /></flowRoot>    <g
        id="g3944"
-       transform="translate(266.57442,-61.883347)">
+       transform="translate(243.01235,-28.223244)">
       <g
          transform="matrix(1,0,0,1.0543625,1117.5154,-255.95376)"
          id="g3202">
@@ -4313,6 +4313,77 @@
          x="2857.6609"
          y="850.16797" />
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1767.1554"
+       y="2010.5103"
+       id="text5312"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="1767.1554"
+         y="2010.5103"
+         id="tspan5318">The visualization was done within the JHAVÉ server-client framework</tspan><tspan
+         sodipodi:role="line"
+         x="1767.1554"
+         y="2060.5103"
+         id="tspan5316" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1888.3318"
+       y="2047.5363"
+       id="text6118"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="1888.3318"
+         y="2047.5363"
+         id="tspan6122">JHAVÉ was chosen for its empasis on user engagment</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1740.2273"
+       y="2124.9546"
+       id="text6126"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6128"
+         x="1740.2273"
+         y="2124.9546">We provide the user default values but allow them to generate the visualization by</tspan><tspan
+         sodipodi:role="line"
+         x="1740.2273"
+         y="2174.9546"
+         id="tspan6130">entering their own numbers in either binary or decimal.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1736.8613"
+       y="2219.2029"
+       id="text6132"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6134"
+         x="1736.8613"
+         y="2219.2029">The input window will automatically convert between the bases for user convenience</tspan><tspan
+         sodipodi:role="line"
+         x="1736.8613"
+         y="2269.2029"
+         id="tspan6138">erroneous input will auto-correct and provide the user feedback to the error</tspan><tspan
+         sodipodi:role="line"
+         x="1736.8613"
+         y="2319.2029"
+         id="tspan6136" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1736.8613"
+       y="1832.1116"
+       id="text6140"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6142"
+         x="1736.8613"
+         y="1832.1116" /></text>
   </g>
   <g
      style="display:none"
@@ -4416,7 +4487,8 @@
      id="g3132"
      inkscape:groupmode="layer">
     <g
-       id="g3134">
+       id="g3134"
+       transform="translate(1511.3386,-134.64041)">
       <g
          id="g3136">
         <rect
@@ -4457,7 +4529,107 @@
            height="1296.0292"
            width="1702.8121"
            id="rect3150" /></flowRegion><flowPara
-         id="flowPara3152" /></flowRoot>  </g>
+         id="flowPara3152" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1858.0377"
+       y="1142.0795"
+       id="text5255"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5257"
+         x="1858.0377"
+         y="1142.0795">Format based on constructivist theory of learning: by addressing</tspan><tspan
+         sodipodi:role="line"
+         x="1858.0377"
+         y="1192.0795"
+         id="tspan5259">whey students know and building off that</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1787.3514"
+       y="1246.4258"
+       id="text5261"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5263"
+         x="1787.3514"
+         y="1246.4258">Begins with binary multiplication of repeaded binary addition</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1821.0116"
+       y="1360.8702"
+       id="text5265"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5267"
+         x="1821.0116"
+         y="1360.8702">Then the shift-and-add method is introduced</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1908.528"
+       y="1458.4845"
+       id="text5269"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5271"
+         x="1908.528"
+         y="1458.4845">Introduce hardware design issues and how that leads to a </tspan><tspan
+         sodipodi:role="line"
+         x="1908.528"
+         y="1508.4845"
+         id="tspan5273">simple binary multiplication method.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1824.3776"
+       y="1569.5627"
+       id="text5275"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5277"
+         x="1824.3776"
+         y="1569.5627">We then point out the problems with signed nubmers</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1935.4559"
+       y="1626.785"
+       id="text5279"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5281"
+         x="1935.4559"
+         y="1626.785">Introduce Booth's method, along with its mathematical justification</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1834.4756"
+       y="1707.5692"
+       id="text5283"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5285"
+         x="1834.4756"
+         y="1707.5692">We then adapt the algorithem to hardware</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1921.9918"
+       y="1768.1573"
+       id="text5287"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5289"
+         x="1921.9918"
+         y="1768.1573">The textbook concludes with questions and exercises</tspan><tspan
+         sodipodi:role="line"
+         x="1921.9918"
+         y="1818.1573"
+         id="tspan5291">to test understanding, as well as a link to our visualization</tspan></text>
+  </g>
   <g
      style="display:inline"
      inkscape:label="Acknowledgements"
@@ -6247,7 +6419,8 @@
      id="g3106"
      inkscape:groupmode="layer">
     <g
-       id="g3108">
+       id="g3108"
+       transform="translate(2558.1679,228.8887)">
       <g
          id="g3110">
         <rect
@@ -6288,7 +6461,52 @@
            height="1296.0292"
            width="1702.8121"
            id="rect3124" /></flowRegion><flowPara
-         id="flowPara3126" /></flowRoot>  </g>
+         id="flowPara3126" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="2908.2329"
+       y="1542.6346"
+       id="text4119"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4121"
+         x="2908.2329"
+         y="1542.6346">We created two modules, an online text or hypertext resource</tspan><tspan
+         sodipodi:role="line"
+         x="2908.2329"
+         y="1592.6346"
+         id="tspan5237">and dynamic visualization of the algorithm</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="2911.5991"
+       y="1751.3274"
+       id="text5239"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5241"
+         x="2911.5991"
+         y="1751.3274">Our intent was to design the modules to work well together, </tspan><tspan
+         sodipodi:role="line"
+         x="2911.5991"
+         y="1801.3274"
+         id="tspan5243">but allow each to stand on its own.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="2904.8669"
+       y="1906.1638"
+       id="text5245"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="2904.8669"
+         y="1906.1638"
+         id="tspan5249">We choose Booth's Multiplication Algorithm for its its versatility</tspan><tspan
+         sodipodi:role="line"
+         x="2904.8669"
+         y="1956.1638"
+         id="tspan5253">for allowing discussion of math and hardware.</tspan></text>
+  </g>
   <g
      inkscape:label="Problem"
      id="g4038"
