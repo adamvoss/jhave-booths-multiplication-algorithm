@@ -14,12 +14,12 @@ public class boothsMultiplication{
 
     public static void main(String[] args)throws IOException, JDOMException
     {
-        @SuppressWarnings("unchecked")
-		Hashtable<String, String> param = XMLParameterParser.parseToHash(args[2]);
+    @SuppressWarnings("unchecked")
+    Hashtable<String, String> param = XMLParameterParser.parseToHash(args[2]);
 
         String[] toPass = new String[3];
         toPass[0] = args[0] + ".sho";
-        String[] temp = param.get("Booths Multiplication Input").split(" ");
+        String[] temp = param.get("Booth's Multiplication Input").split(" ");
         toPass[1] = temp[0];
         toPass[2] = temp[1];
 
