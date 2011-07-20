@@ -4000,9 +4000,9 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.42014534"
      inkscape:cx="627.20781"
-     inkscape:cy="852.96297"
+     inkscape:cy="549.63078"
      inkscape:document-units="mm"
-     inkscape:current-layer="g3944"
+     inkscape:current-layer="g3080"
      showgrid="false"
      inkscape:window-width="1280"
      inkscape:window-height="729"
@@ -6051,7 +6051,7 @@
          transform="matrix(0.63082257,0,0,0.63082257,110.15945,423.31558)" />
       <g
          id="g9503"
-         transform="translate(0,-64.531628)">
+         transform="translate(7.4459571,-121.6173)">
         <g
            transform="matrix(0.98582062,0,0,0.63082257,20.692989,423.31558)"
            id="g3062"
@@ -6097,16 +6097,17 @@
                y="1287.6497" /></flowRegion><flowPara
              id="flowPara6226">• Perfom empirical study to determine the effectiveness ofi the modules</flowPara><flowPara
              id="flowPara6234" /><flowPara
-             id="flowPara4121">• Add question remediation support to JHAVÉ</flowPara><flowPara
+             id="flowPara4121">• Add question question feeback feature to JHAVÉ when </flowPara><flowPara
+             id="flowPara3980">   students answer incorrectly</flowPara><flowPara
              id="flowPara4119" /><flowPara
-             id="flowPara6228">• Implement a more comprehensive set of exercises for the visualization</flowPara><flowPara
+             id="flowPara6228">• Implement a set of exercises for the visualization</flowPara><flowPara
              id="flowPara6236" /><flowPara
-             id="flowPara6230">• Develop realted modules for more advanced methods of signed binary multiplication</flowPara><flowPara
+             id="flowPara6230">• Develop realted modules for more advanced algorithms of signed binary multiplication</flowPara><flowPara
              id="flowPara6238" /><flowPara
              id="flowPara6232">• Produce a related module that covers binary division</flowPara></flowRoot>        <flowRoot
            xml:space="preserve"
            id="flowRoot3963"
-           style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:40px"><flowRegion
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"><flowRegion
              id="flowRegion3965"><rect
                id="rect3967"
                width="323.69751"
@@ -6144,7 +6145,7 @@
          y="1270.0142" /></text>
     <g
        id="g6090"
-       transform="translate(-138.09563,1046.1356)">
+       transform="translate(-204.73923,984.25225)">
       <g
          id="g6074">
         <g
@@ -6193,19 +6194,11 @@
                  width="1212.9543"
                  id="rect6062" /></flowRegion><flowPara
                id="flowPara6064"
-               style="text-align:justify;text-anchor:start">Constructivist theory of learning was used as inspiration for approach in textbook</flowPara><flowPara
+               style="text-align:justify;text-anchor:start">Constructivist theory of learning was used as inspiration for approach in our hypertextbook.</flowPara><flowPara
                id="flowPara6109"
                style="text-align:justify;text-anchor:start" /><flowPara
-               id="flowPara6066"
-               style="text-align:justify;text-anchor:start">&quot;Sorting out sorting&quot;, the first algorithm visualization, created interest in AVs as pedagogical tools</flowPara><flowPara
-               id="flowPara6107"
-               style="text-align:justify;text-anchor:start" /><flowPara
-               id="flowPara6068"
-               style="text-align:justify;text-anchor:start">Engagement taxonomy developed by Naps et al. for describing learner's level of active engagement</flowPara><flowPara
-               id="flowPara6111"
-               style="text-align:justify;text-anchor:start" /><flowPara
                id="flowPara6070"
-               style="text-align:justify;text-anchor:start">Work by Rhodes et al. in the effectiveness of pop-up questions in AVs</flowPara><flowPara
+               style="text-align:justify;text-anchor:start" /><flowPara
                style="text-align:justify;text-anchor:start"
                id="flowPara6072" /></flowRoot>        </g>
         <flowRoot
@@ -6312,7 +6305,8 @@
        id="g3636"
        transform="matrix(0.60777071,0,0,0.60777071,23.719253,293.75475)">
       <g
-         id="g3629">
+         id="g3629"
+         transform="translate(19.580812,-58.742435)">
         <g
            transform="matrix(1.484566,0,0,0.84763197,-342.17807,-84.295441)"
            style="display:inline"
@@ -6346,78 +6340,84 @@
              sodipodi:role="line">Problem</tspan></text>
       </g>
       <g
-         transform="translate(-107.02844,-30.101748)"
-         id="g3607">
+         id="g3965"
+         transform="matrix(0.82506254,0,0,0.99359571,10.911352,9.6870459)">
         <text
+           transform="scale(0.92885051,1.0765995)"
            xml:space="preserve"
-           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           x="196.22739"
-           y="1064.7925"
+           style="font-size:62.4001236px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="66.511108"
+           y="884.39319"
            id="text3220"
            sodipodi:linespacing="125%"><tspan
              sodipodi:role="line"
-             x="196.22739"
-             y="1064.7925"
-             id="tspan3245">• Multiplication of signed numbers is not always taught</tspan></text>
+             x="66.511108"
+             y="884.39319"
+             id="tspan3245">• Multiplication of signed numbers is not always taught in computer organization</tspan></text>
         <text
+           transform="scale(0.92885051,1.0765995)"
            xml:space="preserve"
-           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-           x="196.22739"
-           y="1145.8883"
+           style="font-size:62.4001236px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="66.511108"
+           y="972.73114"
            id="text3220-6"
            sodipodi:linespacing="125%"><tspan
              sodipodi:role="line"
-             x="196.22739"
-             y="1145.8883"
+             x="66.511108"
+             y="972.73114"
              id="tspan3554">• Some textbooks do not provide any coverage</tspan></text>
         <text
+           transform="scale(0.92885051,1.0765995)"
            xml:space="preserve"
-           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-           x="196.22739"
-           y="1449.6769"
+           style="font-size:62.4001236px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="66.511108"
+           y="1303.649"
            id="text3220-6-6"
            sodipodi:linespacing="125%"><tspan
              sodipodi:role="line"
-             x="196.22739"
-             y="1449.6769"
+             x="66.511108"
+             y="1303.649"
              id="tspan3245-5-9">• Time prohibitive for professors to develop this material</tspan></text>
         <text
+           transform="scale(0.92885051,1.0765995)"
            xml:space="preserve"
-           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-           x="196.22739"
-           y="1530.7727"
+           style="font-size:62.4001236px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="66.511108"
+           y="1391.9871"
            id="text3220-6-6-4"
            sodipodi:linespacing="125%"><tspan
              sodipodi:role="line"
-             x="196.22739"
-             y="1530.7727"
-             id="tspan3508">• Limitations on class room time may restrict adding new material</tspan></text>
+             x="66.511108"
+             y="1391.9871"
+             id="tspan3508">• Limitations on classroom time may restrict adding new material</tspan></text>
         <text
+           transform="scale(0.92885051,1.0765995)"
            xml:space="preserve"
-           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-           x="196.22739"
-           y="1226.9841"
+           style="font-size:62.4001236px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="66.511108"
+           y="1061.0691"
            id="text3220-6-69"
            sodipodi:linespacing="125%"><tspan
              sodipodi:role="line"
-             x="196.22739"
-             y="1226.9841"
-             id="tspan3245-5-3">• Those that do varied significantly in approach and method</tspan></text>
+             x="66.511108"
+             y="1061.0691"
+             id="tspan3245-5-3">• Those that do vary significantly in approach and method</tspan></text>
         <text
+           transform="scale(0.92885051,1.0765995)"
            xml:space="preserve"
-           style="font-size:57.28442383px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-           x="196.81445"
-           y="1308.0801"
+           style="font-size:62.4001236px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+           x="67.150604"
+           y="1149.4072"
            id="text3220-6-69-7"
            sodipodi:linespacing="125%"><tspan
              sodipodi:role="line"
-             x="196.81445"
-             y="1308.0801"
+             x="67.150604"
+             y="1149.4072"
              id="tspan3245-5-3-4">• Mathematic background and hardware implementation</tspan><tspan
              sodipodi:role="line"
-             x="196.81445"
-             y="1379.6855"
-             id="tspan3581">   details were often not both covered</tspan></text>
+             x="67.150604"
+             y="1227.4073"
+             id="tspan3581">   details is not always both covered.</tspan></text>
       </g>
     </g>
   </g>
