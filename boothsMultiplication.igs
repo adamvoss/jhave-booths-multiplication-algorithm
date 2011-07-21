@@ -4,7 +4,7 @@
 <input_panel>
     <booth_multiplication>
         <label_line>Booth's Multiplication Input</label_line>
-        <description>&lt;html&gt;Let's Learn Booth's Multiplication&lt;br/&gt;Please enter the numbers you wish to multiply&lt;/html&gt;</description>
+        <description>Please enter the numbers you wish to multiply</description>
         <l_textfields>
             <name>Multiplicand</name>
             <default_dec>11</default_dec>
