@@ -32,8 +32,8 @@
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.BoothMultiplication">
       <arg value="foo.sho" />  <!--  Name of the output visualization script-->
-      <arg value="001011" />
-      <arg value="010111" />
+      <arg value="0111000" />
+      <arg value="1100110" />
       <jvmarg value="-Dfile.encoding=ISO-8859-1" />
       <!--jvmarg value="-Dfile.encoding=UTF8" /-->
     </java> 
