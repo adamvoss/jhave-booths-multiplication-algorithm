@@ -4066,10 +4066,10 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.15004829"
-     inkscape:cx="3512.9324"
-     inkscape:cy="1240.071"
+     inkscape:cx="-120.62882"
+     inkscape:cy="2500.5734"
      inkscape:document-units="mm"
-     inkscape:current-layer="g4038"
+     inkscape:current-layer="layer4"
      showgrid="false"
      inkscape:window-width="1440"
      inkscape:window-height="848"
@@ -4129,17 +4129,17 @@
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="46.218861"
+       x="47.212646"
        y="182.43916"
        id="text3063"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3065"
-         x="46.218861"
+         x="47.212646"
          y="182.43916"
          style="font-size:175px;text-align:start;text-anchor:start;fill:#ffffff">Towards Effective Learning Modules for</tspan><tspan
          sodipodi:role="line"
-         x="46.218861"
+         x="47.212646"
          y="401.18915"
          style="font-size:175px;text-align:start;text-anchor:start;fill:#ffffff"
          id="tspan5238">                        Booth's Multiplication Algorithm</tspan></text>
@@ -4365,7 +4365,7 @@
            y="2439.7212"
            x="1380.983"
            sodipodi:role="line"
-           style="font-size:60px">Automated Assesment:</tspan></text>
+           style="font-size:60px">Automated Assessment:</tspan></text>
       <image
          y="1759.6664"
          x="2072.179"
@@ -4393,11 +4393,11 @@
              y="1283.4519"
              style="text-align:justify;text-anchor:start" /></flowRegion><flowPara
            style="text-align:justify;line-height:110.00000238%;text-anchor:start"
-           id="flowPara4186">• These numbers can begiven in either decimal or binary values, and the input generator will automatically convert between the two bases for the user's convenience.</flowPara><flowPara
+           id="flowPara4186">• These numbers can be given in either decimal or binary values, and the input generator will automatically convert between the two bases for the user's convenience.</flowPara><flowPara
            style="text-align:justify;line-height:110.00000238%;text-anchor:start"
            id="flowPara4188" /><flowPara
            style="text-align:justify;line-height:110.00000238%;text-anchor:start"
-           id="flowPara4190">• By default, the minium number of bits will be used.  Alternativly, the user may choose a fixed register size.</flowPara><flowPara
+           id="flowPara4190">• By default, the minimum number of bits will be used.  Alternatively, the user may choose a fixed register size.</flowPara><flowPara
            style="text-align:justify;line-height:110.00000238%;text-anchor:start"
            id="flowPara5145" /><flowPara
            style="text-align:justify;line-height:110.00000238%;text-anchor:start"
@@ -4420,7 +4420,7 @@
              x="1375.7144"
              y="2532.457" /></flowRegion><flowPara
            style="line-height:110.00000238%"
-           id="flowPara4273">• Questions assess the Knowledge, Comprehension, and Application levels of undestanding, as defined by Bloom's Taxonomy.</flowPara></flowRoot>      <flowRoot
+           id="flowPara4273">• Questions assess the Knowledge, Comprehension, and Application levels of understanding, as defined by Bloom's Taxonomy.</flowPara></flowRoot>      <flowRoot
          xml:space="preserve"
          id="flowRoot4279"
          style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -4448,7 +4448,7 @@
              x="1380.4746"
              y="1504.2413" /></flowRegion><flowPara
            style="line-height:110.00000238%"
-           id="flowPara4299">• JHAVÉ's 'input generator' feature allows students to input their own values for the visualization</flowPara></flowRoot>      <g
+           id="flowPara4299">• JHAVÉ's input generator feature allows students to input their own values for the visualization</flowPara></flowRoot>      <g
          id="g5161"
          transform="translate(5.6012019,0)">
         <g
@@ -4482,7 +4482,7 @@
              height="135.35811"
              width="1416.9961"
              id="rect4486" /></flowRegion><flowPara
-           id="flowPara4490">• JHAVÉ treats the algorithm as a series of snapshots.  Users can navigate forwards and backwards in the visulization at their liesure.</flowPara></flowRoot>      <flowRoot
+           id="flowPara4490">• JHAVÉ treats the algorithm as a series of snapshots.  Users can navigate forwards and backwards in the visualization at their leisure.</flowPara></flowRoot>      <flowRoot
          transform="translate(-552.57934,445.99581)"
          style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          id="flowRoot4494"
@@ -4493,7 +4493,7 @@
              height="154.83647"
              width="1427.1885"
              id="rect4498" /></flowRegion><flowPara
-           id="flowPara4504">• In the psuedocode display the currently executing line is highlighted to correspond with the visualization.</flowPara></flowRoot>      <flowRoot
+           id="flowPara4504">• In the pseudocode display the currently executing line is highlighted to correspond with the visualization.</flowPara></flowRoot>      <flowRoot
          transform="translate(18.788488,58.379501)"
          style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          id="flowRoot4511"
@@ -4504,7 +4504,7 @@
              height="480.22583"
              width="322.90106"
              id="rect4515" /></flowRegion><flowPara
-           id="flowPara4517">• These snapshots are accompanied on the right by a  psuedocode display. </flowPara></flowRoot>      <g
+           id="flowPara4517">• These snapshots are accompanied on the right by a  pseudocode display. </flowPara></flowRoot>      <g
          id="g5151"
          transform="translate(0,14.539756)">
         <flowRoot
@@ -4605,7 +4605,7 @@
                    id="tspan4068"
                    x="3380.439"
                    y="1974.5865"
-                   style="font-size:72.9045105px;fill:#ffffff;fill-opacity:1">Acknowledgements</tspan></text>
+                   style="font-size:72.9045105px;fill:#ffffff;fill-opacity:1">Acknowledgments</tspan></text>
             </g>
           </g>
         </g>
@@ -6280,7 +6280,7 @@
          style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
          id="flowPara3987">• Others at <flowSpan
    style="font-size:40px;line-height:107.00000525%;fill:#000080"
-   id="flowSpan3983">http://www.ecs.umass.edu/ece/koren/arith/simulator/ </flowSpan>inlcuded several algorithms and are linked to a commercial textbook. Our visualization seeks to actively engage the learner, and our textbook is available for free online.</flowPara><flowPara
+   id="flowSpan3983">http://www.ecs.umass.edu/ece/koren/arith/simulator/ </flowSpan>include several algorithms and are linked to a commercial textbook. Our visualization seeks to actively engage the learner, and our textbook is available for free online.</flowPara><flowPara
          style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
          id="flowPara3958" /><flowPara
          style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
@@ -6333,7 +6333,7 @@
            height="59.980694"
            x="309.90024"
            y="2236.8269" /></flowRegion><flowPara
-         id="flowPara5139"></flowPara></flowRoot>  </g>
+         id="flowPara5139" /></flowRoot>  </g>
   <g
      style="display:inline"
      inkscape:label="Solution"
