@@ -80,6 +80,7 @@ public class GAIGSarrow extends AbstractPrimitive {
         this.label = source.label;
         this.fontSize = source.fontSize;
         this.lineWidth = source.lineWidth;
+        this.text_resize = source.text_resize;
     }
     
     /** 
@@ -129,14 +130,16 @@ public class GAIGSarrow extends AbstractPrimitive {
      * @see exe.boothsMultiplication.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override
-    public void setBounds(double x1, double y1, double x2, double y2) {
-        double newLen = Math.sqrt(Math.pow(x2-x1, 2)+Math.pow(y2-y1,2));
+    public void setBounds(double x0, double y0, double x1, double y1) {
+        scaleFont(x0, y0, x1, y1);
+        
+        double newLen = Math.sqrt(Math.pow(x1-x0, 2)+Math.pow(y1-y0,2));
         double[] oldBds = this.line.getBounds();
         double oldLen = Math.sqrt(Math.pow(oldBds[2]-oldBds[0], 2)+Math.pow(oldBds[3]-oldBds[1],2));
 
         this.headSize*=(newLen/oldLen);
 
-        this.line.setBounds(x1, y1, x2, y2);
+        this.line.setBounds(x0, y0, x1, y1);
         this.head = makeArrowHead();
     }
 

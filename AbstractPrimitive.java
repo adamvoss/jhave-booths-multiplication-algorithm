@@ -16,12 +16,31 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
  * @version 2011-07-15
  */
 public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
-    private enum TextResizeMode{NONE}
+    
+    /**
+     * Enum definition of valid font resizing options.
+     * 
+     * Someone may want to implement more advanced (useful) scale options in the future.
+     * Maybe scaling according to change in area.
+     */
+    private enum TextResizeMode{NONE, SCALEX, SCALEY}
 
     /**
      * Enum to be used with setTextResizeMode to indicate that no resizing should be done
      */
     public static final TextResizeMode NONE = TextResizeMode.NONE;
+    
+    /**
+     * Enum to be used with setTextResizeMode to indicate that font size should
+     * scale according the change in height.
+     */
+    public static final TextResizeMode SCALEX = TextResizeMode.SCALEX;
+    
+    /**
+     * Enum to be used with setTextResizeMode to indicate that font size should
+     * scale according the change in width.
+     */
+    public static final TextResizeMode SCALEY = TextResizeMode.SCALEY;
 
     /**
      * The text String that will be drawn with this primitive
@@ -52,7 +71,7 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
 
     protected double fontSize;
     protected int lineWidth;
-    protected TextResizeMode text_resize;
+    protected TextResizeMode text_resize = NONE;
 
 
     /**
@@ -87,8 +106,6 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
         "</name>\n\t"+ this.computeBounds() + "\n\t" + 
         this.toCollectionXML() +"</primitivecollection>\n";
     }
-
-
 
     /**
      * This returns a string containing the &lt;bounds /&gt; XML element  
@@ -239,5 +256,28 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
      */
     public void setTextResizeMode(TextResizeMode mode){
         this.text_resize = mode;
+    }
+    
+    /**
+     * A convenience method for scaling font size.
+     * All inheritors call this in their toCollectionXML method. 
+     * @param bounds
+     */
+    protected void scaleFont(double x1, double y1, double x2, double y2){
+        double[] current = this.getBounds();
+        
+        double scaleX = (x2-x1)/(current[2]-(current[0]));
+        double scaleY = (y2-y1)/(current[3]-(current[1]));
+        
+        switch (text_resize){
+        case SCALEX:
+            this.fontSize *= scaleX;
+            break;
+        case SCALEY:
+            this.fontSize *= scaleY;
+            break;
+        case NONE:
+            break;
+        }
     }
 }

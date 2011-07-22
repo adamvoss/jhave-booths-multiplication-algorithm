@@ -78,6 +78,7 @@ public class GAIGSline extends AbstractPrimitive {
         this.fontSize = source.fontSize;
         this.lineWidth = source.lineWidth;
         this.name = source.name;
+        this.text_resize = source.text_resize;
     }
 
     /* (non-Javadoc)
@@ -117,7 +118,9 @@ public class GAIGSline extends AbstractPrimitive {
      * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override
-    public void setBounds(double x0, double y0, double x1, double y1) {     
+    public void setBounds(double x0, double y0, double x1, double y1) {   
+        scaleFont(x0, y0, x1, y1);
+        
         //Handle X
         
         if (x0 < x1){

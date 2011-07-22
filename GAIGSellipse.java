@@ -8,6 +8,7 @@ package exe.boothsMultiplication;
  * @author Adam Voss <vossad01@luther.edu>
  * @version 2011-07-16
  */
+//TODO finish implementation
 public class GAIGSellipse extends AbstractPrimitive {
     /**
      * The lower right hand x coordinate of the ellipse bounds.
@@ -123,9 +124,10 @@ public class GAIGSellipse extends AbstractPrimitive {
      * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override
-    public void setBounds(double x1, double y1, double x2, double y2) {
-        // TODO Auto-generated method stub
+    public void setBounds(double x0, double y0, double x1, double y1) {
+        scaleFont(x0, y0, x1, y1);
 
+        throw new java.lang.UnsupportedOperationException();
     }
 
     /* (non-Javadoc)

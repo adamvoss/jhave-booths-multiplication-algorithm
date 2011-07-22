@@ -17,6 +17,7 @@ package exe.boothsMultiplication;
  */
 //TODO this needs further refactoring because many of the inherited methods have no effect
 //TODO see javadoc for bugs
+//TODO confirm above is still a problem, fixes to GAIGSline may have fixed issues
 @Deprecated
 public class GAIGSdashedLine extends AbstractPrimitive {
     private double dashSize;
@@ -118,11 +119,13 @@ public class GAIGSdashedLine extends AbstractPrimitive {
      * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override
-    public void setBounds(double x1, double y1, double x2, double y2) {
-        x[0] = x1;
-        y[0] = y1;
-        x[1] = x2;
-        y[1] = y2;
+    public void setBounds(double x0, double y0, double x1, double y1) {
+        scaleFont(x0, y0, x1, y1);
+        
+        x[0] = x0;
+        y[0] = y0;
+        x[1] = x1;
+        y[1] = y1;
 
         this.lines = initLines();
     }

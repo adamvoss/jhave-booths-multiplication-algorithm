@@ -71,6 +71,7 @@ public class GAIGSpolygon extends AbstractPrimitive {
         this.fontSize = source.fontSize;
         this.lineWidth = source.lineWidth;
         this.name = source.name;
+        this.text_resize = source.text_resize;
     }
 
     /* (non-Javadoc)
@@ -112,19 +113,21 @@ public class GAIGSpolygon extends AbstractPrimitive {
      * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override
-    public void setBounds(double x1, double y1, double x2, double y2) {
+    public void setBounds(double x0, double y0, double x1, double y1) {
+        scaleFont(x0, y0, x1, y1);
+        
         double[] current = this.getBounds();
 
-        if (x2-x1 == 0 | y2-y1==0){
+        if (x1-x0 == 0 | y1-y0==0){
             System.err.println("Polygon dimension collapse (Zero width or height)\n this is unsupported");
             //TODO add logic that allows such collapses.
         }
 
-        double scaleX = (x2-x1)/(current[2]-(current[0]));
-        double scaleY = (y2-y1)/(current[3]-(current[1]));
+        double scaleX = (x1-x0)/(current[2]-(current[0]));
+        double scaleY = (y1-y0)/(current[3]-(current[1]));
 
-        double translateX = x1-(current[0]*scaleX);
-        double translateY = y1-(current[1]*scaleY);
+        double translateX = x0-(current[0]*scaleX);
+        double translateY = y0-(current[1]*scaleY);
 
         for(int j = 0; j < nSides; ++j){
             ptsX[j] = ptsX[j] * scaleX + translateX;
