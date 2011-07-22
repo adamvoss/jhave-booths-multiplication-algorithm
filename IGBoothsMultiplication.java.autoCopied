@@ -80,7 +80,6 @@ public class IGBoothsMultiplication extends IGComponent {
 
         while (ltxt_iter.hasNext() ) {
             Element ltxt_child = (Element) ltxt_iter.next();
-            System.out.println(ltxt_child);
 
             if (ltxt_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
                 this.label = new JLabel(ltxt_child.getText() );
@@ -94,8 +93,6 @@ public class IGBoothsMultiplication extends IGComponent {
                 defaultDec[decCount++] = ltxt_child.getChildTextTrim(LTF_DEFAULT_DEC);
                 defaultBin[binCount++] = ltxt_child.getChildTextTrim(LTF_DEFAULT_BIN);
 
-                System.out.println(defaultBin[binCount-1]);
-                System.out.println(defaultDec[decCount-1]);
             }
         }
         
@@ -244,8 +241,7 @@ class ListeningManager {
         }
 
         //Two's complement madness
-        return ((sum < maxPow / 2) ? "" + sum : "" + (sum - maxPow) );
-
+        return "" + ((sum < maxPow / 2) ? sum : (sum - maxPow) );
     }
 
     /**
@@ -280,7 +276,7 @@ class ListeningManager {
     }
 
     private boolean validRegisterValue(String binNum) {
-        if (regSize.equals("Automatic") ) return (binNum.length() > 1 && binNum.length() < 9);
+        if (regSize.equals("Automatic") ) return (binNum.length() < 9);
 
         else return binNum.length() <= Integer.parseInt(regSize);
     }
@@ -300,8 +296,6 @@ class ListeningManager {
             temp[1] = multiplier.binText.getText();
             size = Integer.parseInt(sizeT);
         }
-
-//        String[] temp = new String[] {multiplicand.binText.getText(), multiplier.binText.getText()};
 
         for (int i = 0; i < temp.length; ++i) {
             if (temp[i].length() < size)
@@ -341,7 +335,6 @@ class ListeningManager {
         }
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Something happened!");
             String selected = (String)combo.getSelectedItem();
             if (!selected.equals(regSize) ) {
                 regChange(selected);
@@ -351,6 +344,7 @@ class ListeningManager {
         public void regChange(String selected) {
             if (!validSizeOption(selected) ) {
                 errorLabel.setText("<html><font color=#FF0000>Too few bits attempted</html>");
+                combo.setSelectedIndex(lastSelected);
             }
             else {
                 regSize = selected;
@@ -365,7 +359,6 @@ class ListeningManager {
         JTextField binText;
         JTextField decText;
         JLabel errorLabel;
-
 
         private String  oldBinText;
         private String  oldDecText;
@@ -386,7 +379,7 @@ class ListeningManager {
             oldBinText = signExtend(oldBinText, 4 - oldBinText.length() );//ugly hack
             binText.setText(oldBinText);
 
-            //add itself to the textfields
+            //adds itself to the textfields
             binText.addActionListener(this);
             binText.addFocusListener( this);
             binText.addKeyListener(   this);
@@ -441,7 +434,6 @@ class ListeningManager {
 
         //TODO get rid of white space
         private void binChange() {
-            System.out.println("Changed binText from " + oldBinText + " to " + binText.getText() );
             if (!wellFormedBinary(binText.getText() ) ) {
                 errorLabel.setText("<html><font color=#FF0000>Invalid binary integer</html>");
                 binText.setText(oldBinText);
@@ -465,7 +457,6 @@ class ListeningManager {
         }
 
         private void decChange() {
-            System.out.println("Changed decText from " + oldDecText + " to " + decText.getText() );
             if (!wellFormedDecimal(decText.getText() ) ) {
                 errorLabel.setText("<html><font color=#FF0000>Invalid decimal integer</html>");
                 decText.setText(oldDecText);
