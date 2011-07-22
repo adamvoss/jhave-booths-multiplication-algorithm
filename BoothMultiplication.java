@@ -65,17 +65,23 @@ public class BoothMultiplication {
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
 
     private static       double MATH_LABEL_SPACE;
-    private static final double FONT_SIZE         = 0.04;//was 0.05
-    private static final double REG_WIDTH_PER_BIT = FONT_SIZE;
-    private static final double REG_SPACE_CHUNK   = 0.35;
+    private static final double FONT_SIZE         = 0.05;//was 0.05
+    private static final double COLBL_FONT_SIZE   = FONT_SIZE+0.02;
+    private static final double REG_FONT_SIZE     = FONT_SIZE-0.01;
+    
+    private static final double REG_WIDTH_PER_BIT = REG_FONT_SIZE;
+    private static final double COUNT_WIDTH       = REG_WIDTH_PER_BIT;
+    
+    
     private static final double REG_HEIGHT        = 0.06;
     private static       double REG_WIDTH;
     private static final double ROW_SPACE         = 0.03;
-    private static       double COL_SPACE         = 0.02;
+    private static       double COL_SPACE         = 0.00;
 
     private static final double LEFT_MARGIN       = 0.0;
-    private static final double RIGHT_MARGIN      = FONT_SIZE;
+    private static final double RIGHT_MARGIN      = COLBL_FONT_SIZE;
     private static final double TOP_MARGIN        = 0.0;
+    private static final double COUNT_LEFT_MARGIN = RIGHT_MARGIN * 2;
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -128,7 +134,7 @@ public class BoothMultiplication {
         math.add(new GAIGSline(new double[] {0,0},
                 new double[] {math.getHeight()+FONT_SIZE,
                     math.getHeight() - (numLines(multiplier)+1) * (REG_HEIGHT + ROW_SPACE) + ROW_SPACE/2 }));
-        math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Math/ALU"));
+        math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Math/ALU"));
 
         trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
         trace.setName("Trace");
@@ -153,9 +159,15 @@ public class BoothMultiplication {
 
         //One could add Register Spacing/Sizing Logic Here
         //int numRows = numLines(multiplier);
-        REG_WIDTH = REG_WIDTH_PER_BIT * multiplier.length();
-        COL_SPACE = REG_SPACE_CHUNK - REG_WIDTH;
-
+        REG_WIDTH = REG_WIDTH_PER_BIT * REG_SIZE;
+        
+        
+        COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT)/4;
+        //We only want to use the Count Margin when it would otherwise be too small
+        if (COL_SPACE < COUNT_LEFT_MARGIN){
+            COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT - COUNT_LEFT_MARGIN)/3;
+        }
+        
 
         //Initialize Register Location
         double[] init = new double[] {
@@ -170,8 +182,8 @@ public class BoothMultiplication {
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                FONT_SIZE, FONT_COLOR, "M", FONT_SIZE/2));
-        RegM= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+                COLBL_FONT_SIZE, FONT_COLOR, "M", COLBL_FONT_SIZE/2));
+        RegM= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegM.set(multiplicand);
 
         currentRow.add(RegM);
@@ -209,8 +221,8 @@ public class BoothMultiplication {
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                FONT_SIZE, FONT_COLOR, "A", FONT_SIZE/2));
-        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+                COLBL_FONT_SIZE, FONT_COLOR, "A", COLBL_FONT_SIZE/2));
+        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegA.set("0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
@@ -221,8 +233,8 @@ public class BoothMultiplication {
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                FONT_SIZE, FONT_COLOR, "Q", FONT_SIZE/2));
-        RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+                COLBL_FONT_SIZE, FONT_COLOR, "Q", COLBL_FONT_SIZE/2));
+        RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegQ.set(multiplier);
         currentRow.add(RegQ);
         
@@ -254,21 +266,21 @@ public class BoothMultiplication {
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                FONT_SIZE, FONT_COLOR, "\u03B2", FONT_SIZE/2));
-        Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+                COLBL_FONT_SIZE, FONT_COLOR, "\u03B2", COLBL_FONT_SIZE/2));
+        Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
         
         easySnap("\u03B2 is initialized to Zero", easyPseudo(5), null);
 
         //----Count Initialization Frame----
-        init[0] = trace.getWidth() - FONT_SIZE - RIGHT_MARGIN;
+        init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
         init[2] = trace.getWidth() - RIGHT_MARGIN;
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                FONT_SIZE, FONT_COLOR, "Count", FONT_SIZE/2));
-        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, FONT_SIZE);
+                COLBL_FONT_SIZE, FONT_COLOR, "Count", COLBL_FONT_SIZE/2));
+        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         currentRow.add(Count);
         easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
         double[] last =  currentRow.get(0).getBounds();

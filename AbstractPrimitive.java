@@ -18,10 +18,14 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
 public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
     
     /**
-     * Enum definition of valid font resizing options.
+     * Enum definition of valid font resizing options. Note: while this functionality
+     * exists, it is hard to use with MutableGAIGSdatastr methods, because you would
+     * need to vastly inflate the initial font size to get the expected outcome.  
      * 
      * Someone may want to implement more advanced (useful) scale options in the future.
-     * Maybe scaling according to change in area.
+     * Maybe scaling according to change in area.  Also adding a way to specify font size
+     * such that it automatically is inflated (it would adjust to be a percentage of the
+     * Primitives bounds) would be appreciated.
      */
     private enum TextResizeMode{NONE, SCALEX, SCALEY}
 
@@ -38,7 +42,7 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
     
     /**
      * Enum to be used with setTextResizeMode to indicate that font size should
-     * scale according the change in width.
+     * scale according the change in width. This is how GAIGStext behaves.
      */
     public static final TextResizeMode SCALEY = TextResizeMode.SCALEY;
 
