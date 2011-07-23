@@ -2,13 +2,15 @@ package exe.boothsMultiplication;
 
 /**
  * <p>GAIGSline provides a convenient way to represent a line in GAIGS XML.
+ * A line's color is determined by its outline color.
  * </p>
  *
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- * @version 2011-07-16
+ * @version 2011-07-23
  */
-public class GAIGSline extends AbstractPrimitive {
+//TODO consider overriding color methods to be more intuitive.
+public class GAIGSline extends AbstractPrimitive implements MutableGAIGSdatastr {
     /**
      * The x coordinates of the line.
      */
@@ -114,7 +116,8 @@ public class GAIGSline extends AbstractPrimitive {
         return xml;
     }
 
-    /* (non-Javadoc)
+    /**
+     * The line's orientation changed by changing the order parameters are passed. 
      * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
      */
     @Override

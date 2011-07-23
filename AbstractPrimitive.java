@@ -1,5 +1,6 @@
 package exe.boothsMultiplication;
 
+import exe.GAIGSdatastr;
 import exe.boothsMultiplication.MutableGAIGSdatastr;
 
 /** 
@@ -13,9 +14,9 @@ import exe.boothsMultiplication.MutableGAIGSdatastr;
  * The primitives have since been refactored for more general use.
  * 
  * @author Adam Voss <vossad01@luther.edu>
- * @version 2011-07-15
+ * @version 2011-07-23
  */
-public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
+public abstract class AbstractPrimitive implements GAIGSdatastr  {
     
     /**
      * Enum definition of valid font resizing options. Note: while this functionality
@@ -90,6 +91,11 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
      * Returns a deep-copy of this object.
      */
     abstract public AbstractPrimitive clone();
+    
+    /**
+     * @see exe.MutableGAIGSdatastr#getBounds()
+     */
+    abstract double[] getBounds();
 
     /* (non-Javadoc)
      * @see exe.GAIGSdatastr#toXML()
@@ -232,7 +238,6 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
      * of 7% of the same unit square. 
      * @return  The current font size.
      */
-    @Override
     public double getFontSize(){
         return this.fontSize;
     }
@@ -241,7 +246,6 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
      * Sets the font size for display.
      * @param      fontSize     The desired font size.
      */
-    @Override
     public void setFontSize(double fontSize){
         this.fontSize = fontSize;
     }
@@ -267,11 +271,11 @@ public abstract class AbstractPrimitive implements MutableGAIGSdatastr  {
      * All inheritors call this in their toCollectionXML method. 
      * @param bounds
      */
-    protected void scaleFont(double x1, double y1, double x2, double y2){
+    protected void scaleFont(double x0, double y0, double x1, double y1){
         double[] current = this.getBounds();
         
-        double scaleX = (x2-x1)/(current[2]-(current[0]));
-        double scaleY = (y2-y1)/(current[3]-(current[1]));
+        double scaleX = (x1-x0)/(current[2]-(current[0]));
+        double scaleY = (y1-y0)/(current[3]-(current[1]));
         
         switch (text_resize){
         case SCALEX:

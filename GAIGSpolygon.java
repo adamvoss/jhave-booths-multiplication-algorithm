@@ -5,9 +5,9 @@ package exe.boothsMultiplication;
  * 
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- * @version 2011-07-15
+ * @version 2011-07-23
  */
-public class GAIGSpolygon extends AbstractPrimitive {
+public class GAIGSpolygon extends AbstractPrimitive implements MutableGAIGSdatastr{
     protected int nSides;
     protected double[] ptsX;
     protected double[] ptsY;

@@ -6,9 +6,12 @@ package exe.boothsMultiplication;
  *
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- * @version 2011-07-16
+ * @version 2011-07-23
  */
-//TODO finish implementation
+/*
+ * Chose not to implement MutableGAIGSdatastr because
+ * the GKS has no support no support for a filled ellipse.
+ */
 public class GAIGScircle extends AbstractPrimitive {
     /**
      * x coordinate of the circle's center.
@@ -91,16 +94,6 @@ public class GAIGScircle extends AbstractPrimitive {
         "r=\"" + r + "\" fcolor=\"" + fcolor + "\" " +
         "ocolor=\"" + ocolor + "\" text=\"" + label + "\" lcolor=\"" + lcolor + "\" height=\"" +
         fontSize + "\" width=\""+ lineWidth +"\"/>\n";
-    }
-
-    /* (non-Javadoc)
-     * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
-     */
-    @Override
-    public void setBounds(double x0, double y0, double x1, double y1) {
-        scaleFont(x0, y0, x1, y1);
-        
-        throw new java.lang.UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
