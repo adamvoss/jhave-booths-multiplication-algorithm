@@ -45,8 +45,6 @@ public class ColoredResultArithmetic extends GAIGSArithmetic {
     @Override
     public String toXML() {
         String[] colors =  new String[this.terms.get(this.colors.size()-1).length];
-        for (int i = 0; i < this.colors.size(); i++)
-            this.colors.get(this.colors.size()-1)[i] = result_color;
         for (int i = 0; i < colors.length; i++)
             colors[i] = result_color;
         this.colors.set(this.colors.size()-1, colors);

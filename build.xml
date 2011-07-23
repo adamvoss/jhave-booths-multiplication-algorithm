@@ -32,8 +32,8 @@
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.BoothMultiplication">
       <arg value="foo.sho" />  <!--  Name of the output visualization script-->
-      <arg value="000101" />
-      <arg value="010100" />
+      <arg value="101" />
+      <arg value="100" />
       <jvmarg value="-Dfile.encoding=ISO-8859-1" />
       <!--jvmarg value="-Dfile.encoding=UTF8" /-->
     </java> 
@@ -90,11 +90,11 @@
     <java fork="true" dir="../../../build/classes"
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
           classname="exe.boothsMultiplication.BoothMultiplication">
+      <arg value="foo.sho" />  <!--  Name of the output visualization script-->
+      <arg value="111" />
+      <arg value="011" />
       <jvmarg value="-Xdebug" />
       <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5432" />
-      <arg value="foo.sho" />  <!--  Name of the output visualization script-->
-      <arg value="11111101" />
-      <arg value="10010011" />
     </java>
   </target>
 </project>
