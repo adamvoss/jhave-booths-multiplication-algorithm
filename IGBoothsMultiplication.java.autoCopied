@@ -12,6 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -73,10 +74,14 @@ public class IGBoothsMultiplication extends IGComponent {
         JPanel centerPanel = new JPanel(grid);
         JLabel descriptiveArea = new JLabel();
 
-        defaultDec = new String[2];
-        int decCount = 0;
         defaultBin = new String[2];
-        int binCount = 0;
+        defaultDec = new String[2];
+
+        defaultBin[1] = constrainedRandomBinary();
+        defaultBin[0] = nDigitBinary(defaultBin[1].length() );
+
+        defaultDec[0] = ListeningManager.toDecimal(defaultBin[0]);
+        defaultDec[1] = ListeningManager.toDecimal(defaultBin[1]);
 
         while (ltxt_iter.hasNext() ) {
             Element ltxt_child = (Element) ltxt_iter.next();
@@ -90,12 +95,9 @@ public class IGBoothsMultiplication extends IGComponent {
             }
 
             else if (ltxt_child.getName().equalsIgnoreCase(LTEXTFIELDS) ) {
-                defaultDec[decCount++] = ltxt_child.getChildTextTrim(LTF_DEFAULT_DEC);
-                defaultBin[binCount++] = ltxt_child.getChildTextTrim(LTF_DEFAULT_BIN);
-
             }
         }
-        
+
         manager = new ListeningManager(Integer.parseInt(defaultDec[0]), Integer.parseInt(defaultDec[1] ));
 
         JTextField[] tFields = manager.getTextFields();
@@ -137,20 +139,6 @@ public class IGBoothsMultiplication extends IGComponent {
         lTextElementM.addContent(ltNameM);
         lTextElementQ.addContent(ltNameQ);
 
-        Element ltDefM        = new Element(LTF_DEFAULT_DEC);
-        ltDefM.setText(defaultDec[0]);
-        Element ltDefQ        = new Element(LTF_DEFAULT_DEC);
-        ltDefQ.setText(defaultDec[1]);
-        lTextElementM.addContent(ltDefM);
-        lTextElementQ.addContent(ltDefQ);
-
-        Element ltBinM        = new Element(LTF_DEFAULT_BIN);
-        ltBinM.setText(defaultBin[0]);
-        Element ltBinQ        = new Element(LTF_DEFAULT_BIN);
-        ltBinQ.setText(defaultBin[1]);
-        lTextElementM.addContent(ltBinM);
-        lTextElementQ.addContent(ltBinQ);
-
         Element ltPartnerM   = new Element(LTF_PARTNER);
         ltPartnerM.setText("Multiplier"  );
         Element ltPartnerQ   = new Element(LTF_PARTNER);
@@ -182,6 +170,36 @@ public class IGBoothsMultiplication extends IGComponent {
     @Override
     public JComponent[] getJComponents() {
         return new JComponent[] {this.label, this.panel};
+    }
+
+    private static String constrainedRandomBinary() {
+        Random rand = new Random();
+        int numBits = rand.nextInt(5) + 4;//only 4-8 bit numbers
+
+        String res = "";
+        boolean bitValue = rand.nextBoolean();
+        int i = 0;
+
+        while (i < numBits - 2) {
+            int thisMany = Math.min(rand.nextInt(bitValue ? 3 : 2) + 1, (numBits - 2 - i) );
+            int j = 0;
+            
+            for ( ; j < thisMany; ++j)
+                res = (bitValue ? "1" : "0") + res;
+            
+            i += j;
+            
+            bitValue = !bitValue;
+        }
+
+        res = (bitValue ? "01" : "10") + res;
+        return res;
+    }
+
+    private static String nDigitBinary(int n) {
+        Random rand = new Random();
+
+        return ListeningManager.toBinary(rand.nextInt((int)Math.pow(2, n) ) - ((int) Math.pow(2, n-1) ));
     }
 }
 
@@ -231,7 +249,7 @@ class ListeningManager {
     }
 
     //Should have used Built-in support
-    private String toDecimal(String binstr) {
+    public static String toDecimal(String binstr) {
         int sum    = 0;
         int maxPow = 1;
 
@@ -247,7 +265,7 @@ class ListeningManager {
     /**
     * Converts an int to its shortest-length two's complement binary representative
     */
-    private String toBinary(int a){
+    public static String toBinary(int a){
         if (a<0){
             return Integer.toBinaryString(a).replaceFirst("11*", "1");
         }

@@ -7,15 +7,11 @@
         <description>Please enter the numbers you wish to multiply</description>
         <l_textfields>
             <name>Multiplicand</name>
-            <default_dec>11</default_dec>
-            <default_bin>001011</default_bin>
             <bin_partner>Multiplier</bin_partner>
             <value_entered></value_entered>
         </l_textfields>
         <l_textfields>
             <name>Multiplier</name>
-            <default_dec>23</default_dec>
-            <default_bin>010111</default_bin>
             <bin_partner>Multiplicand</bin_partner>
             <value_entered></value_entered>
         </l_textfields>
