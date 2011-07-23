@@ -308,6 +308,7 @@ class ListeningManager {
             temp[1] = toBinary(Integer.parseInt(multiplier.decText.getText()   ));
 
             size = (temp[0].length() > temp[1].length() ? temp[0].length() : temp[1].length() );
+            size = (size < 2 ? 2 : size);
         }
         else {
             temp[0] = multiplicand.binText.getText();
