@@ -4,27 +4,23 @@ package exe.boothsMultiplication;
  * <p>GAIGSarrow provides the ability represent pointed arrow in GAIGS XML. 
  * This arrow is simply a line with a triangle on the end of it.</p>
  * 
- * <p>This class is likely incomplete with respect to all of its mutator methods working.
- * If you need one that doesn't work, please it, it should be trivial to do.</p>
+ * <p>An arrow's color is determined by its outline color.</p>
  * 
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- * @version 2011-07-15
+ * @version 2011-07-23
  */
-//TODO this needs further refactoring because many of the inherited methods have no effect
-//TODO Scaling of arrows forces the head to always be on the right-hand side when it shouldn't.
-//(what happens on a vertical line)
-//This should maybe instead be a Decorator of GAIGSline;
-public class GAIGSarrow extends AbstractPrimitive {
-    protected GAIGSline line;
-    protected GAIGSpolygon head;
+//TODO consider overriding color methods to be more intuitive.
+public class GAIGSarrow extends AbstractPrimitive implements MutableGAIGSdatastr{
     protected double headSize;
+    protected double[] x;
+    protected double[] y;
     
     /**
      * Arrows heads can end up backwards in the primitiveCollection,
      * when true, this ensures that functionality.
      */
-    protected boolean legacy_primitiveCollection = false;
+    public boolean legacy_primitiveCollection = false;
 
     /**
      * Creates an arrow from the specified parameters.
@@ -42,14 +38,13 @@ public class GAIGSarrow extends AbstractPrimitive {
 
         this.headSize = headSize;
 
-        this.ocolor = color;
+        this.fcolor = color;
         this.lcolor = labelColor;
         this.label = label;
         this.fontSize = textHeight;
         this.lineWidth = lineWidth;
-
-        this.line = new GAIGSline(x, y, color, labelColor, "", textHeight, lineWidth);
-        this.head = makeArrowHead();
+        this.x = x;
+        this.y = y;
     }
     
     /**
@@ -71,8 +66,8 @@ public class GAIGSarrow extends AbstractPrimitive {
      * @param source the GAIGSarrow to be copied.
      */
     public GAIGSarrow(GAIGSarrow source){
-        this.head = source.head.clone();
-        this.line = source.line.clone();
+        this.x = source.x;
+        this.y = source.y;
         this.headSize = source.headSize;
 
         this.ocolor = source.ocolor;
@@ -92,14 +87,14 @@ public class GAIGSarrow extends AbstractPrimitive {
     private GAIGSpolygon makeArrowHead(){
         double headSize = this.headSize;
         
-        if (!legacy_primitiveCollection && (line.x[0] > line.x[1])){
+        if (!legacy_primitiveCollection && (x[0] > x[1])){
             headSize *= -1; 
         }
         
-        double [] x0 = {this.line.x[0], 0};
-        double [] y0 = {this.line.y[0], 0};
-        double [] x1 = {this.line.x[1], 0};
-        double [] y1 = {this.line.y[1], 0};
+        double [] x0 = {this.x[0], 0};
+        double [] y0 = {this.y[0], 0};
+        double [] x1 = {this.x[1], 0};
+        double [] y1 = {this.y[1], 0};
 
         double theta = Math.atan((y1[0] - y0[0])/(x1[0] - x0[0]));
         double end1 = theta + Math.toRadians(30);
@@ -114,7 +109,7 @@ public class GAIGSarrow extends AbstractPrimitive {
         double [] yvals = {y1[0], y0[1], y1[1]};
 
         return new GAIGSpolygon(3, xvals, yvals,
-                this.ocolor, this.ocolor, this.lcolor,
+                this.fcolor, this.fcolor, this.lcolor,
                 this.label, this.fontSize, this.lineWidth);
     }
 
@@ -123,7 +118,7 @@ public class GAIGSarrow extends AbstractPrimitive {
      */
     @Override
     public double[] getBounds() {
-        return this.line.getBounds();
+        return new GAIGSline(x, y, fcolor, lcolor, "", fontSize, lineWidth).getBounds();
     }
 
     /* (non-Javadoc)
@@ -133,29 +128,32 @@ public class GAIGSarrow extends AbstractPrimitive {
     public void setBounds(double x0, double y0, double x1, double y1) {
         scaleFont(x0, y0, x1, y1);
         
+        GAIGSline ref = new GAIGSline(x, y, fcolor, lcolor, "", fontSize, lineWidth);
+        
         double newLen = Math.sqrt(Math.pow(x1-x0, 2)+Math.pow(y1-y0,2));
-        double[] oldBds = this.line.getBounds();
+        double[] oldBds = ref.getBounds();
         double oldLen = Math.sqrt(Math.pow(oldBds[2]-oldBds[0], 2)+Math.pow(oldBds[3]-oldBds[1],2));
 
         this.headSize*=(newLen/oldLen);
-
-        this.line.setBounds(x0, y0, x1, y1);
-        this.head = makeArrowHead();
+        
+        ref.setBounds(x0, y0, x1, y1);
+        this.x = ref.x;
+        this.y = ref.y;
     }
-
+    
     /* (non-Javadoc)
      * @see exe.boothsMultiplication.AbstractPrimitive#toCollectionXML()
      */
     @Override
     protected String toCollectionXML() {
-        return this.line.toCollectionXML() + this.head.toCollectionXML();
+        return new GAIGSline(x, y, fcolor, lcolor, "", fontSize, lineWidth).toCollectionXML() + makeArrowHead().toCollectionXML();
     }
 
     /* (non-Javadoc)
      * @see exe.boothsMultiplication.AbstractPrimitive#clone()
      */
     @Override
-    public AbstractPrimitive clone() {
+    public GAIGSarrow clone() {
         return new GAIGSarrow(this);
     }
 

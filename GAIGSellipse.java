@@ -6,10 +6,9 @@ package exe.boothsMultiplication;
  *
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- * @version 2011-07-16
+ * @version 2011-07-23
  */
-//TODO finish implementation
-public class GAIGSellipse extends AbstractPrimitive {
+public class GAIGSellipse extends AbstractPrimitive implements MutableGAIGSdatastr{
     /**
      * The lower right hand x coordinate of the ellipse bounds.
      */
@@ -84,13 +83,31 @@ public class GAIGSellipse extends AbstractPrimitive {
      * @param textHeight The Height of the text in the label
      */
     public GAIGSellipse(double x, double y, double stAngle, double endAngle, double xR,
-
             double yR, String color, String lcolor, String label){
         this(x,y,stAngle,endAngle,xR,yR,color,lcolor,label,TEXT_HEIGHT,LINE_WIDTH);
     }
 
+    
+    /**
+     * A deep-copy constructor.
+     * @param source the GAIGSellipse to be copied.
+     */
+    public GAIGSellipse(GAIGSellipse source){
+        this.x = source.x;
+        this.y = source.y;
+        this.stAngle = source.stAngle;
+        this.endAngle = source.endAngle;
+        this.xR = source.xR;
+        this.yR = source.yR;
+        this.ocolor = source.ocolor;
+        this.lcolor = source.lcolor;
+        this.label = source.label;
+        this.fontSize = source.fontSize;
+        this.lineWidth = source.lineWidth;
+    }
+    
     /* (non-Javadoc)
-     * @see exe.boothsMultiplication.MutableGAIGSdatastr#getBounds()
+     * @see exe.boothsMultiplication.AbstractPrimitive#getBounds()
      */
     public double[] getBounds(){
         double x1 = Double.POSITIVE_INFINITY;
@@ -109,6 +126,22 @@ public class GAIGSellipse extends AbstractPrimitive {
 
         return new double[] {x1, y1, x2, y2};
     }
+    
+    /* (non-Javadoc)
+     * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
+     */
+    @Override
+    //This is admittedly untested
+    public void setBounds(double x0, double y0, double x1, double y1) {
+        scaleFont(x0, y0, x1, y1);
+
+        this.xR = (xR > 0 ? (x1-x0)/2 : (x1-x0)/-2 );
+        this.yR = (yR > 0 ? (y1-y0)/2 : (y1-y0)/-2 );
+        
+        this.x = (x0+x1)/2;
+        this.y = (y0+y1)/2;
+    }
+    
 
     /* (non-Javadoc)
      * @see exe.boothsMultiplication.Primitive#toCollectionXML()
@@ -121,21 +154,10 @@ public class GAIGSellipse extends AbstractPrimitive {
     }
 
     /* (non-Javadoc)
-     * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
-     */
-    @Override
-    public void setBounds(double x0, double y0, double x1, double y1) {
-        scaleFont(x0, y0, x1, y1);
-
-        throw new java.lang.UnsupportedOperationException();
-    }
-
-    /* (non-Javadoc)
      * @see exe.boothsMultiplication.Primitive#clone()
      */
     @Override
-    public AbstractPrimitive clone() {
-        // TODO Auto-generated method stub
-        return null;
+    public GAIGSellipse clone() {
+        return new GAIGSellipse(this);
     }
 }

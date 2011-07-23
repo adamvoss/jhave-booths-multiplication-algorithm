@@ -13,13 +13,13 @@ package exe.boothsMultiplication;
  * 
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
- * @version 2011-07-16
+ * @version 2011-07-23
  */
 //TODO this needs further refactoring because many of the inherited methods have no effect
 //TODO see javadoc for bugs
 //TODO confirm above is still a problem, fixes to GAIGSline may have fixed issues
 @Deprecated
-public class GAIGSdashedLine extends AbstractPrimitive {
+public class GAIGSdashedLine extends AbstractPrimitive implements MutableGAIGSdatastr {
     private double dashSize;
     public double x[] = new double[2];
     public double y[] = new double[2];
