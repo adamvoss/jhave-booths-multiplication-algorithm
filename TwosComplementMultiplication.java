@@ -2,6 +2,8 @@ package exe.boothsMultiplication;
 
 import java.util.Arrays;
 
+import exe.GAIGSArithmetic;
+
 /**
  * TwosComplementMultiplication provides the ability to display
  * two's complement multiplication within GAIGS XML.  Internally,

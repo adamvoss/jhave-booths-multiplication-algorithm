@@ -34,7 +34,7 @@ public class TCMultBooth extends TwosComplementMultiplication {
             this.colors.set(this.colors.size()-1, colors);
             return super.toXML();
         }
-        TwosComplementMultiplication clone = this.clone();
+        TCMultBooth clone = this.clone();
         char[] empty = new char[maxLength];
         for (int i = 0; i < maxLength; i++)
             empty[i] = ' ';

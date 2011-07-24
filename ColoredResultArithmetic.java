@@ -1,5 +1,7 @@
 package exe.boothsMultiplication;
 
+import exe.GAIGSArithmetic;
+
 /**
  * NOT A GENERAL USE CLASS.
  * @author Adam Voss <vossad01@luther.edu

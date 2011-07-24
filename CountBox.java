@@ -1,5 +1,7 @@
 package exe.boothsMultiplication;
 
+import exe.GAIGSregister;
+
 //THIS IS A VERY UGLY HACK
 //This Should Never Have Used Inheritance Like This
 //I Have Lost So Much Time To Maintaining This

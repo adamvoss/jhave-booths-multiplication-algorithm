@@ -6,8 +6,18 @@ import java.net.*;
 
 import org.jdom.*;
 
+import exe.GAIGSArithmetic;
+import exe.GAIGSarrow;
 import exe.GAIGSdatastr;
+import exe.GAIGSline;
+import exe.GAIGSmonospacedText;
+import exe.GAIGSpane;
+import exe.GAIGSregister;
+import exe.GAIGStext;
+import exe.MutableGAIGSdatastr;
+import exe.ShowFile;
 import exe.question;
+import exe.pseudocode.PseudoCodeDisplay;
 
 /**
  * @author Adam Voss <vossad01@luther.edu>
@@ -144,8 +154,6 @@ public class BoothMultiplication {
         main.add(math);
 
         GAIGSpane<GAIGSmonospacedText> trace_labels = new GAIGSpane<GAIGSmonospacedText>();
-        //        math.add(new GAIGSpolygon(4, new double[] {0, math.getWidth(), math.getWidth(), 0}, 
-        //            new double[] {0, 0, math.getHeight(), math.getHeight()}, DEFAULT_COLOR, RED, BLACK, "Work Here", FONT_SIZE, 2));
 
         trace.add(trace_labels);
 
