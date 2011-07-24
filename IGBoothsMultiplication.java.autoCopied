@@ -200,7 +200,7 @@ public class IGBoothsMultiplication extends IGComponent {
         Random rand = new Random();
         int ret = rand.nextInt((int)Math.pow(2, n) ) - ((int) Math.pow(2, n-1) );
 
-        return "" + (ret == 0 ? ret + (rand.nextInt(1) == 0 ? 1 : -1) : ret);
+        return "" + (ret == 0 ? ret + (rand.nextInt(2) == 0 ? 1 : -1) : ret);
     }
 }
 
