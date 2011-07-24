@@ -268,18 +268,18 @@ public class BoothMultiplication {
         header.remove(rightArrow);
         header.remove(leftArrow);
 
-        //----Bit \u03B2 Initialization Frame----
+        //----Bit β Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
         init[2] = init[0]+FONT_SIZE;
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                COLBL_FONT_SIZE, FONT_COLOR, "\u03B2", COLBL_FONT_SIZE/2));
+                COLBL_FONT_SIZE, FONT_COLOR, "β", COLBL_FONT_SIZE/2));
         Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
         
-        easySnap("\u03B2 is initialized to Zero", easyPseudo(5), null);
+        easySnap("β is initialized to Zero", easyPseudo(5), null);
 
         //----Count Initialization Frame----
         init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
