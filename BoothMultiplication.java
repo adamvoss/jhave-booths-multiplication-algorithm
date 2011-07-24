@@ -66,7 +66,7 @@ public class BoothMultiplication {
 
     private static       double MATH_LABEL_SPACE;
     private static final double FONT_SIZE         = 0.05;//was 0.05
-    private static final double COLBL_FONT_SIZE   = FONT_SIZE+0.02;
+    private static final double COLBL_FONT_SIZE   = FONT_SIZE+0.01;
     private static final double REG_FONT_SIZE     = FONT_SIZE-0.01;
     
     private static final double REG_WIDTH_PER_BIT = REG_FONT_SIZE;
@@ -115,7 +115,7 @@ public class BoothMultiplication {
                 WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
         header.setName("Header");
 
-        title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
+        title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
         header.add(title);
 
         GAIGSArithmetic binary = new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
@@ -128,15 +128,15 @@ public class BoothMultiplication {
         header.add(binary);
         header.add(decimal);
         
-        math = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(3/4.0), 1.0, 1.0);
+        math = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(8/10.0), 1.0, 1.0);
         math.setName("Math");
 
         math.add(new GAIGSline(new double[] {0,0},
                 new double[] {math.getHeight()+FONT_SIZE,
-                    math.getHeight() - (numLines(multiplier)+1) * (REG_HEIGHT + ROW_SPACE) + ROW_SPACE/2 }));
+                    math.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + (numLines(multiplier)-REG_SIZE) * (ROW_SPACE/2 + REG_HEIGHT))}));
         math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Math/ALU"));
 
-        trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), WINDOW_HEIGHT*(3/4.0), null, 1.0);
+        trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), math.getBounds()[3], null, 1.0);
         trace.setName("Trace");
 
         main.add(header);
@@ -297,8 +297,6 @@ public class BoothMultiplication {
         boothsMultiplication();
 
         //----Finished Frame----
-        //setRowTextColor(INACTIVE_TEXT);
-        //setRowOutlineColor(INACTIVE_OUTLINE);
         decimal.complete();
         binary.complete();
         RegA.setFillOutlineColor(GREEN);
@@ -317,6 +315,7 @@ public class BoothMultiplication {
         double[] unitLengths = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates(new double[]{0,0,1,1})));
         double unitLengthX = unitLengths[2]-unitLengths[0];
         double[] last;
+        boolean did_math = false;
         
         while (Count.getCount() >= 0){
             //----Count Frame----
@@ -334,8 +333,9 @@ public class BoothMultiplication {
              */
             int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
 
-            if (cmpVal == 1 || cmpVal == -1) {                
-                positionAdditionRow();//clones all registers
+            if (cmpVal == 1 || cmpVal == -1) {
+                did_math = true;
+                positionMajorRow();//clones all registers
                 addRow();//now we have enough information for question type 3, calculations pending
                 DiscardOverflowAddition sum;
                 GAIGSmonospacedText sumLabel;
@@ -422,7 +422,11 @@ public class BoothMultiplication {
             setRowOutlineColor(INACTIVE_OUTLINE);
 
             //----Shift Frame----
-            positionMajorRow(); //Remember this clones
+            if (did_math){
+                positionAdditionRow();
+                did_math = false;
+            } else positionMajorRow(); //Remember this clones
+            
             setRowTextColor(FONT_COLOR);
             addRow();
             rightShift(RegA, RegQ, Q_1);
@@ -618,11 +622,11 @@ public class BoothMultiplication {
         Q_1   = Q_1.clone();
         Count = Count.clone();
 
-        adjustRegister(RegM);
-        adjustRegister(RegA);
-        adjustRegister(RegQ);
-        adjustRegister(Q_1);
-        adjustRegister(Count);
+        minorAdjustRegister(RegM);
+        minorAdjustRegister(RegA);
+        minorAdjustRegister(RegQ);
+        minorAdjustRegister(Q_1);
+        minorAdjustRegister(Count);
     }
 
     /*

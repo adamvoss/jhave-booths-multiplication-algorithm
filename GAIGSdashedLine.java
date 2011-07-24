@@ -1,15 +1,17 @@
 package exe.boothsMultiplication;
 
 /**
- * <p>GAIGSdashedLine provides a convienint way do represent a dashed line in GAIGS XML</p>
+ * <p>GAIGSdashedLine provides a convenient way do represent a dashed line in GAIGS XML</p>
  * 
  * <p>This is not XML equivalent to the GAIGSprimitiveCollection.addDashedLine from before
  * refactoring, only because the old code had serious bugs which are here fixed.</p>
  * 
  * <p>This class still contains bugs; it is unused so has been deprecated;  Its use is not
- * recommended unless you first fix bugs.  Problems exist when using this GAIGSdashedLine
- * with-in a pane in that the wrong coordinates will be used.  It is recommended setBounds
- * be changed to resize existing lines so that the number or line segments remains constant.</p>
+ * recommended unless you first fix bugs or rewrite.  This dashedLine does not correctly
+ * keep track of its orientation which is at least part of the problem.<p/>
+ * 
+ * <p>It is recommended setBounds be changed to resize existing lines so that the number or
+ * line segments remains constant.</p>
  * 
  * @author Shawn Recker
  * @author Adam Voss <vossad01@luther.edu>
@@ -17,7 +19,6 @@ package exe.boothsMultiplication;
  */
 //TODO this needs further refactoring because many of the inherited methods have no effect
 //TODO see javadoc for bugs
-//TODO confirm above is still a problem, fixes to GAIGSline may have fixed issues
 @Deprecated
 public class GAIGSdashedLine extends AbstractPrimitive implements MutableGAIGSdatastr {
     private double dashSize;
