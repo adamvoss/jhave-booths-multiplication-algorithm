@@ -198,8 +198,9 @@ public class IGBoothsMultiplication extends IGComponent {
 
     private static String nDigitBinary(int n) {
         Random rand = new Random();
+        int ret = rand.nextInt((int)Math.pow(2, n) ) - ((int) Math.pow(2, n-1) );
 
-        return ListeningManager.toBinary(rand.nextInt((int)Math.pow(2, n) ) - ((int) Math.pow(2, n-1) ));
+        return "" + (ret == 0 ? ret + (rand.nextInt(1) == 0 ? 1 : -1) : ret);
     }
 }
 
@@ -289,8 +290,12 @@ class ListeningManager {
         int sz = Integer.parseInt(size);
 
         //Comparison on smallest representation.
-        return (toBinary(Integer.parseInt(multiplicand.decText.getText() )).length() <= sz && 
-            toBinary(Integer.parseInt(multiplier.decText.getText() )).length() <= sz);
+        return sz >= smallestSizeAllowed();
+    }
+
+    private int smallestSizeAllowed() {
+        return Math.max(toBinary(Integer.parseInt(multiplicand.decText.getText() )).length(),
+            toBinary(Integer.parseInt(multiplier.decText.getText() )).length() );
     }
 
     private boolean validRegisterValue(String binNum) {
@@ -362,7 +367,7 @@ class ListeningManager {
 
         public void regChange(String selected) {
             if (!validSizeOption(selected) ) {
-                errorLabel.setText("<html><font color=#FF0000>Too few bits attempted</html>");
+                errorLabel.setText("<html><font color=#FF0000>Too few bits attempted, requires " + smallestSizeAllowed() + "</html>");
                 combo.setSelectedIndex(lastSelected);
             }
             else {
@@ -457,7 +462,8 @@ class ListeningManager {
                 errorLabel.setText("<html><font color=#FF0000>Invalid binary integer</html>");
                 binText.setText(oldBinText);
             } else if (!validRegisterValue(binText.getText() ) ){
-                errorLabel.setText("<html><font color=#FF0000>Overflow</html>");
+                errorLabel.setText("<html><font color=#FF0000>Overflow, value " + toDecimal(binText.getText() ) + 
+                    " requires " + toBinary(Integer.parseInt(toDecimal(binText.getText() )) ).length() + " bits</html>");
                 int maxBits;
                 if (regSize.equals("Automatic")) maxBits = 7;
                 else maxBits = Integer.parseInt(regSize)-1;
@@ -480,7 +486,8 @@ class ListeningManager {
                 errorLabel.setText("<html><font color=#FF0000>Invalid decimal integer</html>");
                 decText.setText(oldDecText);
             } else if (!validRegisterValue(toBinary(Integer.parseInt(decText.getText() )) )) {
-                errorLabel.setText("<html><font color=#FF0000>Overflow</html>");
+                errorLabel.setText("<html><font color=#FF0000>Overflow, value " + decText.getText() + 
+                    " requires " + toBinary(Integer.parseInt(decText.getText() )).length() + "bits</html>");
                 int maxBits;
                 if (regSize.equals("Automatic")) maxBits = 7;
                 else maxBits = Integer.parseInt(regSize)-1;
