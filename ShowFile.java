@@ -37,7 +37,7 @@ import exe.question;
  * @author Myles McNally
  * @author Tom Naps (audio parameters added)
  * @author Adam Voss (UTF8 encoding specified)
- * @version (7/17/11)
+ * @version (7/23/11)
  */
 
 
@@ -67,7 +67,7 @@ public class ShowFile extends PrintWriter{
         write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+"\n");
         write("<!DOCTYPE show PUBLIC \"-//JHAVE//DTD GAIGS SHO//EN\" \"gaigs_sho.dtd\">"+"\n"+"\n");
         write("<show>"+"\n"+"\n");
-        qColl = new XMLquestionCollection(this);
+        this.qColl = new XMLquestionCollection(this);
     }
     
     /**
@@ -79,11 +79,8 @@ public class ShowFile extends PrintWriter{
      * @param   questionCount    The number of questions to be asked.
      */
     public ShowFile(String fileName, int questionCount) throws IOException {
-        super(new FileWriter(new File(fileName)));
-        write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+"\n");
-        write("<!DOCTYPE show PUBLIC \"-//JHAVE//DTD GAIGS SHO//EN\" \"gaigs_sho.dtd\">"+"\n"+"\n");
-        write("<show>"+"\n"+"\n");
-        qColl = new XMLquestionCollection(this, questionCount);
+        this(fileName);
+        this.qColl = new XMLquestionCollection(this, questionCount);
     }
 
     /**
@@ -97,11 +94,8 @@ public class ShowFile extends PrintWriter{
      * @param   opCount          The estimated number of questions opportunities.
      */
     public ShowFile(String fileName, int questionCount, int opCount) throws IOException {
-        super(new FileWriter(new File(fileName)));      
-        write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+"\n");
-        write("<!DOCTYPE show PUBLIC \"-//JHAVE//DTD GAIGS SHO//EN\" \"gaigs_sho.dtd\">"+"\n"+"\n");
-        write("<show>"+"\n"+"\n");
-        qColl = new XMLquestionCollection(this, questionCount, opCount);
+        this(fileName);
+        this.qColl = new XMLquestionCollection(this, questionCount, opCount);
     }
     
     
