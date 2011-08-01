@@ -6,15 +6,15 @@ import java.net.*;
 
 import org.jdom.*;
 
-import exe.GAIGSArithmetic;
-import exe.GAIGSarrow;
+import exe.boothsMultiplication.GAIGSArithmetic;
+import exe.boothsMultiplication.GAIGSarrow;
 import exe.GAIGSdatastr;
-import exe.GAIGSline;
-import exe.GAIGSmonospacedText;
-import exe.GAIGSpane;
-import exe.GAIGSregister;
+import exe.boothsMultiplication.GAIGSline;
+import exe.boothsMultiplication.GAIGSmonospacedText;
+import exe.boothsMultiplication.GAIGSpane;
+import exe.boothsMultiplication.GAIGSregister;
 import exe.GAIGStext;
-import exe.MutableGAIGSdatastr;
+import exe.boothsMultiplication.MutableGAIGSdatastr;
 import exe.ShowFile;
 import exe.question;
 import exe.pseudocode.PseudoCodeDisplay;

@@ -2,7 +2,7 @@ package exe.boothsMultiplication;
 
 import java.util.Arrays;
 
-import exe.GAIGSArithmetic;
+import exe.boothsMultiplication.GAIGSArithmetic;
 
 /**
  * TwosComplementMultiplication provides the ability to display
