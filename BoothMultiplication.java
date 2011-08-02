@@ -17,7 +17,7 @@ import exe.GAIGStext;
 import exe.boothsMultiplication.MutableGAIGSdatastr;
 import exe.ShowFile;
 import exe.question;
-import exe.pseudocode.PseudoCodeDisplay;
+import exe.boothsMultiplication.PseudoCodeDisplay;
 
 /**
  * @author Adam Voss <vossad01@luther.edu>
