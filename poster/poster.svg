@@ -4065,11 +4065,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.30009658"
-     inkscape:cx="3492.6917"
-     inkscape:cy="602.25773"
+     inkscape:zoom="0.24041631"
+     inkscape:cx="1812.0509"
+     inkscape:cy="804.82161"
      inkscape:document-units="mm"
-     inkscape:current-layer="g4056"
+     inkscape:current-layer="g4289"
      showgrid="false"
      inkscape:window-width="1280"
      inkscape:window-height="729"
@@ -6043,7 +6043,7 @@
                  id="tspan5435"
                  y="2317.8047"
                  x="3184.2764"
-                 sodipodi:role="line">#0851569</tspan></text>
+                 sodipodi:role="line">#0341148</tspan></text>
             <path
                style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
                d="m 2646.781,2360.3549 848.2346,0"
@@ -6220,77 +6220,86 @@
          id="g5403" />
     </g>
     <g
-       transform="matrix(1.000943,0,0,1.2095039,-23.892812,1306.4329)"
-       id="g5398"
-       style="display:inline">
-      <rect
-         y="577.83618"
-         x="99.295982"
-         height="770.604"
-         width="1217.3145"
-         id="rect3086"
-         style="fill:none;stroke:#0000ff;stroke-width:9.66099262;stroke-miterlimit:4;stroke-dasharray:none" />
-    </g>
-    <rect
-       style="fill:#000080;stroke:none;display:inline"
-       id="rect3088"
-       width="1217.7667"
-       height="112.71968"
-       x="75.844627"
-       y="2000.8662" />
-    <text
-       sodipodi:linespacing="125%"
-       id="text3090"
-       y="2085.4233"
-       x="682.62238"
-       style="font-size:108.63391113px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-       xml:space="preserve"
-       transform="scale(1.0004714,0.99952883)"><tspan
-         id="tspan3102"
-         style="font-size:73.03440857px;fill:#ffffff;fill-opacity:1"
-         y="2085.4233"
-         x="682.62238"
-         sodipodi:role="line">Related Work</tspan></text>
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot6058"
-       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       transform="translate(-127.58362,956.35882)"><flowRegion
-         id="flowRegion6060"><rect
-           id="rect6062"
-           width="1176.776"
-           height="989.21576"
-           x="221.49551"
-           y="1162.863"
-           style="text-align:start;text-anchor:start;fill:#000000" /></flowRegion><flowPara
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
-         id="flowPara6064">• Constructivist theory of learning influenced our approach for our hypertextbook. We use the student's pre-exiting knowledge as the basis for teaching the algorithm.</flowPara><flowPara
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
-         id="flowPara3962" /><flowPara
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
-         id="flowPara3966">• Our literature search turned up few visualizations for the topic of binary multiplication in computer organization.</flowPara><flowPara
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
-         id="flowPara4305" /><flowPara
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
-         id="flowPara3978">• One visualization at <flowSpan
+       id="g4264">
+      <g
+         id="g4182">
+        <g
+           id="g4289">
+          <g
+             id="g4413"
+             transform="translate(0,192)">
+            <g
+               style="display:inline"
+               id="g5398"
+               transform="matrix(1.000943,0,0,0.96011327,-23.892812,1450.5398)">
+              <rect
+                 style="fill:none;stroke:#0000ff;stroke-width:9.66099262;stroke-miterlimit:4;stroke-dasharray:none"
+                 id="rect3086"
+                 width="1217.3145"
+                 height="770.604"
+                 x="99.295982"
+                 y="577.83618" />
+            </g>
+            <rect
+               style="fill:#000080;stroke:none;display:inline"
+               id="rect3088"
+               width="1217.7667"
+               height="112.71968"
+               x="75.844627"
+               y="2000.8662" />
+            <text
+               sodipodi:linespacing="125%"
+               id="text3090"
+               y="2085.4233"
+               x="682.62238"
+               style="font-size:108.63391113px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+               xml:space="preserve"
+               transform="scale(1.0004714,0.99952883)"><tspan
+                 id="tspan3102"
+                 style="font-size:73.03440857px;fill:#ffffff;fill-opacity:1"
+                 y="2085.4233"
+                 x="682.62238"
+                 sodipodi:role="line">Related Work</tspan></text>
+            <flowRoot
+               xml:space="preserve"
+               id="flowRoot6058"
+               style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+               transform="translate(-127.58362,956.35882)"><flowRegion
+                 id="flowRegion6060"><rect
+                   id="rect6062"
+                   width="1176.776"
+                   height="989.21576"
+                   x="221.49551"
+                   y="1162.863"
+                   style="text-align:start;text-anchor:start;fill:#000000" /></flowRegion><flowPara
+                 style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+                 id="flowPara3966">• Our literature search turned up few visualizations for the topic of binary multiplication in computer organization.</flowPara><flowPara
+                 style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+                 id="flowPara4305" /><flowPara
+                 style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+                 id="flowPara3978">• One visualization at <flowSpan
    style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000080;font-family:Sans;-inkscape-font-specification:Sans"
    id="flowSpan3972">http://www.frontiernet.net/~prof_tcarr/Multiplication/applet.html </flowSpan>allows for step-by-step viewing and limited questions. Ours includes a discussion of hardware, signed values, and Booth's Algorithm.</flowPara><flowPara
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
-         id="flowPara4182" /><flowPara
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
-         id="flowPara3987">• Others at <flowSpan
+                 style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+                 id="flowPara4182" /><flowPara
+                 style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:107.00000525%;writing-mode:lr-tb;text-anchor:start;fill:#000000;font-family:Sans;-inkscape-font-specification:Sans"
+                 id="flowPara3987">• Others at <flowSpan
    style="font-size:40px;line-height:107.00000525%;fill:#000080"
-   id="flowSpan3983">http://www.ecs.umass.edu/ece/koren/arith/simulator/ </flowSpan>include several algorithms and are linked to a commercial textbook. Our visualization seeks to actively engage the learner, and our textbook is available for free online.</flowPara><flowPara
-         style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
-         id="flowPara3958" /><flowPara
-         style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
-         id="flowPara3960" /><flowPara
-         style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
-         id="flowPara6109" /><flowPara
-         style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
-         id="flowPara6070" /><flowPara
-         id="flowPara6072"
-         style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000" /></flowRoot>    <flowRoot
+   id="flowSpan3983">http://www.ecs.umass.edu/ece/koren/arith/simulator/ </flowSpan>include several algorithms and are linked to a commercial textbook, entitled &quot;Computer Arithmetic Algorithms&quot;. Our visualization seeks to actively engage the learner, and our textbook is available for free online.</flowPara><flowPara
+                 style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
+                 id="flowPara3958" /><flowPara
+                 style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
+                 id="flowPara3960" /><flowPara
+                 style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
+                 id="flowPara6109" /><flowPara
+                 style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000"
+                 id="flowPara6070" /><flowPara
+                 id="flowPara6072"
+                 style="font-size:40px;text-align:start;line-height:107.00000525%;text-anchor:start;fill:#000000" /></flowRoot>          </g>
+        </g>
+      </g>
+    </g>
+    <flowRoot
        xml:space="preserve"
        id="flowRoot6113"
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -6383,56 +6392,70 @@
          y="1934.0469"
          id="tspan5253" /></text>
     <g
-       id="g5391"
-       transform="translate(-23.801289,18.643474)">
-      <rect
-         style="fill:none;stroke:#0000ff;stroke-width:10.62992096;stroke-miterlimit:4;stroke-dasharray:none"
-         id="rect3112"
-         width="1218.4714"
-         height="545.02618"
-         x="99.298096"
-         y="1385.4463" />
+       id="g4212"
+       transform="translate(0,96.289734)">
       <g
-         id="g5225"
-         transform="matrix(0.8809634,0,0,0.88582724,-122.51023,-414.64414)">
-        <rect
-           style="fill:#000080;stroke:none;display:inline"
-           id="rect3114"
-           width="1382.3292"
-           height="98.982239"
-           x="252.17006"
-           y="988.63336"
-           transform="matrix(1.0000012,0,0,1.2855633,-3.0648265e-4,755.15025)" />
-        <text
-           sodipodi:linespacing="125%"
-           id="text3116"
-           y="2120.532"
-           x="944.16266"
-           style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           xml:space="preserve"><tspan
-             id="tspan3128"
-             style="font-size:82.63602448px;fill:#ffffff;fill-opacity:1"
-             y="2120.532"
+         transform="translate(-23.801289,18.643474)"
+         id="g5391">
+        <g
+           transform="matrix(0.8809634,0,0,0.88582724,-122.51023,-414.64414)"
+           id="g5225" />
+      </g>
+      <g
+         id="g4315">
+        <g
+           id="g4396">
+          <rect
+             transform="translate(-23.801289,18.643474)"
+             y="1385.4463"
+             x="99.298096"
+             height="545.02618"
+             width="1218.4714"
+             id="rect3112"
+             style="fill:none;stroke:#0000ff;stroke-width:10.62992096;stroke-miterlimit:4;stroke-dasharray:none;display:inline" />
+          <rect
+             transform="matrix(0.88096446,0,0,1.138787,-146.31179,272.932)"
+             y="988.63336"
+             x="252.17006"
+             height="98.982239"
+             width="1382.3292"
+             id="rect3114"
+             style="fill:#000080;stroke:none;display:inline" />
+          <text
+             transform="matrix(0.8809634,0,0,0.88582724,-146.31152,-396.00067)"
+             xml:space="preserve"
+             style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
              x="944.16266"
-             sodipodi:role="line">Solution</tspan></text>
+             y="2120.532"
+             id="text3116"
+             sodipodi:linespacing="125%"><tspan
+               sodipodi:role="line"
+               x="944.16266"
+               y="2120.532"
+               style="font-size:82.63602448px;fill:#ffffff;fill-opacity:1"
+               id="tspan3128">Solution</tspan></text>
+          <g
+             id="g4202">
+            <flowRoot
+               xml:space="preserve"
+               id="flowRoot5076"
+               style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+               transform="translate(-3253.3141,-12.427332)"><flowRegion
+                 id="flowRegion5078"><rect
+                   id="rect5080"
+                   width="1185.8817"
+                   height="421.633"
+                   x="3346.4609"
+                   y="1523.2823" /></flowRegion><flowPara
+                 id="flowPara5094">• We created two modules, an online text or hypertext resource and an engaging visualization of the algorithm.</flowPara><flowPara
+                 id="flowPara5436" /><flowPara
+                 id="flowPara5098">• Our intent was to design the modules to work well together, but allow each to stand on its own.</flowPara><flowPara
+                 id="flowPara5106" /><flowPara
+                 id="flowPara5090">• We chose Booth's Multiplication Algorithm for its versatility for allowing discussion of math and hardware.</flowPara></flowRoot>          </g>
+        </g>
       </g>
     </g>
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot5076"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       transform="translate(-3253.3141,-12.427332)"><flowRegion
-         id="flowRegion5078"><rect
-           id="rect5080"
-           width="1185.8817"
-           height="421.633"
-           x="3346.4609"
-           y="1523.2823" /></flowRegion><flowPara
-         id="flowPara5094">• We created two modules, an online text or hypertext resource and an engaging visualization of the algorithm.</flowPara><flowPara
-         id="flowPara5436" /><flowPara
-         id="flowPara5098">• Our intent was to design the modules to work well together, but allow each to stand on its own.</flowPara><flowPara
-         id="flowPara5106" /><flowPara
-         id="flowPara5090">• We chose Booth's Multiplication Algorithm for its versatility for allowing discussion of math and hardware.</flowPara></flowRoot>  </g>
+  </g>
   <g
      inkscape:label="Problem"
      id="g4038"
@@ -6452,66 +6475,82 @@
          x="202.20621"
          y="1393.6428"
          id="tspan3508-5" /></text>
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot4169"
-       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-       transform="translate(-1252.0094,-480.23886)"><flowRegion
-         id="flowRegion4171"><rect
-           id="rect4173"
-           width="1182.6586"
-           height="642.88513"
-           x="1344.024"
-           y="1172.0353" /></flowRegion><flowPara
-         id="flowPara4175"
-         style="line-height:107.00000525%">• Multiplication of signed numbers is not always taught in computer organization courses.</flowPara><flowPara
-         style="line-height:107.00000525%"
-         id="flowPara5416" /><flowPara
-         id="flowPara4183"
-         style="line-height:107.00000525%">• Some textbooks provide little or no coverage of signed binary multiplication.</flowPara><flowPara
-         style="line-height:107.00000525%"
-         id="flowPara5420" /><flowPara
-         id="flowPara4191"
-         style="line-height:107.00000525%">• Those that do cover signed binary multiplication, do not always cover both the mathematical background and the hardware implementation details.</flowPara><flowPara
-         style="line-height:107.00000525%"
-         id="flowPara5422" /><flowPara
-         id="flowPara5309"
-         style="line-height:107.00000525%">• Because of these limitations, educators may need to develop their own materials.  This can be time prohibitive.</flowPara><flowPara
-         style="line-height:107.00000525%"
-         id="flowPara5424" /><flowPara
-         id="flowPara5317"
-         style="line-height:107.00000525%">• Limitations on classroom time may restrict adding new material.</flowPara></flowRoot>    <g
-       id="g5384"
-       transform="translate(-25.850878,-1613.7271)">
-      <rect
-         y="2195.1174"
-         x="101.361"
-         height="766.47394"
-         width="1218.4458"
-         id="rect4044"
-         style="fill:none;stroke:#0000ff;stroke-width:10.65655136;stroke-miterlimit:4;stroke-dasharray:none" />
+    <g
+       id="g4243"
+       transform="translate(0,1.586429e-4)">
       <g
-         id="g5212"
-         transform="matrix(0.60899207,0,0,0.60777071,79.797393,1729.3557)">
-        <rect
-           style="fill:#000080;stroke:none"
-           id="rect4046"
-           width="2006.149"
-           height="185.45676"
-           x="32.7132"
-           y="757.59967" />
-        <text
-           sodipodi:linespacing="125%"
-           id="text4048"
-           y="895.04187"
-           x="1035.0261"
-           style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           xml:space="preserve"><tspan
-             id="tspan4052"
-             style="font-size:119.99058533px;fill:#ffffff;fill-opacity:1"
-             y="895.04187"
-             x="1035.0261"
-             sodipodi:role="line">Problem</tspan></text>
+         transform="translate(-25.850878,-1613.7271)"
+         id="g5384">
+        <g
+           id="g4343">
+          <g
+             id="g5212"
+             transform="matrix(0.60899207,0,0,0.60777071,79.797393,1729.3557)">
+            <g
+               id="g4377">
+              <g
+                 transform="matrix(1.6420575,0,0,1.6453573,-88.58328,-190.25037)"
+                 style="display:inline"
+                 id="g4229">
+                <flowRoot
+                   xml:space="preserve"
+                   id="flowRoot4169"
+                   style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
+                   transform="translate(-1252.0094,-480.23886)"><flowRegion
+                     id="flowRegion4171"><rect
+                       id="rect4173"
+                       width="1182.6586"
+                       height="642.88513"
+                       x="1344.024"
+                       y="1172.0353" /></flowRegion><flowPara
+                     id="flowPara4175"
+                     style="line-height:107.00000525%">• Multiplication of signed numbers is not always taught in computer organization courses.</flowPara><flowPara
+                     style="line-height:107.00000525%"
+                     id="flowPara5416" /><flowPara
+                     id="flowPara4183"
+                     style="line-height:107.00000525%">• Some textbooks provide little or no coverage of signed binary multiplication.</flowPara><flowPara
+                     style="line-height:107.00000525%"
+                     id="flowPara5420" /><flowPara
+                     id="flowPara4191"
+                     style="line-height:107.00000525%">• Those that do cover signed binary multiplication, do not always cover both the mathematical background and the hardware implementation details.</flowPara><flowPara
+                     style="line-height:107.00000525%"
+                     id="flowPara5422" /><flowPara
+                     id="flowPara5309"
+                     style="line-height:107.00000525%">• Because of these limitations, educators may need to develop their own materials.  This can be time prohibitive.</flowPara><flowPara
+                     style="line-height:107.00000525%"
+                     id="flowPara5424" /><flowPara
+                     id="flowPara5317"
+                     style="line-height:107.00000525%">• Limitations on classroom time may restrict adding new material.</flowPara></flowRoot>              </g>
+              <rect
+                 style="fill:none;stroke:#0000ff;stroke-width:10.65655136;stroke-miterlimit:4;stroke-dasharray:none;display:inline"
+                 id="rect4044"
+                 width="1218.4458"
+                 height="766.47394"
+                 x="101.361"
+                 y="2195.1174"
+                 transform="matrix(1.6420575,0,0,1.6453573,-131.03191,-2845.4081)" />
+              <rect
+                 y="757.59967"
+                 x="32.7132"
+                 height="185.45676"
+                 width="2006.149"
+                 id="rect4046"
+                 style="fill:#000080;stroke:none" />
+              <text
+                 xml:space="preserve"
+                 style="font-size:120px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+                 x="1035.0261"
+                 y="895.04187"
+                 id="text4048"
+                 sodipodi:linespacing="125%"><tspan
+                   sodipodi:role="line"
+                   x="1035.0261"
+                   y="895.04187"
+                   style="font-size:119.99058533px;fill:#ffffff;fill-opacity:1"
+                   id="tspan4052">Problem</tspan></text>
+            </g>
+          </g>
+        </g>
       </g>
     </g>
     <g
