@@ -5,7 +5,7 @@
     <copy todir="../../../build/classes/exe/boothsMultiplication" overwrite="true">
       <fileset file="pseudocode.xml"/>
     </copy>
-    <copy todir="../../../../html_root/ingen" overwrite="true">
+    <copy todir="../../../../html_root/ingen/boothsMultiplication" overwrite="true">
       <fileset file="boothsMultiplication.igs"/> 
     </copy>
     <copy overwrite="true"
