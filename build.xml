@@ -14,6 +14,13 @@
     <copy todir="../../../../html_root/cat" overwrite="true">
       <fileset file="boothsMultiplication.list"/> 
     </copy>
+    <copy todir="../../../../html_root/cat" overwrite="true">
+      <fileset file="reu2011.list"/>
+    </copy>
+    <copy todir="../../../../html_root/cat" overwrite="true">
+      <fileset file="booth.list"/>
+    </copy>
+
   </target>
     
 

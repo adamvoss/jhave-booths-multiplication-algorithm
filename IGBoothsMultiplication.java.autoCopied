@@ -65,7 +65,7 @@ public class IGBoothsMultiplication extends IGComponent {
     public IGBoothsMultiplication(Element root, IGComponentFactory factory) throws IGComponentInstantiationException {
         super(root, factory);
 
-        System.out.println("IGListeningTextField initialized");
+        System.out.println("IGBoothsMultiplication initialized");
 
         Iterator ltxt_iter = root.getChildren().iterator();
         BorderLayout border = new BorderLayout();
