@@ -11,6 +11,9 @@
     <copy overwrite="true"
           file="IGBoothsMultiplication.java.autoCopied"
           tofile="../../../../client/src/jhave/client/igcomponent/IGBoothsMultiplication.java"/>
+    <copy todir="../../../../client/src/jhave/client/igcomponent" overwrite="true">
+          <fileset file="IGComponent.properties"/>
+    </copy>
     <copy todir="../../../../html_root/cat" overwrite="true">
       <fileset file="boothsMultiplication.list"/> 
     </copy>
