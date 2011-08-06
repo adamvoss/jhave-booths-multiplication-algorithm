@@ -50,7 +50,7 @@ public class IGBoothsMultiplication extends IGComponent {
     public static final String LTEXTFIELDS = "l_textfields";
 
     /**All subelements of this element should be displayed on the same horizontal level in the GUI*/
-    public static final String ONELINE     = "oneline"; 
+    public static final String LINE_ELEMENT= "oneline"; 
 
    /**The name of the element which represents a binary formated textfield*/
     public static final String BFTEXTFIELD = "bf_textfield";
@@ -101,6 +101,51 @@ public class IGBoothsMultiplication extends IGComponent {
                 }
             }
         }
+    }
+
+    private void assembleE1(Element root) {
+        Iterator booth_iter = root.getChildren().iterator();
+        BorderLayout border = new BorderLayout();
+        GridLayout grid = new GridLayout(1, 5);//may not need
+        panel = new JPanel(border);
+        JPanel centerPanel = new JPanel(grid);//may not need
+        JLabel descriptiveArea = new JLabel();
+
+        String decM = ListeningManager.toDecimal(nDigitBinary(8) );
+        String decQ = ListeningManager.toDecimal(nDigitBinary(8) );
+
+        while (booth_iter.hasNext() ) {
+            Element booth_child = (Element) booth_iter.next();
+
+            if (booth_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
+                this.label = new JLabel(booth_child.getText() );
+            }
+            else if (booth_child.getName().equalsIgnoreCase(LINE_ELEMENT) ) {
+                panel.add(buildLinePanel(booth_child) );
+            }
+        }
+    }
+
+    private JPanel buildLinePanel(Element line) {
+        Iterator line_iter = line.getChildren().iterator();
+        GridLayout grid = new GridLayout(1, line.getChildren().size() );
+        JPanel linePanel = new JPanel(grid);
+
+        while (line_iter.hasNext() ) {
+            Element line_child = (Element) line_iter.next();
+
+            if (line_child.getName().equalsIgnoreCase(BFTEXTFIELD) ) {//conversly I could just have the viz do the error checking?
+            //what do I expect the input generator to do besides take a raw input?
+            //any auto-correction would rob educational value from the exercise, imo
+                linePanel.add(new JTextField("") );
+            }
+            else if (line_child.getName().equalsIgnoreCase(DFTEXTFIELD) ) {
+            //ditto
+                linePanel.add(new JTextField("") );
+            }
+        }
+
+        return linePanel;
     }
 
     private void assembleBM(Element root) {
