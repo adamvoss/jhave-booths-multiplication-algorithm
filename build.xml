@@ -8,6 +8,9 @@
     <copy todir="../../../../html_root/ingen/boothsMultiplication" overwrite="true">
       <fileset file="boothsMultiplication.igs"/> 
     </copy>
+    <copy todir="../../../../html_root/ingen/boothsMultiplication" overwrite="true">
+      <fileset file="boothsExercise01.igs"/> 
+    </copy>
     <copy overwrite="true"
           file="IGBoothsMultiplication.java.autoCopied"
           tofile="../../../../client/src/jhave/client/igcomponent/IGBoothsMultiplication.java"/>

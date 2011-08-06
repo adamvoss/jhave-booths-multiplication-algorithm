@@ -48,6 +48,15 @@ public class IGBoothsMultiplication extends IGComponent {
 
     /**The name of the element which represents a binary/decimal textfield pair*/
     public static final String LTEXTFIELDS = "l_textfields";
+
+    /**All subelements of this element should be displayed on the same horizontal level in the GUI*/
+    public static final String ONELINE     = "oneline"; 
+
+   /**The name of the element which represents a binary formated textfield*/
+    public static final String BFTEXTFIELD = "bf_textfield";
+
+    /**The name of the element which represents a binary formated textfield*/
+    public static final String DFTEXTFIELD = "df_textfield";
     
     //the following are all elements of l_textfields
     public static final String LTF_NAME        = "name"         ;
@@ -56,17 +65,45 @@ public class IGBoothsMultiplication extends IGComponent {
     public static final String LTF_PARTNER     = "bin_partner"  ;
     public static final String LTF_ENTERED_VAL = "value_entered";
  
-    //values of the defaults
+    //values of the defaults of l_textfields
     public static       String[] defaultDec;
     public static       String[] defaultBin;
    
-    public static ListeningManager manager;
+    private static ListeningManager manager;
+
+    public enum BoothType {STANDARD, EXERCISE01, EXERCISE02, EXERCISE03}
+    private BoothType myType;
 
     public IGBoothsMultiplication(Element root, IGComponentFactory factory) throws IGComponentInstantiationException {
         super(root, factory);
 
         System.out.println("IGBoothsMultiplication initialized");
 
+        Iterator booth_iter = root.getChildren().iterator();
+
+        while (booth_iter.hasNext() ) {
+            Element booth_child = (Element) booth_iter.next();
+
+            if (booth_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
+                //this.label = new JLabel(ltxt_child.getText() );
+                if (booth_child.getText().contains("Exercise 1") ) {
+                
+                }
+                else if (booth_child.getText().contains("Exercise 2") ) {
+                
+                }
+                else if (booth_child.getText().contains("Exercise 3") ) {
+                
+                }
+                else {
+                    myType = BoothType.STANDARD;
+                    assembleBM(root);
+                }
+            }
+        }
+    }
+
+    private void assembleBM(Element root) {
         Iterator ltxt_iter = root.getChildren().iterator();
         BorderLayout border = new BorderLayout();
         GridLayout grid = new GridLayout(4, 3, 3, 3);
