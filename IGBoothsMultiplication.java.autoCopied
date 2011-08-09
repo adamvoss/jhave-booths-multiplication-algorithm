@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 
 import java.util.Iterator;
 import java.util.Random;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -49,14 +50,14 @@ public class IGBoothsMultiplication extends IGComponent {
     /**The name of the element which represents a binary/decimal textfield pair*/
     public static final String LTEXTFIELDS = "l_textfields";
 
+    /**Indicates the beginning of a sequence of ROW_ELEMENTs*/
+    public static final String ROWS_ELEMENT= "rows";
+
     /**All subelements of this element should be displayed on the same horizontal level in the GUI*/
-    public static final String LINE_ELEMENT= "oneline"; 
+    public static final String ROW_ELEMENT = "row"; 
 
-   /**The name of the element which represents a binary formated textfield*/
-    public static final String BFTEXTFIELD = "bf_textfield";
-
-    /**The name of the element which represents a binary formated textfield*/
-    public static final String DFTEXTFIELD = "df_textfield";
+   /**The name of the element which represents textfield*/
+    public static final String TEXTFIELD = "textfield";
     
     //the following are all elements of l_textfields
     public static final String LTF_NAME        = "name"         ;
@@ -87,7 +88,8 @@ public class IGBoothsMultiplication extends IGComponent {
             if (booth_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
                 //this.label = new JLabel(ltxt_child.getText() );
                 if (booth_child.getText().contains("Exercise 1") ) {
-                
+                    myType = BoothType.EXERCISE01;
+                    assembleE1(root);
                 }
                 else if (booth_child.getText().contains("Exercise 2") ) {
                 
@@ -106,13 +108,14 @@ public class IGBoothsMultiplication extends IGComponent {
     private void assembleE1(Element root) {
         Iterator booth_iter = root.getChildren().iterator();
         BorderLayout border = new BorderLayout();
-        GridLayout grid = new GridLayout(1, 5);//may not need
         panel = new JPanel(border);
-        JPanel centerPanel = new JPanel(grid);//may not need
         JLabel descriptiveArea = new JLabel();
 
         String decM = ListeningManager.toDecimal(nDigitBinary(8) );
         String decQ = ListeningManager.toDecimal(nDigitBinary(8) );
+
+        descriptiveArea.setText("Initialize Booth's Algorithm for the multiplication of " + decM + 
+            " (M) and " + decQ + " (Q)");
 
         while (booth_iter.hasNext() ) {
             Element booth_child = (Element) booth_iter.next();
@@ -120,28 +123,45 @@ public class IGBoothsMultiplication extends IGComponent {
             if (booth_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
                 this.label = new JLabel(booth_child.getText() );
             }
-            else if (booth_child.getName().equalsIgnoreCase(LINE_ELEMENT) ) {
-                panel.add(buildLinePanel(booth_child) );
+            else if (booth_child.getName().equalsIgnoreCase(ROWS_ELEMENT) ) {
+                panel.add(buildRowsPanel(booth_child) );
             }
         }
+
+        panel.add(descriptiveArea, BorderLayout.NORTH);
+    }
+
+    private JPanel buildRowsPanel(Element rows) {
+        Iterator rows_iter = rows.getChildren().iterator();
+        GridLayout grid = new GridLayout(rows.getChildren().size(), 1);
+        JPanel rowsPanel = new JPanel(grid);
+
+        while (rows_iter.hasNext() ) {
+            Element rows_child = (Element) rows_iter.next();
+
+            if (rows_child.getName().equalsIgnoreCase(ROW_ELEMENT) ) {
+                rowsPanel.add(buildLinePanel(rows_child) );
+            }
+        }
+
+        return rowsPanel;
     }
 
     private JPanel buildLinePanel(Element line) {
         Iterator line_iter = line.getChildren().iterator();
-        GridLayout grid = new GridLayout(1, line.getChildren().size() );
+        GridLayout grid = new GridLayout(1, line.getChildren().size() - 1);//value entered element not displayed
         JPanel linePanel = new JPanel(grid);
 
         while (line_iter.hasNext() ) {
             Element line_child = (Element) line_iter.next();
 
-            if (line_child.getName().equalsIgnoreCase(BFTEXTFIELD) ) {//conversly I could just have the viz do the error checking?
+            if (line_child.getName().equalsIgnoreCase(TEXTFIELD) ) {
             //what do I expect the input generator to do besides take a raw input?
             //any auto-correction would rob educational value from the exercise, imo
                 linePanel.add(new JTextField("") );
             }
-            else if (line_child.getName().equalsIgnoreCase(DFTEXTFIELD) ) {
-            //ditto
-                linePanel.add(new JTextField("") );
+            else if (line_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
+                linePanel.add(new JLabel(line_child.getText() ));
             }
         }
 
@@ -177,6 +197,7 @@ public class IGBoothsMultiplication extends IGComponent {
             }
 
             else if (ltxt_child.getName().equalsIgnoreCase(LTEXTFIELDS) ) {
+                //Awkward silence
             }
         }
 
@@ -202,6 +223,76 @@ public class IGBoothsMultiplication extends IGComponent {
 
     @Override
     public Element getJDOMElement() { //needs some work with nested attributes.
+        if (myType == BoothType.STANDARD)           return getBoothsStandardElement();
+        else if (myType == BoothType.EXERCISE01)    return getBoothsEx01()           ;
+        else return null;
+    }
+
+    private Element getBoothsEx01() {
+        Element thisElement = new Element(this.factory.getElementNameForClass(this.getClass() ));
+
+        Element labelElement = new Element(LABEL_ELEMENT_NAME);
+        labelElement.setText(this.label.getText() );
+
+        ArrayList<String> enteredValues = new ArrayList<String>();
+
+        //BEGIN ROWS_ELEMENT
+        Element rowsElement = new Element(ROWS_ELEMENT);
+
+        System.out.println(panel.getComponents()[0] instanceof JPanel);
+        JPanel rowsPanel = (JPanel) panel.getComponents()[0];
+
+        for (int i = 0; i < rowsPanel.getComponentCount(); ++i) {
+            System.out.println("" + i + "\t" + (rowsPanel.getComponents()[i] instanceof JPanel) );
+            JPanel rowPanel = (JPanel) rowsPanel.getComponents()[i];
+            Element rowElement = new Element(ROW_ELEMENT);
+
+            for (int j = 0; j < rowPanel.getComponentCount(); ++j) {
+                Element rowChildElement;
+                Component comp = rowPanel.getComponents()[j];
+
+                if (comp instanceof JLabel) {
+                    rowChildElement = new Element(LABEL_ELEMENT_NAME);
+                    rowChildElement.setText( ((JLabel) comp).getText() );
+                }
+                else if (comp instanceof JTextField) {
+                    rowChildElement = new Element(TEXTFIELD);
+                    Element valueElement = new Element(ENTERED_VALUE_ELEMENT_NAME);
+                    valueElement.setText( ((JTextField) comp).getText().trim() );
+                    enteredValues.add(valueElement.getText() );
+                    rowChildElement.addContent(valueElement);
+                }
+                else {
+                    System.out.println("Unknown element of row!!!");
+                    rowChildElement = new Element("unknown");
+                }
+                rowElement.addContent(rowChildElement);
+            }
+
+            rowsElement.addContent(rowElement);
+        }
+
+        //END ROWS_ELEMENT
+        
+        Element enteredElement = new Element(ENTERED_VALUE_ELEMENT_NAME);
+        String concatReduce = "";
+
+        System.out.println(enteredValues.size() );
+
+        for (String enteredValue : enteredValues) {
+            concatReduce += enteredValue + " ";
+        }
+
+        enteredElement.setText(concatReduce.substring(0,concatReduce.length() - 1) );
+
+        thisElement.addContent(labelElement);
+        thisElement.addContent(rowsElement);
+        thisElement.addContent(enteredElement);
+        
+        return thisElement;
+    }
+
+    private Element getBoothsStandardElement() {
         Element thisElement = new Element(this.factory.getElementNameForClass(this.getClass() ));
 
         Element labelElement = new Element(LABEL_ELEMENT_NAME);
