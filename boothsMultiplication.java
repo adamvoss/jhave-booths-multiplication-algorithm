@@ -27,7 +27,15 @@ public class boothsMultiplication{
             BoothMultiplication.main(toPass);
         }
         else if (param.containsKey("Exercise 1 for Booth's Multiplication") ) {
-            System.out.println("Made it here");
+            ArrayList<String> toPass = new ArrayList<String>();
+            toPass.add(args[0] + ".sho");
+            String[] temp = param.get("Exercise 1 for Booth's Multiplication").split(" ");
+
+            for (String str : temp)
+                toPass.add(str);
+
+            BoothExercise01.main((String[]) toPass.toArray() );
+
         }
         else if (param.containsKey("Exercise 2 for Booth's Multiplication") ) {
         }
@@ -36,16 +44,5 @@ public class boothsMultiplication{
         else {
         }
 
-/*      String[] toPass = new String[3];
-        toPass[0] = args[0] + ".sho";
-        String[] temp = param.get("Booth's Multiplication Input").split(" ");
-        toPass[1] = temp[0];
-        toPass[2] = temp[1];
-
-        BoothMultiplication.main(toPass);
-*/
-//      BoothsMultiplication.main(new String[] {args[0] + ".sho",
-//                                             param.get("Multiplicand"),
-//                                             param.get("Multiplier")});
      }
 }

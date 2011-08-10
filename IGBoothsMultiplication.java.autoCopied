@@ -11,9 +11,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
-import java.util.Iterator;
-import java.util.Random;
-import java.util.ArrayList;
+import java.util.*;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -114,8 +112,9 @@ public class IGBoothsMultiplication extends IGComponent {
         String decM = ListeningManager.toDecimal(nDigitBinary(8) );
         String decQ = ListeningManager.toDecimal(nDigitBinary(8) );
 
-        descriptiveArea.setText("Initialize Booth's Algorithm for the multiplication of " + decM + 
-            " (M) and " + decQ + " (Q)");
+        descriptiveText = "Initialize Booth's Algorithm for the multiplication of " + decM + 
+            " (M) and " + decQ + " (Q)"
+        descriptiveArea.setText(descriptiveText);
 
         while (booth_iter.hasNext() ) {
             Element booth_child = (Element) booth_iter.next();
@@ -282,6 +281,13 @@ public class IGBoothsMultiplication extends IGComponent {
         for (String enteredValue : enteredValues) {
             concatReduce += enteredValue + " ";
         }
+
+        //parse out the original values to be multiplied
+        Scanner msc = new Scanner(descriptiveText);
+
+        for ( ; msc.hasNext(); msc.next() )
+            if (msc.hasNextInt() ) 
+                concatReduce += "" + msc.nextInt() + " ";
 
         enteredElement.setText(concatReduce.substring(0,concatReduce.length() - 1) );
 
