@@ -164,20 +164,22 @@ public class BoothExercise01 {
         userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight(), GAIGSmonospacedText.HCENTER, 
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "User Input"));
 
+        final double USER_INPUT_TEXT_HEIGHT = 3 * userInput.getHeight() / 4;
+
         //User input text for M, A, Q, Beta, Count
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2, GAIGSmonospacedText.HLEFT,
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT, GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "M:\t" + args[1]));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2-COLBL_FONT_SIZE, GAIGSmonospacedText.HLEFT,
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "A:\t" + args[2]));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2-(COLBL_FONT_SIZE*2), GAIGSmonospacedText.HLEFT,
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*2), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Q:\t" + args[3]));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2-(COLBL_FONT_SIZE*3), GAIGSmonospacedText.HLEFT,
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*3), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "β:\t" + args[4]));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2-(COLBL_FONT_SIZE*4), GAIGSmonospacedText.HLEFT,
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*4), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Count:\t" + args[5]));
 
         trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), userInput.getBounds()[3], null, 1.0);
