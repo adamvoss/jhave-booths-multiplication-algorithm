@@ -101,6 +101,9 @@ public class BoothExercise01 {
         //JHAVE stuff
         show = new ShowFile(args[0]);
 
+        writer = new PrintWriter("/home/christopher/jhave2/server/src/exe/boothsMultiplication/ex01b.log");
+        writer.println("Beginning Log");
+
         //Load the Pseudocode
         try{
             pseudo = new PseudoCodeDisplay("exe/boothsMultiplication/pseudocode.xml");
@@ -115,8 +118,12 @@ public class BoothExercise01 {
         int multiplicand = Integer.parseInt(args[args.length-2]);
         int multiplier   = Integer.parseInt(args[args.length-1]);
 
+        writer.println("M\t" + multiplicand + "\nQ\t" + multiplier);
+
         String binMultiplicand = toBinary(multiplicand);
-        String binMultiplier   = toBinary(multiplicand);
+        String binMultiplier   = toBinary(multiplier);
+
+        writer.println("M\t" + binMultiplicand + "\nQ\t" + binMultiplier);
 
         if (binMultiplicand.length() > binMultiplier.length() ) 
             binMultiplier = signExtend(binMultiplier, binMultiplicand.length() - binMultiplier.length() );
@@ -144,7 +151,7 @@ public class BoothExercise01 {
         //Header Math
         GAIGSArithmetic binary = new TCMultBooth(binMultiplicand, binMultiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
             header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
-        ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, 
+        ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', "" + multiplicand, "" + multiplier, 10, 10*FONT_SIZE, 
              header.getHeight()-FONT_SIZE*1.5, header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
 
         MATH_LABEL_SPACE  = header.getWidth()/20;
@@ -328,6 +335,7 @@ public class BoothExercise01 {
         currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                 last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Initialization", FONT_SIZE*0.5));
 
+        writer.close();
         show.close();
 /*
         //Our Stuff

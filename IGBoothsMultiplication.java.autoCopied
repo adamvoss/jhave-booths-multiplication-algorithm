@@ -106,6 +106,8 @@ public class IGBoothsMultiplication extends IGComponent {
     private void assembleE1(Element root) {
         Iterator booth_iter = root.getChildren().iterator();
         BorderLayout border = new BorderLayout();
+        GridLayout   grid   = new GridLayout(3, 1);
+        JPanel descriptivePanel = new JPanel(grid);
         panel = new JPanel(border);
         JLabel descriptiveArea = new JLabel();
         JLabel cautionaryArea  = new JLabel();
@@ -129,8 +131,10 @@ public class IGBoothsMultiplication extends IGComponent {
             }
         }
 
-        panel.add(descriptiveArea, BorderLayout.NORTH);
-        panel.add(cautionaryArea,  BorderLayout.NORTH);
+        descriptivePanel.add(new JLabel(" ") );//a lazy way to add a blank item to a panel
+        descriptivePanel.add(descriptiveArea);
+        descriptivePanel.add(cautionaryArea);
+        panel.add(descriptivePanel, BorderLayout.NORTH);
     }
 
     private JPanel buildRowsPanel(Element rows) {
@@ -281,9 +285,8 @@ public class IGBoothsMultiplication extends IGComponent {
 
         System.out.println(enteredValues.size() );
 
-        for (String enteredValue : enteredValues) {
-            concatReduce += enteredValue + " ";
-        }
+        for (String enteredValue : enteredValues)
+            concatReduce += (enteredValue.contains(" ") || enteredValue.length() == 0 ? "INVALID " : enteredValue + " ");
 
         //parse out the original values to be multiplied
         Scanner msc = new Scanner(descriptiveText);
@@ -382,7 +385,7 @@ public class IGBoothsMultiplication extends IGComponent {
         Random rand = new Random();
         int ret = rand.nextInt((int)Math.pow(2, n) ) - ((int) Math.pow(2, n-1) );
 
-        return "" + (ret == 0 ? ret + (rand.nextInt(2) == 0 ? 1 : -1) : ret);
+        return ListeningManager.toBinary((ret == 0 ? ret + (rand.nextInt(2) == 0 ? 1 : -1) : ret) );
     }
 }
 
