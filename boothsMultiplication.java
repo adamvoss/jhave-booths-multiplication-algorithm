@@ -6,16 +6,29 @@ import java.util.*;
 import exe.XMLParameterParser;
 import org.jdom.JDOMException;
 
+import java.io.*;
+
 /**
  * @author Adam Voss <vossad01@luther.edu>
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class boothsMultiplication{
 
+    private static PrintWriter writer;
+
     public static void main(String[] args)throws IOException, JDOMException
     {
         @SuppressWarnings("unchecked")
         Hashtable<String, String> param = XMLParameterParser.parseToHash(args[2]);
+
+        try {
+            writer = new PrintWriter("/home/christopher/jhave2-new/server/src/exe/boothsMultiplication/ex01.log");
+        } catch (IOException e) {
+            //Oh dear...
+        }
+
+        writer.println("Beginning log");
+        writer.flush();
 
         if (param.containsKey("Booth's Multiplication Input") ) {
             String[] toPass = new String[3];
@@ -27,6 +40,9 @@ public class boothsMultiplication{
             BoothMultiplication.main(toPass);
         }
         else if (param.containsKey("Exercise 1 for Booth's Multiplication") ) {
+            writer.println("Successfully identified exercise 01");
+            writer.flush();
+
             ArrayList<String> toPass = new ArrayList<String>();
             toPass.add(args[0] + ".sho");
             String[] temp = param.get("Exercise 1 for Booth's Multiplication").split(" ");
@@ -34,7 +50,23 @@ public class boothsMultiplication{
             for (String str : temp)
                 toPass.add(str);
 
-            BoothExercise01.main((String[]) toPass.toArray() );
+            writer.println("Length of argument list is " + toPass.size() + " and should be 8");
+
+            for (String str : toPass)
+                writer.println("\t" + str);
+
+            writer.flush();
+
+            Object[] tmp = toPass.toArray();
+            String[] pass= new String[tmp.length];
+
+            for (int i = 0; i < tmp.length; ++i)
+                pass[i] = (String) tmp[i];
+
+            BoothExercise01.main(pass);
+
+            writer.println("Recovered from BoothExercise01.main");
+            writer.flush();
 
         }
         else if (param.containsKey("Exercise 2 for Booth's Multiplication") ) {
@@ -44,5 +76,8 @@ public class boothsMultiplication{
         else {
         }
 
+
+        writer.println("Closing log file");
+        writer.close();
      }
 }

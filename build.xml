@@ -52,6 +52,22 @@
     </java> 
   </target>
 
+  <target name = "runex01" depends="compile" description="Generate the visualization script for Exercise 1">
+    <java fork="true" dir="../../../build/classes"
+          classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
+          classname="exe.boothsMultiplication.BoothExercise01">
+      <arg value="ex01.sho" />
+      <arg value="0101" />
+      <arg value="0000" />
+      <arg value="1101" />
+      <arg value="0" />
+      <arg value="4" />
+      <arg value="5" />
+      <arg value="-3" />
+      <jvmarg value="-Dfile.encoding=ISO-8859-1" />
+    </java>
+  </target>
+
   <target name="math" depends="compile" description="Runs Arithmetic">
     <java fork="true" dir="../../../build/classes"
           classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."

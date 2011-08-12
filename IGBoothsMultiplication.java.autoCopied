@@ -108,13 +108,15 @@ public class IGBoothsMultiplication extends IGComponent {
         BorderLayout border = new BorderLayout();
         panel = new JPanel(border);
         JLabel descriptiveArea = new JLabel();
+        JLabel cautionaryArea  = new JLabel();
 
         String decM = ListeningManager.toDecimal(nDigitBinary(8) );
         String decQ = ListeningManager.toDecimal(nDigitBinary(8) );
 
         descriptiveText = "Initialize Booth's Algorithm for the multiplication of " + decM + 
-            " (M) and " + decQ + " (Q)"
+            " (M) and " + decQ + " (Q)";
         descriptiveArea.setText(descriptiveText);
+        cautionaryArea.setText("You may use at most 8 bits to represent these values in binary");
 
         while (booth_iter.hasNext() ) {
             Element booth_child = (Element) booth_iter.next();
@@ -128,6 +130,7 @@ public class IGBoothsMultiplication extends IGComponent {
         }
 
         panel.add(descriptiveArea, BorderLayout.NORTH);
+        panel.add(cautionaryArea,  BorderLayout.NORTH);
     }
 
     private JPanel buildRowsPanel(Element rows) {

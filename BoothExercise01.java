@@ -20,7 +20,6 @@ import exe.question;
 import exe.pseudocode.PseudoCodeDisplay;
 
 /**
- * @author Adam Voss <vossad01@luther.edu>
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class BoothExercise01 {
@@ -35,6 +34,7 @@ public class BoothExercise01 {
     private static GAIGSpane<GAIGSpane<?>> main; //Is this the same as GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>?
     private static GAIGSpane<MutableGAIGSdatastr> header;
     private static GAIGSpane<MutableGAIGSdatastr> math;
+    private static GAIGSpane<MutableGAIGSdatastr> userInput;
     private static GAIGSpane<GAIGSpane<?>> trace;
     private static GAIGSpane<MutableGAIGSdatastr> currentRow;
     private static GAIGSmonospacedText title;
@@ -75,6 +75,8 @@ public class BoothExercise01 {
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
 
     private static       double MATH_LABEL_SPACE;
+    private static       double USER_INPUT_LABEL_SPACE;
+
     private static final double FONT_SIZE         = 0.05;
     private static final double COLBL_FONT_SIZE   = FONT_SIZE+0.01;
     private static final double REG_FONT_SIZE     = FONT_SIZE-0.01;
@@ -93,8 +95,10 @@ public class BoothExercise01 {
     private static final double TOP_MARGIN        = 0.0;
     private static final double COUNT_LEFT_MARGIN = RIGHT_MARGIN * 2;
 
+    private static  PrintWriter writer;//debug stuff
+
     public static void main(String args[]) throws IOException {
-        //JHAVÉ Stuff
+        //JHAVE stuff
         show = new ShowFile(args[0]);
 
         //Load the Pseudocode
@@ -111,16 +115,218 @@ public class BoothExercise01 {
         int multiplicand = Integer.parseInt(args[args.length-2]);
         int multiplier   = Integer.parseInt(args[args.length-1]);
 
+        String binMultiplicand = toBinary(multiplicand);
+        String binMultiplier   = toBinary(multiplicand);
 
+        if (binMultiplicand.length() > binMultiplier.length() ) 
+            binMultiplier = signExtend(binMultiplier, binMultiplicand.length() - binMultiplier.length() );
+        else if (binMultiplier.length() > binMultiplicand.length() )
+            binMultiplicand = signExtend(binMultiplicand, binMultiplier.length() - binMultiplicand.length() );
 
+        REG_SIZE = binMultiplicand.length();
 
+        main = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVE_X_MARGIN,
+            0-GAIGSpane.JHAVE_Y_MARGIN,
+            1+GAIGSpane.JHAVE_X_MARGIN,
+            1+GAIGSpane.JHAVE_Y_MARGIN,
+            WINDOW_WIDTH,
+            WINDOW_HEIGHT);
+        main.setName("Main");
 
+        header = new GAIGSpane<MutableGAIGSdatastr>(0, WINDOW_HEIGHT*(3/4.0),
+                WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
+        header.setName("Header");
+           
+        title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, 
+            GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
+        header.add(title);
 
+        //Header Math
+        GAIGSArithmetic binary = new TCMultBooth(binMultiplicand, binMultiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
+            header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
+        ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, 
+             header.getHeight()-FONT_SIZE*1.5, header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
 
+        MATH_LABEL_SPACE  = header.getWidth()/20;
 
+        header.add(binary);
+        header.add(decimal);
 
+        //User input (uses same space as math/alu pane standard viz
+        userInput = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(8/10.0), 1.0, 1.0);
+        userInput.setName("User Input");
 
+        userInput.add(new GAIGSline(new double[] {0,0},
+            new double[] {userInput.getHeight()+FONT_SIZE,
+            userInput.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + 
+            (numLines(binMultiplier)-REG_SIZE) * (ROW_SPACE/2 + REG_HEIGHT))}));
 
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight(), GAIGSmonospacedText.HCENTER, 
+            GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "User Input"));
+
+        //User input text for M, A, Q, Beta, Count
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2, GAIGSmonospacedText.HLEFT,
+            GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "M:\t" + args[1]));
+
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2-COLBL_FONT_SIZE, GAIGSmonospacedText.HLEFT,
+            GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "A:\t" + args[2]));
+
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2-(COLBL_FONT_SIZE*2), GAIGSmonospacedText.HLEFT,
+            GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Q:\t" + args[3]));
+
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2-(COLBL_FONT_SIZE*3), GAIGSmonospacedText.HLEFT,
+            GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "β:\t" + args[4]));
+
+        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight()/2-(COLBL_FONT_SIZE*4), GAIGSmonospacedText.HLEFT,
+            GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Count:\t" + args[5]));
+
+        trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), userInput.getBounds()[3], null, 1.0);
+        trace.setName("Trace");
+
+        main.add(header);
+        main.add(trace);
+        main.add(userInput);
+
+        GAIGSpane<GAIGSmonospacedText> trace_labels = new GAIGSpane<GAIGSmonospacedText>();
+
+        trace.add(trace_labels);
+
+        currentRow = new GAIGSpane<MutableGAIGSdatastr>();
+        currentRow.setName("Row " + rowNumber++);
+
+        trace.add(currentRow);
+
+        REG_WIDTH = REG_WIDTH_PER_BIT * REG_SIZE;
+        COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT)/4;
+
+        //We only want to use the Count Margin when it would otherwise be too small
+        if (COL_SPACE < COUNT_LEFT_MARGIN){
+            COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT - COUNT_LEFT_MARGIN)/3;
+        }
+
+        //Initialize Register Location
+        double[] init = new double[] {
+            LEFT_MARGIN,
+            trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
+            LEFT_MARGIN+REG_WIDTH,
+            trace.getHeight()-TOP_MARGIN};
+
+        //**** Initialization Frames ****//
+        
+        //----Register M Initialization Frame----
+        trace_labels.add(new GAIGSmonospacedText(
+                (init[2]-init[0])/2.0+init[0], init[3],
+                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                COLBL_FONT_SIZE, FONT_COLOR, "M", COLBL_FONT_SIZE/2));
+        RegM= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegM.set(binMultiplicand);
+
+        currentRow.add(RegM);
+        
+        //Let's draw arrows
+        GAIGSarrow leftArrow;
+        GAIGSarrow rightArrow;
+        {
+            title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
+            double[] titlebounds = title.getBounds();
+            double[] decbounds = decimal.getBounds();
+            double[] binbounds = binary.getBounds();
+            
+            leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
+                new double[]{titlebounds[3], decbounds[3]},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+            rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
+                new double[]{titlebounds[3], binbounds[3]},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        }
+        header.add(leftArrow);
+        header.add(rightArrow);
+        //We are done drawing arrows
+        
+        easySnap(null, easyPseudo(2), null); //A null title indicates to keep the last one.
+        header.remove(rightArrow);
+        header.remove(leftArrow);
+
+        REG_SIZE = RegM.getSize();
+
+        //----Register A Initialization Frame----
+        init[0] = init[2]+(COL_SPACE);
+        init[2] = init[0]+REG_WIDTH;
+        trace_labels.add(new GAIGSmonospacedText(
+            (init[2]-init[0])/2.0+init[0], init[3],
+            GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+            COLBL_FONT_SIZE, FONT_COLOR, "A", COLBL_FONT_SIZE/2));
+        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegA.set("0");
+        currentRow.add(RegA);
+        easySnap("A is initialized to Zero", easyPseudo(3), null);
+
+        //----Register Q Initialization Frame----
+        init[0] = init[2]+(COL_SPACE);
+        init[2] = init[0]+REG_WIDTH;
+        trace_labels.add(new GAIGSmonospacedText(
+            (init[2]-init[0])/2.0+init[0], init[3],
+            GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+            COLBL_FONT_SIZE, FONT_COLOR, "Q", COLBL_FONT_SIZE/2));
+        RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegQ.set(binMultiplier);
+        currentRow.add(RegQ);
+        
+        //Let's draw arrows
+        {
+            title.setText("Q is the Multiplier\nThe final product will span A and Q"); //Must do this here so we get the correct bounds
+            double[] titlebounds = title.getBounds();
+            double[] decbounds = decimal.getBounds();
+            double[] binbounds = binary.getBounds();
+            
+            leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
+                new double[]{titlebounds[3], decbounds[3]-decimal.getFontSize()},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+            rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
+                new double[]{titlebounds[3], binbounds[3]-binary.getFontSize()},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        }
+        header.add(leftArrow);
+        header.add(rightArrow);
+        //We are done drawing arrows
+
+        easySnap(null, easyPseudo(4), null);
+        header.remove(rightArrow);
+        header.remove(leftArrow);
+
+        //----Bit β Initialization Frame----
+        init[0] = init[2]+(COL_SPACE);
+        init[2] = init[0]+FONT_SIZE;
+        trace_labels.add(new GAIGSmonospacedText(
+            (init[2]-init[0])/2.0+init[0], init[3],
+            GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+            COLBL_FONT_SIZE, FONT_COLOR, "β", COLBL_FONT_SIZE/2));
+        Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        Q_1.set("0");
+        currentRow.add(Q_1);
+        
+        easySnap("β is initialized to Zero", easyPseudo(5), null);
+
+        //----Count Initialization Frame----
+        init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
+        init[2] = trace.getWidth() - RIGHT_MARGIN;
+        trace_labels.add(new GAIGSmonospacedText(
+            (init[2]-init[0])/2.0+init[0], init[3],
+            GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+            COLBL_FONT_SIZE, FONT_COLOR, "Count", COLBL_FONT_SIZE/2));
+        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        currentRow.add(Count);
+        easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
+        double[] last =  currentRow.get(0).getBounds();
+
+        //Maybe this should be a function of GAIGSpane
+        double[] unitLengths = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates(new double[]{0,0,1,1})));
+        double unitLengthX = unitLengths[2]-unitLengths[0];
+        
+        currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
+                last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Initialization", FONT_SIZE*0.5));
+
+        show.close();
 /*
         //Our Stuff
         String multiplicand = args[1];
@@ -129,7 +335,7 @@ public class BoothExercise01 {
         REG_SIZE = multiplicand.length();
 
         main = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVE_X_MARGIN,
-                0-GAIGSpane.JHAVE_Y_MARGIN,
+                0-gaigspane.jhave_y_margin,
                 1+GAIGSpane.JHAVE_X_MARGIN,
                 1+GAIGSpane.JHAVE_Y_MARGIN,
                 WINDOW_WIDTH,
@@ -178,11 +384,9 @@ public class BoothExercise01 {
         //Trace finally defined, can now make the QuestionGenerator
         quest = new QuestionGenerator(show, trace);
 
-
         //One could add Register Spacing/Sizing Logic Here
         //int numRows = numLines(multiplier);
         REG_WIDTH = REG_WIDTH_PER_BIT * REG_SIZE;
-        
         
         COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT)/4;
         //We only want to use the Count Margin when it would otherwise be too small
@@ -329,7 +533,6 @@ public class BoothExercise01 {
                 + ((Integer.parseInt(toDecimal(args[1])))*(Integer.parseInt(toDecimal(args[2])))) + " in decimal", easyPseudo(-1), null);
 
 */
-        show.close();
     }
 
     public static void boothsMultiplication(){
@@ -683,6 +886,16 @@ public class BoothExercise01 {
         return "0"+Integer.toBinaryString(a);
     }
 
+    /**
+    * Sign extends binStr by i bits
+    */
+    private static String signExtend(String binStr, int i){
+        String firstBit = String.valueOf(binStr.charAt(0));
+        String extension = "";
+        while (i>0){extension = extension.concat(firstBit); i--;}
+        return extension.concat(binStr);
+    }
+
     private static String toDecimal(String binstr) {
         int sum    = 0;
         int maxPow = 1;
@@ -697,11 +910,30 @@ public class BoothExercise01 {
 
     }
 
+    private static boolean isWellFormedBinary(String input) {
+        if (input.length() == 0) return false;
+
+        boolean flag = true;
+
+        for (int i = 0; i < input.length(); ++i)
+            flag = flag && (input.charAt(i) == '0' || input.charAt(i) == '1');
+
+        return flag;
+    }
+
+    private static boolean isWellFormedDecimal(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {return false;}
+    }
+
     private static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
         if (title != null) BoothExercise01.title.setText(title);
         try {
-            if (que == null)
+            if (que == null) {
                 show.writeSnap(" ", info, pseudo, stuff);
+            }
             else
                 show.writeSnap(" ", info, pseudo, que, stuff);
         } catch (IOException e) {
