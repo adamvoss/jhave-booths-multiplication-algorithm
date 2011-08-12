@@ -101,8 +101,10 @@ public class BoothExercise01 {
         //JHAVE stuff
         show = new ShowFile(args[0]);
 
-        writer = new PrintWriter("/home/christopher/jhave2/server/src/exe/boothsMultiplication/ex01b.log");
-        writer.println("Beginning Log");
+        if (DEBUG) {
+            writer = new PrintWriter("/home/christopher/jhave2/server/src/exe/boothsMultiplication/ex01b.log");
+            writer.println("Beginning Log");
+        }
 
         //Load the Pseudocode
         try{
@@ -118,12 +120,12 @@ public class BoothExercise01 {
         int multiplicand = Integer.parseInt(args[args.length-2]);
         int multiplier   = Integer.parseInt(args[args.length-1]);
 
-        writer.println("M\t" + multiplicand + "\nQ\t" + multiplier);
+        if (DEBUG) writer.println("M\t" + multiplicand + "\nQ\t" + multiplier);
 
         String binMultiplicand = toBinary(multiplicand);
         String binMultiplier   = toBinary(multiplier);
 
-        writer.println("M\t" + binMultiplicand + "\nQ\t" + binMultiplier);
+        if (DEBUG) writer.println("M\t" + binMultiplicand + "\nQ\t" + binMultiplier);
 
         if (binMultiplicand.length() > binMultiplier.length() ) 
             binMultiplier = signExtend(binMultiplier, binMultiplicand.length() - binMultiplier.length() );
@@ -335,7 +337,7 @@ public class BoothExercise01 {
         currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                 last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Initialization", FONT_SIZE*0.5));
 
-        writer.close();
+        if (DEBUG) writer.close();
         show.close();
 /*
         //Our Stuff

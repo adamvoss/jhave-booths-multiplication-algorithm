@@ -14,6 +14,8 @@ import java.io.*;
  */
 public class boothsMultiplication{
 
+    private static final boolean DEBUG = false;
+
     private static PrintWriter writer;
 
     public static void main(String[] args)throws IOException, JDOMException
@@ -22,13 +24,15 @@ public class boothsMultiplication{
         Hashtable<String, String> param = XMLParameterParser.parseToHash(args[2]);
 
         try {
-            writer = new PrintWriter("/home/christopher/jhave2-new/server/src/exe/boothsMultiplication/ex01.log");
+            if (DEBUG) writer = new PrintWriter("/home/christopher/jhave2-new/server/src/exe/boothsMultiplication/ex01.log");
         } catch (IOException e) {
             //Oh dear...
         }
 
-        writer.println("Beginning log");
-        writer.flush();
+        if (DEBUG) {
+            writer.println("Beginning log");
+            writer.flush();
+        }
 
         if (param.containsKey("Booth's Multiplication Input") ) {
             String[] toPass = new String[3];
@@ -40,8 +44,10 @@ public class boothsMultiplication{
             BoothMultiplication.main(toPass);
         }
         else if (param.containsKey("Exercise 1 for Booth's Multiplication") ) {
-            writer.println("Successfully identified exercise 01");
-            writer.flush();
+            if (DEBUG) {
+                writer.println("Successfully identified exercise 01");
+                writer.flush();
+            }
 
             ArrayList<String> toPass = new ArrayList<String>();
             toPass.add(args[0] + ".sho");
@@ -50,12 +56,14 @@ public class boothsMultiplication{
             for (String str : temp)
                 toPass.add(str);
 
-            writer.println("Length of argument list is " + toPass.size() + " and should be 8");
+            if (DEBUG) {
+                writer.println("Length of argument list is " + toPass.size() + " and should be 8");
 
-            for (String str : toPass)
-                writer.println("\t" + str);
+                for (String str : toPass)
+                    writer.println("\t" + str);
 
-            writer.flush();
+                writer.flush();
+            }
 
             Object[] tmp = toPass.toArray();
             String[] pass= new String[tmp.length];
@@ -65,7 +73,7 @@ public class boothsMultiplication{
 
             BoothExercise01.main(pass);
 
-            writer.println("Recovered from BoothExercise01.main");
+            if (DEBUG) writer.println("Recovered from BoothExercise01.main");
             writer.flush();
 
         }
@@ -76,8 +84,9 @@ public class boothsMultiplication{
         else {
         }
 
-
-        writer.println("Closing log file");
-        writer.close();
+        if (DEBUG) {
+            writer.println("Closing log file");
+            writer.close();
+        }
      }
 }
