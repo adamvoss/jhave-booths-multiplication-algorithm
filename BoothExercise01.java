@@ -58,6 +58,7 @@ public class BoothExercise01 {
     public static final String GREY      = "#BBBBBB";
     public static final String DARK_GREY = "#666666";
     public static final String RED       = "#FF9999";
+    public static final String RUBY      = "#FF0000";
     public static final String GREEN     = "#55FF55";
     public static final String DARK_GREEN= "#008800";
     public static final String BLUE      = "#AAABFF";
@@ -132,6 +133,16 @@ public class BoothExercise01 {
         else if (binMultiplier.length() > binMultiplicand.length() )
             binMultiplicand = signExtend(binMultiplicand, binMultiplier.length() - binMultiplicand.length() );
 
+        if (isWellFormedBinary(args[1]) && isWellFormedBinary(args[3]) ) //if well formed
+            if (args[1].length() == args[3].length() ) //and matching in length
+                if (toDecimal(args[1]).equals("" + multiplicand) && toDecimal(args[3]).equals("" + multiplier)  ) //and correct
+                    if (args[1].length() > binMultiplicand.length() && args[1].length() <= 8) {
+                        //then, if it's a larger representation but not too large
+                        binMultiplicand = signExtend(binMultiplicand, args[1].length() - binMultiplicand.length() );
+                        binMultiplier   = signExtend(binMultiplier  , args[3].length() - binMultiplier.length()   );
+                        //make it the size of the user input
+                    }
+
         REG_SIZE = binMultiplicand.length();
 
         main = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVE_X_MARGIN,
@@ -151,15 +162,15 @@ public class BoothExercise01 {
         header.add(title);
 
         //Header Math
-        GAIGSArithmetic binary = new TCMultBooth(binMultiplicand, binMultiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
-            header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
-        ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', "" + multiplicand, "" + multiplier, 10, 10*FONT_SIZE, 
-             header.getHeight()-FONT_SIZE*1.5, header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
+//      GAIGSArithmetic binary = new TCMultBooth(binMultiplicand, binMultiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
+//          header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
+//      ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', "" + multiplicand, "" + multiplier, 10, 10*FONT_SIZE, 
+//           header.getHeight()-FONT_SIZE*1.5, header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
 
         MATH_LABEL_SPACE  = header.getWidth()/20;
 
-        header.add(binary);
-        header.add(decimal);
+//      header.add(binary);
+//      header.add(decimal);
 
         //User input (uses same space as math/alu pane standard viz
         userInput = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(8/10.0), 1.0, 1.0);
@@ -173,7 +184,7 @@ public class BoothExercise01 {
         userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight(), GAIGSmonospacedText.HCENTER, 
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "User Input"));
 
-        final double USER_INPUT_TEXT_HEIGHT = 3 * userInput.getHeight() / 4;
+        final double USER_INPUT_TEXT_HEIGHT = 5 * userInput.getHeight() / 6;
 
         //User input text for M, A, Q, Beta, Count
         userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT, GAIGSmonospacedText.HLEFT,
@@ -190,6 +201,8 @@ public class BoothExercise01 {
 
         userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*4), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Count:\t" + args[5]));
+        //END user input
+
 
         trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), userInput.getBounds()[3], null, 1.0);
         trace.setName("Trace");
@@ -224,7 +237,7 @@ public class BoothExercise01 {
 
         //**** Initialization Frames ****//
         
-        //----Register M Initialization Frame----
+        //----Register M Initialization Frame----//
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
@@ -234,31 +247,17 @@ public class BoothExercise01 {
 
         currentRow.add(RegM);
         
-        //Let's draw arrows
-        GAIGSarrow leftArrow;
-        GAIGSarrow rightArrow;
-        {
-            title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
-            double[] titlebounds = title.getBounds();
-            double[] decbounds = decimal.getBounds();
-            double[] binbounds = binary.getBounds();
-            
-            leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
-                new double[]{titlebounds[3], decbounds[3]},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
-            rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
-                new double[]{titlebounds[3], binbounds[3]},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
-        }
-        header.add(leftArrow);
-        header.add(rightArrow);
-        //We are done drawing arrows
+        title.setText("M was given as " + multiplicand + 
+            "\nwhich is " + binMultiplicand + " as a " + binMultiplicand.length() 
+            + "-digit binary value"); //Must do this here so we get the correct bounds
         
         easySnap(null, easyPseudo(2), null); //A null title indicates to keep the last one.
-        header.remove(rightArrow);
-        header.remove(leftArrow);
 
         REG_SIZE = RegM.getSize();
+
+        //----Register M Error Check Frame----//
+        errorCheck(args[1], binMultiplicand, "M", (GAIGSmonospacedText) userInput.get(2), true);
+        easySnap(null, easyPseudo(2), null);
 
         //----Register A Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
@@ -272,6 +271,10 @@ public class BoothExercise01 {
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
 
+        //----Register A Error Check Frame----//
+        errorCheck(args[2], RegA.toString(), "A", (GAIGSmonospacedText) userInput.get(3), true);
+        easySnap(null, easyPseudo(3), null);
+
         //----Register Q Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
         init[2] = init[0]+REG_WIDTH;
@@ -284,26 +287,34 @@ public class BoothExercise01 {
         currentRow.add(RegQ);
         
         //Let's draw arrows
-        {
+/*      {
             title.setText("Q is the Multiplier\nThe final product will span A and Q"); //Must do this here so we get the correct bounds
             double[] titlebounds = title.getBounds();
             double[] decbounds = decimal.getBounds();
-            double[] binbounds = binary.getBounds();
+//          double[] binbounds = binary.getBounds();
             
             leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
                 new double[]{titlebounds[3], decbounds[3]-decimal.getFontSize()},
                 FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
-            rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
-                new double[]{titlebounds[3], binbounds[3]-binary.getFontSize()},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+//          rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
+//              new double[]{titlebounds[3], binbounds[3]-binary.getFontSize()},
+//              FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
         }
-        header.add(leftArrow);
-        header.add(rightArrow);
+*///    header.add(leftArrow);
+//      header.add(rightArrow);
         //We are done drawing arrows
 
+         title.setText("Q was given as " + multiplier + 
+            "\nwhich is " + binMultiplier + " as a " + binMultiplier.length() 
+            + "-digit binary value");
+
         easySnap(null, easyPseudo(4), null);
-        header.remove(rightArrow);
-        header.remove(leftArrow);
+//      header.remove(rightArrow);
+//      header.remove(leftArrow);
+
+        //----Register Q Error Check Frame----//
+        errorCheck(args[3], binMultiplier, "Q", (GAIGSmonospacedText) userInput.get(4), true);
+        easySnap(null, easyPseudo(4), null);
 
         //----Bit β Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
@@ -318,6 +329,10 @@ public class BoothExercise01 {
         
         easySnap("β is initialized to Zero", easyPseudo(5), null);
 
+        //----Bit β Error Check Frame----//
+        errorCheck(args[4], "0", "β", (GAIGSmonospacedText) userInput.get(5), true);
+        easySnap(null, easyPseudo(5), null);
+
         //----Count Initialization Frame----
         init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
         init[2] = trace.getWidth() - RIGHT_MARGIN;
@@ -329,6 +344,10 @@ public class BoothExercise01 {
         currentRow.add(Count);
         easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
         double[] last =  currentRow.get(0).getBounds();
+
+        //----Count Error Check Frame----//
+        errorCheck(args[5], "" + Count.getCount(), "Count", (GAIGSmonospacedText) userInput.get(6), false);
+        easySnap(null, easyPseudo(6), null);
 
         //Maybe this should be a function of GAIGSpane
         double[] unitLengths = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates(new double[]{0,0,1,1})));
@@ -705,6 +724,57 @@ public class BoothExercise01 {
             Count.setFillOutlineColor(DEFAULT_COLOR);
             //Hey!  We're ready to loop!
         }
+    }
+
+    private static void errorCheck(String checkMe, String checkAgainst, String name, GAIGSmonospacedText displayMe, boolean binaryNum) {
+        String mesg = "";
+        if (checkMe.equalsIgnoreCase("INVALID") ) {
+            mesg = "An invalid value was given for " + name + 
+                "\nYou may have left this field blank or gave an input with whitespace";
+            displayMe.setColor(RUBY);
+        }
+        else if ( ((!isWellFormedBinary(checkMe)) && binaryNum) || ((!isWellFormedDecimal(checkMe)) && !binaryNum) ) {//multiplexor anyone?
+            mesg = "'" + checkMe + "' is not a well-formed " + (binaryNum ? "binary " : "decimal " ) + "value";
+            displayMe.setColor(RUBY);
+        }
+        else if (binaryNum && checkMe.length() > 8) {
+            mesg = "Binary values may be at most 8 bits long";
+            displayMe.setColor(RUBY);
+        }
+        else if (!checkMe.equals(checkAgainst) ) {
+            if (binaryNum) {
+                if (toDecimal(checkMe).equals(toDecimal(checkAgainst)) ) {
+                    mesg = "The correct binary value was given, but your answer\n" +  
+                        "uses an incorrect number of bits to represent it";
+                }
+                else {
+                    if (name.equals("A") )
+                        mesg = name + " is always initialized to some binary value representing 0";
+                    else if (name.equals("β") ) {
+                        mesg = "Incorrectly initialized β";
+                    }
+                    else {
+                        mesg = checkMe + " is " + toDecimal(checkMe) + " in decimal;\n" + 
+                            "however, " + toDecimal(checkAgainst) + " is what was asked for";
+                    }
+                }
+
+                displayMe.setColor(RUBY);
+            }
+
+            else {//decimal -> Count
+                mesg = "Count is initialized to the number of bits in a register\n" + 
+                    "In this case, " + REG_SIZE;
+                displayMe.setColor(RUBY);
+            }
+        }
+
+        else {
+            mesg = "Correct!";
+            displayMe.setColor(DARK_GREEN);
+        }
+
+        title.setText(mesg);
     }
 
     public static void rightShift(GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
