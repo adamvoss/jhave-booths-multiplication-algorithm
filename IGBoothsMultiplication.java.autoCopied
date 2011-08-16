@@ -54,8 +54,11 @@ public class IGBoothsMultiplication extends IGComponent {
     /**All subelements of this element should be displayed on the same horizontal level in the GUI*/
     public static final String ROW_ELEMENT = "row"; 
 
-   /**The name of the element which represents textfield*/
+   /**The name of the element which represents a text-field*/
     public static final String TEXTFIELD = "textfield";
+
+    /**The name of the element which represents an empty row*/
+    public static final String BLANK_ROW_ELEMENT_NAME = "blank" ;
     
     //the following are all elements of l_textfields
     public static final String LTF_NAME        = "name"         ;
@@ -90,7 +93,8 @@ public class IGBoothsMultiplication extends IGComponent {
                     assembleE1(root);
                 }
                 else if (booth_child.getText().contains("Exercise 2") ) {
-                
+                    myType = BoothType.EXERCISE02;
+                    assembleE2(root);
                 }
                 else if (booth_child.getText().contains("Exercise 3") ) {
                 
@@ -122,7 +126,7 @@ public class IGBoothsMultiplication extends IGComponent {
         for (int i = 0; i < 3; ++i)
             cautionaryArea[i] = new JLabel();
 
-        cautionaryArea[0].setText("You may use at most 8 bits to represent these values in binary");
+        cautionaryArea[0].setText("You may use at most 8 bits to represent binary values");
         cautionaryArea[1].setText("Make sure to be consistent with the number of bits in each of the three registers");
         cautionaryArea[2].setText("");//a lazy way to add a blank item to a panel
 
@@ -141,6 +145,44 @@ public class IGBoothsMultiplication extends IGComponent {
         descriptivePanel.add(new JLabel("") );
 
         for (JLabel jl : cautionaryArea)
+            descriptivePanel.add(jl);
+
+        panel.add(descriptivePanel, BorderLayout.NORTH);
+    }
+
+    private void assembleE2(Element root) {
+        Iterator booth_iter = root.getChildren().iterator();
+        BorderLayout border = new BorderLayout();
+        GridLayout grid     = new GridLayout(7, 1);
+        JPanel descriptivePanel = new JPanel(grid);
+        panel = new JPanel(border);
+        JLabel[] descriptiveArea = new JLabel[7];
+
+        String decM = ListeningManager.toDecimal(nDigitBinary(5) );
+        String decQ = ListeningManager.toDecimal(nDigitBinary(8) );
+
+        descriptiveText = "Initialize Booth's Algorithm for the multiplication of " + decM + 
+            " (M) and " + decQ + " (Q)";
+        descriptiveArea[0] = new JLabel(descriptiveText);
+        descriptiveArea[1] = new JLabel("Then, give the states for the values below at the end of each iteration of the algorithm's loop");
+        descriptiveArea[2] = new JLabel(" ");
+        descriptiveArea[3] = new JLabel("You may not need all of the fields provided");
+        descriptiveArea[4] = new JLabel("You may use at most 8 bits to represent binary values");
+        descriptiveArea[5] = new JLabel("Make sure to be consistent with the number of bits in each of the three registers");
+        descriptiveArea[6] = new JLabel(" ");
+        
+        while (booth_iter.hasNext() ) {
+            Element booth_child = (Element) booth_iter.next();
+
+            if (booth_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
+                this.label = new JLabel(booth_child.getText() );
+            }
+            else if (booth_child.getName().equalsIgnoreCase(ROWS_ELEMENT) ) {
+                panel.add(buildRowsPanel(booth_child) );
+            }
+        }
+
+        for (JLabel jl : descriptiveArea)
             descriptivePanel.add(jl);
 
         panel.add(descriptivePanel, BorderLayout.NORTH);
@@ -171,12 +213,13 @@ public class IGBoothsMultiplication extends IGComponent {
             Element line_child = (Element) line_iter.next();
 
             if (line_child.getName().equalsIgnoreCase(TEXTFIELD) ) {
-            //what do I expect the input generator to do besides take a raw input?
-            //any auto-correction would rob educational value from the exercise, imo
                 linePanel.add(new JTextField("") );
             }
             else if (line_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
                 linePanel.add(new JLabel(line_child.getText() ));
+            }
+            else if (line_child.getName().equalsIgnoreCase(BLANK_ROW_ELEMENT_NAME) ) {
+                linePanel.add(new JLabel(" ") );
             }
         }
 
@@ -238,8 +281,9 @@ public class IGBoothsMultiplication extends IGComponent {
 
     @Override
     public Element getJDOMElement() { //needs some work with nested attributes.
-        if (myType == BoothType.STANDARD)           return getBoothsStandardElement();
+        if      (myType == BoothType.STANDARD)      return getBoothsStandardElement();
         else if (myType == BoothType.EXERCISE01)    return getBoothsEx01()           ;
+        else if (myType == BoothType.EXERCISE02)    return getBoothsEx01()           ;
         else return null;
     }
 
@@ -294,7 +338,7 @@ public class IGBoothsMultiplication extends IGComponent {
 
         System.out.println(enteredValues.size() );
 
-        for (String enteredValue : enteredValues)
+        for (String enteredValue : enteredValues)//error checking - INVALID if contains space or length 0
             concatReduce += (enteredValue.contains(" ") || enteredValue.length() == 0 ? "INVALID " : enteredValue + " ");
 
         //parse out the original values to be multiplied
