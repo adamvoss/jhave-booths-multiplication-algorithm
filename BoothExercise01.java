@@ -203,7 +203,6 @@ public class BoothExercise01 {
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Count:\t" + args[5]));
         //END user input
 
-
         trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), userInput.getBounds()[3], null, 1.0);
         trace.setName("Trace");
 
@@ -734,18 +733,18 @@ public class BoothExercise01 {
             displayMe.setColor(RUBY);
         }
         else if ( ((!isWellFormedBinary(checkMe)) && binaryNum) || ((!isWellFormedDecimal(checkMe)) && !binaryNum) ) {//multiplexor anyone?
-            mesg = "'" + checkMe + "' is not a well-formed " + (binaryNum ? "binary " : "decimal " ) + "value";
+            mesg = "'" + checkMe + "' is not a well-formed " + (binaryNum ? "binary " : "decimal " ) + "integer value";
             displayMe.setColor(RUBY);
         }
         else if (binaryNum && checkMe.length() > 8) {
-            mesg = "Binary values may be at most 8 bits long";
+            mesg = "Inputs for binary values may be at most 8 bits long for this exercise";
             displayMe.setColor(RUBY);
         }
         else if (!checkMe.equals(checkAgainst) ) {
             if (binaryNum) {
                 if (toDecimal(checkMe).equals(toDecimal(checkAgainst)) ) {
                     mesg = "The correct binary value was given, but your answer\n" +  
-                        "uses an incorrect number of bits to represent it";
+                        "uses an incorrect/inconsistent number of bits to represent it";
                 }
                 else {
                     if (name.equals("A") )
@@ -754,7 +753,7 @@ public class BoothExercise01 {
                         mesg = "Incorrectly initialized β";
                     }
                     else {
-                        mesg = checkMe + " is " + toDecimal(checkMe) + " in decimal;\n" + 
+                        mesg = "Signed binary value " + checkMe + " is " + toDecimal(checkMe) + " in decimal;\n" + 
                             "however, " + toDecimal(checkAgainst) + " is what was asked for";
                     }
                 }
@@ -763,8 +762,8 @@ public class BoothExercise01 {
             }
 
             else {//decimal -> Count
-                mesg = "Count is initialized to the number of bits in a register\n" + 
-                    "In this case, " + REG_SIZE;
+                String tmp = displayMe.getText();
+                mesg = "The number of bits in a register for this case is " + REG_SIZE + ", not " + tmp.substring(tmp.lastIndexOf("\t")  + 1);
                 displayMe.setColor(RUBY);
             }
         }
