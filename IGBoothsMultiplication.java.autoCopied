@@ -137,7 +137,7 @@ public class IGBoothsMultiplication extends IGComponent {
                 this.label = new JLabel(booth_child.getText() );
             }
             else if (booth_child.getName().equalsIgnoreCase(ROWS_ELEMENT) ) {
-                panel.add(buildRowsPanel(booth_child) );
+                panel.add(buildRowsPanel(booth_child), BorderLayout.CENTER);
             }
         }
 
@@ -178,7 +178,7 @@ public class IGBoothsMultiplication extends IGComponent {
                 this.label = new JLabel(booth_child.getText() );
             }
             else if (booth_child.getName().equalsIgnoreCase(ROWS_ELEMENT) ) {
-                panel.add(buildRowsPanel(booth_child) );
+                panel.add(buildRowsPanel(booth_child), BorderLayout.CENTER);
             }
         }
 

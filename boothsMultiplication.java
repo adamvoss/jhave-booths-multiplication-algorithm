@@ -18,6 +18,11 @@ public class boothsMultiplication{
 
     private static PrintWriter writer;
 
+    private static BOOTH_STANDARD = "Booth's Multiplication Input"         ;
+    private static BOOTH_EX01     = "Exercise 1 for Booth's Multiplication";
+    private static BOOTH_EX02     = "Exercise 2 for Booth's Multiplication";
+    private static BOOTH_EX03     = "Exercise 3 for Booth's Multiplication";
+
     public static void main(String[] args)throws IOException, JDOMException
     {
         @SuppressWarnings("unchecked")
@@ -34,16 +39,16 @@ public class boothsMultiplication{
             writer.flush();
         }
 
-        if (param.containsKey("Booth's Multiplication Input") ) {
+        if (param.containsKey(BOOTH_STANDARD) ) {
             String[] toPass = new String[3];
             toPass[0] = args[0] + ".sho";
-            String[] temp = param.get("Booth's Multiplication Input").split(" ");
+            String[] temp = param.get(BOOTH_STANDARD).split(" ");
             toPass[1] = temp[0];
             toPass[2] = temp[1];
 
             BoothMultiplication.main(toPass);
         }
-        else if (param.containsKey("Exercise 1 for Booth's Multiplication") ) {
+        else if (param.containsKey(BOOTH_EX01) ) {
             if (DEBUG) {
                 writer.println("Successfully identified exercise 01");
                 writer.flush();
@@ -51,7 +56,7 @@ public class boothsMultiplication{
 
             ArrayList<String> toPass = new ArrayList<String>();
             toPass.add(args[0] + ".sho");
-            String[] temp = param.get("Exercise 1 for Booth's Multiplication").split(" ");
+            String[] temp = param.get(BOOTH_EX01).split(" ");
 
             for (String str : temp)
                 toPass.add(str);
@@ -77,9 +82,37 @@ public class boothsMultiplication{
             writer.flush();
 
         }
-        else if (param.containsKey("Exercise 2 for Booth's Multiplication") ) {
+        else if (param.containsKey(BOOTH_EX02) ) {
+            ArrayList<String> toPass = new ArrayList<String>();
+            toPass.add(args[0] + ".sho";
+            String[] temp = param.get(BOOTH_EX02) ).split(" ");
+
+            for (String str : temp)
+                toPass.add(str);
+
+            if (DEBUG) {
+                writer.println("Length of argument list is " + toPass.size() + " and should be 48");
+
+                for (String str : toPass)
+                    writer.println("\t" + str);
+
+                writer.flush();
+            }
+
+            Object[] tmp = toPass.toArray();
+            String[] pass= new String[tmp.length];
+
+            for (int i = 0; i < tmp.length; ++i)
+                pass[i] = (String) tmp[i];
+
+            BoothExercise02.main(pass);
+
+            if (DEBUG) writer.println("Recovered from BoothExercise01.main");
+            writer.flush();
+
+
         }
-        else if (param.containsKey("Exercise 3 for Booth's Multiplication") ) {
+        else if (param.containsKey(BOOTH_EX03) ) {
         }
         else {
         }
