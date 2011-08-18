@@ -130,7 +130,7 @@ public class BoothMultiplication {
 
         GAIGSArithmetic binary = new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
                 header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
-        ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', toDecimal(args[1]), toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
+        ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', Utilities.toDecimal(args[1]), Utilities.toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
                 header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
 
         MATH_LABEL_SPACE  = header.getWidth()/20;
@@ -312,8 +312,8 @@ public class BoothMultiplication {
         RegQ.setFillOutlineColor(GREEN);
 //        RegQ.setTextColor(FONT_COLOR);
         easySnap("The result is " + RegA + RegQ + "\nwhich is "
-                + ((Integer.parseInt(toDecimal(args[1])))*(Integer.parseInt(toDecimal(args[2])))) + " in decimal", easyPseudo(-1), null);
-
+                + ((Integer.parseInt(Utilities.toDecimal(args[1])))*(Integer.parseInt(Utilities.toDecimal(args[2])))) + 
+                " in decimal", easyPseudo(-1), null);
 
         show.close();
     }
@@ -656,31 +656,6 @@ public class BoothMultiplication {
         currentRow.add(RegQ);
         currentRow.add(Q_1);
         currentRow.add(Count);
-    }
-
-    /**
-     * Converts an int to its shortest-length two's complement binary representative
-     */
-    public static String toBinary(int a){
-        if (a<0){
-            return Integer.toBinaryString(a).replaceFirst("11*", "1");
-        }
-        //positive numbers are already shortest length
-        return "0"+Integer.toBinaryString(a);
-    }
-
-    private static String toDecimal(String binstr) {
-        int sum    = 0;
-        int maxPow = 1;
-
-        for (int i = 0; i < binstr.length(); ++i) {
-            sum = (2 * sum) + binstr.charAt(i) - '0';
-            maxPow *= 2;
-        }
-
-        //Two's complement madness
-        return ((sum < maxPow / 2) ? "" + sum : "" + (sum - maxPow) );
-
     }
 
     private static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){

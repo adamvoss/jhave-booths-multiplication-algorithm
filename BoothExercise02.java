@@ -121,24 +121,24 @@ public class BoothExercise02 {
 
         if (DEBUG) writer.println("M\t" + multiplicand + "\nQ\t" + multiplier);
 
-        String binMultiplicand = toBinary(multiplicand);
-        String binMultiplier   = toBinary(multiplier);
+        String binMultiplicand = Utilities.toBinary(multiplicand);
+        String binMultiplier   = Utilities.toBinary(multiplier);
 
         if (DEBUG) writer.println("M\t" + binMultiplicand + "\nQ\t" + binMultiplier);
 
         //logic to make M and Q the same size
         if (binMultiplicand.length() > binMultiplier.length() ) 
-            binMultiplier = signExtend(binMultiplier, binMultiplicand.length() - binMultiplier.length() );
+            binMultiplier = Utilities.signExtend(binMultiplier, binMultiplicand.length() - binMultiplier.length() );
         else if (binMultiplier.length() > binMultiplicand.length() )
-            binMultiplicand = signExtend(binMultiplicand, binMultiplier.length() - binMultiplicand.length() );
+            binMultiplicand = Utilities.signExtend(binMultiplicand, binMultiplier.length() - binMultiplicand.length() );
 
-        if (isWellFormedBinary(args[1]) && isWellFormedBinary(args[3]) ) //if well formed
+        if (Utilities.isWellFormedBinary(args[1]) && Utilities.isWellFormedBinary(args[3]) ) //if well formed
             if (args[1].length() == args[3].length() ) //and matching in length
-                if (toDecimal(args[1]).equals("" + multiplicand) && toDecimal(args[3]).equals("" + multiplier)  ) //and correct
+                if (Utilities.toDecimal(args[1]).equals("" + multiplicand) && Utilities.toDecimal(args[3]).equals("" + multiplier)  ) //and correct
                     if (args[1].length() > binMultiplicand.length() && args[1].length() <= 8) {
                         //then, if it's a larger representation but not too large
-                        binMultiplicand = signExtend(binMultiplicand, args[1].length() - binMultiplicand.length() );
-                        binMultiplier   = signExtend(binMultiplier  , args[3].length() - binMultiplier.length()   );
+                        binMultiplicand = Utilities.signExtend(binMultiplicand, args[1].length() - binMultiplicand.length() );
+                        binMultiplier   = Utilities.signExtend(binMultiplier  , args[3].length() - binMultiplier.length()   );
                         //make it the size of the user input
                     }
 
@@ -335,7 +335,7 @@ public class BoothExercise02 {
                 "\nYou may have left this field blank or gave an input with whitespace";
             displayMe.setColor(RUBY);
         }
-        else if ( ((!isWellFormedBinary(checkMe)) && binaryNum) || ((!isWellFormedDecimal(checkMe)) && !binaryNum) ) {//multiplexor anyone?
+        else if ( ((!Utilities.isWellFormedBinary(checkMe)) && binaryNum) || ((!Utilities.isWellFormedDecimal(checkMe)) && !binaryNum) ) {//multiplexor anyone?
             mesg = "'" + checkMe + "' is not a well-formed " + (binaryNum ? "binary " : "decimal " ) + "integer value";
             displayMe.setColor(RUBY);
         }
@@ -345,7 +345,7 @@ public class BoothExercise02 {
         }
         else if (!checkMe.equals(checkAgainst) ) {
             if (binaryNum) {
-                if (toDecimal(checkMe).equals(toDecimal(checkAgainst)) ) {
+                if (Utilities.toDecimal(checkMe).equals(Utilities.toDecimal(checkAgainst)) ) {
                     mesg = "The correct binary value was given, but your answer\n" +  
                         "uses an incorrect/inconsistent number of bits to represent it";
                 }
@@ -356,8 +356,8 @@ public class BoothExercise02 {
                         mesg = "Incorrectly initialized β";
                     }
                     else {
-                        mesg = "Signed binary value " + checkMe + " is " + toDecimal(checkMe) + " in decimal;\n" + 
-                            "however, " + toDecimal(checkAgainst) + " is what was asked for";
+                        mesg = "Signed binary value " + checkMe + " is " + Utilities.toDecimal(checkMe) + " in decimal;\n" + 
+                            "however, " + Utilities.toDecimal(checkAgainst) + " is what was asked for";
                     }
                 }
 
@@ -679,59 +679,6 @@ public class BoothExercise02 {
         currentRow.add(RegQ);
         currentRow.add(Q_1);
         currentRow.add(Count);
-    }
-
-    /**
-     * Converts an int to its shortest-length two's complement binary representation
-     */
-    public static String toBinary(int a){
-        if (a<0){
-            return Integer.toBinaryString(a).replaceFirst("11*", "1");
-        }
-        //positive numbers are already shortest length
-        return "0"+Integer.toBinaryString(a);
-    }
-
-    /**
-    * Sign extends binStr by i bits
-    */
-    private static String signExtend(String binStr, int i){
-        String firstBit = String.valueOf(binStr.charAt(0));
-        String extension = "";
-        while (i>0){extension = extension.concat(firstBit); i--;}
-        return extension.concat(binStr);
-    }
-
-    private static String toDecimal(String binstr) {
-        int sum    = 0;
-        int maxPow = 1;
-
-        for (int i = 0; i < binstr.length(); ++i) {
-            sum = (2 * sum) + binstr.charAt(i) - '0';
-            maxPow *= 2;
-        }
-
-        //Two's complement madness
-        return ((sum < maxPow / 2) ? "" + sum : "" + (sum - maxPow) );
-
-    }
-
-    private static boolean isWellFormedBinary(String input) {
-        if (input.length() == 0) return false;
-
-        boolean flag = true;
-
-        for (int i = 0; i < input.length(); ++i)
-            flag = flag && (input.charAt(i) == '0' || input.charAt(i) == '1');
-
-        return flag;
-    }
-
-    private static boolean isWellFormedDecimal(String input) {
-        try {
-            Integer.parseInt(input);
-            return true;
-        } catch (NumberFormatException e) {return false;}
     }
 
     private static void easySnap(String title, String info, String pseudo, question que, GAIGSdatastr... stuff){
