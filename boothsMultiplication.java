@@ -18,10 +18,10 @@ public class boothsMultiplication{
 
     private static PrintWriter writer;
 
-    private static BOOTH_STANDARD = "Booth's Multiplication Input"         ;
-    private static BOOTH_EX01     = "Exercise 1 for Booth's Multiplication";
-    private static BOOTH_EX02     = "Exercise 2 for Booth's Multiplication";
-    private static BOOTH_EX03     = "Exercise 3 for Booth's Multiplication";
+    private static String BOOTH_STANDARD = "Booth's Multiplication Input"         ;
+    private static String BOOTH_EX01     = "Exercise 1 for Booth's Multiplication";
+    private static String BOOTH_EX02     = "Exercise 2 for Booth's Multiplication";
+    private static String BOOTH_EX03     = "Exercise 3 for Booth's Multiplication";
 
     public static void main(String[] args)throws IOException, JDOMException
     {
@@ -84,8 +84,8 @@ public class boothsMultiplication{
         }
         else if (param.containsKey(BOOTH_EX02) ) {
             ArrayList<String> toPass = new ArrayList<String>();
-            toPass.add(args[0] + ".sho";
-            String[] temp = param.get(BOOTH_EX02) ).split(" ");
+            toPass.add(args[0] + ".sho");
+            String[] temp = param.get(BOOTH_EX02).split(" ");
 
             for (String str : temp)
                 toPass.add(str);
