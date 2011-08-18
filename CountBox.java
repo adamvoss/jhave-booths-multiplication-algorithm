@@ -1,16 +1,14 @@
 package exe.boothsMultiplication;
 
-import exe.GAIGSregister;
+import exe.boothsMultiplication.GAIGSregister;
 
 //THIS IS A VERY UGLY HACK
 //This Should Never Have Used Inheritance Like This
 //I Have Lost So Much Time To Maintaining This
+//No one forced you to keep it this way. Sheesh.
 /**
- * THIS IS NOT A GENERAL USE CLASS.
- * It was designed specifically for use in the
- * Booths Multiplication Algorithm Visualization.
- * 
- * It is a bad example of inheritance. 
+ * A special class for use in Booth's Multiplication only.
+ * Not intended for general usage.
  * 
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  * @author Adam Voss <vossad01@luther.edu>

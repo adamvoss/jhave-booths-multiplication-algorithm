@@ -2,8 +2,8 @@ package exe.boothsMultiplication;
 
 import java.util.Random;
 
-import exe.GAIGSpane;
-import exe.GAIGSregister;
+import exe.boothsMultiplication.GAIGSpane;
+import exe.boothsMultiplication.GAIGSregister;
 import exe.ShowFile;
 import exe.XMLfibQuestion;
 import exe.XMLmcQuestion;

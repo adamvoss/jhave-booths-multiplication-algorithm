@@ -1,6 +1,6 @@
 package exe.boothsMultiplication;
 
-import exe.GAIGSArithmetic;
+import exe.boothsMultiplication.GAIGSArithmetic;
 
 /**
  * NOT A GENERAL USE CLASS.
