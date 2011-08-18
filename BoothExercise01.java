@@ -118,6 +118,7 @@ public class BoothExercise01 {
             docURI = new URI("str", "<html>hi</html>", "");
         } catch (java.net.URISyntaxException e) {}
 
+        //Our Stuff
         int multiplicand = Integer.parseInt(args[args.length-2]);
         int multiplier   = Integer.parseInt(args[args.length-1]);
 
@@ -128,6 +129,7 @@ public class BoothExercise01 {
 
         if (DEBUG) writer.println("M\t" + binMultiplicand + "\nQ\t" + binMultiplier);
 
+        //logic to make M and Q the same size
         if (binMultiplicand.length() > binMultiplier.length() ) 
             binMultiplier = signExtend(binMultiplier, binMultiplicand.length() - binMultiplier.length() );
         else if (binMultiplier.length() > binMultiplicand.length() )
