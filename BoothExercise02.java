@@ -33,7 +33,9 @@ public class BoothExercise02 {
     private static CountBox Count;
     private static GAIGSpane<GAIGSpane<?>> main; //Is this the same as GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>?
     private static GAIGSpane<MutableGAIGSdatastr> header;
-    private static GAIGSpane<MutableGAIGSdatastr> userInput;
+    private static GAIGSpane<MutableGAIGSdatastr> userInputPane;
+    private static String[]                       userInputValues;
+    private static HashMap<String, Boolean> correctInputs;
     private static GAIGSpane<GAIGSpane<?>> trace;
     private static GAIGSpane<MutableGAIGSdatastr> currentRow;
     private static GAIGSmonospacedText title;
@@ -46,7 +48,6 @@ public class BoothExercise02 {
     public final static int REGQ  = 2;
     public final static int Q1    = 3;
     public final static int COUNT = 4;
-
 
     //Definitions
     private static final boolean DEBUG = false;
@@ -119,10 +120,22 @@ public class BoothExercise02 {
         int multiplicand = Integer.parseInt(args[args.length-2]);
         int multiplier   = Integer.parseInt(args[args.length-1]);
 
+        userInputValues = new String[args.length - 3];
+
+        for (int i = 1; i < args.length-2; ++i)
+            userInputValues[i-1] = args[i];
+
         if (DEBUG) writer.println("M\t" + multiplicand + "\nQ\t" + multiplier);
 
         String binMultiplicand = Utilities.toBinary(multiplicand);
         String binMultiplier   = Utilities.toBinary(multiplier);
+
+        correctInputs = new HashMap<String, Boolean>();
+        correctInputs.put("M",     true);
+        correctInputs.put("A",     true);
+        correctInputs.put("Q",     true);
+        correctInputs.put("β",     true);
+        correctInputs.put("Count", true);
 
         if (DEBUG) writer.println("M\t" + binMultiplicand + "\nQ\t" + binMultiplier);
 
@@ -163,42 +176,42 @@ public class BoothExercise02 {
         MATH_LABEL_SPACE  = header.getWidth()/20;
 
         //User input (uses same space as math/alu pane standard viz
-        userInput = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(8/10.0), 1.0, 1.0);
-        userInput.setName("User Input");
+        userInputPane = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH*(3/4.0), 0, WINDOW_WIDTH, WINDOW_HEIGHT*(8/10.0), 1.0, 1.0);
+        userInputPane.setName("User Input");
 
-        userInput.add(new GAIGSline(new double[] {0,0},
-            new double[] {userInput.getHeight()+FONT_SIZE,
-            userInput.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + 
+        userInputPane.add(new GAIGSline(new double[] {0,0},
+            new double[] {userInputPane.getHeight()+FONT_SIZE,
+            userInputPane.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + 
             (numLines(binMultiplier)-REG_SIZE) * (ROW_SPACE/2 + REG_HEIGHT))}));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/2, userInput.getHeight(), GAIGSmonospacedText.HCENTER, 
+        userInputPane.add(new GAIGSmonospacedText(userInputPane.getWidth()/2, userInputPane.getHeight(), GAIGSmonospacedText.HCENTER, 
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "User Input"));
 
-        final double USER_INPUT_TEXT_HEIGHT = 5 * userInput.getHeight() / 6;
+        final double USER_INPUT_TEXT_HEIGHT = 5 * userInputPane.getHeight() / 6;
        
         //User input text for M, A, Q, Beta, Count
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT, GAIGSmonospacedText.HLEFT,
+        userInputPane.add(new GAIGSmonospacedText(userInputPane.getWidth()/3, USER_INPUT_TEXT_HEIGHT, GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "M:\t" + args[1]));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE), GAIGSmonospacedText.HLEFT,
+        userInputPane.add(new GAIGSmonospacedText(userInputPane.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "A:\t" + args[2]));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*2), GAIGSmonospacedText.HLEFT,
+        userInputPane.add(new GAIGSmonospacedText(userInputPane.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*2), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Q:\t" + args[3]));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*3), GAIGSmonospacedText.HLEFT,
+        userInputPane.add(new GAIGSmonospacedText(userInputPane.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*3), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "β:\t" + args[4]));
 
-        userInput.add(new GAIGSmonospacedText(userInput.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*4), GAIGSmonospacedText.HLEFT,
+        userInputPane.add(new GAIGSmonospacedText(userInputPane.getWidth()/3, USER_INPUT_TEXT_HEIGHT-(COLBL_FONT_SIZE*4), GAIGSmonospacedText.HLEFT,
             GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Count:\t" + args[5]));
         //END user input
 
-        trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), userInput.getBounds()[3], null, 1.0);
+        trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), userInputPane.getBounds()[3], null, 1.0);
         trace.setName("Trace");
 
         main.add(header);
         main.add(trace);
-        main.add(userInput);
+        main.add(userInputPane);
 
         GAIGSpane<GAIGSmonospacedText> trace_labels = new GAIGSpane<GAIGSmonospacedText>();
 
@@ -244,8 +257,8 @@ public class BoothExercise02 {
 
         REG_SIZE = RegM.getSize();
         //----Register M Error Check Frame----//
-        errorCheck(args[1], binMultiplicand, "M", (GAIGSmonospacedText) userInput.get(2), true);
-        easySnap(null, easyPseudo(2), null);
+        errorCheck(args[1], binMultiplicand, "M", (GAIGSmonospacedText) userInputPane.get(2), true, easyPseudo(2) );
+        //easySnap(null, easyPseudo(2), null);
 
         //----Register A Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
@@ -260,8 +273,8 @@ public class BoothExercise02 {
         easySnap("A is initialized to Zero", easyPseudo(3), null);
 
         //----Register A Error Check Frame----//
-        errorCheck(args[2], RegA.toString(), "A", (GAIGSmonospacedText) userInput.get(3), true);
-        easySnap(null, easyPseudo(3), null);
+        errorCheck(args[2], RegA.toString(), "A", (GAIGSmonospacedText) userInputPane.get(3), true, easyPseudo(3) );
+//      easySnap(null, easyPseudo(3), null);
 
         //----Register Q Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
@@ -281,8 +294,8 @@ public class BoothExercise02 {
         easySnap(null, easyPseudo(4), null);
 
         //----Register Q Error Check Frame----//
-        errorCheck(args[3], binMultiplier, "Q", (GAIGSmonospacedText) userInput.get(4), true);
-        easySnap(null, easyPseudo(4), null);
+        errorCheck(args[3], binMultiplier, "Q", (GAIGSmonospacedText) userInputPane.get(4), true, easyPseudo(4) );
+//      easySnap(null, easyPseudo(4), null);
 
         //----Bit β Initialization Frame----
         init[0] = init[2]+(COL_SPACE);
@@ -298,8 +311,8 @@ public class BoothExercise02 {
         easySnap("β is initialized to Zero", easyPseudo(5), null);
 
         //----Bit β Error Check Frame----//
-        errorCheck(args[4], "0", "β", (GAIGSmonospacedText) userInput.get(5), true);
-        easySnap(null, easyPseudo(5), null);
+        errorCheck(args[4], "0", "β", (GAIGSmonospacedText) userInputPane.get(5), true, easyPseudo(5) );
+//      easySnap(null, easyPseudo(5), null);
 
         //----Count Initialization Frame----
         init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
@@ -314,8 +327,8 @@ public class BoothExercise02 {
         double[] last =  currentRow.get(0).getBounds();
 
         //----Count Error Check Frame----//
-        errorCheck(args[5], "" + Count.getCount(), "Count", (GAIGSmonospacedText) userInput.get(6), false);
-        easySnap(null, easyPseudo(6), null);
+        errorCheck(args[5], "" + Count.getCount(), "Count", (GAIGSmonospacedText) userInputPane.get(6), false, easyPseudo(6) );
+//      easySnap(null, easyPseudo(6), null);
 
         //Maybe this should be a function of GAIGSpane
         double[] unitLengths = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates(new double[]{0,0,1,1})));
@@ -328,14 +341,19 @@ public class BoothExercise02 {
         show.close();
     }
 
-    private static void errorCheck(String checkMe, String checkAgainst, String name, GAIGSmonospacedText displayMe, boolean binaryNum) {
+    private static void errorCheck(String checkMe, String checkAgainst, String name, 
+        GAIGSmonospacedText displayMe, boolean binaryNum, String pseudo) {
         String mesg = "";
+        boolean answer = false;
+
         if (checkMe.equalsIgnoreCase("INVALID") ) {
             mesg = "An invalid value was given for " + name + 
                 "\nYou may have left this field blank or gave an input with whitespace";
             displayMe.setColor(RUBY);
         }
-        else if ( ((!Utilities.isWellFormedBinary(checkMe)) && binaryNum) || ((!Utilities.isWellFormedDecimal(checkMe)) && !binaryNum) ) {//multiplexor anyone?
+        else if ( ((!Utilities.isWellFormedBinary(checkMe)) && binaryNum) || 
+            ((!Utilities.isWellFormedDecimal(checkMe)) && !binaryNum) ) {//multiplexor anyone?
+
             mesg = "'" + checkMe + "' is not a well-formed " + (binaryNum ? "binary " : "decimal " ) + "integer value";
             displayMe.setColor(RUBY);
         }
@@ -373,10 +391,25 @@ public class BoothExercise02 {
 
         else {
             mesg = "Correct!";
+            answer = true;
             displayMe.setColor(DARK_GREEN);
         }
 
-        title.setText(mesg);
+        if (correctInputs.get(name) || answer) //will show if you previously got it wrong and then corrected, or was correct and got it wrong
+        {
+            title.setText(mesg);
+            easySnap(null, pseudo, null);
+        }
+
+        correctInputs.put(name, answer);
+    }
+
+    private static void setUserInputValues(int userInputNum) {
+        for (int i = 0; i < 5; ++i) {
+            GAIGSmonospacedText temp = (GAIGSmonospacedText) userInputPane.get(2 + i);
+            String tempTxt           = temp.getText();
+            temp.setText(tempTxt.substring(0, tempTxt.indexOf("\t")+1) + userInputValues);
+        }
     }
 
     public static void boothsMultiplication(){
@@ -385,8 +418,12 @@ public class BoothExercise02 {
         double unitLengthX = unitLengths[2]-unitLengths[0];
         double[] last;
         boolean did_math = false;
-        
+        int userInputNum = 6;        
+
         while (Count.getCount() >= 0){
+            //----Initialize inputs for answers---//
+            setUserInputValues(userInputNum);
+
             //----Count Frame----
             Count.setFillColor(YELLOW);
             easySnap("Check the value of Count", easyPseudo(8, YELLOW, BLACK), null);
@@ -396,16 +433,12 @@ public class BoothExercise02 {
             if (Count.getBit(0) == 0) break; //Thats so we get the final check
 
             //----Start of Comparison and Addition/Subtraction Frame Logic----
-
-            /* Note: This logic for drawing these frames is dictated by the QuestionGenerator,
-             * not Booth's Multiplication Algorithm.  Previous revisions were cleaner. 
-             */
             int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
 
             if (cmpVal == 1 || cmpVal == -1) {
                 did_math = true;
                 positionMajorRow();//clones all registers
-                addRow();//now we have enough information for question type 3, calculations pending
+                addRow();
                 DiscardOverflowAddition sum;
                 GAIGSmonospacedText sumLabel;
                 GAIGSmonospacedText discardLabel;
@@ -498,6 +531,7 @@ public class BoothExercise02 {
             easySnap("Decrement Count", easyPseudo(21, RED, BLACK), null);
             Count.setFillOutlineColor(DEFAULT_COLOR);
             //Hey!  We're ready to loop!
+            //before we do that, check for errors!
         }
     }
 
