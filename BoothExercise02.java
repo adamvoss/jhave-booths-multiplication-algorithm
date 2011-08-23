@@ -337,10 +337,14 @@ public class BoothExercise02 {
         currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                 last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Initialization", FONT_SIZE*0.5));
 
+        boothsMultiplication();
+
         if (DEBUG) writer.close();
         show.close();
     }
 
+    //writes a snap if a previously correct answer column is now incorrect, or a previously incorrect
+    //answer column is now correct
     private static void errorCheck(String checkMe, String checkAgainst, String name, 
         GAIGSmonospacedText displayMe, boolean binaryNum, String pseudo) {
         String mesg = "";
@@ -408,7 +412,8 @@ public class BoothExercise02 {
         for (int i = 0; i < 5; ++i) {
             GAIGSmonospacedText temp = (GAIGSmonospacedText) userInputPane.get(2 + i);
             String tempTxt           = temp.getText();
-            temp.setText(tempTxt.substring(0, tempTxt.indexOf("\t")+1) + userInputValues);
+            temp.setText(tempTxt.substring(0, tempTxt.indexOf("\t")+1) + userInputValues[userInputNum + i]);
+            temp.setColor(FONT_COLOR);
         }
     }
 
@@ -418,10 +423,11 @@ public class BoothExercise02 {
         double unitLengthX = unitLengths[2]-unitLengths[0];
         double[] last;
         boolean did_math = false;
-        int userInputNum = 6;        
+        int userInputNum = 0;        
 
         while (Count.getCount() >= 0){
             //----Initialize inputs for answers---//
+            userInputNum += 5;
             setUserInputValues(userInputNum);
 
             //----Count Frame----
@@ -532,6 +538,12 @@ public class BoothExercise02 {
             Count.setFillOutlineColor(DEFAULT_COLOR);
             //Hey!  We're ready to loop!
             //before we do that, check for errors!
+
+            errorCheck(userInputValues[userInputNum  ], RegM.toString(), "M",     (GAIGSmonospacedText)userInputPane.get(2), true, easyPseudo(22) );
+            errorCheck(userInputValues[userInputNum+1], RegA.toString(), "A",     (GAIGSmonospacedText)userInputPane.get(3), true, easyPseudo(22) );
+            errorCheck(userInputValues[userInputNum+2], RegQ.toString(), "Q",     (GAIGSmonospacedText)userInputPane.get(4), true, easyPseudo(22) );
+            errorCheck(userInputValues[userInputNum+3], Q_1.toString(),  "β",     (GAIGSmonospacedText)userInputPane.get(5), true, easyPseudo(22) );
+            errorCheck(userInputValues[userInputNum+4], Count.toString(),"Count", (GAIGSmonospacedText)userInputPane.get(6),false, easyPseudo(22) );
         }
     }
 
