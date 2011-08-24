@@ -94,6 +94,11 @@ public class BoothExercise02 {
     private static final double TOP_MARGIN        = 0.0;
     private static final double COUNT_LEFT_MARGIN = RIGHT_MARGIN * 2;
 
+    /**
+    * The greek character beta, lower case
+    */
+    public static final String BETA = "β";
+
     private static PrintWriter writer;//debug stuff
 
     public static void main(String args[]) throws IOException {
@@ -339,6 +344,15 @@ public class BoothExercise02 {
 
         boothsMultiplication();
 
+        //----Finished Frame----
+        RegA.setFillOutlineColor(GREEN);
+//        RegA.setTextColor(FONT_COLOR);
+        RegQ.setFillOutlineColor(GREEN);
+//        RegQ.setTextColor(FONT_COLOR);
+        easySnap("The result is " + RegA + RegQ + "\nwhich is "
+                + (Integer.parseInt(args[args.length-1] ) * Integer.parseInt(args[args.length-2])) + 
+                " in decimal", easyPseudo(-1), null);
+
         if (DEBUG) writer.close();
         show.close();
     }
@@ -368,18 +382,16 @@ public class BoothExercise02 {
         else if (!checkMe.equals(checkAgainst) ) {
             if (binaryNum) {
                 if (Utilities.toDecimal(checkMe).equals(Utilities.toDecimal(checkAgainst)) ) {
-                    mesg = "The correct binary value was given, but your answer\n" +  
+                    mesg = "You gave the correct binary value, but your answer\n" +  
                         "uses an incorrect/inconsistent number of bits to represent it";
                 }
                 else {
-                    if (name.equals("A") )
-                        mesg = name + " is always initialized to some binary value representing 0";
-                    else if (name.equals("β") ) {
-                        mesg = "Incorrectly initialized β";
+                    if (name.equals("β") ) {
+                        mesg = "Incorrectl value given for β";
                     }
                     else {
                         mesg = "Signed binary value " + checkMe + " is " + Utilities.toDecimal(checkMe) + " in decimal;\n" + 
-                            "however, " + Utilities.toDecimal(checkAgainst) + " is what was asked for";
+                            "however, " + checkAgainst + " (which is " + Utilities.toDecimal(checkAgainst) +" in decimal) is the correct answer";
                     }
                 }
 
@@ -394,7 +406,7 @@ public class BoothExercise02 {
         }
 
         else {
-            mesg = "Correct!";
+            mesg = name + ": Correct!";
             answer = true;
             displayMe.setColor(DARK_GREEN);
         }
@@ -406,6 +418,71 @@ public class BoothExercise02 {
         }
 
         correctInputs.put(name, answer);
+    }
+
+    private static void errorCheckAll(int userInputNum) {
+        String[] names = new String[] {"M", "A", "Q", BETA, "Count"};
+        boolean[] answersRight = new boolean[] {false, false, false, false};
+        boolean[] binaryBools= new boolean[] {true, true, true, true, false};
+        String[] rightAnswers  = new String[] {RegM.toString(), RegA.toString(), RegQ.toString(), Q_1.toString(), Count.toString()};
+        ArrayList<String> messages = new ArrayList<String>();
+
+        for (int i = 0; i < 5; ++i) {
+            String checkMe = userInputValues[userInputNum + i];
+            String checkAgainst = rightAnswers[i];
+            String name = names[i];
+            GAIGSmonospacedText displayMe = (GAIGSmonospacedText) userInputPane.get(2 + i);
+            boolean binaryNum = binaryBools[i];
+            String mesg = "";
+
+            if (checkMe.equalsIgnoreCase("INVALID") ) {
+                mesg = "An invalid value was given for " + name + 
+                    "\nYou may have left this field blank or gave an input with whitespace";
+                displayMe.setColor(RUBY);
+            }
+            else if ( ((!Utilities.isWellFormedBinary(checkMe)) && binaryNum) || 
+                ((!Utilities.isWellFormedDecimal(checkMe)) && !binaryNum) ) {//multiplexor anyone?
+
+                mesg = "'" + checkMe + "' is not a well-formed " + (binaryNum ? "binary " : "decimal " ) + "integer value";
+                displayMe.setColor(RUBY);
+            }
+            else if (binaryNum && checkMe.length() > 8) {
+                mesg = "Inputs for binary values may be at most 8 bits long for this exercise";
+                displayMe.setColor(RUBY);
+            }
+            else if (!checkMe.equals(checkAgainst) ) {
+                if (binaryNum) {
+                    if (Utilities.toDecimal(checkMe).equals(Utilities.toDecimal(checkAgainst)) ) {
+                        mesg = "You gave the correct binary value, but your answer\n" +  
+                            "uses an incorrect/inconsistent number of bits to represent it";
+                    }
+                    else {
+                        if (name.equals("β") ) {
+                            mesg = "Incorrectl value given for β";
+                        }
+                        else {
+                            mesg = "Signed binary value " + checkMe + " is " + Utilities.toDecimal(checkMe) + " in decimal;\n" + 
+                                "however, " + checkAgainst + " (which is " + Utilities.toDecimal(checkAgainst) +" in decimal) is the correct answer";
+                        }
+                    }
+
+                    displayMe.setColor(RUBY);
+                }
+
+                else {//decimal -> Count
+                    String tmp = displayMe.getText();
+                    mesg = "The number of bits in a register for this case is " + REG_SIZE + ", not " + tmp.substring(tmp.lastIndexOf("\t")  + 1);
+                    displayMe.setColor(RUBY);
+                }
+            }
+
+            else {
+                mesg = name + ": Correct!";
+                answer = true;
+                displayMe.setColor(DARK_GREEN);
+            }
+           
+        }
     }
 
     private static void setUserInputValues(int userInputNum) {
