@@ -415,17 +415,19 @@ public class BoothExercise02 {
         {
             title.setText(mesg);
             easySnap(null, pseudo, null);
+            show.flush();
         }
 
         correctInputs.put(name, answer);
     }
 
     private static void errorCheckAll(int userInputNum) {
-        String[] names = new String[] {"M", "A", "Q", BETA, "Count"};
-        boolean[] answersRight = new boolean[] {false, false, false, false};
+        String[] names = new String[] {"M", "A", "Q", "β", "Count"};
         boolean[] binaryBools= new boolean[] {true, true, true, true, false};
+        String[] colors      = new String[] {RUBY, RUBY, RUBY, RUBY, RUBY};
         String[] rightAnswers  = new String[] {RegM.toString(), RegA.toString(), RegQ.toString(), Q_1.toString(), Count.toString()};
         ArrayList<String> messages = new ArrayList<String>();
+        messages.add("");
 
         for (int i = 0; i < 5; ++i) {
             String checkMe = userInputValues[userInputNum + i];
@@ -433,22 +435,23 @@ public class BoothExercise02 {
             String name = names[i];
             GAIGSmonospacedText displayMe = (GAIGSmonospacedText) userInputPane.get(2 + i);
             boolean binaryNum = binaryBools[i];
+            boolean answer    = false;
             String mesg = "";
 
             if (checkMe.equalsIgnoreCase("INVALID") ) {
                 mesg = "An invalid value was given for " + name + 
                     "\nYou may have left this field blank or gave an input with whitespace";
-                displayMe.setColor(RUBY);
+//              displayMe.setColor(RUBY);
             }
             else if ( ((!Utilities.isWellFormedBinary(checkMe)) && binaryNum) || 
                 ((!Utilities.isWellFormedDecimal(checkMe)) && !binaryNum) ) {//multiplexor anyone?
 
                 mesg = "'" + checkMe + "' is not a well-formed " + (binaryNum ? "binary " : "decimal " ) + "integer value";
-                displayMe.setColor(RUBY);
+ //             displayMe.setColor(RUBY);
             }
             else if (binaryNum && checkMe.length() > 8) {
                 mesg = "Inputs for binary values may be at most 8 bits long for this exercise";
-                displayMe.setColor(RUBY);
+//              displayMe.setColor(RUBY);
             }
             else if (!checkMe.equals(checkAgainst) ) {
                 if (binaryNum) {
@@ -466,23 +469,51 @@ public class BoothExercise02 {
                         }
                     }
 
-                    displayMe.setColor(RUBY);
+//                  displayMe.setColor(RUBY);
                 }
 
                 else {//decimal -> Count
                     String tmp = displayMe.getText();
                     mesg = "The number of bits in a register for this case is " + REG_SIZE + ", not " + tmp.substring(tmp.lastIndexOf("\t")  + 1);
-                    displayMe.setColor(RUBY);
+//                  displayMe.setColor(RUBY);
                 }
             }
 
             else {
-                mesg = name + ": Correct!";
+                mesg = (messages.get(0).length() == 0 ? name : ", " + name);
                 answer = true;
-                displayMe.setColor(DARK_GREEN);
+                colors[i] = DARK_GREEN;
+//              displayMe.setColor(DARK_GREEN);
             }
-           
+
+            if (correctInputs.get(name) || answer) //will show if you previously got it wrong and then corrected, or was correct and got it wrong
+            {
+                if (answer) {
+                    messages.set(0, messages.get(0) + mesg);
+                }
+                else {
+                    messages.add(mesg);
+                }
+//              title.setText(mesg);
+//              easySnap(null, easyPseudo(22), null);
+
+            }
+
+            correctInputs.put(name, answer);
+            displayMe.setColor(colors[i]);
         }
+
+        if (messages.get(0).length() != 0)//if you didn't get all the answers for this round wrong
+            messages.set(0, messages.get(0) + ": correct!" );
+ 
+        for (int i = 0; i < messages.size(); ++i) {
+            title.setText(messages.get(i) );
+            easySnap(null, easyPseudo(22), null);
+            show.flush();
+        }
+
+        for (int i = 0; i < 5; ++i)
+            ( (GAIGSmonospacedText) (userInputPane.get(2 + i) ) ).setColor(FONT_COLOR);
     }
 
     private static void setUserInputValues(int userInputNum) {
@@ -505,7 +536,9 @@ public class BoothExercise02 {
         while (Count.getCount() >= 0){
             //----Initialize inputs for answers---//
             userInputNum += 5;
-            setUserInputValues(userInputNum);
+
+            if (Count.getBit(0) != 0)
+                setUserInputValues(userInputNum);//no user input on last check
 
             //----Count Frame----
             Count.setFillColor(YELLOW);
@@ -616,11 +649,14 @@ public class BoothExercise02 {
             //Hey!  We're ready to loop!
             //before we do that, check for errors!
 
-            errorCheck(userInputValues[userInputNum  ], RegM.toString(), "M",     (GAIGSmonospacedText)userInputPane.get(2), true, easyPseudo(22) );
+            errorCheckAll(userInputNum);
+
+/*          errorCheck(userInputValues[userInputNum  ], RegM.toString(), "M",     (GAIGSmonospacedText)userInputPane.get(2), true, easyPseudo(22) );
             errorCheck(userInputValues[userInputNum+1], RegA.toString(), "A",     (GAIGSmonospacedText)userInputPane.get(3), true, easyPseudo(22) );
             errorCheck(userInputValues[userInputNum+2], RegQ.toString(), "Q",     (GAIGSmonospacedText)userInputPane.get(4), true, easyPseudo(22) );
             errorCheck(userInputValues[userInputNum+3], Q_1.toString(),  "β",     (GAIGSmonospacedText)userInputPane.get(5), true, easyPseudo(22) );
             errorCheck(userInputValues[userInputNum+4], Count.toString(),"Count", (GAIGSmonospacedText)userInputPane.get(6),false, easyPseudo(22) );
+*/
         }
     }
 

@@ -70,6 +70,62 @@
       <jvmarg value="-Dfile.encoding=ISO-8859-1" />
     </java>
   </target>
+  <target name = "runex02" depends="compile" description="Generate the visualization script for Exercise 2">
+    <java fork="true" dir="../../../build/classes"
+          classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
+          classname="exe.boothsMultiplication.BoothExercise02">
+      <arg value="ex02.sho" />
+      <arg value="00000101" />
+      <arg value="00000000" />
+      <arg value="11111101" />
+      <arg value="0" />
+      <arg value="8" />
+      <arg value="00000101" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="00000101" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="00000101" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="00000101" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="00000101" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="00000101" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="00000101" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="00000101" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="INVALID" />
+      <arg value="5" />
+      <arg value="-3" />
+
+      <jvmarg value="-Dfile.encoding=ISO-8859-1" />
+    </java>
+  </target>
 
   <target name="math" depends="compile" description="Runs Arithmetic">
     <java fork="true" dir="../../../build/classes"
