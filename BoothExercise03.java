@@ -26,7 +26,6 @@ import exe.pseudocode.PseudoCodeDisplay;
 public class BoothExercise03 {
     private static PseudoCodeDisplay pseudo;
     private static URI docURI;
-    private static QuestionGenerator quest;
     private static GAIGSregister RegM;
     private static GAIGSregister RegA;
     private static GAIGSregister RegQ;
@@ -92,6 +91,8 @@ public class BoothExercise03 {
     private static final double RIGHT_MARGIN      = COLBL_FONT_SIZE;
     private static final double TOP_MARGIN        = 0.0;
     private static final double COUNT_LEFT_MARGIN = RIGHT_MARGIN * 2;
+
+    private static ArrayList<Integer> linesWrong  = new ArrayList<Integer>();
 
     public static void main(String args[]) throws IOException {
         //JHAVÉ Stuff
@@ -161,16 +162,12 @@ public class BoothExercise03 {
         currentRow.setName("Row " + rowNumber++);
 
         trace.add(currentRow);
-        //Trace finally defined, can now make the QuestionGenerator
-        quest = new QuestionGenerator(show, trace);
-
 
         //One could add Register Spacing/Sizing Logic Here
         //int numRows = numLines(multiplier);
         REG_WIDTH = REG_WIDTH_PER_BIT * REG_SIZE;
-        
-        
         COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT)/4;
+
         //We only want to use the Count Margin when it would otherwise be too small
         if (COL_SPACE < COUNT_LEFT_MARGIN){
             COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT - COUNT_LEFT_MARGIN)/3;
@@ -195,7 +192,6 @@ public class BoothExercise03 {
         RegM.set(multiplicand);
 
         currentRow.add(RegM);
-        
         
         //Let's draw arrows
         GAIGSarrow leftArrow;
@@ -302,7 +298,7 @@ public class BoothExercise03 {
         currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                 last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Initialization", FONT_SIZE*0.5));
         
-//      boothsMultiplication();
+        boothsMultiplication();
 
         //----Finished Frame----
         decimal.complete();
@@ -314,6 +310,29 @@ public class BoothExercise03 {
         easySnap("The result is " + RegA + RegQ + "\nwhich is "
                 + ((Integer.parseInt(Utilities.toDecimal(args[1])))*(Integer.parseInt(Utilities.toDecimal(args[2])))) + 
                 " in decimal", easyPseudo(-1), null);
+
+        //removes math for more screen real-estate
+        header.remove(2);//removes decimal
+        header.remove(1);//removes binary
+
+        //Assessment
+        if (linesWrong.size() == 0)
+            easySnap("Correct! For every iteration of the loop, both an arithmetic operation\nand a shift operation occurred", easyPseudo(-1), null);
+        else {
+            for (int i : linesWrong) {
+                GAIGSpane<?> temp = trace.get(i);
+
+                for (Object o : temp) {
+                    if (o instanceof GAIGSregister) {
+                        ((GAIGSregister) o).setFillOutlineColor(RED);
+                        ((GAIGSregister) o).setTextColor(FONT_COLOR);
+                    }
+                }
+            }
+
+            easySnap("The highlighted rows indicate iterations of the loop\nin which only a shift operation occurred", easyPseudo(-1), null);
+            easySnap("Consider ways to modify your input such that\neach iteration performs all the operations possible", easyPseudo(-1), null);
+        }
 
         show.close();
     }
@@ -335,16 +354,12 @@ public class BoothExercise03 {
             if (Count.getBit(0) == 0) break; //Thats so we get the final check
 
             //----Start of Comparison and Addition/Subtraction Frame Logic----
-
-            /* Note: This logic for drawing these frames is dictated by the QuestionGenerator,
-             * not Booth's Multiplication Algorithm.  Previous revisions were cleaner. 
-             */
             int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
 
             if (cmpVal == 1 || cmpVal == -1) {
                 did_math = true;
                 positionMajorRow();//clones all registers
-                addRow();//now we have enough information for question type 3, calculations pending
+                addRow();
                 DiscardOverflowAddition sum;
                 GAIGSmonospacedText sumLabel;
                 GAIGSmonospacedText discardLabel;
@@ -377,9 +392,8 @@ public class BoothExercise03 {
                 getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(0, BLUE);
                 getRegisterFromRow(trace.size()-2, Q1).setFillOutlineColor(0, BLUE);
 
-                question que = quest.getComparisonQuestion();
                 GAIGSpane<?> temp = trace.remove(trace.size()-1);
-                easySnap("Determine the operation", easyPseudo(10, BLUE, BLACK), que);
+                easySnap("Determine the operation", easyPseudo(10, BLUE, BLACK), null);
                 trace.add(temp);
 
                 //Reset/deactivate colors
@@ -399,7 +413,7 @@ public class BoothExercise03 {
                 currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                         last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, (cmpVal == 1 ? "Subtraction" : "Addition"), FONT_SIZE*0.5));
                 
-                easySnap((cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A", easyPseudo((cmpVal == 1 ? 11 : 14), GREEN, BLACK), quest.getAdditionQuestion() );
+                easySnap((cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A", easyPseudo((cmpVal == 1 ? 11 : 14), GREEN, BLACK), null);
                 //Remove Overflow Label
                 math.remove(math.size()-1);
                 //Remove Label
@@ -415,15 +429,14 @@ public class BoothExercise03 {
                 RegQ.setFillOutlineColor(0, BLUE);
                 Q_1.setFillOutlineColor(0, BLUE);
 
-                //Question pane-hopping
-                trace.add(null);
-                question que = quest.getQuestion(1);
-                trace.remove(trace.size()-1);
-                easySnap("Determine the operation", easyPseudo(10, BLUE, BLACK), que);
+                easySnap("Determine the operation", easyPseudo(10, BLUE, BLACK), null);
 
                 //Reset colors
                 RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
                 Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
+
+                //For this exercise, a cycle which has no arithmetic operations yields an incorrect answer
+                linesWrong.add(trace.size() );
             }
             //Deactivate text
             setRowTextColor(INACTIVE_TEXT);
@@ -439,9 +452,6 @@ public class BoothExercise03 {
             addRow();
             rightShift(RegA, RegQ, Q_1);
 
-            //Question and write
-            question que = quest.getShiftQuestion(); 
-
             //Colors
             getRegisterFromRow(trace.size()-2, REGA).setFillOutlineColor(GREEN);
             getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(BLUE);
@@ -456,7 +466,7 @@ public class BoothExercise03 {
             currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                     last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Shift", FONT_SIZE*0.5));
             
-            easySnap("Sign-Preserving Right Shift", easyPseudo(19, BLUE, BLACK), que);
+            easySnap("Sign-Preserving Right Shift", easyPseudo(19, BLUE, BLACK), null);
             //    		RegQ.setTextColor(FONT_COLOR);
             Q_1.setFillOutlineColor(DEFAULT_COLOR);
 
