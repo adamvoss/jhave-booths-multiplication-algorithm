@@ -23,12 +23,14 @@ import org.jdom.Element;
 
 /**
 * A text area which listens to other text areas, updating when the other text areas have.
-* Probably for the domain of Booth's Algorithm only because the code is not at all generic
+* Probably for the domain of Booth's Algorithm only, because the code is not generic
 * @author Christopher Jenkins <cjenkin1@tmail.com>
 * @author Adam Voss <vossad01@luther.edu>
 */
 
 public class IGBoothsMultiplication extends IGComponent {
+
+    private static Random rand = new Random();
 
     /**The panel which holds all the sub-components of this component*/
     protected JPanel panel;
@@ -73,8 +75,10 @@ public class IGBoothsMultiplication extends IGComponent {
    
     private static ListeningManager manager;
 
-    public enum BoothType {STANDARD, EXERCISE01, EXERCISE02, EXERCISE03}
+    public static enum BoothType {STANDARD, EXERCISE01, EXERCISE02, EXERCISE03}
     private BoothType myType;
+
+    private static boolean debug = false;
 
     public IGBoothsMultiplication(Element root, IGComponentFactory factory) throws IGComponentInstantiationException {
         super(root, factory);
@@ -97,7 +101,9 @@ public class IGBoothsMultiplication extends IGComponent {
                     assembleE2(root);
                 }
                 else if (booth_child.getText().contains("Exercise 3") ) {
-                
+                    if(debug) System.out.println("Recognized Exercise 3");
+                    myType = BoothType.EXERCISE03;
+                    assembleE3(root);
                 }
                 else {
                     myType = BoothType.STANDARD;
@@ -186,6 +192,63 @@ public class IGBoothsMultiplication extends IGComponent {
             descriptivePanel.add(jl);
 
         panel.add(descriptivePanel, BorderLayout.NORTH);
+    }
+
+    private void assembleE3(Element root) {
+        Iterator ltxt_iter = root.getChildren().iterator();
+        BorderLayout border = new BorderLayout();
+        GridLayout grid     = new GridLayout(4, 3, 3, 3);
+        panel = new JPanel(border);
+        JPanel centerPanel = new JPanel(grid);
+        JLabel descriptiveArea = new JLabel();
+
+        defaultBin = new String[2];
+        defaultDec = new String[2];
+
+        int caseSize = 3 + rand.nextInt(6);
+
+        defaultBin[0] = ListeningManager.signExtend("0", caseSize - 1);
+        defaultBin[1] = defaultBin[0];
+
+        defaultDec[0] = "0";
+        defaultDec[1] = "0";
+
+        while (ltxt_iter.hasNext() ) {
+            Element ltxt_child = (Element) ltxt_iter.next();
+
+            if (ltxt_child.getName().equalsIgnoreCase(LABEL_ELEMENT_NAME) ) {
+                this.label = new JLabel(ltxt_child.getText() );
+            }
+            else if (ltxt_child.getName().equalsIgnoreCase(DESCRIPTION_ELEMENT) ) {
+                descriptiveText = ltxt_child.getText();
+                descriptiveArea.setText(descriptiveText + " " + caseSize);
+            }
+
+            else if (ltxt_child.getName().equalsIgnoreCase(LTEXTFIELDS) ) ; //awkward silence
+        }
+
+        manager = new ListeningManager(Integer.parseInt(defaultDec[0]), Integer.parseInt(defaultDec[1] ));
+        manager.getComboBox().setSelectedIndex(caseSize - 2);
+
+        JTextField[] tFields = manager.getTextFields();
+        centerPanel.add(new JLabel(" ")); //still a lazy way to add a blank item to grid
+        centerPanel.add(new JLabel("Decimal"));
+        centerPanel.add(new JLabel("Two's Complement Binary"));
+        centerPanel.add(new JLabel("Multiplicand"));
+        centerPanel.add(tFields[1]);//multiplicand binText
+        centerPanel.add(tFields[0]);//multiplicand decText
+        centerPanel.add(new JLabel("Multiplier") );
+        centerPanel.add(tFields[3]);//multiplier binText
+        centerPanel.add(tFields[2]);//multiplier decText
+        centerPanel.add(new JLabel(""));
+        centerPanel.add(new JLabel(""));
+        centerPanel.add(manager.getError() );
+
+        panel.add(centerPanel, BorderLayout.CENTER);
+        panel.add(descriptiveArea, BorderLayout.NORTH);
+
+        panel.add(centerPanel, BorderLayout.CENTER);
+        panel.add(descriptiveArea, BorderLayout.NORTH);
     }
 
     private JPanel buildRowsPanel(Element rows) {
@@ -284,6 +347,7 @@ public class IGBoothsMultiplication extends IGComponent {
         if      (myType == BoothType.STANDARD)      return getBoothsStandardElement();
         else if (myType == BoothType.EXERCISE01)    return getBoothsEx01()           ;
         else if (myType == BoothType.EXERCISE02)    return getBoothsEx01()           ;
+        else if (myType == BoothType.EXERCISE03)    return getBoothsStandardElement();
         else return null;
     }
 
@@ -411,7 +475,6 @@ public class IGBoothsMultiplication extends IGComponent {
     }
 
     private static String constrainedRandomBinary() {
-        Random rand = new Random();
         int numBits = rand.nextInt(5) + 4;//only 4-8 bit numbers
 
         String res = "";
@@ -435,7 +498,6 @@ public class IGBoothsMultiplication extends IGComponent {
     }
 
     private static String nDigitBinary(int n) {
-        Random rand = new Random();
         int ret = rand.nextInt((int)Math.pow(2, n) ) - ((int) Math.pow(2, n-1) );
 
         return ListeningManager.toBinary((ret == 0 ? ret + (rand.nextInt(2) == 0 ? 1 : -1) : ret) );
@@ -515,7 +577,7 @@ class ListeningManager {
     /**
     * Sign extends binStr by i bits
     */
-    private String signExtend(String binStr, int i){
+    public static String signExtend(String binStr, int i){
         String firstBit = String.valueOf(binStr.charAt(0));
         String extension = "";
         while (i>0){extension = extension.concat(firstBit); i--;}
@@ -574,6 +636,9 @@ class ListeningManager {
         multiplier.oldBinText = temp[1];
     }
 
+    //!!!
+    //THIS IS A BIG PROBLEM WAITING TO HAPPEN
+    //THIS METHOD CAN ONLY BE CALLED ONCE! IT SHOULD RETURN AN OBJECT INITIALIZED BY THE CONSTRUCTER INSTEAD
     public JComboBox getComboBox() {
         String[]  lenOpts  = new String[] {"Automatic", "3", "4", "5", "6", "7", "8"};
         JComboBox lenCombo = new JComboBox(lenOpts);
