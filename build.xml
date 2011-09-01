@@ -1,6 +1,11 @@
 <?xml version="1.0" ?>
 <project default="compile">
 
+  <target name="update" description="One time creation of needed directory structures in JHAVE">
+    <mkdir dir="../../../../html_root/ingen/boothsMultiplication"/>
+    <delete verbose="true" file="../../../../html_root/ingen/boothsMultiplication.igs"/> 
+  </target>
+
   <target name="install" description="Place files that are needed in outside directories">
     <copy todir="../../../build/classes/exe/boothsMultiplication" overwrite="true">
       <fileset file="pseudocode.xml"/>
@@ -126,6 +131,16 @@
       <arg value="5" />
       <arg value="-3" />
 
+      <jvmarg value="-Dfile.encoding=ISO-8859-1" />
+    </java>
+  </target>
+  <target name = "runex03" depends="compile" description="Generate the visualization script for Exercise 3">
+    <java fork="true" dir="../../../build/classes"
+          classpath="../../../build/classes:../../../lib/jdom.jar:../../../lib/jaxen.jar:."
+          classname="exe.boothsMultiplication.BoothExercise03">
+      <arg value="ex03.sho" />
+      <arg value="00010101" />
+      <arg value="10110100" />
       <jvmarg value="-Dfile.encoding=ISO-8859-1" />
     </java>
   </target>
