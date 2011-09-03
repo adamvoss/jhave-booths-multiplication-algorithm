@@ -1,10 +1,10 @@
 package exe.boothsMultiplication;
 
-import java.io.*;
-import java.util.*;
-import java.net.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.net.URI;
 
-import org.jdom.*;
+import org.jdom.JDOMException;
 
 import exe.GAIGSArithmetic;
 import exe.GAIGSarrow;
@@ -622,7 +622,6 @@ public class BoothMultiplication {
         adjustRegister(Count);
     }
 
-    //TODO figure out when to use this, then make it actually do something
     private static void positionAdditionRow(){
         RegM  = RegM.clone();
         RegA  = RegA.clone();
