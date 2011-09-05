@@ -1,12 +1,11 @@
 package exe.boothsMultiplication;
 
-
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Hashtable;
 import exe.XMLParameterParser;
 import org.jdom.JDOMException;
-
-import java.io.*;
 
 /**
  * @author Adam Voss <vossad01@luther.edu>

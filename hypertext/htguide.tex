@@ -90,7 +90,7 @@
 %-------------------------------------------------------------------
 
 \title{Guide for Visualizing Booth's Multiplication Algorithm}
-\date{July 2011}
+\date{\today}
 
 \begin{document}
 
@@ -125,7 +125,7 @@ Finally, the drop-down menu is used to indicate the number of bits of a register
 \end{figure}
 
 Whenever you change one of the values in the four text fields, the input generator will update all text fields according to the input value and register size option selected, or it will signal an error for invalid input.
-The ``Automatic'' option will use the least number of bits necessary for the binary representation of both the multiplicand and the multiplier; however, it will never use fewer than 3 bits or greater than 8 bits.
+The ``Automatic'' option will use the least number of bits necessary for the binary representation of both the multiplicand and the multiplier; however, it will never use fewer than 2 bits or greater than 8 bits.
 If you select a fixed-register size from the drop-down menu, every value entered in the binary text fields will be resized to the number of bits selected.
 If the values entered for the multiplicand or multiplier cannot be represented in the number of bits selected, then an ``Overflow'' error is signalled and the input generator will do its best to correct the mistake, either by using the largest (if you gave a value too large) or smallest (if you gave a value too small) value that can be represented with the selected register size option, or by reverting the the last set of valid values.
 
@@ -145,29 +145,30 @@ Finally, the text in the top center of the screen also provides information abou
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{initreg.pdf}
-\caption{The Initialization of M, A, Q, Beta, and Count}
+\caption{The Initialization of M, A, Q, \beta, and Count}%it seems fine to use Beta rather than β
 \end{figure}
 
 To navigate through the visualization, click the arrow buttons on the bottom left of the screen.
 The first few slides are dedicated to setting up the initial values the algorithm will use.
-After this, the visualization goes into the main loop of the algorithm.
-Depending on your screen size, you may at this time see text annotation on the left of the registers describing what occurred during that step.
-If you wish to view these annotations, or if you wish to adjust your view of the visualization in general, you can zoom in and out with the magnifying glass buttons on the bottom left, or click and drag the main screen to move it as you like.
+After this, the visualization goes into the loop of the algorithm.
 
 \pagebreak
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{looptop.pdf}
-\caption{Beginning of the main loop}
+\caption{Beginning of the loop}
 \end{figure}
 
-As the visualization progresses, the state history of the algorithm is preserved on screen, along with an appropriate annotation.
-This is done to allow you to refer to previous states for reference.
+As the visualization progresses, the state history of the algorithm is preserved on screen, along with appropriate annotations to the left of the registers.
 The current values for the algorithm are drawn in black text and in black boxes, and values for past states of the algorithm are drawn in grey text in grey boxes.
+This is done to allow you to refer to previous states for reference.
+Depending on your window size, you may not be able to see the annotations.
+If you cannot see these annotations, or if you wish to adjust your view of the visualization in general, you can resize your window if possible, zoom in and out with the magnifying glass buttons on the bottom left, or click and drag the visualization to move it as you like.
 
 \pagebreak
 \section{An Example Iteration of the Loop}
-After the beginning of the main loop is reached, first the case is determined:
+Each iteraction of the loop will be one of three cases.
+%At the top of the loop, a switch statement is used to determine the case.
 
 \begin{figure}[h]
 \centering
@@ -186,7 +187,8 @@ Then the operations for that case are executed:
 \caption{Execute subtraction operation}
 \end{figure}
 
-When an arithmetic operation occurs, register A is highlighted green to indicate its updated value, along with the corresponding line of pseudo-code.
+When an arithmetic operation occurs, register A is highlighted green to indicate its updated value.
+As always, the last-executed line of pseudo-code is highlighed to match.
 The result of the arithmetic in the ``Math/ALU'' column is also highlighted green, except for any overflow, which is discarded.
 
 \pagebreak
@@ -196,8 +198,12 @@ The result of the arithmetic in the ``Math/ALU'' column is also highlighted gree
 \caption{Execute shift operation}
 \end{figure}
 
-When a shift operation occurs, the old values of registers A and Q are highlighted in green and blue, respectively.
-The current values of A and Q are also highlighted in green and blue, with two notable exceptions: the most significant bit of Q is highlighted green, indicating its value came from register A, and Beta is highlighted blue, indicating its value came from register Q.
+When a shift operation occurs, the previous values of registers A and Q are highlighted in green and blue, respectively.
+The highlighting follows the bits through the shift opperation.
+That is, the current values of A and Q are still highlighted in green and blue, with the exception that the the most significant bit of Q is now highlighted green, indicating its value came from register A.
+The most-significant bit of A now has the same as the previous most-significant bit of A.
+It adopts the green highlighting as the rest of A.%to avoid potential confusion that it may have came from M
+\beta is highlighted blue, indicating its value came from register Q.
 
 \pagebreak
 Finally, the value of ``Count'' is decremented, and the algorithm returns to the top of the loop.
@@ -209,9 +215,12 @@ Finally, the value of ``Count'' is decremented, and the algorithm returns to the
 \end{figure}
 
 Pop-up questions will appear during the algorithm's visualization.
-These questions are designed to test your understanding of the algorithm, and come in the following formats: fill in the blank, multiple choice, multiple selection, and true/false.
-If you prefer, you may disable the questions for the time being by going to the ``Options'' menu and unchecking ``Show Questions''.
-However, once you are more comfortable with the algorithm visualization, it is strongly recommended that you re-enable questions.
+These questions are randomly selected and are designed to test your understanding of the algorithm.
+They come in the following formats: fill in the blank, multiple choice, multiple selection, and true or false.
+%The following sentence likely will need to be removed when used with a testing group.
+You may disable and enable these questions at any time using the ``Show Questions'' check-box under the ``Options'' menu ; however, since the question are to enhance learning, their use is highly recommended.
+%If you prefer, you may disable the questions for the time being by going to the ``Options'' menu and unchecking ``Show Questions''.
+%However, once you are more comfortable with the algorithm visualization, it is strongly recommended that you re-enable questions.
 
 \begin{figure}[h]
 \centering
@@ -222,13 +231,14 @@ However, once you are more comfortable with the algorithm visualization, it is s
 \pagebreak
 
 \section{The Visualization's Conclusion}
-When ``Count'' is equal to 0, the algorithm finishes executing, and the final result of the multiplication is highlighted in green.
-The diagrams at the top left and top right of the screen are also updated with the decimal and binary representation of the result, respectively, and highlighted in green.
+When ``Count'' is equal to 0, the algorithm exits its loop and completes execution.
+The final result of the multiplication spans registers A and Q and is highlighted in green.
+The diagrams at the top-left and top-right of the screen are also updated with the decimal and binary result, respectively, which are highlighted in green.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{finish.pdf}
-\caption{The last snapshot of the visualization}
+\caption{The completed algorithm}
 \end{figure}
 
 \end{document}
