@@ -1,0 +1,2 @@
+HyperText guide & book need updating after pseudocode is changed;
+New sections to hyper text guide means a table of contents, subsections necessary

@@ -91,8 +91,15 @@
 
 \title{Guide for Visualizing Booth's Multiplication Algorithm}
 \date{\today}
+\author{Christopher Jenkins\\ Trinity University, cjenkin1@trinity.edu
+    \and Adam Voss\\ Luther College, vossad01@luther.edu}
 
 \begin{document}
+
+\maketitle
+\tableofcontents
+
+\pagebreak
 
 \section{Getting Started with JHAVÉ}
 The easiest way to start the visualization for Booth's multiplication algorithm is by going to \emph{http://jhave.org}.
@@ -106,7 +113,10 @@ If you have any difficulties getting the JHAVÉ client to run, consult the ``Pro
 \caption{The JHAVÉ client}
 \end{figure}
 
-\section{The Input Generator}
+\pagebreak
+
+\section{Booth's Multiplication Algorithm Standard Visualization}
+\subsection{The Input Generator}
 
 When the JHAVÉ client is running, select ``Connect''.
 On the next screen, select ``Booth's Multiplication Algorithm'' from the drop-down menu of algorithms, and select ``Visualize''.
@@ -115,8 +125,6 @@ The first row of text fields is used to input the multiplicand, and the second r
 The first column of text fields are for decimal input values, and the second column for binary input values.
 Thus, the top-left text field is used to input a decimal value for the multiplicand, and the bottom right text field is used to input a binary value for the multiplier.
 Finally, the drop-down menu is used to indicate the number of bits of a register.
-
-\pagebreak
 
 \begin{figure}[h]
 \centering
@@ -130,7 +138,7 @@ If you select a fixed-register size from the drop-down menu, every value entered
 If the values entered for the multiplicand or multiplier cannot be represented in the number of bits selected, then an ``Overflow'' error is signalled and the input generator will do its best to correct the mistake, either by using the largest (if you gave a value too large) or smallest (if you gave a value too small) value that can be represented with the selected register size option, or by reverting the the last set of valid values.
 
 \pagebreak
-\section{Starting the Visualization}
+\subsection{Starting the Visualization}
 
 Once you have selected the desired input values, click ``OK''.
 This will take you to the first snapshot of the visualization.
@@ -145,7 +153,7 @@ Finally, the text in the top center of the screen also provides information abou
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{initreg.pdf}
-\caption{The Initialization of M, A, Q, \beta, and Count}%it seems fine to use Beta rather than β
+\caption{The Initialization of M, A, Q, $\beta$, and Count}%it seems fine to use Beta rather than β
 \end{figure}
 
 To navigate through the visualization, click the arrow buttons on the bottom left of the screen.
@@ -166,8 +174,10 @@ Depending on your window size, you may not be able to see the annotations.
 If you cannot see these annotations, or if you wish to adjust your view of the visualization in general, you can resize your window if possible, zoom in and out with the magnifying glass buttons on the bottom left, or click and drag the visualization to move it as you like.
 
 \pagebreak
-\section{An Example Iteration of the Loop}
-Each iteraction of the loop will be one of three cases.
+\subsection{An Example Iteration of the Loop}
+Each iteration of the loop begins by examining the least significant bit in register Q and the bit $\beta$.
+The values read from these determine which of the three cases shall occur.
+%Each iteraction of the loop will be one of three cases.
 %At the top of the loop, a switch statement is used to determine the case.
 
 \begin{figure}[h]
@@ -203,7 +213,7 @@ The highlighting follows the bits through the shift opperation.
 That is, the current values of A and Q are still highlighted in green and blue, with the exception that the the most significant bit of Q is now highlighted green, indicating its value came from register A.
 The most-significant bit of A now has the same as the previous most-significant bit of A.
 It adopts the green highlighting as the rest of A.%to avoid potential confusion that it may have came from M
-\beta is highlighted blue, indicating its value came from register Q.
+$\beta$ is highlighted blue, indicating its value came from register Q.
 
 \pagebreak
 Finally, the value of ``Count'' is decremented, and the algorithm returns to the top of the loop.
@@ -214,11 +224,15 @@ Finally, the value of ``Count'' is decremented, and the algorithm returns to the
 \caption{Decrement Count}
 \end{figure}
 
+\pagebreak
+
+\subsection{Questions}
+
 Pop-up questions will appear during the algorithm's visualization.
 These questions are randomly selected and are designed to test your understanding of the algorithm.
 They come in the following formats: fill in the blank, multiple choice, multiple selection, and true or false.
 %The following sentence likely will need to be removed when used with a testing group.
-You may disable and enable these questions at any time using the ``Show Questions'' check-box under the ``Options'' menu ; however, since the question are to enhance learning, their use is highly recommended.
+You may disable and enable these questions at any time using the ``Show Questions'' check-box under the ``Options'' menu; however, since the question are there to enhance your learning, their use is highly recommended.
 %If you prefer, you may disable the questions for the time being by going to the ``Options'' menu and unchecking ``Show Questions''.
 %However, once you are more comfortable with the algorithm visualization, it is strongly recommended that you re-enable questions.
 
@@ -230,7 +244,7 @@ You may disable and enable these questions at any time using the ``Show Question
 
 \pagebreak
 
-\section{The Visualization's Conclusion}
+\subsection{The Visualization's Conclusion}
 When ``Count'' is equal to 0, the algorithm exits its loop and completes execution.
 The final result of the multiplication spans registers A and Q and is highlighted in green.
 The diagrams at the top-left and top-right of the screen are also updated with the decimal and binary result, respectively, which are highlighted in green.
