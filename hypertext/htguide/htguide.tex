@@ -259,13 +259,45 @@ The diagrams at the top-left and top-right of the screen are also updated with t
 \pagebreak
 
 \section{Exercise 1 for Booth's Multiplication}
+
+From the ``Setup'' tab, select ``Booth's Multiplication Algorithm Exercise 1'' from the drop-down menu of algorithms, and then click ``Visualize''.
+The algorithm's input generator will appear, with four text fields corresponding to the values for M, A, Q, $\beta$, and Count, and the decimal values for the multiplicand and multiplier to be used to initialize Booth's Algorithm.
+Convert the two decimal values into two's complement representations of equal length and use this to fill in the four text fields with the appropriate data.
+
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{ex1ingen.pdf}
 \caption{Exercise 1 Input Generator}
 \end{figure}
 
+\subsection{Starting Exercise 1}
+Once you have selected the desired input values, click ``OK''.
+This will take you to the first snapshot of the exercise, which begins by giving the expected value for register M, the register which holds the value of the multiplicand.
+
+On the right side of the visualization is an area marked ``User Input'' which lists the data you gave to the input generator.
+Throughout the visualization, the correct values of M, A, Q, $\beta$, and Count will each be compared to the given values.
+When the input provided matches the expected value, the message ``Correct'' is displayed at the top of the screen and the particular value in the User Input area is highlighted green.
+When the input provided does not match the expected value, a message tailored to the kind of error made is displayed on the screen and the particular value in the User Input area is highlighted red.
+
+The exercise finishes after it compares the expected value to the given value of Count.
 \pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{ex1correct.pdf}
+\caption{An example of correct input message for Exercise 1}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{ex1incorrect.pdf}
+\caption{An example of incorrect input message for Exercise 2}
+\end{figure}
+
+\pagebreak
+
 
 \section{Exercise 2 for Booth's Multiplication}
 \begin{figure}[h]
