@@ -5,3 +5,7 @@ EDIT: It looks like the new JHAVE directory is giving me trouble, and the websta
 I'll have to make do with what I have and then fix the images at a latter date.
 
 Exercise 3: Make descriptiveElement more descriptive
+
+Go through htguide carefully and make sure there are no spelling/grammar mistakes and that everything is worded precisely.
+
+More errors in question?
