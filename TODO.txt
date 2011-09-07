@@ -3,3 +3,5 @@ New sections to hyper text guide means a table of contents, subsections necessar
 
 EDIT: It looks like the new JHAVE directory is giving me trouble, and the webstart won't load the exercises visualizations.
 I'll have to make do with what I have and then fix the images at a latter date.
+
+Exercise 3: Make descriptiveElement more descriptive

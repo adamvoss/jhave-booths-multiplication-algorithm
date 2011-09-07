@@ -259,9 +259,9 @@ The diagrams at the top-left and top-right of the screen are also updated with t
 \pagebreak
 
 \section{Exercise 1 for Booth's Multiplication}
-
+\subsection{The Input Generator}
 From the ``Setup'' tab, select ``Booth's Multiplication Algorithm Exercise 1'' from the drop-down menu of algorithms, and then click ``Visualize''.
-The algorithm's input generator will appear, with four text fields corresponding to the values for M, A, Q, $\beta$, and Count, and the decimal values for the multiplicand and multiplier to be used to initialize Booth's Algorithm.
+The exercise's input generator will appear, with four text fields corresponding to the values for M, A, Q, $\beta$, and Count, and the decimal values for the multiplicand and multiplier to be used to initialize Booth's Algorithm.
 Convert the two decimal values into two's complement representations of equal length and use this to fill in the four text fields with the appropriate data.
 
 \begin{figure}[h]
@@ -270,8 +270,8 @@ Convert the two decimal values into two's complement representations of equal le
 \caption{Exercise 1 Input Generator}
 \end{figure}
 
-\subsection{Starting Exercise 1}
-Once you have selected the desired input values, click ``OK''.
+\subsection{Using Exercise 1}
+Once you have given the desired input values, click ``OK''.
 This will take you to the first snapshot of the exercise, which begins by giving the expected value for register M, the register which holds the value of the multiplicand.
 
 On the right side of the visualization is an area marked ``User Input'' which lists the data you gave to the input generator.
@@ -285,7 +285,7 @@ The exercise finishes after it compares the expected value to the given value of
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{ex1correct.pdf}
-\caption{An example of correct input message for Exercise 1}
+\caption{An example message for correct input for Exercise 1}
 \end{figure}
 
 \pagebreak
@@ -293,13 +293,20 @@ The exercise finishes after it compares the expected value to the given value of
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{ex1incorrect.pdf}
-\caption{An example of incorrect input message for Exercise 2}
+\caption{An example message for incorrect input for Exercise 2}
 \end{figure}
 
 \pagebreak
 
-
 \section{Exercise 2 for Booth's Multiplication}
+\subsection{The Input Generator}
+From the ``Setup'' tab, select ``Booth's Multiplication Algorithm Exercise 2'' from the drop-down menu of algorithms, and then click ``Visualize''.
+The exercise's input generator will appear, with a total of 45 text fields, arranged in a table of 5 columns and 9 rows.
+Each column is labeled to indicate whether it corresponds to M, A, Q, $\beta$, or Count.
+The first row indicates the initialization these values for Booth's Algorithm; in this respect, the first row of this exercise and the first exercise are the same.
+Each row following the first represents the states of M, A, Q, $\beta$, and Count at the very end of successive iteration of the algorithm's loop, ei the first row following the row for the initialization values is for the values of M, A, Q, $\beta$, and Count after the first loop iteration has completed, and etc.
+You may not need all of the rows provided.
+
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{ex2ingen.pdf}
@@ -308,12 +315,50 @@ The exercise finishes after it compares the expected value to the given value of
 
 \pagebreak
 
+\subsection{Using Exercise 2}
+Once you have given the desired input values, click ``OK''.
+This will take you to the first snapshot of the exercise, which behaves the mostly same as the first exercise for the initial values given to Booth's Multiplication.
+There is an area marked ``User Input'' on the right side of the visualization which displays the given values for M, A, Q, $\beta$ and Count for the current iteration of the loop.
+At the end of the iteration, correct input values are highlighted green, and incorrect values are highlighted red.
+Additionally, for each incorrect input value a message is displayed at the top of the screen indicating the type of error made, but only if you had provided a correct input for the same column in the row directly above.
+For example, if you make a mistake on the initialization row by giving an incorrect value for register M, you will only see a message indicating an error during the initialization phase of the algorithm.
+
+The exercise finishes after the algorithm has completed the last iteration of its loop.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{ex2incorrect.pdf}
+\caption{Exercise 2 at the end of a loop iteration}
+\end{figure}
+
+\pagebreak
+
 \section{Exercise 3 for Booth's Multiplication}
+\subsection{The Input Generator}
+From the ``Setup'' tab, select ``Booth's Multiplication Algorithm Exercise 3'' from the drop-down menu of algorithms, and then click ``Visualize''.
+The exercise's input generator will appear, with four text fields, asking for the least efficient input values for an n-bit case.
+The first row of text fields is used to input the multiplicand, and the second row to input the multiplier.
+The first column of text fields are for decimal input values, and the second column for binary input values.
+This input generator is similar to the standard visualization for Booth's Multiplication Algorithm, except you cannot choose how many bits your input values will have; the number of bits used in the binary representation of input values is determined by the particular case.
+
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{ex3ingen.pdf}
 \caption{Exercise 3 Input Generator}
 \end{figure}
 
+\pagebreak
+
+\subsection{Using Exercise 3}
+Once you have given the desired input values, click ``OK''.
+This will take you to the first snapshot of the exercise, which begins and continues in the same manner as the standard visualization for Booth's Algorithm.
+At the end of the algorithm, if the input values lead to the least efficient case of the algorithm, a ``Correct!'' message appears at the top of the screen.
+If this is not the case, however, then the iterations of the algorithm's loop which were not as inefficient as possible are highlighted in red, along with an explanatory message.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{ex3finish.pdf}
+\caption{Snapshot near the end of exercise 3 indicating the given input values did not lead to the least efficient case for Booth's Algorithm}
+\end{figure}
 
 \end{document}
