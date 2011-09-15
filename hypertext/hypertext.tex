@@ -92,21 +92,29 @@
 \begin{document}
 
 \section{Objectives}
-To understand how the process of multiplication can be translated into an efficient and relatively simple algorithm on the machine-register level for two's complement binary values using Booth's multiplication algorithm.
+After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
+Booth's Multiplication Algorithm provides an efficient and relatively simple algorithm for using machine-register operations for the multiplication of two's complement binary values.
 
+%I'm considering merging this with the above.
 \section{Preparation}
-Before using this module, it is best that you be familiar with binary addition at the machine level and with two's complement representations of negative numbers.
+This sections assumes familiarity with with binary addition at the machine level and with the two's complement representations of negative numbers.
+%Possibly make recommendations here
 
 \section{Introduction}
-The process of multiplication is significantly more complex than that of addition.
-The ``simple'' way to calculate a product would be through repeated additions.
-Using this approach to calculate, for example, $11 \times 23$, you would start with 0 and add 11 to it 23 times.
-This method is terribly inefficient, and execution time varies wildly depending on the values multiplied (consider the similar problem of calculating $23 \times 11$, which has the same result but requires 12 fewer operations).
+The process of binary multiplication is significantly more computationally complex than that of addition.
+Multiplication is often defined recusivly as repeated additions.
+%Consider providing full definition
+Using this approach to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
+This method is terribly inefficient, and execution time varies wildly depending on the values multiplied.
+%There are alot of superlatives here
+For example, the equivalent problem of calculating $23 \times 11$, requires 12 fewer operations).
 Since as computer architects we dislike unpredictability, we must make several modifications to this algorithm before it resembles something that could be done well in hardware.
+%There is not background to this statement of Architects and efficiency.
 
+%This section seems math-y, maybe should be re-arranged in the article
 \section{Shift-and-Add Multiplication}
-First, recall the standard method taught to multiply two numbers, sometimes called the ``shift and add'' method.
-This method involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
+The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
+To review, this method involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
 The results of these individual multiplications are referred to as ``partial products'', and the sum of these partial products is the final product.
 
 Another way to think of this is as follows: let $Q$ be an n-digit binary number and let the $i^{th}$ bit of $Q$ be denoted $q_i$ (this text goes by the convention that the $0^{th}$ bit of a binary value is the rightmost or least-significant bit).
