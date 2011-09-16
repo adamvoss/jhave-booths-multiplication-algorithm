@@ -102,11 +102,11 @@ This sections assumes familiarity with with binary addition at the machine level
 
 \section{Introduction}
 The process of binary multiplication is significantly more computationally complex than that of addition.
-Multiplication is often defined recusivly as repeated additions.
+Multiplication is often defined recursively as repeated additions.
 %Consider providing full definition
 Using this approach to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
 This method is terribly inefficient, and execution time varies wildly depending on the values multiplied.
-%There are alot of superlatives here
+%There are a lot of superlatives here
 For example, the equivalent problem of calculating $23 \times 11$, requires 12 fewer operations).
 Since as computer architects we dislike unpredictability, we must make several modifications to this algorithm before it resembles something that could be done well in hardware.
 %There is not background to this statement of Architects and efficiency.
@@ -114,8 +114,17 @@ Since as computer architects we dislike unpredictability, we must make several m
 %This section seems math-y, maybe should be re-arranged in the article
 \section{Shift-and-Add Multiplication}
 The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
-To review, this method involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
+
+%Is this paragraph necessary?
+To review, multiplication by partial products involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
 The results of these individual multiplications are referred to as ``partial products'', and the sum of these partial products is the final product.
+
+%This paragraph is very much draft quality, but I thought it importing to show where the name came from
+% as this provides more back ground as well at introducing hardware for parity with how we present Booth. 
+When translated to binary, multiplication by partial products is reduced to a series of shift and add operation which is where the name comes from.
+The product is kept in a zeroed register with each partial sum added to it.
+As the multiplicand bits are traversed from least-significant to most-significant, every succession is accompanied by a left-shift of the Multiplicand.
+If the current bit of the multiplier is 1, the current, shifted Multiplicand is added into the Sum register.
 
 Another way to think of this is as follows: let $Q$ be an n-digit binary number and let the $i^{th}$ bit of $Q$ be denoted $q_i$ (this text goes by the convention that the $0^{th}$ bit of a binary value is the rightmost or least-significant bit).
 Then the significance (or ``place-value'' as you learned it in elementary school) of $q_i$ is $2^i$.
