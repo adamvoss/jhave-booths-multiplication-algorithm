@@ -197,39 +197,60 @@ This is a suboptimal solution from a design point of view, as it introduces the 
 \section{Booth's Encoding}
 In 1951, Andrew Booth introduced an alternative method for multiplying two's complement numbers.
 At its heart is the observation that a number like 0111, which is understood to mean $2^2 + 2^1 + 2^0 = 4 + 2 + 1 = 7$, can also be thought of as $2^3 - 2^0 = 8 - 1 = 7$.
-This can be written (encoded) as $100\bar{1}$, where 1 and 0 have their understood meanings, and $\bar{1}$ represents represents $-1$.
+This can be written (encoded) as $100\bar{1}$, where 1 and 0 have their understood meanings, and $\bar{1}$ represents $-1$.
+Generally, it can be shown that any sequence $2^n + 2^{n-1} + ...
++ 2^{n-k}$ (where $k+1$ is the number of terms in the sequence) is equal to $2^{n+1} - 2^{n-k}$
 
-    In general, it can be shown that any number of the form $2^n + 2^{n-1} + ...
-+ 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
-When the number is composed of multiple sequences like these, such as $2^7 + 2^6 + 2^5 + 2^1 + 2^0$ or 011100011, apply the rule to each valid sub sequence, which in this case would be $2^8 - 2^5 + 2^2 - 2^0$ or $100\bar{1}0010\bar{1}$.
-For use in binary multiplication, this method translates into the following: for every sequence of 1s in the multiplier (Q), replace the rightmost (least significant) 1 with $\bar{1}$, replace the first 0 on the left of the sequence (if it exists) with 1, and set all the 1s between the positions of the bits you just modified to 0 (if there is no leading 0, simply flip all the other bits of the selected sequence to 0).
-For the case where the ``sequence'' of ones is a single bit, ie $...010...$,
-the appropriate encoding would be $...1\bar{1}0...$,
-which is correct because $2^n = 2^{n+1} - 2^n$.
+To encode an $n$-digit binary number $m$, examine the $i^{th}$ digit of $m$ (we will call it $m_i$) and do one of the following: %TODO citation needed for this
+
+\begin{enumerate}
+\item If $m_i$ and $m_{i-1}$ (the digit to the left of $m_i$) are 1 and 1, or they are 0 and 0, write 0 at the $i^{th}$ digit in the new encoded value.
+\item If $m_i$ and $m_{i-1}$ are 0 and 1 respectively, write 1 at the the $i^{th}$ digit in the new encoded value.
+\item If $m_i$ and $m_{i-1}$ are 1 and 0 respectively, write $\bar{1}$ at the $i^{th}$ digit in the new encoded value.
+\end{enumerate}
+
+Take for example the binary number 011100011, which is $2^7 + 2^6 + 2^5 + 2^1 + 2^0 = 227$.
+Applying the method described above, our encoded value for this number is $100\bar{1}0010\bar{1}$ which is $2^8 - 2^5 + 2^2 - 2^0 = 227$
+In this way, the method takes a ``run'' of $1$s (representing the series $2^{n} + 2^{n-1} + ...
++ 2^{n-k}$), takes the first 0 bit to the left of the run and turns it into $1$ and turns the entire run into $0$s except for the last $1$, which is turned into $\bar{1}$.
+
+%TODO this belongs in hardware discussion
+%This property has the potential to further increase efficiency, as any arbitrary ``run'' of $1$s (series of powers of 2) will be reduced to just 2 arithmetic operations, since when we encounter $0$s we need only shift.
+
+%How does this solve negative numbers?
+
+
+%    In general, it can be shown that any number of the form $2^n + 2^{n-1} + ...
+%+ 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
+%When the number is composed of multiple sequences like these, such as $2^7 + 2^6 + 2^5 + 2^1 + 2^0$ or 011100011, apply the rule to each valid sub sequence, which in this case would be $2^8 - 2^5 + 2^2 - 2^0$ or $100\bar{1}0010\bar{1}$.
+%For use in binary multiplication, this method translates into the following: for every sequence of 1s in the multiplier (Q), replace the rightmost (least significant) 1 with $\bar{1}$, replace the first 0 on the left of the sequence (if it exists) with 1, and set all the 1s between the positions of the bits you just modified to 0 (if there is no leading 0, simply flip all the other bits of the selected sequence to 0).
+%For the case where the ``sequence'' of ones is a single bit, ie $...010...$,
+%the appropriate encoding would be $...1\bar{1}0...$,
+%which is correct because $2^n = 2^{n+1} - 2^n$.
 %TODO better math
 
-This method also works if the multiplier is negative.
-There are three cases: either the most significant bit is not followed by anything (that is, it is both the least- and most-significant bit), or it is followed by 0 (such as 1001, or -7), or else it is followed by 1 (such as 1101 or 1111, which are -3 and -1 respectively).
-In the first case, we convert the single bit to $\bar{1}$, which is correct since `1' actually represents $-1$ as a 1-bit number in two's complement notation, 
+%This method also works if the multiplier is negative.
+%There are three cases: either the most significant bit is not followed by anything (that is, it is both the least- and most-significant bit), or it is followed by 0 (such as 1001, or -7), or else it is followed by 1 (such as 1101 or 1111, which are -3 and -1 respectively).
+%In the first case, we convert the single bit to $\bar{1}$, which is correct since `1' actually represents $-1$ as a 1-bit number in two's complement notation, 
 
-In the second case, the most significant bit is converted to $\bar{1}$, representing a subtraction.
-Since this bit represents a value larger than any value which can be represented in the bits to the right of it, the final value will be negative.
+%In the second case, the most significant bit is converted to $\bar{1}$, representing a subtraction.
+%Since this bit represents a value larger than any value which can be represented in the bits to the right of it, the final value will be negative.
 
-In the third case, consider the largest leftmost sequence of 1s in Q (this is, in fact, the sequence which indicates the binary value is negative).
-By Booth's method, the rightmost bit in this sequence will be converted into $\bar{1}$, since it is either followed by a 0 or else not followed by anything (if it were followed by a 1, then the sequence we selected would not be the \emph{largest} leftmost sequence of 1s).
-Then, all the bits to the left of the selected bit will converted to 0s.
-Again, this guarantees that the most significant non-zero bit in the multiplier (Q) is negative, so that the whole number itself will be negative.
+%In the third case, consider the largest leftmost sequence of 1s in Q (this is, in fact, the sequence which indicates the binary value is negative).
+%By Booth's method, the rightmost bit in this sequence will be converted into $\bar{1}$, since it is either followed by a 0 or else not followed by anything (if it were followed by a 1, then the sequence we selected would not be the \emph{largest} leftmost sequence of 1s).
+%Then, all the bits to the left of the selected bit will converted to 0s.
+%Again, this guarantees that the most significant non-zero bit in the multiplier (Q) is negative, so that the whole number itself will be negative.
 
-So far we have only shown that our encoding process will preserve the sign of the original value.
-To show that the two values are equivalent, first recall that the value of $N$, a negative binary number in two's complement representation, can be expressed as:
-\[-2^k + \sum_{i=0}^{k-1} (n_i \times 2^i)\]
-where $n_i$ is value of the $i$th bit of $N$, and $k$ is the \emph{position} (not value) of the rightmost bit in the largest leftmost sequence of 1s in $N$.
-Similarly, the encoded value of $N$, which we will call $N^{\prime}$, can be expressed as:
-\[-2^{k^{\prime}} + \sum_{i=0}^{k^{\prime}-1} (n_i^{\prime} \times 2^i)\]
-where $n_i^{\prime}$ is the value of the $i$th bit of $N^{\prime}$ and $k^{\prime}$ is the position for the most significant bit with value $\bar{1}$.
-From our discussion of case three, we know the position of the rightmost bit in the largest leftmost sequence of 1s in $N$ is the same as the position of the most significant bit with value $\bar{1}$ in $N^{\prime}$, so we know that $k$ and $k^{\prime}$ are equal.
-Finally, since the sums represent positive values (if they do not, we have picked the wrong values for $k$ and $k^{\prime}$), and since from our earlier discussion in this section we have shown (informally) why Booth's algorithm works for positive values, we can now say the two equations are equivalent.
-(Note: be careful not to think the two equations say the same thing: the values of $n_i^{\prime}$ can be 0, 1, or -1 ($\bar{1}$), whereas the values of $n_i$ can only be 0 or 1)
+%So far we have only shown that our encoding process will preserve the sign of the original value.
+%To show that the two values are equivalent, first recall that the value of $N$, a negative binary number in two's complement representation, can be expressed as:
+%\[-2^k + \sum_{i=0}^{k-1} (n_i \times 2^i)\]
+%where $n_i$ is value of the $i$th bit of $N$, and $k$ is the \emph{position} (not value) of the rightmost bit in the largest leftmost sequence of 1s in $N$.
+%Similarly, the encoded value of $N$, which we will call $N^{\prime}$, can be expressed as:
+%\[-2^{k^{\prime}} + \sum_{i=0}^{k^{\prime}-1} (n_i^{\prime} \times 2^i)\]
+%where $n_i^{\prime}$ is the value of the $i$th bit of $N^{\prime}$ and $k^{\prime}$ is the position for the most significant bit with value $\bar{1}$.
+%From our discussion of case three, we know the position of the rightmost bit in the largest leftmost sequence of 1s in $N$ is the same as the position of the most significant bit with value $\bar{1}$ in $N^{\prime}$, so we know that $k$ and $k^{\prime}$ are equal.
+%Finally, since the sums represent positive values (if they do not, we have picked the wrong values for $k$ and $k^{\prime}$), and since from our earlier discussion in this section we have shown (informally) why Booth's algorithm works for positive values, we can now say the two equations are equivalent.
+%(Note: be careful not to think the two equations say the same thing: the values of $n_i^{\prime}$ can be 0, 1, or -1 ($\bar{1}$), whereas the values of $n_i$ can only be 0 or 1)
 
 \section{Booth's Algorithm in Hardware}
     At the hardware level we are only allowed the use of 0 and 1 to represent values, so we instead examine pairs of bits.
