@@ -1,91 +1,12 @@
 \documentclass{article}
 
-% The LaTeX-to-CNXML translator makes use of Tralics, a LaTeX-to-XML conversion
-% utility.  Tralics has implemented all the packages in the LaTeX base directory,
-% and it also supports a good number of supplemental LaTeX packages.  These
-% supplemental packages are included in the \usepackage{} statements below.
-% Packages not in the LaTeX base directory or \usepackage{} statements in this
-% template are not supported by Tralics and, hence, not supported by the
-% LaTeX-to-CNXML converter.
-
-% If you have a question as to whether a specific LaTeX command is supported,
-% please refer to the "HTML Documentation of all TeX commands" section at
-% http://www-sop.inria.fr/apics/tralics/.  Here you will find links to manual pages
-% organized alphabetically by the first letter of the command.  These pages indicate
-% how Tralics handles conversion of each supported command, which informs how the
-% LaTeX-to-CNXML translator behaves.
-
-% To prepare your LaTeX document for import, copy the body of that document from its
-% source and paste it into this template between the \begin{document} and \end{document}
-% statements.  Do not attempt to use any packages other than the ones contained in this
-% template.  You may, however, insert user-defined macros directly in this template
-% before the \begin{document} statement.  Following this preparation, check to see if
-% your template-compliant document can generate a .dvi (.pdf) using latex (pdflatex).
-% If so, then your document is ready for import; if not, you must modify your document
-% to generate an output file using only the packages supported by Tralics as described
-% above.
-
-%Is this in base?
-%\usepackage{epsfig}
-%\usepackage{epstopdf}
-
-% Tralics supports the following AMS packages
-% (see http://www-sop.inria.fr/apics/tralics/packages.html for details on full/partial
-% support of package commands)
 \usepackage{amsbsy,amscd,amsfonts,amsgen,amsmath,amsopn,amssymb,amstext,amsthm,amsxtra}
-
-% Tralics supports \includegraphics and \scalebox, but not all other graphicx package
-% commands; check the web documentation on supported commands before attempting to use
-% other commands in the graphicx package:
 \usepackage{graphicx}
-
-% We must specifically invoke the verbatim package as follows to direct Tralics to handle
-% the verbatim environment properly:
 \usepackage{verbatim}
-
-% Tralics also allows the following packages:
-% (see http://www-sop.inria.fr/apics/tralics/packages.html for details on full/partial
-% support of package commands)
-
-%\usepackage{alltt}
-%\usepackage{array}
-%\usepackage{bracket}
-%\usepackage{calc}
-%\usepackage{delarray}
-%\usepackage{eucal}
-%\usepackage{eufrak}
-%\usepackage{fancyverb}
-%\usepackage{fix-cm}
-%\usepackage{fixltx2e}
-%\usepackage{flafter}
-%\usepackage{fontenc}
-%\usepackage{fp}
-%\usepackage{graphpap}
-%\usepackage{html}
-%\usepackage{ifthen}
-%\usepackage{index}
 \usepackage[utf8]{inputenc}
-%\usepackage{latexsym}
-%\usepackage{lipsum}
-%\usepackage{makeidx}
-%\usepackage{minimal}
-%\usepackage{mml}
-%\usepackage{natbib}
-%\usepackage{newlfont}
-%\usepackage{oldlfont}
-%\usepackage{shortvrb}
-%\usepackage{showidx}
-%\usepackage{soul}
-%\usepackage{syntonly}
-%\usepackage{textcase}
-%\usepackage{textcomp}
-%\usepackage{tloop}
-%\usepackage{theorem}
-%\usepackage{upref}
 
 %-------------------------------------------------------------------
-% You can insert user-defined macros (using the supported packages
-% only) here...
+% You can insert user-defined macros 
 \DeclareUnicodeCharacter{03B2}{\beta}
 %-------------------------------------------------------------------
 
@@ -102,11 +23,11 @@ This sections assumes familiarity with with binary addition at the machine level
 
 \section{Introduction}
 The process of binary multiplication is significantly more computationally complex than that of addition.
-Multiplication is often defined recusivly as repeated additions.
+Multiplication is often defined recursively as repeated additions.
 %Consider providing full definition
 Using this approach to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
 This method is terribly inefficient, and execution time varies wildly depending on the values multiplied.
-%There are alot of superlatives here
+%There are a lot of superlatives here
 For example, the equivalent problem of calculating $23 \times 11$, requires 12 fewer operations).
 Since as computer architects we dislike unpredictability, we must make several modifications to this algorithm before it resembles something that could be done well in hardware.
 %There is not background to this statement of Architects and efficiency.
@@ -114,8 +35,21 @@ Since as computer architects we dislike unpredictability, we must make several m
 %This section seems math-y, maybe should be re-arranged in the article
 \section{Shift-and-Add Multiplication}
 The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
-To review, this method involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
+
+%Is this paragraph necessary?
+To review, multiplication by partial products involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
 The results of these individual multiplications are referred to as ``partial products'', and the sum of these partial products is the final product.
+
+%This paragraph is very much draft quality, but I thought it important to show where the name came from
+% as this provides more background as well at introducing hardware for parity with how we present Booth.
+
+%If this is not what you wanted for shift and add, then maybe present it as partial products
+%Then use the next section to provide how partial products translates to shifts and add in HW
+When translated to binary, multiplication by partial products is reduced to a series of shift and add operation which is where the name comes from.
+The product is kept in a zeroed register with each partial sum added to it.
+As the multiplicand bits are traversed from least-significant to most-significant, every succession is accompanied by a left-shift of the Multiplicand.
+%Maybe tie in here that the sift is equivalent to *2, which is the binary equivalent of decimal *10 (add a zero to the end)
+If the current bit of the multiplier is 1, the current, shifted Multiplicand is added into the Sum register.
 
 Another way to think of this is as follows: let $Q$ be an n-digit binary number and let the $i^{th}$ bit of $Q$ be denoted $q_i$ (this text goes by the convention that the $0^{th}$ bit of a binary value is the rightmost or least-significant bit).
 Then the significance (or ``place-value'' as you learned it in elementary school) of $q_i$ is $2^i$.
@@ -287,6 +221,45 @@ Step through the visualization as many times as you need, answering the question
 %\end{figure}
 
 %The next few snapshots of the visualization 
+
+\section{How it works}
+
+%Here is how to do a block comment, don't for get the \end
+%\begin{comment}
+
+    In general, it can be shown that any number of the form $2^n + 2^{n-1} + ...
++ 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
+When the number is composed of multiple sequences like these, such as $2^7 + 2^6 + 2^5 + 2^1 + 2^0$ or 011100011, apply the rule to each valid sub sequence, which in this case would be $2^8 - 2^5 + 2^2 - 2^0$ or $100\bar{1}0010\bar{1}$.
+For use in binary multiplication, this method translates into the following: for every sequence of 1s in the multiplier (Q), replace the rightmost (least significant) 1 with $\bar{1}$, replace the first 0 on the left of the sequence (if it exists) with 1, and set all the 1s between the positions of the bits you just modified to 0 (if there is no leading 0, simply flip all the other bits of the selected sequence to 0).
+For the case where the ``sequence'' of ones is a single bit, ie $...010...$,
+the appropriate encoding would be $...1\bar{1}0...$,
+which is correct because $2^n = 2^{n+1} - 2^n$.
+TODO better math
+
+This method also works if the multiplier is negative.
+There are three cases: either the most significant bit is not followed by anything (that is, it is both the least- and most-significant bit), or it is followed by 0 (such as 1001, or -7), or else it is followed by 1 (such as 1101 or 1111, which are -3 and -1 respectively).
+In the first case, we convert the single bit to $\bar{1}$, which is correct since `1' actually represents $-1$ as a 1-bit number in two's complement notation, 
+
+In the second case, the most significant bit is converted to $\bar{1}$, representing a subtraction.
+Since this bit represents a value larger than any value which can be represented in the bits to the right of it, the final value will be negative.
+
+In the third case, consider the largest leftmost sequence of 1s in Q (this is, in fact, the sequence which indicates the binary value is negative).
+By Booth's method, the rightmost bit in this sequence will be converted into $\bar{1}$, since it is either followed by a 0 or else not followed by anything (if it were followed by a 1, then the sequence we selected would not be the \emph{largest} leftmost sequence of 1s).
+Then, all the bits to the left of the selected bit will converted to 0s.
+Again, this guarantees that the most significant non-zero bit in the multiplier (Q) is negative, so that the whole number itself will be negative.
+
+So far we have only shown that our encoding process will preserve the sign of the original value.
+To show that the two values are equivalent, first recall that the value of $N$, a negative binary number in two's complement representation, can be expressed as:
+\[-2^k + \sum_{i=0}^{k-1} (n_i \times 2^i)\]
+where $n_i$ is value of the $i$th bit of $N$, and $k$ is the \emph{position} (not value) of the rightmost bit in the largest leftmost sequence of 1s in $N$.
+Similarly, the encoded value of $N$, which we will call $N^{\prime}$, can be expressed as:
+\[-2^{k^{\prime}} + \sum_{i=0}^{k^{\prime}-1} (n_i^{\prime} \times 2^i)\]
+where $n_i^{\prime}$ is the value of the $i$th bit of $N^{\prime}$ and $k^{\prime}$ is the position for the most significant bit with value $\bar{1}$.
+From our discussion of case three, we know the position of the rightmost bit in the largest leftmost sequence of 1s in $N$ is the same as the position of the most significant bit with value $\bar{1}$ in $N^{\prime}$, so we know that $k$ and $k^{\prime}$ are equal.
+Finally, since the sums represent positive values (if they do not, we have picked the wrong values for $k$ and $k^{\prime}$), and since from our earlier discussion in this section we have shown (informally) why Booth's algorithm works for positive values, we can now say the two equations are equivalent.
+(Note: be careful not to think the two equations say the same thing: the values of $n_i^{\prime}$ can be 0, 1, or -1 ($\bar{1}$), whereas the values of $n_i$ can only be 0 or 1)
+
+%\end{comment}
 
 %-------------------------------------------------------------------
 % to create references, un-comment \bibliographystyle{plain} and
