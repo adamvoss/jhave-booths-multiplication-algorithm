@@ -12,25 +12,22 @@
 
 \begin{document}
 
-\section{Objectives}
+\section{Objectives and Preparation}
 After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
 Booth's Multiplication Algorithm provides an efficient and relatively simple algorithm for using machine-register operations for the multiplication of two's complement binary values.
 
-%I'm considering merging this with the above.
-\section{Preparation}
 This sections assumes familiarity with with binary addition at the machine level and with the two's complement representations of negative numbers.
 %Possibly make recommendations here
 
 \section{Introduction}
 The process of binary multiplication is significantly more computationally complex than that of addition.
 Multiplication is often defined recursively as repeated additions.
-%Consider providing full definition
+%Consider providing full definition|Perhaps, but it seems implied in the following example
 Using this approach to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
-This method is terribly inefficient, and execution time varies wildly depending on the values multiplied.
-%There are a lot of superlatives here
-For example, the equivalent problem of calculating $23 \times 11$, requires 12 fewer operations).
-Since as computer architects we dislike unpredictability, we must make several modifications to this algorithm before it resembles something that could be done well in hardware.
-%There is not background to this statement of Architects and efficiency.
+This method is inefficient, and execution time varies depending on the values multiplied.
+For example, the equivalent problem of calculating $23 \times 11$, requires 12 fewer operations.
+Since as computer architects we prefer predictability to unpredictability, we must make several modifications to this algorithm before it resembles something that could be done well in hardware.
+%There is not background to this statement of Architects and efficiency.|I didn't think one was required - it seems intuitive
 
 %This section seems math-y, maybe should be re-arranged in the article
 \section{Shift-and-Add Multiplication}
@@ -45,11 +42,14 @@ The results of these individual multiplications are referred to as ``partial pro
 
 %If this is not what you wanted for shift and add, then maybe present it as partial products
 %Then use the next section to provide how partial products translates to shifts and add in HW
+\begin{comment}
 When translated to binary, multiplication by partial products is reduced to a series of shift and add operation which is where the name comes from.
-The product is kept in a zeroed register with each partial sum added to it.
+The product is kept in an initially zeroed register with each partial sum added to it.
 As the multiplicand bits are traversed from least-significant to most-significant, every succession is accompanied by a left-shift of the Multiplicand.
 %Maybe tie in here that the sift is equivalent to *2, which is the binary equivalent of decimal *10 (add a zero to the end)
 If the current bit of the multiplier is 1, the current, shifted Multiplicand is added into the Sum register.
+\end{comment}
+%Oh dear, the merge is going to be harder than I thought, since I already developed some of this stuff later.
 
 Another way to think of this is as follows: let $Q$ be an n-digit binary number and let the $i^{th}$ bit of $Q$ be denoted $q_i$ (this text goes by the convention that the $0^{th}$ bit of a binary value is the rightmost or least-significant bit).
 Then the significance (or ``place-value'' as you learned it in elementary school) of $q_i$ is $2^i$.
@@ -145,46 +145,23 @@ To encode an $n$-digit binary number $m$, examine the $i^{th}$ digit of $m$ (we 
 
 Take for example the binary number 011100011, which is $2^7 + 2^6 + 2^5 + 2^1 + 2^0 = 227$.
 Applying the method described above, our encoded value for this number is $100\bar{1}0010\bar{1}$ which is $2^8 - 2^5 + 2^2 - 2^0 = 227$
-In this way, the method takes a ``run'' of $1$s (representing the series $2^{n} + 2^{n-1} + ...
+In this way, the method takes a ``run'' of $1$s in a binary value (representing the series $2^{n} + 2^{n-1} + ...
 + 2^{n-k}$), takes the first 0 bit to the left of the run and turns it into $1$ and turns the entire run into $0$s except for the last $1$, which is turned into $\bar{1}$.
 
+How does this solve the problem of negative numbers?
+Remember that in a two's complement binary value the \emph{msb} represents a subtraction of the highest power of two.
+For example, $11100100$ represents the value $-(2^{7}) + 2^{6} + 2^{5} + 2^{2} = -128 + 64 + 32 + 4 = -28$
+Applying the method described above, we obtain an encoded value of $00\bar{1}01\bar{1}00$, which represents $-(2^{5} + 2^{3} - 2^{2}) = -32 + 8 - 4 = -28$.
+Generally, if the \emph{msb} of an n-digit two's complement binary number is 1, then the leftmost ``run'' of $1$s represents the value $-(2^{n-1}) + 2^{n-2} + ...
++ 2^{(n-1)-k}$.
+Using the mathematical insight of Booth's Encoding technique, we convert this to $-(2^{n-1}) + (2^{n-1}) - 2^{(n-1)-k} = -2^{(n-1)-k}$.
+Because Booth's Encoding is based on this mathematical equivalence, we are guaranteed to preserve the value of the candidate number, whether positive or negative.
+ 
 %TODO this belongs in hardware discussion
 %This property has the potential to further increase efficiency, as any arbitrary ``run'' of $1$s (series of powers of 2) will be reduced to just 2 arithmetic operations, since when we encounter $0$s we need only shift.
 
 %How does this solve negative numbers?
-
-
-%    In general, it can be shown that any number of the form $2^n + 2^{n-1} + ...
-%+ 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
-%When the number is composed of multiple sequences like these, such as $2^7 + 2^6 + 2^5 + 2^1 + 2^0$ or 011100011, apply the rule to each valid sub sequence, which in this case would be $2^8 - 2^5 + 2^2 - 2^0$ or $100\bar{1}0010\bar{1}$.
-%For use in binary multiplication, this method translates into the following: for every sequence of 1s in the multiplier (Q), replace the rightmost (least significant) 1 with $\bar{1}$, replace the first 0 on the left of the sequence (if it exists) with 1, and set all the 1s between the positions of the bits you just modified to 0 (if there is no leading 0, simply flip all the other bits of the selected sequence to 0).
-%For the case where the ``sequence'' of ones is a single bit, ie $...010...$,
-%the appropriate encoding would be $...1\bar{1}0...$,
-%which is correct because $2^n = 2^{n+1} - 2^n$.
-%TODO better math
-
-%This method also works if the multiplier is negative.
-%There are three cases: either the most significant bit is not followed by anything (that is, it is both the least- and most-significant bit), or it is followed by 0 (such as 1001, or -7), or else it is followed by 1 (such as 1101 or 1111, which are -3 and -1 respectively).
-%In the first case, we convert the single bit to $\bar{1}$, which is correct since `1' actually represents $-1$ as a 1-bit number in two's complement notation, 
-
-%In the second case, the most significant bit is converted to $\bar{1}$, representing a subtraction.
-%Since this bit represents a value larger than any value which can be represented in the bits to the right of it, the final value will be negative.
-
-%In the third case, consider the largest leftmost sequence of 1s in Q (this is, in fact, the sequence which indicates the binary value is negative).
-%By Booth's method, the rightmost bit in this sequence will be converted into $\bar{1}$, since it is either followed by a 0 or else not followed by anything (if it were followed by a 1, then the sequence we selected would not be the \emph{largest} leftmost sequence of 1s).
-%Then, all the bits to the left of the selected bit will converted to 0s.
-%Again, this guarantees that the most significant non-zero bit in the multiplier (Q) is negative, so that the whole number itself will be negative.
-
-%So far we have only shown that our encoding process will preserve the sign of the original value.
-%To show that the two values are equivalent, first recall that the value of $N$, a negative binary number in two's complement representation, can be expressed as:
-%\[-2^k + \sum_{i=0}^{k-1} (n_i \times 2^i)\]
-%where $n_i$ is value of the $i$th bit of $N$, and $k$ is the \emph{position} (not value) of the rightmost bit in the largest leftmost sequence of 1s in $N$.
-%Similarly, the encoded value of $N$, which we will call $N^{\prime}$, can be expressed as:
-%\[-2^{k^{\prime}} + \sum_{i=0}^{k^{\prime}-1} (n_i^{\prime} \times 2^i)\]
-%where $n_i^{\prime}$ is the value of the $i$th bit of $N^{\prime}$ and $k^{\prime}$ is the position for the most significant bit with value $\bar{1}$.
-%From our discussion of case three, we know the position of the rightmost bit in the largest leftmost sequence of 1s in $N$ is the same as the position of the most significant bit with value $\bar{1}$ in $N^{\prime}$, so we know that $k$ and $k^{\prime}$ are equal.
-%Finally, since the sums represent positive values (if they do not, we have picked the wrong values for $k$ and $k^{\prime}$), and since from our earlier discussion in this section we have shown (informally) why Booth's algorithm works for positive values, we can now say the two equations are equivalent.
-%(Note: be careful not to think the two equations say the same thing: the values of $n_i^{\prime}$ can be 0, 1, or -1 ($\bar{1}$), whereas the values of $n_i$ can only be 0 or 1)
+%Hadn't gotten there yet
 
 \section{Booth's Algorithm in Hardware}
     At the hardware level we are only allowed the use of 0 and 1 to represent values, so we instead examine pairs of bits.
@@ -225,7 +202,7 @@ Step through the visualization as many times as you need, answering the question
 \section{How it works}
 
 %Here is how to do a block comment, don't for get the \end
-%\begin{comment}
+\begin{comment}
 
     In general, it can be shown that any number of the form $2^n + 2^{n-1} + ...
 + 2^{n-k}$ is equal to $2^{n+1} - 2^{n-k}$.
@@ -259,7 +236,7 @@ From our discussion of case three, we know the position of the rightmost bit in 
 Finally, since the sums represent positive values (if they do not, we have picked the wrong values for $k$ and $k^{\prime}$), and since from our earlier discussion in this section we have shown (informally) why Booth's algorithm works for positive values, we can now say the two equations are equivalent.
 (Note: be careful not to think the two equations say the same thing: the values of $n_i^{\prime}$ can be 0, 1, or -1 ($\bar{1}$), whereas the values of $n_i$ can only be 0 or 1)
 
-%\end{comment}
+\end{comment}
 
 %-------------------------------------------------------------------
 % to create references, un-comment \bibliographystyle{plain} and
