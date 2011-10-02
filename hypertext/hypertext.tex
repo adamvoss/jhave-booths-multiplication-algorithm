@@ -14,7 +14,7 @@
 
 \section{Objectives and Preparation}
 After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
-Booth's Multiplication Algorithm provides an efficient and relatively simple algorithm for using machine-register operations for the multiplication of two's complement binary values.
+Booth's Multiplication Algorithm provides a simple and relatively efficient algorithm for using machine-register operations for the multiplication of two's complement binary values.
 
 This sections assumes familiarity with with binary addition at the machine level and with the two's complement representations of negative numbers.
 %Possibly make recommendations here
@@ -25,15 +25,14 @@ Multiplication is often defined recursively as repeated additions.
 %Consider providing full definition|Perhaps, but it seems implied in the following example
 Using this approach to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
 This method is inefficient, and execution time varies depending on the values multiplied.
-For example, the equivalent problem of calculating $23 \times 11$, requires 12 fewer operations.
-Since as computer architects we prefer predictability to unpredictability, we must make several modifications to this algorithm before it resembles something that could be done well in hardware.
+For example, the equivalent problem of calculating $23 \times 11$ requires 12 fewer operations.
+Since as computer architects we prefer predictability to unpredictability, we would like to make several modifications to this algorithm so that it resembles something that could be done well in hardware.
 %There is not background to this statement of Architects and efficiency.|I didn't think one was required - it seems intuitive
 
 %This section seems math-y, maybe should be re-arranged in the article
 \section{Shift-and-Add Multiplication}
 The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
-
-%Is this paragraph necessary?
+%Is this paragraph necessary? I think so. It's probably not a bad idea to be explicit, since "partial products" or "shift and add" may not be very familiar to the student
 To review, multiplication by partial products involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
 The results of these individual multiplications are referred to as ``partial products'', and the sum of these partial products is the final product.
 
@@ -57,8 +56,8 @@ We can then express the problem $M \times Q$ as $M \times (q_{n-1} \times 2^{n-1
 Each one of the products $(q_i \times 2^{i}) \times M$ is a partial product.
 For binary values, there are only two values a partial product may be: if $q_i = 0$, then the result is simply $0$; otherwise the result is $M \times 2^i$.
 
-Consider the following calculation of the multiplication of 001011 and 010111, which, in two's complement notation, is 11 and 23, respectively.
-Since many architectures use fixed-sized registers to hold data, we will use the same number of bits to represent both $M$ and $Q$.
+Consider the following calculation of the multiplication of 001011 and 010111, which are the numbers 11 and 23 in twos complement notation, respectively.
+Since many computer architectures use fixed-sized registers to hold data, we will use the same number of bits to represent both $M$ and $Q$.
 %diagram goes here
 \pagebreak
 \begin{figure}
@@ -67,14 +66,14 @@ Since many architectures use fixed-sized registers to hold data, we will use the
 \caption{Shift-and-Add Multiplication}
 \end{figure}
 
-We see already a vast improvement in the performance of this algorithm, compared to the repeated additions method.
+We see already an improvement in the performance of this algorithm, compared to the repeated additions method.
 Each partial product shown corresponds to an addition operation (+M or +0).
 In every line except the first, there is also an implicit shift operation, corresponding to the significance of the bit being multiplied with $M$.
 Again, recall that the significance of bit $q_i$ is $2^i$, so if $q_i = 1$, then the partial product looks like $M$ followed by $i$ trailing 0s.
 Much like multiplying by powers of $10$ in decimal, we are simply ``shifting'' the bits in M to more significant place values.
 
 Compare the method described above, which involves the addition of 5 partial products and 4 shifts for this problem, to the method proposed in the introduction, which requires 23 additions.
-Even though this is only one example, it should give you a good idea of how much better the performance of this algorithm is.
+Even though this is only one example, it should give you a good idea of how much better the performance of this algorithm is than the first.
 The speedup is even greater if one considers that, on some machines, shift operations can potentially take less time than addition operations.
 
 \pagebreak
@@ -141,20 +140,23 @@ To encode an $n$-digit binary number $m$, examine the $i^{th}$ digit of $m$ (we 
 \item If $m_i$ and $m_{i-1}$ (the digit to the left of $m_i$) are 1 and 1, or they are 0 and 0, write 0 at the $i^{th}$ digit in the new encoded value.
 \item If $m_i$ and $m_{i-1}$ are 0 and 1 respectively, write 1 at the the $i^{th}$ digit in the new encoded value.
 \item If $m_i$ and $m_{i-1}$ are 1 and 0 respectively, write $\bar{1}$ at the $i^{th}$ digit in the new encoded value.
+\item When $i = 0$, assume $m_{i-1}$ is 0
 \end{enumerate}
 
 Take for example the binary number 011100011, which is $2^7 + 2^6 + 2^5 + 2^1 + 2^0 = 227$.
 Applying the method described above, our encoded value for this number is $100\bar{1}0010\bar{1}$ which is $2^8 - 2^5 + 2^2 - 2^0 = 227$
 In this way, the method takes a ``run'' of $1$s in a binary value (representing the series $2^{n} + 2^{n-1} + ...
-+ 2^{n-k}$), takes the first 0 bit to the left of the run and turns it into $1$ and turns the entire run into $0$s except for the last $1$, which is turned into $\bar{1}$.
++ 2^{n-k}$), takes the first 0 bit to the left of the run and turns it into $1$ and turns the entire run into $0$s except for the last $1$ in the run, which is turned into $\bar{1}$.
 
 How does this solve the problem of negative numbers?
 Remember that in a two's complement binary value the \emph{msb} represents a subtraction of the highest power of two.
 For example, $11100100$ represents the value $-(2^{7}) + 2^{6} + 2^{5} + 2^{2} = -128 + 64 + 32 + 4 = -28$
-Applying the method described above, we obtain an encoded value of $00\bar{1}01\bar{1}00$, which represents $-(2^{5} + 2^{3} - 2^{2}) = -32 + 8 - 4 = -28$.
+Applying the method described above, we obtain an encoded value of $00\bar{1}01\bar{1}00$, which represents $-(2^{5}) + 2^{3} - 2^{2} = -32 + 8 - 4 = -28$.
 Generally, if the \emph{msb} of an n-digit two's complement binary number is 1, then the leftmost ``run'' of $1$s represents the value $-(2^{n-1}) + 2^{n-2} + ...
 + 2^{(n-1)-k}$.
 Using the mathematical insight of Booth's Encoding technique, we convert this to $-(2^{n-1}) + (2^{n-1}) - 2^{(n-1)-k} = -2^{(n-1)-k}$.
+(Our sequence in this case was $2^{n-2} + 2^{n-3} + ...
++ 2^{(n-1)-k}$)
 Because Booth's Encoding is based on this mathematical equivalence, we are guaranteed to preserve the value of the candidate number, whether positive or negative.
  
 %TODO this belongs in hardware discussion
@@ -170,7 +172,7 @@ The pair `01' signifies the end of a sequence of 1s and corresponds to an additi
 The pairs '00' and '11' signify that no arithmetic operations need occur (the equivalent of adding 0).
 Since we would like to stay as close as possible to the algorithm outlined earlier, all cases will still require a shift.
 
-    In order to examine pairs of bits, we add an extra 1 bit register, called $\beta$ (or Beta) to hold the bit shifted out of Q.
+    In order to examine pairs of bits, we add an extra 1 bit register, called $\beta$ (or Beta) to hold the bit shifted out of register Q.
 $\beta$ is initialized to 0, so that at the start of the algorithm, if the least significant bit of Q is 1, it will read a pair `10' and execute a subtraction.
 Keep in mind now that whenever a shift occurs, the least significant bit of A is moved into the most significant bit of Q, and the least significant bit of Q is moved into $\beta$.
 The old value of $\beta$ is discarded.
