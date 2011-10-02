@@ -10,13 +10,25 @@
 \DeclareUnicodeCharacter{03B2}{\beta}
 %-------------------------------------------------------------------
 
+\title{Booth's Algorithm for the Multiplication of Signed Binary Numbers}
+\date{\today}
+\author{Christopher Jenkins\\ Trinity University, cjenkin1@trinity.edu
+    \and Adam Voss\\ Luther College, vossad01@luther.edu}
+
 \begin{document}
+
+\maketitle
+\tableofcontents
+
+\pagebreak
 
 \section{Objectives and Preparation}
 After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
 Booth's Multiplication Algorithm provides a simple and relatively efficient algorithm for using machine-register operations for the multiplication of two's complement binary values.
 
 This sections assumes familiarity with with binary addition at the machine level and with the two's complement representations of negative numbers.
+Additionally, it is recommended that a reading of this text is accompanied by Booth's Multiplication Algorithm Visualization, available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
+For information regarding the use of this tool, consult ``A Guide for Visualizing Booth's Multiplication Algorithm''.
 %Possibly make recommendations here
 
 \section{Introduction}
@@ -56,11 +68,13 @@ We can then express the problem $M \times Q$ as $M \times (q_{n-1} \times 2^{n-1
 Each one of the products $(q_i \times 2^{i}) \times M$ is a partial product.
 For binary values, there are only two values a partial product may be: if $q_i = 0$, then the result is simply $0$; otherwise the result is $M \times 2^i$.
 
+\pagebreak
+
 Consider the following calculation of the multiplication of 001011 and 010111, which are the numbers 11 and 23 in twos complement notation, respectively.
 Since many computer architectures use fixed-sized registers to hold data, we will use the same number of bits to represent both $M$ and $Q$.
+
 %diagram goes here
-\pagebreak
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{saam3.pdf}
 \caption{Shift-and-Add Multiplication}
@@ -76,15 +90,13 @@ Compare the method described above, which involves the addition of 5 partial pro
 Even though this is only one example, it should give you a good idea of how much better the performance of this algorithm is than the first.
 The speedup is even greater if one considers that, on some machines, shift operations can potentially take less time than addition operations.
 
-\pagebreak
-
 \section{Problems with the Shift-and-Add Method}
 There are several issues that prevent us from directly implementing the shift-and-add algorithm into hardware.
 To begin with, most ALUs are only capable of adding two numbers together at a time.
 This means a \emph{running product} must be calculated for every partial product, instead of calculating the final product at the very end of the process.
 The running product is initialized to 0, and for every partial product calculated the new running product is the sum of the old running product plus the partial product.
 We will call the space used to store the running product register A.
-Since we are begining our discussion of computer design problems, we will similarly refer to the space used to store the multiplicand and multiplier as register M and register Q, respectively.
+Since we are beginning our discussion of computer design problems, we will similarly refer to the space used to store the multiplicand and multiplier as register M and register Q, respectively.
 
 Notice also that as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
 It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right by 1.
@@ -96,13 +108,13 @@ In the previous example, the numbers we multiplied were represented as 6-digit b
 In general, if two n-bit numbers are multiplied, then the result can require as many as 2n bits to represent.
 Thus, the convention is to store the result of multiplication between two registers.
 
-\pagebreak
-
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{isaam2.pdf}
 \caption{Improved Shift-and-Add Multiplication}
 \end{figure}
+
+\pagebreak
 
 \section{Improved Shift-and-Add Multiplication}
 Figure 2 shows an improved version of the shift-and-add multiplication algorithm.
@@ -113,12 +125,13 @@ We could instead choose to always examine the \emph{lsb} of register Q, and for 
 Thus, when the algorithm finishes, all of the previous values in Q will have been discarded.
 This will allow us to be even more efficient: instead of using another register to store the lower half of the product, we can use register Q, because, for every bit discarded from Q, we can place into Q's most significant bit (\emph{msb}) the \emph{lsb} of A, saving ourselves from using a whole other register!
 
-\pagebreak
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics{init.pdf}
 \caption{Registers M, A, and Q, initialized for the multiplication of 11 and 23}
 \end{figure}
+
+\pagebreak
 
 \section{The Problem with Negative Numbers}
 Consider the multiplication of the following 4-bit 2's complement numbers: 0011 (3) and 1011 (-5).
@@ -183,11 +196,27 @@ The old value of $\beta$ is discarded.
 \caption{Registers M, A, Q, and Beta, initialized for the multiplication of 11 and 23}
 \end{figure}
 
+\pagebreak
+
 \section{Visualizing Booth's Multiplication}
-Everything we have considered so far for an appropriate machine level algorithm to multiply two's complement values has been implemented as a JHAVÉ visualization.
+Everything we have considered so far for an appropriate machine level algorithm to multiply two's complement values has been implemented as a JHAVÉ algorithm visualization.
 Instead of using the form of the previous examples, it more closely resembles the way the algorithm might be executed in hardware, placing explicitly the multiplicand and multiplier in registers M and Q respectively, and storing the final result in registers A and Q.
-An example run-through is provided below, as well as a link to a use-case video.
-Step through the visualization as many times as you need, answering the questions as they appear, then proceed on to the exercises.
+Familiarize yourself with the format of the visualization by consulting ``A Guide for Visualizing Booth’s Multiplication Algorithm'', then step through the visualization as many times as you need to understand how the algorithm works, answering the questions as they appear.
+Once you have finished, proceed to the exercises, detailed below.
+
+\section{Exercises}
+For each of the following exercises, there is a corresponding visualization with the same name available on JHAVÉ.
+We suggest solving the exercises by entering your answers into the visualization's ``input generator'', as the visualization is designed to judge the correctness of your solution and provided feedback if you have made a mistake.
+
+\begin{description}
+    \item [Exercise 1] Initialize Booth's Multiplication Algorithm for the multiplication of numbers X and Y by giving the values of the registers M, A, and Q, the bit $\beta$, and Count
+    \item [Exercise 2] Complete Booth's Multiplication Algorithm for the multiplication of numbers X and Y by initializing the values of the registers M, A, Q, the bit $\beta$, and Count, and then giving the values of each at the end of each iteration of the algorithm's loop
+    \item [Exercise 3] Give numbers X and Y, either in binary or in decimal, so that they will result in the least efficient performance of Booth's Algorithm for $n$-digit binary numbers
+\end{description}
+%For your reference, the previous states of the registers are kept on screen as the visualization progresses.
+%They are grayed to indicate they are no longer the active values of the registers.
+%An example run-through is provided below, as well as a link to a use-case video.%TODO this
+%Step through the visualization as many times as you need, answering the questions as they appear, then proceed on to the exercises.
 
 %\section{Example Run of the Visualization}
 %After starting the JHAVÉ client and selecting ``Booth's Multiplication Algorithm'', an input generator window will appear with four text fields, two for decimal input and two four binary input, and a menu to select register size.
@@ -201,7 +230,7 @@ Step through the visualization as many times as you need, answering the question
 
 %The next few snapshots of the visualization 
 
-\section{How it works}
+%\section{How it works}
 %-------------------------------------------------------------------
 % to create references, un-comment \bibliographystyle{plain} and
 % un-comment \bibliography{myBIBfile} and re-name its arguemnt(s)
