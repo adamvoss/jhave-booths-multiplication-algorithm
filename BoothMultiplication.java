@@ -224,19 +224,104 @@ public class BoothMultiplication {
         REG_SIZE = RegM.getSize();
 
         //----Register A Initialization Frame----
-        init[0] = init[2]+(COL_SPACE);
-        init[2] = init[0]+REG_WIDTH;
+        initializeRegisterA(trace_labels, init);
+
+        //----Register Q Initialization Frame----
+        initializeRegisterQ(multiplier, binary, decimal, trace_labels, init);
+
+        //----Bit β Initialization Frame----
+        initializeBitβ(trace_labels, init);
+
+        //----Count Initialization Frame----
+        initializeCount(trace_labels, init);
+        
+        //----Do the rest----
+        double[] last =  currentRow.get(0).getBounds();
+        
+        currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
+        
+        //Maybe this should be a function of GAIGSpane
+        double[] unitLengths = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates(new double[]{0,0,1,1})));
+        double unitLengthX = unitLengths[2]-unitLengths[0];
+        
+        currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
+                last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Initialization", FONT_SIZE*0.5));
+        
+        boothsMultiplication();
+
+        //----Finished Frame----
+        showFinalFrame(args, binary, decimal);
+
+        show.close();
+    }
+
+	/**
+	 * @param args
+	 * @param binary
+	 * @param decimal
+	 */
+	private static void showFinalFrame(String[] args, GAIGSArithmetic binary,
+			ColoredResultArithmetic decimal) {
+		decimal.complete();
+        binary.complete();
+        RegA.setFillOutlineColor(GREEN);
+//        RegA.setTextColor(FONT_COLOR);
+        RegQ.setFillOutlineColor(GREEN);
+//        RegQ.setTextColor(FONT_COLOR);
+        easySnap("The result is " + RegA + RegQ + "\nwhich is "
+                + ((Integer.parseInt(Utilities.toDecimal(args[1])))*(Integer.parseInt(Utilities.toDecimal(args[2])))) + 
+                " in decimal", easyPseudo(-1), null);
+	}
+
+	/**
+	 * @param trace_labels
+	 * @param init
+	 */
+	private static void initializeCount(
+			GAIGSpane<GAIGSmonospacedText> trace_labels, double[] init) {
+		init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
+        init[2] = trace.getWidth() - RIGHT_MARGIN;
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                COLBL_FONT_SIZE, FONT_COLOR, "A", COLBL_FONT_SIZE/2));
-        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
-        RegA.set("0");
-        currentRow.add(RegA);
-        easySnap("A is initialized to Zero", easyPseudo(3), null);
+                COLBL_FONT_SIZE, FONT_COLOR, "Count", COLBL_FONT_SIZE/2));
+        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        currentRow.add(Count);
+        easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
+	}
 
-        //----Register Q Initialization Frame----
-        init[0] = init[2]+(COL_SPACE);
+	/**
+	 * @param trace_labels
+	 * @param init
+	 */
+	private static void initializeBitβ(
+			GAIGSpane<GAIGSmonospacedText> trace_labels, double[] init) {
+		init[0] = init[2]+(COL_SPACE);
+        init[2] = init[0]+FONT_SIZE;
+        trace_labels.add(new GAIGSmonospacedText(
+                (init[2]-init[0])/2.0+init[0], init[3],
+                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                COLBL_FONT_SIZE, FONT_COLOR, "β", COLBL_FONT_SIZE/2));
+        Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        Q_1.set("0");
+        currentRow.add(Q_1);
+        
+        easySnap("β is initialized to Zero", easyPseudo(5), null);
+	}
+
+	/**
+	 * @param multiplier
+	 * @param binary
+	 * @param decimal
+	 * @param trace_labels
+	 * @param init
+	 */
+	private static void initializeRegisterQ(String multiplier,
+			GAIGSArithmetic binary, ColoredResultArithmetic decimal,
+			GAIGSpane<GAIGSmonospacedText> trace_labels, double[] init) {
+		GAIGSarrow leftArrow;
+		GAIGSarrow rightArrow;
+		init[0] = init[2]+(COL_SPACE);
         init[2] = init[0]+REG_WIDTH;
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
@@ -267,56 +352,25 @@ public class BoothMultiplication {
         easySnap(null, easyPseudo(4), null);
         header.remove(rightArrow);
         header.remove(leftArrow);
+	}
 
-        //----Bit β Initialization Frame----
-        init[0] = init[2]+(COL_SPACE);
-        init[2] = init[0]+FONT_SIZE;
+	/**
+	 * @param trace_labels
+	 * @param init
+	 */
+	private static void initializeRegisterA(
+			GAIGSpane<GAIGSmonospacedText> trace_labels, double[] init) {
+		init[0] = init[2]+(COL_SPACE);
+        init[2] = init[0]+REG_WIDTH;
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                COLBL_FONT_SIZE, FONT_COLOR, "β", COLBL_FONT_SIZE/2));
-        Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
-        Q_1.set("0");
-        currentRow.add(Q_1);
-        
-        easySnap("β is initialized to Zero", easyPseudo(5), null);
-
-        //----Count Initialization Frame----
-        init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
-        init[2] = trace.getWidth() - RIGHT_MARGIN;
-        trace_labels.add(new GAIGSmonospacedText(
-                (init[2]-init[0])/2.0+init[0], init[3],
-                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                COLBL_FONT_SIZE, FONT_COLOR, "Count", COLBL_FONT_SIZE/2));
-        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
-        currentRow.add(Count);
-        easySnap("Count is initialized to\nthe number of bits in a register.", easyPseudo(6), null);
-        double[] last =  currentRow.get(0).getBounds();
-        
-        currentRow.add(new GAIGSline(new double[] {last[0], trace.getWidth()}, new double[] {last[1]-ROW_SPACE/2, last[1]-ROW_SPACE/2}));
-        
-        //Maybe this should be a function of GAIGSpane
-        double[] unitLengths = main.getRealCoordinates(trace.getRealCoordinates(currentRow.getRealCoordinates(new double[]{0,0,1,1})));
-        double unitLengthX = unitLengths[2]-unitLengths[0];
-        
-        currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
-                last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Initialization", FONT_SIZE*0.5));
-        
-        boothsMultiplication();
-
-        //----Finished Frame----
-        decimal.complete();
-        binary.complete();
-        RegA.setFillOutlineColor(GREEN);
-//        RegA.setTextColor(FONT_COLOR);
-        RegQ.setFillOutlineColor(GREEN);
-//        RegQ.setTextColor(FONT_COLOR);
-        easySnap("The result is " + RegA + RegQ + "\nwhich is "
-                + ((Integer.parseInt(Utilities.toDecimal(args[1])))*(Integer.parseInt(Utilities.toDecimal(args[2])))) + 
-                " in decimal", easyPseudo(-1), null);
-
-        show.close();
-    }
+                COLBL_FONT_SIZE, FONT_COLOR, "A", COLBL_FONT_SIZE/2));
+        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegA.set("0");
+        currentRow.add(RegA);
+        easySnap("A is initialized to Zero", easyPseudo(3), null);
+	}
 
     public static void boothsMultiplication(){
         //Maybe this should be a function of GAIGSpane
@@ -327,10 +381,7 @@ public class BoothMultiplication {
         
         while (Count.getCount() >= 0){
             //----Count Frame----
-            Count.setFillColor(YELLOW);
-            easySnap("Check the value of Count", easyPseudo(8, YELLOW, BLACK), null);
-            //Change color back
-            Count.setFillColor(DEFAULT_COLOR);
+            showCountFrame();
 
             if (Count.getBit(0) == 0) break; //Thats so we get the final check
 
@@ -439,9 +490,6 @@ public class BoothMultiplication {
             addRow();
             rightShift(RegA, RegQ, Q_1);
 
-            //Question and write
-            question que = quest.getShiftQuestion(); 
-
             //Colors
             getRegisterFromRow(trace.size()-2, REGA).setFillOutlineColor(GREEN);
             getRegisterFromRow(trace.size()-2, REGQ).setFillOutlineColor(BLUE);
@@ -456,7 +504,7 @@ public class BoothMultiplication {
             currentRow.add(new GAIGSmonospacedText(0-(GAIGSpane.narwhal_JHAVE_X_MARGIN-GAIGSpane.JHAVE_X_MARGIN)/unitLengthX,
                     last[1], GAIGSmonospacedText.HRIGHT, GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR, "Shift", FONT_SIZE*0.5));
             
-            easySnap("Sign-Preserving Right Shift", easyPseudo(19, BLUE, BLACK), que);
+            easySnap("Sign-Preserving Right Shift", easyPseudo(19, BLUE, BLACK), quest.getShiftQuestion());
             //    		RegQ.setTextColor(FONT_COLOR);
             Q_1.setFillOutlineColor(DEFAULT_COLOR);
 
@@ -477,6 +525,16 @@ public class BoothMultiplication {
             //Hey!  We're ready to loop!
         }
     }
+
+	/**
+	 * 
+	 */
+	private static void showCountFrame() {
+		Count.setFillColor(YELLOW);
+		easySnap("Check the value of Count", easyPseudo(8, YELLOW, BLACK), null);
+		//Change color back
+		Count.setFillColor(DEFAULT_COLOR);
+	}
 
     public static void rightShift(GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
         if (A.getSize() < 1) return;
