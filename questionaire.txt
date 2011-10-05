@@ -1,0 +1,30 @@
+Do you consider yourself a visual learner?
+
+Using the visualization helped me learn and understand the algorithm (Agree) (Disagree)
+
+(could ask the same question about specific features but not sure which ones to care about)
+
+Rank the following items with respect to how helpful you thought they were:
+  The visualization pictures
+  The pseudo-code tab
+  The info tab
+  The pop-up questions
+  The color scheme (???)
+  The exercises
+Use 1 for the most helpful, 5 for the least.
+
+I could have learned the algorithm just fine without the visualization.
+
+
+
+= These will be helpful for us but open ended questions will be hard to use in analysis unless many users say the same thing =
+
+Please indicate areas for improvement:
+
+  Visualization:
+
+  Textbook:
+
+  Guide:
+
+Additional Thoughts
