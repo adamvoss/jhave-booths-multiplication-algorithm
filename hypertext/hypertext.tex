@@ -10,7 +10,7 @@
 \DeclareUnicodeCharacter{03B2}{\beta}
 %-------------------------------------------------------------------
 
-\title{Booth's Algorithm for the Multiplication of Signed Binary Numbers}
+\title{Multiplication of Signed Binary Numbers}
 \date{\today}
 \author{Christopher Jenkins\\ Trinity University, cjenkin1@trinity.edu
     \and Adam Voss\\ Luther College, vossad01@luther.edu}
@@ -23,28 +23,42 @@
 \pagebreak
 
 \section{Objectives and Preparation}
-After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
-Booth's Multiplication Algorithm provides a simple and relatively efficient algorithm for using machine-register operations for the multiplication of two's complement binary values.
+In this section we will introduce the concept of multiplication of signed binary numbers and work towards a simple but relatively efficient multiplication algorithm known as Booth's Multiplication Algorithm.
 
-This sections assumes familiarity with with binary addition at the machine level and with the two's complement representations of negative numbers.
-Additionally, it is recommended that a reading of this text is accompanied by Booth's Multiplication Algorithm Visualization, available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
+To follow this section you will need a familiarity the two's complement representation of signed numbers.
+We will consistently use big-endian ordering, meaning that the right-most bit will be the least significant bit, when presenting binary numbers.
+Some background on machine architecture, such as registers and primitive operations, will be helpful.
+%While some references are made to decimal multiplication methods, these are explained in this text and the reader need no prior understanding. :P
+
+We recommend this text be used in conjunction with the Booth's Multiplication Algorithm Visualization available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
+%wordy, consider revision
 For information regarding the use of this tool, consult ``A Guide for Visualizing Booth's Multiplication Algorithm''.
-%Possibly make recommendations here
+%add URL
 
-\section{Introduction}
-The process of binary multiplication is significantly more computationally complex than that of addition.
+\section{Lot's of Additions} %If this is too informal feel free to change it
 Multiplication is often defined recursively as repeated additions.
-%Consider providing full definition|Perhaps, but it seems implied in the following example
-Using this approach to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
-This method is inefficient, and execution time varies depending on the values multiplied.
-For example, the equivalent problem of calculating $23 \times 11$ requires 12 fewer operations.
-Since as computer architects we prefer predictability to unpredictability, we would like to make several modifications to this algorithm so that it resembles something that could be done well in hardware.
-%There is not background to this statement of Architects and efficiency.|I didn't think one was required - it seems intuitive
+%you may add a formal definition here if you like, it would be very appropriate
+To calculate $11 \times 23$, you start with 0 and add 11 to it 23 times.
+However, the numerically equivalent problem of calculating $23 \times 11$ requires and additional twelve fewer.
+You could do a comparison to ensure the multiplier is always the smaller number, but on average there will still be a lot of addition operations.
+%Could be omitted I suppose.
+
+This works equally well for binary numbers: %This might flow better if I didn't go back and forth between Binary, Decimal
+\begin{equation}
+0 + 1111 + 1111 + 1111 = 1101 = 1111 \times 0011
+\end{equation}
+
+Despite working for multiplying signed numbers, this method has the undesired characteristic of has wildly varying execution times tied to the magnitude of the numbers being multiplied.
+Additionally because of the repeated use of addition, this multiplication is grunted to be significantly more computationally complex than that of binary addition.
+%We say computationally complex so I am very tempted to state the complexity classification Big-O of n where n is the multiplier (or the lesser of the multiplicand, multiplier)
+
+Computer architects generally prefer predictability in execution times.
+We don't need to do repeated additions when ever we do multiplication, so hopefully we can use that insight to find a more efficient way do to do binary multiplication.
 
 %This section seems math-y, maybe should be re-arranged in the article
 \section{Shift-and-Add Multiplication}
 The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
-%Is this paragraph necessary? I think so. It's probably not a bad idea to be explicit, since "partial products" or "shift and add" may not be very familiar to the student
+
 To review, multiplication by partial products involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
 The results of these individual multiplications are referred to as ``partial products'', and the sum of these partial products is the final product.
 
