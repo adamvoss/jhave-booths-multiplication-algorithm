@@ -38,14 +38,14 @@ For information regarding the use of this tool, consult ``A Guide for Visualizin
 \section{Lot's of Additions} %If this is too informal feel free to change it
 Multiplication is often defined recursively as repeated additions.
 %you may add a formal definition here if you like, it would be very appropriate
-To calculate $11 \times 23$, you start with 0 and add 11 to it 23 times.
-However, the numerically equivalent problem of calculating $23 \times 11$ requires and additional twelve fewer.
+To calculate $11 \cdot 23$, you start with 0 and add 11 to it 23 times.
+However, the numerically equivalent problem of calculating $23 \cdot 11$ requires and additional twelve fewer.
 You could do a comparison to ensure the multiplier is always the smaller number, but on average there will still be a lot of addition operations.
 %Could be omitted I suppose.
 
 This works equally well for binary numbers: %This might flow better if I didn't go back and forth between Binary, Decimal
 \begin{equation}
-0 + 1111 + 1111 + 1111 = 1101 = 1111 \times 0011
+0 + 1111 + 1111 + 1111 = 1101 = 1111 \cdot 0011
 \end{equation}
 
 Despite working for multiplying signed numbers, this method has the undesired characteristic of has wildly varying execution times tied to the magnitude of the numbers being multiplied.
@@ -78,9 +78,9 @@ If the current bit of the multiplier is 1, the current, shifted Multiplicand is 
 
 Another way to think of this is as follows: let $Q$ be an n-digit binary number and let the $i^{th}$ bit of $Q$ be denoted $q_i$ (this text goes by the convention that the $0^{th}$ bit of a binary value is the rightmost or least-significant bit).
 Then the significance (or ``place-value'' as you learned it in elementary school) of $q_i$ is $2^i$.
-We can then express the problem $M \times Q$ as $M \times (q_{n-1} \times 2^{n-1} + q_{n-2} \times 2^{n-2} + \ldots + q_{0} \times 2^{0})$.
-Each one of the products $(q_i \times 2^{i}) \times M$ is a partial product.
-For binary values, there are only two values a partial product may be: if $q_i = 0$, then the result is simply $0$; otherwise the result is $M \times 2^i$.
+We can then express the problem $M \cdot Q$ as $M \cdot (q_{n-1} \cdot 2^{n-1} + q_{n-2} \cdot 2^{n-2} + \ldots + q_{0} \cdot 2^{0})$.
+Each one of the products $(q_i \cdot 2^{i}) \cdot M$ is a partial product.
+For binary values, there are only two values a partial product may be: if $q_i = 0$, then the result is simply $0$; otherwise the result is $M \cdot 2^i$.
 
 \pagebreak
 
