@@ -4,6 +4,12 @@ Using the visualization helped me learn and understand the algorithm (Agree) (Di
 
 (could ask the same question about specific features but not sure which ones to care about)
 
+The hypertextbook was helpful in understanding how and why the algorithm works
+"                   " unclear or ambiguous in some sections
+I read through some parts of the hypertext book more than once to improve my understanding of the topic
+
+The guide was informative and helpful for setting up and using the visualization (for our own reference, not for research)
+
 Rank the following items with respect to how helpful you thought they were:
   The visualization pictures
   The pseudo-code tab
@@ -13,7 +19,20 @@ Rank the following items with respect to how helpful you thought they were:
   The exercises
 Use 1 for the most helpful, 5 for the least.
 
-I could have learned the algorithm just fine without the visualization.
+The use of colors in the visualization was confusing or unclear
+
+I frequently chose or gave the correct answer for the pop-up questions on my first attempt
+
+I frequently guessed on the pop-up questions.
+
+The questions were ambiguous or confusing
+
+The input generator was easy to understand and use
+
+I ran visualizations for multiple inputs to better understand the algorithm. (Maybe ask how many, roughly)
+
+
+I could have learned the algorithm without the use of the visualization. (Just a little more formal)
 
 
 
