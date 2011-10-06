@@ -56,43 +56,53 @@ Computer architects generally prefer predictability in execution times.
 We don't need to do repeated additions when ever we do multiplication, so hopefully we can use that insight to find a more efficient way do to do binary multiplication.
 
 %This section seems math-y, maybe should be re-arranged in the article
-\section{Shift-and-Add Multiplication}
-The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
+\section{Multiplication by Partial Products}
+Multiplication by partial products is what most people use when they do long multiplication.
+It involves multiplying two numbers: the multiplicand,$M$, by successively more significant digits of the multiplier, or $Q$.
+Each of these individual multiplications is referred to as a ``partial product''. The sum of these partial products is the final product.
 
-To review, multiplication by partial products involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
-The results of these individual multiplications are referred to as ``partial products'', and the sum of these partial products is the final product.
+%Picture or equation here
 
-%This paragraph is very much draft quality, but I thought it important to show where the name came from
-% as this provides more background as well at introducing hardware for parity with how we present Booth.
+Since that works works well for us with decimal numbers, lets try it with binary.
+Consider the following calculation of the multiplication of 01011 and 010111, which are the numbers 11 and 23 respectively,  in two's complement notation.
 
-%If this is not what you wanted for shift and add, then maybe present it as partial products
-%Then use the next section to provide how partial products translates to shifts and add in HW
-\begin{comment}
-When translated to binary, multiplication by partial products is reduced to a series of shift and add operation which is where the name comes from.
-The product is kept in an initially zeroed register with each partial sum added to it.
-As the multiplicand bits are traversed from least-significant to most-significant, every succession is accompanied by a left-shift of the Multiplicand.
-%Maybe tie in here that the sift is equivalent to *2, which is the binary equivalent of decimal *10 (add a zero to the end)
-If the current bit of the multiplier is 1, the current, shifted Multiplicand is added into the Sum register.
-\end{comment}
-%Oh dear, the merge is going to be harder than I thought, since I already developed some of this stuff later.
+%diagram goes here
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.7]{saam3.pdf} %remove the leading zero from this diagram % add the final times 0 multiplication?
+\caption{Multiplication by Partial Products}
+\end{figure}
 
+While this looks simpler, because there are now only five addition operations compared to the 23 we saw using repeated additions.
+However, we have now have six multiplications which may seem like we are making our problem worse.
+We will see how these multiplications are not a problem a computer in the next section.
+
+
+An astute reader may have realized that this does not work directly for negative numbers when they are in two's complement notation.
+In that case we can simply change the numbers to their positive representation and do the multiplication.
+When we are done we determine the sign of the result just the same as with decimal multiplication:
+
+\begin{center}
+    \begin{tabular}{ l | l | l }
+        positive & positive & positive \\
+        positive & negative & negative \\
+        negative & positive & negative \\
+        negative & negative & positive \\
+    \end{tabular}
+\end{center}
+
+\begin{comment} %moved because this was binary information mixed in with decimal talk
 Another way to think of this is as follows: let $Q$ be an n-digit binary number and let the $i^{th}$ bit of $Q$ be denoted $q_i$ (this text goes by the convention that the $0^{th}$ bit of a binary value is the rightmost or least-significant bit).
 Then the significance (or ``place-value'' as you learned it in elementary school) of $q_i$ is $2^i$.
 We can then express the problem $M \cdot Q$ as $M \cdot (q_{n-1} \cdot 2^{n-1} + q_{n-2} \cdot 2^{n-2} + \ldots + q_{0} \cdot 2^{0})$.
 Each one of the products $(q_i \cdot 2^{i}) \cdot M$ is a partial product.
 For binary values, there are only two values a partial product may be: if $q_i = 0$, then the result is simply $0$; otherwise the result is $M \cdot 2^i$.
+\end{comment}
 
-\pagebreak
 
-Consider the following calculation of the multiplication of 001011 and 010111, which are the numbers 11 and 23 in twos complement notation, respectively.
-Since many computer architectures use fixed-sized registers to hold data, we will use the same number of bits to represent both $M$ and $Q$.
 
-%diagram goes here
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.7]{saam3.pdf}
-\caption{Shift-and-Add Multiplication}
-\end{figure}
+\section{Shift-and-Add: The Hardware-friendly Implementation} %be sure to state how XOR of the MSB provides whether the result is positive or negative
+The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
 
 We see already an improvement in the performance of this algorithm, compared to the repeated additions method.
 Each partial product shown corresponds to an addition operation (+M or +0).
@@ -103,8 +113,16 @@ Much like multiplying by powers of $10$ in decimal, we are simply ``shifting'' t
 Compare the method described above, which involves the addition of 5 partial products and 4 shifts for this problem, to the method proposed in the introduction, which requires 23 additions.
 Even though this is only one example, it should give you a good idea of how much better the performance of this algorithm is than the first.
 The speedup is even greater if one considers that, on some machines, shift operations can potentially take less time than addition operations.
-
-\section{Problems with the Shift-and-Add Method}
+%If this is not what you wanted for shift and add, then maybe present it as partial products
+%Then use the next section to provide how partial products translates to shifts and add in HW
+\begin{comment}
+When translated to binary, multiplication by partial products is reduced to a series of shift and add operation which is where the name comes from.
+The product is kept in an initially zeroed register with each partial sum added to it.
+As the multiplicand bits are traversed from least-significant to most-significant, every succession is accompanied by a left-shift of the Multiplicand.
+%Maybe tie in here that the sift is equivalent to *2, which is the binary equivalent of decimal *10 (add a zero to the end)
+If the current bit of the multiplier is 1, the current, shifted Multiplicand is added into the Sum register.
+\end{comment}
+%Oh dear, the merge is going to be harder than I thought, since I already developed some of this stuff later.
 There are several issues that prevent us from directly implementing the shift-and-add algorithm into hardware.
 To begin with, most ALUs are only capable of adding two numbers together at a time.
 This means a \emph{running product} must be calculated for every partial product, instead of calculating the final product at the very end of the process.
