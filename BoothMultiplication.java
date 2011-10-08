@@ -816,23 +816,48 @@ public class BoothMultiplication {
     }
 
     private static String infoRegisterM() {
-        return "<html>Register M</html>";
+        return "<html><h3>Welcome to the Booth's Multiplication Algorithm Visulization</h3>" + "<br/>" +
+        		"Booth's Multiplication Algorithm provides a relativly simple way to " +
+                "multiply binary numbers stored in two's complement notation.  " +
+                "As such, it is of academic interest in computer architecture.  " + "<br/>" +
+                "Due to the computer architecture connection, machine registers are used " +
+                "for storage of data.  The exact details of these registers will " +
+                "vary between differen machine architectures.  " + "<br/>" + "<br/>" +
+                "To begin with we will we will store the multiplicand.  " +
+                "This register will not be modifided over the course of the algorithm" +
+        		"</html>";
     }
 
     private static String infoRegisterA() {
-        return "<html>Register A</html>";
+        return "<html>The second register, <italic>A<italic/>, is initialized to zero." + "<br/><br/>" +
+        		"<italic>A<italic/> acts as a running sum and its value will be used in " +
+        		"determining the resulting product" +
+        		"</html>";
     }
 
     private static String infoRegisterQ() {
-        return "<html>Register Q</html>";
+        return "<html>Register <italic>Q</italic> is initialized to the value of the multiplicand.  " +
+        		"However, <italic>Q</italic> is also be used to store the result and will be " +
+        		"destructivly modified during the execution of the algorithm." + "<br/><br/>" +
+        		"The use of an additional register for the product is necessary because when " +
+        		"multiplying two n-bit numbers, the result can be as large as 2*n-bits." +
+        		"</html>";
     }
 
     private static String infoBeta() {
-        return "<html>β</html>";
+        return "<html><italic>β</italic> is also initialized to zero.  " +
+        		"Aince the multiplier is not stored over the couse of the algorithm, " +
+        		"a single bit of information from it needs to be kept at each iteration of the algorithm. " +
+        		"Specific hardware approaches for storing this will vary, so here we stimply denote it as a Bit." +
+        		"</html>";
+        //Talk about what this bit tells us.
     }
 
     private static String infoCount() {
-        return "<html>Count</html>";
+        return "<html>Shown in decimal form for convenience, Count would also need a register or some other" +
+        		"storage.  One possibility would be to store it and <italic>β</italic> " +
+        		"in a single full-length register." +
+        		"</html>";
     }
 
     private static String infoCheckCount() {
