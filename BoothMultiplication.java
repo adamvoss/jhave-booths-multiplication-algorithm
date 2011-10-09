@@ -458,7 +458,7 @@ public class BoothMultiplication {
 
                 easySnap(
                         (cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A",
-                        infoAddition(),
+                        (cmpVal == 1 ? infoSubtraction() : infoAddition()),
                         easyPseudo((cmpVal == 1 ? 11 : 14), GREEN, BLACK),
                         quest.getAdditionQuestion());
                 // Remove Overflow Label
@@ -824,14 +824,14 @@ public class BoothMultiplication {
                 "for storage of data.  The exact details of these registers will " +
                 "vary between differen machine architectures.  " + "<br/><br/>" +
                 "To begin with we will we will store the multiplicand.  " +
-                "This register will not be modifided over the course of the algorithm" +
+                "This register will not be modifided over the course of the algorithm." +
         		"</html>";
     }
 
     private static String infoRegisterA() {
         return "<html>The second register, <i>A</i>, is initialized to zero." + "<br/><br/>" +
-        		"<i>A<i/> acts as a running sum and its value will be used in " +
-        		"determining the resulting product" +
+        		"<i>A</i> acts as a running sum and its value will be used in " +
+        		"determining the resulting product." +
         		"</html>";
     }
 
@@ -857,7 +857,7 @@ public class BoothMultiplication {
         return "<html><i>Count</i>  is used to keep track of the number of times to execute the " +
         		"loop of the algorithm.  It is initialized to the number of bits " +
         		"used to represent the multipier: in this case the size of the register.  " +
-        		"<br/><br/>" + "Shown in decimal form for convenience, <i>Count</i>  would" +
+        		"<br/><br/>" + "Shown in decimal form for convenience, <i>Count</i> would" +
         		"also need a register or some other storage.  One possibility would be " +
         		"to store it and <i>β</i> in a single full-length register." +
         		"</html>";
@@ -868,17 +868,32 @@ public class BoothMultiplication {
         		"Thus, it needs to be checked against zero to determine whether to enter the loop body." +
         		"</html>";
     }
+    
+    public static String infoDetermineOpPreamble(){
+        return "The least-significant bit of <i>Q</i> and <i>β</i> determine how " +
+                "the algorithm behaves on each iteration of the loop." + "</br></br>";
+    }
 
+    //TODO This section needs more math explanation
     private static String infoDetermineOp() {
-        return "<html>Based on the last-significant bit of </html>";
+        return "<html>" + infoDetermineOpPreamble() +
+                "Since the bits differ then an addition or subtraction needs to occur." +
+                "</html>";
     }
-
+    
+    //TODO More Math
     private static String infoDetermineNoMath() {
-        return "<html>Only a Shift</html>";
+        return "<html>" + infoDetermineOpPreamble() +
+                "Since the the bits are the same (both zero or both one) then the algorithm is in a block of zeros or ones.  " +
+                "There is thus no addition or subtraction in this iteration.  Only a shift operation will occur." +
+                "</html>";
     }
 
+    //TODO More Math
     private static String infoAddition() {
-        return "<html>Addition or Subtraction</html>";
+        return "<html>An addition or subtraction of the multiplicand, <i>M</i>, executed on <i>A</i>.  " +
+        		"Since the value in <i>A</i> gets shifted in this algorithm this every time an addition" +
+        		"or straction exctues on <i>A</i>, it is affecting more-significant bits of the result.</html>";
     }
 
     private static String infoSubtraction() {
@@ -886,15 +901,26 @@ public class BoothMultiplication {
     }
 
     private static String infoShift() {
-        return "<html>Shift</html>";
+        return "<html>A sign-preserving right shift shift occured across <i>A</i>, <i>Q</i>, and <i>β</i>.  " +
+        		"That is, every bit is moved right one position, with the most-significant bit of <i>Q</i> " +
+        		"replaced becoming the previous least-significant bit of <i>A</i>, and similarly with <i>β</i> " +
+        		"The previous value of <i>β</i> is discarded.  The most significant bit of <i>A</i> stays at its " +
+        		"previous value.  " + "</br></br>" +
+        		"This is effectivly multiplication by 2<sup>-1</sup> of the number " +
+        		"that would be found in A though the second-least-significant bit of <i>M</i>.  " +
+        		"The bit that is discarded was part of of the multiplier and was never part of <i>A</i> " +
+        		"(where all bits of the result originate)." +
+        		"</html>";
     }
 
     private static String infoDecrement() {
-        return "<html>Decrement Count</html>";
+        return "<html>An iteration of the algorithm's loop has completed.  Thus <i>Count</i>  " +
+        		"is decremented so the proper number of iterations occur.</html>";
     }
 
     private static String infoFinished() {
-        return "<html>Finished</html>";
+        return "<html>Now that the execution of the algorithm has complete, " +
+        		"the result is the number that spans <i>A</i>,<i>M</i>.</html>";
     }
 
 }
