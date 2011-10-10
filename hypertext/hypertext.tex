@@ -36,12 +36,14 @@ We recommend this text be used in conjunction with the Booth's Multiplication Al
 For information regarding the use of this tool, consult ``A Guide for Visualizing Booth's Multiplication Algorithm''.
 %add URL
 
-\section{Lot's of Additions} %If this is too informal feel free to change it
-Multiplication is often defined recursively as repeated additions.
+\section{Multiplication by Repeated Additions} %If this is too informal feel free to change it
+Multiplication is often defined recursively as repeated additions: \begin{align}
+a \cdot b = 0 + \underbrace{a + \cdots + a}_{b} %TODO cite Wikipedia!
+\end{align}
 %you may add a formal definition here if you like, it would be very appropriate
-To calculate $11 \cdot 23$, you start with 0 and add 11 to it 23 times.
-However, the numerically equivalent problem of calculating $23 \cdot 11$ requires and additional twelve fewer.
-You could do a comparison to ensure the multiplier is always the smaller number, but on average there will still be a lot of addition operations.
+Thus, to calculate $11 \cdot 23$, you start with 0 and add 11 to it 23 times.
+However, the numerically equivalent problem of calculating $23 \cdot 11$ requires twelve fewer additions.
+You could do a comparison to ensure the multiplier is always the smaller number, but on average there will still be many addition operations.
 %Could be omitted I suppose.
 
 This works equally well for binary numbers: %This might flow better if I didn't go back and forth between Binary, Decimal
@@ -49,18 +51,16 @@ This works equally well for binary numbers: %This might flow better if I didn't 
 0 + 1111 + 1111 + 1111 = 1101 = 1111 \cdot 0011
 \end{equation}
 
-Despite working for multiplying signed numbers, this method has the undesired characteristic of having wildly varying execution time tied to the magnitude of the numbers being multiplied.
-Additionally, because of the repeated use of addition, this multiplication is guaranteed to be significantly more computationally complex than that of binary addition.
+Despite working for multiplying signed numbers, this method has the undesired characteristic of having wildly varying execution time since it is tied to the magnitude of the numbers being multiplied.
+Computer architects generally prefer predictability in execution times, and since we do not usually do repeated additions when we do decimal multiplication by hand, we hope we can use some insight from our experience doing decimal multiplication to find a more efficient way do to do binary multiplication with hardware.
+%55: Additionally, because of the repeated use of addition, this multiplication is guaranteed to be significantly more computationally complex than that of binary addition.
 %We say computationally complex so I am very tempted to state the complexity classification Big-O of n where n is the multiplier (or the lesser of the multiplicand, multiplier)
-
-Computer architects generally prefer predictability in execution times.
-We do not need to do repeated additions when we do decimal multiplication by hand.
-Hopefully we can use insight from our experience doing decimal multiplication to find a more efficient way do to do binary multiplication with hardware.
+%I want to leave this out since it might imply that we will develop something that isn't significantly more complex than addition.
 
 %This section seems math-y, maybe should be re-arranged in the article
 \section{Multiplication by Partial Products}
-Multiplication by partial products is what most people use to do long multiplication.
-It involves multiplying two numbers: the multiplicand, $M$, by successively more significant digits of the multiplier, or $Q$.
+Multiplication by partial products is the method most people use to do long multiplication.
+It involves multiplying two numbers: the multiplicand, $M$, by successively more significant digits of the multiplier, $Q$.%Consistancy!
 Each of these individual multiplications is referred to as a \textsl{partial product}.
 The sum of all the partial products is the product of $M$ and $Q$.
 
