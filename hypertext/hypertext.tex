@@ -66,7 +66,7 @@ The sum of all the partial products is the product of $M$ and $Q$.
 
 %Picture or equation here
 
-Since that works works well for decimal numbers, lets try it with binary.
+This method works equally well for both decimal and binary numbers.
 Consider the following calculation of 01011 times 010111, which are the decimal numbers 11 and 23 represented in two's complement binary notation.
 
 %diagram goes here
@@ -78,9 +78,8 @@ Consider the following calculation of 01011 times 010111, which are the decimal 
 \end{figure}
 
 This looks simpler because there are now only five addition operations compared to the 23 we saw using repeated additions.
-However, we have now have six multiplications which may seem like we are making our problem of needing to multiply two numbers worse.
-We will see how these additional multiplications are not a problem a computer in the next section.
-
+However, we now have six multiplications which may seem like we are making our problem of needing to multiply two numbers worse.
+We will see how these additional multiplications are not a problem for a computer in the next section.%I liked the discussion of M * 0 => 0, M * 1 => M here. I don't think the student will be too confused here, so there's no reason to put the discussion off for later. It's not technically a computer issue
 
 An astute reader may have realized that this method does not work directly for negative numbers when they are in two's complement notation.
 In that case we can simply take the absolute values of the numbers before doing the multiplication.
@@ -157,11 +156,13 @@ You should study it.
 \caption{Improved Shift-and-Add Multiplication}
 \end{figure}
 
+\pagebreak
+
 \section{Trimming Shift-and-Add Multiplication}
 
 There is still another computer design issue which could make this method easier to implement in hardware: in the last example, the bit in register Q we are using to calculate a partial product is always positioned one to the left of the previous bit we used, or else it is the right-most (least significant, \emph{lsb}) bit of register Q when the multiplication starts.
-We could instead choose to always examine the \emph{lsb} of register Q, and for every right shift operation on register A, we would also do a right shift on register Q.
-Thus, when the algorithm finishes, all of the previous values in Q will have been discarded.
+We could instead choose to always examine the \emph{lsb} of register Q, and for every right shift operation on register A, we would also do a right shift on register Q. %Thus, when the algorithm finishes, all of the previous values in Q will have been discarded.
+Thus, as the algorithm progresses, the values in register Q will discarded one bit at a time.
 This will allow us to be even more efficient: instead of using another register to store the lower half of the product, we can use register Q, because, for every bit discarded from Q, we can place into Q's most significant bit (\emph{msb}) the \emph{lsb} of A, saving ourselves from using a whole other register!
 
 \begin{figure}[h]
@@ -184,7 +185,7 @@ In 1951, Andrew Booth introduced an alternative method for multiplying two's com
 At its heart is the observation that a number like 0111, which is understood to mean $2^2 + 2^1 + 2^0 = 4 + 2 + 1 = 7$, can also be thought of as $2^3 - 2^0 = 8 - 1 = 7$.
 This can be written (encoded) as $100\bar{1}$, where 1 and 0 have their understood meanings, and $\bar{1}$ represents $-1$.
 Generally, it can be shown that any sequence $2^n + 2^{n-1} + ...
-+ 2^{n-k}$ (where $k+1$ is the number of terms in the sequence) is equal to $2^{n+1} - 2^{n-k}$
++ 2^{n-k}$ (where $k+1$ is the number of terms in the sequence) is equal to $2^{n+1} - 2^{n-k}$.
 
 To encode an $n$-digit binary number $m$, examine the $i^{th}$ digit of $m$ (we will call it $m_i$) and do one of the following: %TODO citation needed for this
 
@@ -202,7 +203,7 @@ In this way, the method takes a ``run'' of $1$s in a binary value (representing 
 
 How does this solve the problem of negative numbers?
 Remember that in a two's complement binary value the \emph{msb} represents a subtraction of the highest power of two.
-For example, $11100100$ represents the value $-(2^{7}) + 2^{6} + 2^{5} + 2^{2} = -128 + 64 + 32 + 4 = -28$
+For example, $11100100$ represents the value $-(2^{7}) + 2^{6} + 2^{5} + 2^{2} = -128 + 64 + 32 + 4 = -28$.
 Applying the method described above, we obtain an encoded value of $00\bar{1}01\bar{1}00$, which represents $-(2^{5}) + 2^{3} - 2^{2} = -32 + 8 - 4 = -28$.
 Generally, if the \emph{msb} of an n-digit two's complement binary number is 1, then the leftmost ``run'' of $1$s represents the value $-(2^{n-1}) + 2^{n-2} + ...
 + 2^{(n-1)-k}$.
@@ -214,9 +215,6 @@ Because Booth's Encoding is based on this mathematical equivalence, we are guara
 %TODO this belongs in hardware discussion
 %This property has the potential to further increase efficiency, as any arbitrary ``run'' of $1$s (series of powers of 2) will be reduced to just 2 arithmetic operations, since when we encounter $0$s we need only shift.
 
-%How does this solve negative numbers?
-%Hadn't gotten there yet
-
 \section{Booth's Algorithm in Hardware}
     At the hardware level we are only allowed the use of 0 and 1 to represent values, so we instead examine pairs of bits.
 Scanning a binary number from right to left, the pair `10' signifies the beginning of a sequence of 1s and thus corresponds to a subtraction (or $\bar{1}$).
@@ -225,7 +223,7 @@ The pairs '00' and '11' signify that no arithmetic operations need occur (the eq
 Since we would like to stay as close as possible to the algorithm outlined earlier, all cases will still require a shift.
 
     In order to examine pairs of bits, we add an extra 1 bit register, called $\beta$ (or Beta) to hold the bit shifted out of register Q.
-$\beta$ is initialized to 0, so that at the start of the algorithm, if the least significant bit of Q is 1, it will read a pair `10' and execute a subtraction.
+$\beta$ is initialized to 0, so that at the start of the algorithm, if the least significant bit of Q is 1, the compuer will read a pair `10' in register Q and execute a subtraction.
 Keep in mind now that whenever a shift occurs, the least significant bit of A is moved into the most significant bit of Q, and the least significant bit of Q is moved into $\beta$.
 The old value of $\beta$ is discarded.
 
@@ -243,12 +241,12 @@ Once you have finished, proceed to the exercises, detailed below.
 
 \section{Exercises}
 For each of the following exercises, there is a corresponding visualization with the same name available on JHAVÉ.
-We suggest solving the exercises by entering your answers into the visualization's ``input generator'', as the visualization is designed to judge the correctness of your solution and provided feedback if you have made a mistake.
+We suggest solving the exercises by entering your answers into the visualization's ``input generator'', as the visualization is designed to judge the correctness of your solution and provide feedback if you have made a mistake.
 
 \begin{description}
-    \item [Exercise 1] Initialize Booth's Multiplication Algorithm for the multiplication of numbers X and Y by giving the values of the registers M, A, and Q, the bit $\beta$, and Count
-    \item [Exercise 2] Complete Booth's Multiplication Algorithm for the multiplication of numbers X and Y by initializing the values of the registers M, A, Q, the bit $\beta$, and Count, and then giving the values of each at the end of each iteration of the algorithm's loop
-    \item [Exercise 3] Give numbers X and Y, either in binary or in decimal, so that they will result in the least efficient performance of Booth's Algorithm for $n$-digit binary numbers
+    \item [Exercise 1] Initialize Booth's Multiplication Algorithm for the multiplication of two random integers X and Y by giving the values of the registers M, A, and Q, the bit $\beta$, and Count
+    \item [Exercise 2] Complete Booth's Multiplication Algorithm for the multiplication of two random integers X and Y by initializing the values of the registers M, A, Q, the bit $\beta$, and Count, and then giving the values of each at the end of each iteration of the algorithm's loop
+    \item [Exercise 3] Give numbers X and Y, either in binary or in decimal, so that they will result in the least efficient performance of Booth's Algorithm for $n$-digit binary numbers, i.e. those $n$-digit numbers which will result in the greatest number of both arithmetic and shift operations combined.
 \end{description}
 %For your reference, the previous states of the registers are kept on screen as the visualization progresses.
 %They are grayed to indicate they are no longer the active values of the registers.
