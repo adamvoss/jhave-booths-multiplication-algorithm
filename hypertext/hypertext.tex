@@ -25,9 +25,10 @@
 \section{Objectives and Preparation}
 In this section we will introduce the concept of multiplication of signed binary numbers and work towards a simple but relatively efficient multiplication algorithm known as Booth's Multiplication Algorithm.
 
-To follow this section you will need a familiarity the two's complement representation of signed numbers.
+To follow this section you will need to be familiar with the two's complement representation of signed numbers.
 We will consistently use big-endian ordering, meaning that the right-most bit will be the least significant bit, when presenting binary numbers.
-Some background on machine architecture, such as registers and primitive operations, will be helpful.
+
+Some background on machine architecture, such as registers and primitive operations, will also be helpful.
 %While some references are made to decimal multiplication methods, these are explained in this text and the reader need no prior understanding. :P
 
 We recommend this text be used in conjunction with the Booth's Multiplication Algorithm Visualization available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
@@ -48,38 +49,41 @@ This works equally well for binary numbers: %This might flow better if I didn't 
 0 + 1111 + 1111 + 1111 = 1101 = 1111 \cdot 0011
 \end{equation}
 
-Despite working for multiplying signed numbers, this method has the undesired characteristic of has wildly varying execution times tied to the magnitude of the numbers being multiplied.
-Additionally because of the repeated use of addition, this multiplication is grunted to be significantly more computationally complex than that of binary addition.
+Despite working for multiplying signed numbers, this method has the undesired characteristic of having wildly varying execution time tied to the magnitude of the numbers being multiplied.
+Additionally, because of the repeated use of addition, this multiplication is guaranteed to be significantly more computationally complex than that of binary addition.
 %We say computationally complex so I am very tempted to state the complexity classification Big-O of n where n is the multiplier (or the lesser of the multiplicand, multiplier)
 
 Computer architects generally prefer predictability in execution times.
-We don't need to do repeated additions when ever we do multiplication, so hopefully we can use that insight to find a more efficient way do to do binary multiplication.
+We do not need to do repeated additions when we do decimal multiplication by hand.
+Hopefully we can use insight from our experience doing decimal multiplication to find a more efficient way do to do binary multiplication with hardware.
 
 %This section seems math-y, maybe should be re-arranged in the article
 \section{Multiplication by Partial Products}
-Multiplication by partial products is what most people use when they do long multiplication.
-It involves multiplying two numbers: the multiplicand,$M$, by successively more significant digits of the multiplier, or $Q$.
-Each of these individual multiplications is referred to as a ``partial product''. The sum of these partial products is the final product.
+Multiplication by partial products is what most people use to do long multiplication.
+It involves multiplying two numbers: the multiplicand, $M$, by successively more significant digits of the multiplier, or $Q$.
+Each of these individual multiplications is referred to as a ``partial product''.
+The sum of all the partial products is the product of $M$ and $Q$.
 
 %Picture or equation here
 
-Since that works works well for us with decimal numbers, lets try it with binary.
-Consider the following calculation of the multiplication of 01011 and 010111, which are the numbers 11 and 23 respectively,  in two's complement notation.
+Since that works works well for decimal numbers, lets try it with binary.
+Consider the following calculation of 01011 times 010111, which are the decimal numbers 11 and 23 represented in two's complement binary notation.
 
 %diagram goes here
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{saam3.pdf} %remove the leading zero from this diagram % add the final times 0 multiplication?
+\includegraphics[scale=0.7]{saam3.pdf}
+%remove the leading zero from this diagram % add the final times 0 multiplication?
 \caption{Multiplication by Partial Products}
 \end{figure}
 
-While this looks simpler, because there are now only five addition operations compared to the 23 we saw using repeated additions.
-However, we have now have six multiplications which may seem like we are making our problem worse.
-We will see how these multiplications are not a problem a computer in the next section.
+This looks simpler because there are now only five addition operations compared to the 23 we saw using repeated additions.
+However, we have now have six multiplications which may seem like we are making our problem of needing to multiply two numbers worse.
+We will see how these additional multiplications are not a problem a computer in the next section.
 
 
-An astute reader may have realized that this does not work directly for negative numbers when they are in two's complement notation.
-In that case we can simply change the numbers to their positive representation and do the multiplication.
+An astute reader may have realized that this method does not work directly for negative numbers when they are in two's complement notation.
+In that case we can simply take the absolute values of the numbers before doing the multiplication.
 When we are done we determine the sign of the result just the same as with decimal multiplication:
 
 \begin{center}
