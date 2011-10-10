@@ -10,7 +10,7 @@
 \DeclareUnicodeCharacter{03B2}{\beta}
 %-------------------------------------------------------------------
 
-\title{Multiplication of Signed Binary Numbers}
+\title{Multiplication of Signed Binary Numbers: A Constructivist Approach}
 \date{\today}
 \author{Christopher Jenkins\\ Trinity University, cjenkin1@trinity.edu
     \and Adam Voss\\ Luther College, vossad01@luther.edu}
@@ -83,11 +83,15 @@ In that case we can simply change the numbers to their positive representation a
 When we are done we determine the sign of the result just the same as with decimal multiplication:
 
 \begin{center}
-    \begin{tabular}{ l | l | l }
+    \begin{tabular}{| l | l | l |}
+        \hline
+        multiplicand & multiplier & product \\
+        \hline
         positive & positive & positive \\
         positive & negative & negative \\
         negative & positive & negative \\
         negative & negative & positive \\
+        \hline
     \end{tabular}
 \end{center}
 
@@ -146,8 +150,6 @@ Thus, the convention is to store the result of multiplication between two regist
 \caption{Improved Shift-and-Add Multiplication}
 \end{figure}
 
-\pagebreak
-
 \section{Improved Shift-and-Add Multiplication}
 Figure 2 shows an improved version of the shift-and-add multiplication algorithm.
 You should study it so that you understand how the problems which were discussed in the previous section are addressed in this new shift and add method.
@@ -162,8 +164,6 @@ This will allow us to be even more efficient: instead of using another register 
 \includegraphics{init.pdf}
 \caption{Registers M, A, and Q, initialized for the multiplication of 11 and 23}
 \end{figure}
-
-\pagebreak
 
 \section{The Problem with Negative Numbers}
 Consider the multiplication of the following 4-bit 2's complement numbers: 0011 (3) and 1011 (-5).
@@ -227,8 +227,6 @@ The old value of $\beta$ is discarded.
 \includegraphics{init2.pdf}
 \caption{Registers M, A, Q, and Beta, initialized for the multiplication of 11 and 23}
 \end{figure}
-
-\pagebreak
 
 \section{Visualizing Booth's Multiplication}
 Everything we have considered so far for an appropriate machine level algorithm to multiply two's complement values has been implemented as a JHAVÉ algorithm visualization.
