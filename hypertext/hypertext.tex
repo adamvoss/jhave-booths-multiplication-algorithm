@@ -61,7 +61,7 @@ Hopefully we can use insight from our experience doing decimal multiplication to
 \section{Multiplication by Partial Products}
 Multiplication by partial products is what most people use to do long multiplication.
 It involves multiplying two numbers: the multiplicand, $M$, by successively more significant digits of the multiplier, or $Q$.
-Each of these individual multiplications is referred to as a ``partial product''.
+Each of these individual multiplications is referred to as a \textsl{partial product}.
 The sum of all the partial products is the product of $M$ and $Q$.
 
 %Picture or equation here
@@ -112,11 +112,15 @@ For binary values, there are only two values a partial product may be: if $q_i =
 \section{Shift-and-Add: The Hardware-friendly Implementation} %be sure to state how XOR of the MSB provides whether the result is positive or negative
 The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
 
-We see already an improvement in the performance of this algorithm, compared to the repeated additions method.
-Each partial product shown corresponds to an addition operation (+M or +0).
-In every line except the first, there is also an implicit shift operation, corresponding to the significance of the bit being multiplied with $M$.
+Each partial product in Figure 1 appears to be an addition of either $M$ or $0$.
+As you can see, this number is visually shifted one-digit left of the pervious on each subsequent line.
+While we could do a left shift of the multiplicand on each operation to achieve this effect, it turns out it is more efficient to treat this as an implicit right-shift of the running product.
+
+The increased shifting corresponds to the significance of the bit being multiplied with $M$.
 Again, recall that the significance of bit $q_i$ is $2^i$, so if $q_i = 1$, then the partial product looks like $M$ followed by $i$ trailing 0s.
-Much like multiplying by powers of $10$ in decimal, we are simply ``shifting'' the bits in M to more significant place values.
+Much like multiplying by $10^i$ in decimal, we are simply ``shifting'' the bits in $M$ to more significant place values.
+We will refer to this operation as a \emph{sign-preserving right shift}, or \emph{sprs} for short.
+This is also known as an \emph{arithmetic right shift}.
 
 Compare the method described above, which involves the addition of 5 partial products and 4 shifts for this problem, to the method proposed in the introduction, which requires 23 additions.
 Even though this is only one example, it should give you a good idea of how much better the performance of this algorithm is than the first.
@@ -131,22 +135,21 @@ As the multiplicand bits are traversed from least-significant to most-significan
 If the current bit of the multiplier is 1, the current, shifted Multiplicand is added into the Sum register.
 \end{comment}
 %Oh dear, the merge is going to be harder than I thought, since I already developed some of this stuff later.
-There are several issues that prevent us from directly implementing the shift-and-add algorithm into hardware.
-To begin with, most ALUs are only capable of adding two numbers together at a time.
-This means a \emph{running product} must be calculated for every partial product, instead of calculating the final product at the very end of the process.
-The running product is initialized to 0, and for every partial product calculated the new running product is the sum of the old running product plus the partial product.
-We will call the space used to store the running product register A.
-Since we are beginning our discussion of computer design problems, we will similarly refer to the space used to store the multiplicand and multiplier as register M and register Q, respectively.
 
-Notice also that as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
-It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right by 1.
-We will refer to this operation as a \emph{sign-preserving right shift}, or \emph{sprs} for short.
-This is also known as an \emph{arithmetic right shift}.
+As most ALUs are only capable of adding two numbers together at a time, a \emph{running product} must be use to store the partial products instead of saving the summation for the end of the process. %Valid question, What's an ALU?
+The running product is initialized to 0, and for every partial product calculated the new running product is the sum of the old running product plus the partial product.
+
+We will call the space used to store the running product register $A$.
+Since we are beginning our discussion of computer design problems, we will similarly refer to the space used to store the multiplicand and multiplier as register $M$ and register $Q$, respectively.
+
 
 Finally, we need to consider register size.
 In the previous example, the numbers we multiplied were represented as 6-digit binary values; their result, however, required 10 bits to represent.
 In general, if two n-bit numbers are multiplied, then the result can require as many as 2n bits to represent.
-Thus, the convention is to store the result of multiplication between two registers.
+Thus, the result of multiplication will need to span two registers.
+
+Figure 2 depicts an execution of the shift-and-add multiplication algorithm.
+You should study it.
 
 \begin{figure}[h]
 \centering
@@ -154,9 +157,7 @@ Thus, the convention is to store the result of multiplication between two regist
 \caption{Improved Shift-and-Add Multiplication}
 \end{figure}
 
-\section{Improved Shift-and-Add Multiplication}
-Figure 2 shows an improved version of the shift-and-add multiplication algorithm.
-You should study it so that you understand how the problems which were discussed in the previous section are addressed in this new shift and add method.
+\section{Trimming Shift-and-Add Multiplication}
 
 There is still another computer design issue which could make this method easier to implement in hardware: in the last example, the bit in register Q we are using to calculate a partial product is always positioned one to the left of the previous bit we used, or else it is the right-most (least significant, \emph{lsb}) bit of register Q when the multiplication starts.
 We could instead choose to always examine the \emph{lsb} of register Q, and for every right shift operation on register A, we would also do a right shift on register Q.
@@ -169,12 +170,14 @@ This will allow us to be even more efficient: instead of using another register 
 \caption{Registers M, A, and Q, initialized for the multiplication of 11 and 23}
 \end{figure}
 
+\begin{comment} %already addressed
 \section{The Problem with Negative Numbers}
 Consider the multiplication of the following 4-bit 2's complement numbers: 0011 (3) and 1011 (-5).
 We expect a result of -15 (11110001); however, currently the method we have been developing is unable to distinguish between signed and unsigned values, and would multiply 3 by 11 (the unsigned decimal value of 1011).
 One way around this behavior would be to calculate the absolute values of our multiplier and multiplicand.
 Then, after the positive product was calculated, if either the multiplicand or the multiplier are negative (but not both), calculate the two's complement of the product.
 This is a suboptimal solution from a design point of view, as it introduces the need for extra hardware and/or processing of binary numbers whenever we wish to multiply.
+\end{comment}
 
 \section{Booth's Encoding}
 In 1951, Andrew Booth introduced an alternative method for multiplying two's complement numbers.
