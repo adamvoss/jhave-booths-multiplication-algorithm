@@ -100,8 +100,8 @@ Since we are beginning our discussion of computer design problems, we will simil
 
 Notice also that, as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
 It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right by 1.
-We will refer to this operation as a \emph{sign-preserving right shift}, or \emph{sprs} for short.%TODO Change graphic, sprs
-This is also known as an \emph{arithmetic right shift}.
+We will refer to this operation as a \emph{sign-preserving right shift}.
+It is also known as an \emph{arithmetic right shift}.
 
 Finally, we need to consider register size.
 In the previous example, the numbers we multiplied were represented as 6-digit binary values; their result, however, required 10 bits to represent.
@@ -127,7 +127,7 @@ This will allow us to be even more efficient: instead of using another register 
 
 \begin{figure}[h]
 \centering
-\includegraphics{init.pdf}
+\includegraphics[scale=0.4]{init.pdf}
 \caption{Registers M, A, and Q, initialized for the multiplication of 11 and 23}
 \end{figure}%TODO why doesn't this print? Try another figure
 
@@ -191,7 +191,7 @@ The old value of $\beta$ is discarded.
 
 \begin{figure}[h]
 \centering
-\includegraphics{init2.pdf}
+\includegraphics[scale=0.4]{init2.pdf}
 \caption{Registers M, A, Q, and Beta, initialized for the multiplication of 11 and 23}
 \end{figure}%TODO FIGURE
 
