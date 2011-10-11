@@ -10,7 +10,7 @@
 \DeclareUnicodeCharacter{03B2}{\beta}
 %-------------------------------------------------------------------
 
-\title{Multiplication of Signed Binary Numbers in Computer Hardware}
+\title{Multiplication of Signed Binary Numbers in Computer Hardware: A Constructivist Approach}
 \date{\today}
 \author{Christopher Jenkins\\ Trinity University, cjenkin1@trinity.edu
     \and Adam Voss\\ Luther College, vossad01@luther.edu}
@@ -31,52 +31,42 @@ Some background on machine architecture, such as an understanding of registers a
 
 We recommend this text be used in conjunction with the Booth’s Multiplication Algorithm Visualization available on the Java-Hosted Algorithm Visualization Environment (JHAVE).
 For information regarding the use of this tool, consult ``A Guide for Visualizing Booth’s Multiplication Algorithm''.
-%After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
-%Booth's Multiplication Algorithm provides a simple and relatively efficient algorithm for using machine-register operations for the multiplication of two's complement binary values.
-
-%This section assumes familiarity with binary addition at the machine level and with the two's complement representations of negative numbers.
-%Additionally, it is recommended that a reading of this text be accompanied by Booth's Multiplication Algorithm Visualization, available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
-%For information regarding the use of this tool, consult ``A Guide for Visualizing Booth's Multiplication Algorithm''.
-%Possibly make recommendations here
+%add URL here
 
 \section{Multiplication by Repeated Additions}
-The process of binary multiplication is significantly more computationally complex than that of addition.
-Multiplication is often defined as repeated additions.
-%Consider providing full definition|Perhaps, but it seems implied in the following example
-Using this approach to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
-This method is inefficient, and execution time varies depending on the values multiplied.
-For example, the equivalent problem of calculating $23 \times 11$ requires 12 fewer operations.
-Since as computer architects we prefer predictability to unpredictability, we would like to make several modifications to this algorithm so that it resembles something that could be done well in hardware.
-%There is not background to this statement of Architects and efficiency.|I didn't think one was required - it seems intuitive
+Multiplication is often defined as repeated additions, like so: \begin{align}
+a \cdot b = 0 + \underbrace{a + \cdots + a}_{b} %TODO cite Wikipedia!
+\end{align}
+Thus, to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
+
+This method works equally well for binary numbers: %This might flow better if I didn't go back and forth between Binary, Decimal
+\begin{equation}
+1111 \cdot 0011 = 0 + 1111 + 1111 + 1111 = 1101
+\end{equation}
+
+Despite working for multiplying signed numbers, this method has the undesired characteristic of having varying execution time since it is tied to the magnitude of the numbers being multiplied.
+For example, the equivalent problem of calculating $23 \times 11$ requires twelve fewer operations.
+You could first make a comparison to ensure that you always multiply by the smaller number, but on average there will still be many additions.
+Computer architects generally prefer predictability in execution times, and since we do not usually do repeated additions when we multiply decimal numbers by hand anyway, we should hope that we can find some insight from our experience of doing decimal multiplication to find a more efficient and predictable way to do binary multiplication with hardware.
 
 %This section seems math-y, maybe should be re-arranged in the article
-\section{Shift-and-Add Multiplication}
-The ``shift-and-add'' method for binary multiplication is the binary-equivalent of multiplication by partial products.
-%Is this paragraph necessary? I think so. It's probably not a bad idea to be explicit, since "partial products" or "shift and add" may not be very familiar to the student
-To review, multiplication by partial products involves multiplying one number, hereafter called the multiplicand, or $M$, by successively more significant digits of the other number, hereafter referred to as the multiplier, or $Q$.
-The results of these individual multiplications are referred to as ``partial products'', and the sum of these partial products is the final product.
+\section{Multiplication using the `Shift-and-Add' Method}
+The ``shift-and-add'' method for binary multiplication is the same as multiplication by partial products, which is the method most people use to do long multiplication.
+To review, multiplication by partial products involves multiplying one number, called the multiplicand (or $M$), by successively more significant digits of the other number, called the multiplier (or $Q$).%Consistancy!
+Each of these individual multiplications is referred to as a \textsl{partial product}.
+The sum of all the partial products is the product of $M$ and $Q$.
 
 %This paragraph is very much draft quality, but I thought it important to show where the name came from
 % as this provides more background as well at introducing hardware for parity with how we present Booth.
 
 %If this is not what you wanted for shift and add, then maybe present it as partial products
 %Then use the next section to provide how partial products translates to shifts and add in HW
-\begin{comment}
-When translated to binary, multiplication by partial products is reduced to a series of shift and add operation which is where the name comes from.
-The product is kept in an initially zeroed register with each partial sum added to it.
-As the multiplicand bits are traversed from least-significant to most-significant, every succession is accompanied by a left-shift of the Multiplicand.
-%Maybe tie in here that the sift is equivalent to *2, which is the binary equivalent of decimal *10 (add a zero to the end)
-If the current bit of the multiplier is 1, the current, shifted Multiplicand is added into the Sum register.
-\end{comment}
-%Oh dear, the merge is going to be harder than I thought, since I already developed some of this stuff later.
 
 Another way to think of this is as follows: let $Q$ be an n-digit binary number and let the $i^{th}$ bit of $Q$ be denoted $q_i$ (this text goes by the convention that the $0^{th}$ bit of a binary value is the rightmost or least-significant bit).
 Then the significance (or ``place-value'' as you learned it in elementary school) of $q_i$ is $2^i$.
 We can then express the problem $M \times Q$ as $M \times (q_{n-1} \times 2^{n-1} + q_{n-2} \times 2^{n-2} + \ldots + q_{0} \times 2^{0})$.
 Each one of the products $(q_i \times 2^{i}) \times M$ is a partial product.
 For binary values, there are only two values a partial product may be: if $q_i = 0$, then the result is simply $0$; otherwise the result is $M \times 2^i$.
-
-\pagebreak
 
 Consider the following calculation of the multiplication of 001011 and 010111, which are the numbers 11 and 23 in two's complement notation, respectively.
 Since many computer architectures use fixed-sized registers to hold data, we will use the same number of bits to represent both $M$ and $Q$.
@@ -85,7 +75,7 @@ Since many computer architectures use fixed-sized registers to hold data, we wil
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{saam3.pdf}
-\caption{Shift-and-Add Multiplication}
+\caption{Shift-and-Add Method}
 \end{figure}
 
 We see already an improvement in the performance of this algorithm, compared to the repeated additions method.
@@ -98,7 +88,7 @@ Compare the method described above, which involves the addition of 5 partial pro
 Even though this is only one example, it should give you a good idea of how much better the performance of this algorithm is than the first.
 The speedup is even greater if one considers that, on some machines, shift operations can potentially take less time than addition operations.
 
-\section{Problems with the Shift-and-Add Method}
+\section{Improving the Shift-and-Add Method}
 There are several issues that prevent us from directly implementing the shift-and-add algorithm in hardware.
 To begin with, most ALUs are only capable of adding two numbers together at a time.
 This means a \emph{running product} must be calculated for every partial product, instead of calculating the final product at the very end of the process.
@@ -107,14 +97,16 @@ We will call the space used to store the running product register A.
 Since we are beginning our discussion of computer design problems, we will similarly refer to the space used to store the multiplicand and multiplier as register M and register Q, respectively.
 
 Notice also that, as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
-It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right by 1.
-We will refer to this operation as a \emph{sign-preserving right shift}.
-It is also known as an \emph{arithmetic right shift}.
+It is a much simpler task to always add into the same location of the running product and then shift the running product to the right by 1.
+We refer to this operation as a \emph{sign-preserving right shift}; it is also known as an \emph{arithmetic right shift}.
 
 Finally, we need to consider register size.
 In the previous example, the numbers we multiplied were represented as 6-digit binary values; their result, however, required 10 bits to represent.
 In general, if two n-bit numbers are multiplied, then the result can require as many as 2n bits to represent.
 Thus, the convention is to store the result of multiplication between two registers.
+
+Figure 2 depicts an execution of the shift-and-add multiplication algorithm which addresses the problems we have so far considered.
+You should study it.
 
 \begin{figure}[h]
 \centering
@@ -123,10 +115,6 @@ Thus, the convention is to store the result of multiplication between two regist
 \end{figure}
 
 \pagebreak
-
-\section{Improved Shift-and-Add Multiplication}
-Figure 2 shows an improved version of the shift-and-add multiplication algorithm.
-You should study it so that you understand how the problems which were discussed in the previous section are addressed in this new shift and add method.
 
 There is still another computer design issue which could make this method easier to implement in hardware: in the last example, the bit in register Q we are using to calculate a partial product is always positioned one to the left of the previous bit we used, or else it is the right-most (least significant, \emph{lsb}) bit of register Q when the multiplication starts.
 We could instead choose to always examine the \emph{lsb} of register Q, and for every right shift operation on register A, we would also do a right shift on register Q.
@@ -144,8 +132,24 @@ This will allow us to be even more efficient: instead of using another register 
 \section{The Problem with Negative Numbers}
 Consider the multiplication of the following 4-bit two's complement numbers: 0011 (3) and 1011 (-5).
 We expect a result of -15 (11110001); however, currently the method we have been developing is unable to distinguish between signed and unsigned values, and would multiply 3 by 11 (the unsigned decimal value of 1011).
-One way around this behavior would be to calculate the absolute values of our multiplier and multiplicand.
-Then, after the positive product was calculated, if either the multiplicand or the multiplier are negative (but not both), calculate the two's complement of the product.
+In this case, we must calculate the absolute values of the numbers before multiplying them.
+When we are finished, we determine the sign of the result in the same way we would with decimal multiplication:
+%One way around this behavior would be to calculate the absolute values of our multiplier and multiplicand.
+%Then, after the positive product was calculated, if either the multiplicand or the multiplier are negative (but not both), calculate the two's complement of the product.
+
+\begin{center}
+    \begin{tabular}{| l | l | l |}
+        \hline
+        multiplicand & multiplier & product \\
+        \hline
+        positive & positive & positive \\
+        positive & negative & negative \\
+        negative & positive & negative \\
+        negative & negative & positive \\
+        \hline
+    \end{tabular}
+\end{center}
+
 This is a suboptimal solution from a design point of view, as it introduces the need for extra hardware and/or processing of binary numbers whenever we wish to multiply.
 
 \section{Booth's Encoding}
@@ -158,7 +162,7 @@ To encode an $n$-digit binary number $m$, examine the $i^{th}$ digit of $m$ (we 
 
 \begin{enumerate}
 \item If $m_i$ and $m_{i-1}$ (the digit to the right of $m_i$) are 1 and 1, or they are 0 and 0, write 0 at the $i^{th}$ digit in the new encoded value.
-\item If $m_i$ and $m_{i-1}$ are 0 and 1 respectively, write 1 at the the $i^{th}$ digit in the new encoded value.
+\item If $m_i$ and $m_{i-1}$ are 0 and 1 respectively, write 1 at the $i^{th}$ digit in the new encoded value.
 \item If $m_i$ and $m_{i-1}$ are 1 and 0 respectively, write $\bar{1}$ at the $i^{th}$ digit in the new encoded value.
 \item When $i = 0$, assume $m_{i-1}$ is 0
 \end{enumerate}
@@ -182,14 +186,13 @@ Because Booth's Encoding is based on this mathematical equivalence, we are guara
 %TODO this belongs in hardware discussion
 %This property has the potential to further increase efficiency, as any arbitrary ``run'' of $1$s (series of powers of 2) will be reduced to just 2 arithmetic operations, since when we encounter $0$s we need only shift.
 
-%How does this solve negative numbers?
-%Hadn't gotten there yet
-
 \section{Booth's Algorithm in Hardware}
     At the hardware level we are only allowed the use of 0 and 1 to represent values, so we instead examine pairs of bits.
 Scanning a binary number from right to left, the pair `10' signifies the beginning of a sequence of 1s and thus corresponds to a subtraction (or $\bar{1}$).
 The pair `01' signifies the end of a sequence of 1s and corresponds to an addition.
 The pairs '00' and '11' signify that no arithmetic operations need occur (the equivalent of adding 0).
+This property has the potential to increase the efficiency of our algorithm, as any arbitrary ``run'' of $1$s will be reduced to just 2 arithmetic operations.
+
 Since we would like to stay as close as possible to the algorithm outlined earlier, all cases will still require a shift.
 
     In order to examine pairs of bits, we add an extra 1 bit register, called $\beta$ (or Beta) to hold the bit shifted out of register Q.
