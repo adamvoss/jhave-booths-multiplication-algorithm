@@ -26,14 +26,14 @@
 After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
 Booth's Multiplication Algorithm provides a simple and relatively efficient algorithm for using machine-register operations for the multiplication of two's complement binary values.
 
-This sections assumes familiarity with with binary addition at the machine level and with the two's complement representations of negative numbers.
-Additionally, it is recommended that a reading of this text is accompanied by Booth's Multiplication Algorithm Visualization, available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
+This section assumes familiarity with binary addition at the machine level and with the two's complement representations of negative numbers.
+Additionally, it is recommended that a reading of this text be accompanied by Booth's Multiplication Algorithm Visualization, available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
 For information regarding the use of this tool, consult ``A Guide for Visualizing Booth's Multiplication Algorithm''.
 %Possibly make recommendations here
 
 \section{Introduction}
 The process of binary multiplication is significantly more computationally complex than that of addition.
-Multiplication is often defined recursively as repeated additions.
+Multiplication is often defined as repeated additions.
 %Consider providing full definition|Perhaps, but it seems implied in the following example
 Using this approach to calculate $11 \times 23$, you would start with 0 and add 11 to it 23 times.
 This method is inefficient, and execution time varies depending on the values multiplied.
@@ -70,7 +70,7 @@ For binary values, there are only two values a partial product may be: if $q_i =
 
 \pagebreak
 
-Consider the following calculation of the multiplication of 001011 and 010111, which are the numbers 11 and 23 in twos complement notation, respectively.
+Consider the following calculation of the multiplication of 001011 and 010111, which are the numbers 11 and 23 in two's complement notation, respectively.
 Since many computer architectures use fixed-sized registers to hold data, we will use the same number of bits to represent both $M$ and $Q$.
 
 %diagram goes here
@@ -91,16 +91,16 @@ Even though this is only one example, it should give you a good idea of how much
 The speedup is even greater if one considers that, on some machines, shift operations can potentially take less time than addition operations.
 
 \section{Problems with the Shift-and-Add Method}
-There are several issues that prevent us from directly implementing the shift-and-add algorithm into hardware.
+There are several issues that prevent us from directly implementing the shift-and-add algorithm in hardware.
 To begin with, most ALUs are only capable of adding two numbers together at a time.
 This means a \emph{running product} must be calculated for every partial product, instead of calculating the final product at the very end of the process.
 The running product is initialized to 0, and for every partial product calculated the new running product is the sum of the old running product plus the partial product.
 We will call the space used to store the running product register A.
 Since we are beginning our discussion of computer design problems, we will similarly refer to the space used to store the multiplicand and multiplier as register M and register Q, respectively.
 
-Notice also that as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
+Notice also that, as the algorithm progresses, the position at which the numbers are added incrementally slides to the left.
 It is a much simpler task to design a machine that always adds into the same location and then shifts the running product to the right by 1.
-We will refer to this operation as a \emph{sign-preserving right shift}, or \emph{sprs} for short.
+We will refer to this operation as a \emph{sign-preserving right shift}, or \emph{sprs} for short.%TODO Change graphic, sprs
 This is also known as an \emph{arithmetic right shift}.
 
 Finally, we need to consider register size.
@@ -122,19 +122,19 @@ You should study it so that you understand how the problems which were discussed
 
 There is still another computer design issue which could make this method easier to implement in hardware: in the last example, the bit in register Q we are using to calculate a partial product is always positioned one to the left of the previous bit we used, or else it is the right-most (least significant, \emph{lsb}) bit of register Q when the multiplication starts.
 We could instead choose to always examine the \emph{lsb} of register Q, and for every right shift operation on register A, we would also do a right shift on register Q.
-Thus, when the algorithm finishes, all of the previous values in Q will have been discarded.
+This means that as the algorithm progresses, the value in Q is discarded one bit at a time.%Thus, when the algorithm finishes, all of the previous values in Q will have been discarded.
 This will allow us to be even more efficient: instead of using another register to store the lower half of the product, we can use register Q, because, for every bit discarded from Q, we can place into Q's most significant bit (\emph{msb}) the \emph{lsb} of A, saving ourselves from using a whole other register!
 
 \begin{figure}[h]
 \centering
 \includegraphics{init.pdf}
 \caption{Registers M, A, and Q, initialized for the multiplication of 11 and 23}
-\end{figure}
+\end{figure}%TODO why doesn't this print? Try another figure
 
 \pagebreak
 
 \section{The Problem with Negative Numbers}
-Consider the multiplication of the following 4-bit 2's complement numbers: 0011 (3) and 1011 (-5).
+Consider the multiplication of the following 4-bit two's complement numbers: 0011 (3) and 1011 (-5).
 We expect a result of -15 (11110001); however, currently the method we have been developing is unable to distinguish between signed and unsigned values, and would multiply 3 by 11 (the unsigned decimal value of 1011).
 One way around this behavior would be to calculate the absolute values of our multiplier and multiplicand.
 Then, after the positive product was calculated, if either the multiplicand or the multiplier are negative (but not both), calculate the two's complement of the product.
@@ -144,13 +144,12 @@ This is a suboptimal solution from a design point of view, as it introduces the 
 In 1951, Andrew Booth introduced an alternative method for multiplying two's complement numbers.
 At its heart is the observation that a number like 0111, which is understood to mean $2^2 + 2^1 + 2^0 = 4 + 2 + 1 = 7$, can also be thought of as $2^3 - 2^0 = 8 - 1 = 7$.
 This can be written (encoded) as $100\bar{1}$, where 1 and 0 have their understood meanings, and $\bar{1}$ represents $-1$.
-Generally, it can be shown that any sequence $2^n + 2^{n-1} + ...
-+ 2^{n-k}$ (where $k+1$ is the number of terms in the sequence) is equal to $2^{n+1} - 2^{n-k}$
+Generally, it can be shown that any sequence $2^n + 2^{n-1} + ... + 2^{n-k}$ (where $k+1$ is the number of terms in the sequence) is equal to $2^{n+1} - 2^{n-k}$.
 
-To encode an $n$-digit binary number $m$, examine the $i^{th}$ digit of $m$ (we will call it $m_i$) and do one of the following: %TODO citation needed for this
+To encode an $n$-digit binary number $m$, examine the $i^{th}$ digit of $m$ (we will call this digit $m_i$) and do one of the following: %TODO citation needed for this
 
 \begin{enumerate}
-\item If $m_i$ and $m_{i-1}$ (the digit to the left of $m_i$) are 1 and 1, or they are 0 and 0, write 0 at the $i^{th}$ digit in the new encoded value.
+\item If $m_i$ and $m_{i-1}$ (the digit to the right of $m_i$) are 1 and 1, or they are 0 and 0, write 0 at the $i^{th}$ digit in the new encoded value.
 \item If $m_i$ and $m_{i-1}$ are 0 and 1 respectively, write 1 at the the $i^{th}$ digit in the new encoded value.
 \item If $m_i$ and $m_{i-1}$ are 1 and 0 respectively, write $\bar{1}$ at the $i^{th}$ digit in the new encoded value.
 \item When $i = 0$, assume $m_{i-1}$ is 0
@@ -163,7 +162,7 @@ In this way, the method takes a ``run'' of $1$s in a binary value (representing 
 
 How does this solve the problem of negative numbers?
 Remember that in a two's complement binary value the \emph{msb} represents a subtraction of the highest power of two.
-For example, $11100100$ represents the value $-(2^{7}) + 2^{6} + 2^{5} + 2^{2} = -128 + 64 + 32 + 4 = -28$
+For example, $11100100$ represents the value $-(2^{7}) + 2^{6} + 2^{5} + 2^{2} = -128 + 64 + 32 + 4 = -28$.
 Applying the method described above, we obtain an encoded value of $00\bar{1}01\bar{1}00$, which represents $-(2^{5}) + 2^{3} - 2^{2} = -32 + 8 - 4 = -28$.
 Generally, if the \emph{msb} of an n-digit two's complement binary number is 1, then the leftmost ``run'' of $1$s represents the value $-(2^{n-1}) + 2^{n-2} + ...
 + 2^{(n-1)-k}$.
@@ -186,7 +185,7 @@ The pairs '00' and '11' signify that no arithmetic operations need occur (the eq
 Since we would like to stay as close as possible to the algorithm outlined earlier, all cases will still require a shift.
 
     In order to examine pairs of bits, we add an extra 1 bit register, called $\beta$ (or Beta) to hold the bit shifted out of register Q.
-$\beta$ is initialized to 0, so that at the start of the algorithm, if the least significant bit of Q is 1, it will read a pair `10' and execute a subtraction.
+$\beta$ is initialized to 0, so that at the start of the algorithm, if the least significant bit of Q is 1, the computer will read a pair `10' and execute a subtraction.
 Keep in mind now that whenever a shift occurs, the least significant bit of A is moved into the most significant bit of Q, and the least significant bit of Q is moved into $\beta$.
 The old value of $\beta$ is discarded.
 
@@ -194,7 +193,7 @@ The old value of $\beta$ is discarded.
 \centering
 \includegraphics{init2.pdf}
 \caption{Registers M, A, Q, and Beta, initialized for the multiplication of 11 and 23}
-\end{figure}
+\end{figure}%TODO FIGURE
 
 \pagebreak
 
@@ -209,9 +208,9 @@ For each of the following exercises, there is a corresponding visualization with
 We suggest solving the exercises by entering your answers into the visualization's ``input generator'', as the visualization is designed to judge the correctness of your solution and provided feedback if you have made a mistake.
 
 \begin{description}
-    \item [Exercise 1] Initialize Booth's Multiplication Algorithm for the multiplication of numbers X and Y by giving the values of the registers M, A, and Q, the bit $\beta$, and Count
-    \item [Exercise 2] Complete Booth's Multiplication Algorithm for the multiplication of numbers X and Y by initializing the values of the registers M, A, Q, the bit $\beta$, and Count, and then giving the values of each at the end of each iteration of the algorithm's loop
-    \item [Exercise 3] Give numbers X and Y, either in binary or in decimal, so that they will result in the least efficient performance of Booth's Algorithm for $n$-digit binary numbers
+    \item [Exercise 1] Initialize Booth's Multiplication Algorithm for the multiplication of two random integers X and Y by giving the values of the registers M, A, and Q, the bit $\beta$, and Count
+    \item [Exercise 2] Complete Booth's Multiplication Algorithm for the multiplication of two random integers X and Y by initializing the values of the registers M, A, Q, the bit $\beta$, and Count, and then giving the values of each at the end of each iteration of the algorithm's loop
+    \item [Exercise 3] Give numbers X and Y, either in binary or in decimal, so that they will result in the least efficient performance of Booth's Algorithm for $n$-digit binary numbers, i.e. those $n$-digit binary numbers which will result in the greatest number possible of both arithmetic and shift operations combined
 \end{description}
 %For your reference, the previous states of the registers are kept on screen as the visualization progresses.
 %They are grayed to indicate they are no longer the active values of the registers.
