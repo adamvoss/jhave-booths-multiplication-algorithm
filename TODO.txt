@@ -9,3 +9,4 @@ Exercise 3: Make descriptiveElement more descriptive
 Go through htguide carefully and make sure there are no spelling/grammar mistakes and that everything is worded precisely.
 
 More errors in question?
+No, no more errors in question
