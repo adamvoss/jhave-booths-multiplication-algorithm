@@ -10,7 +10,7 @@
 \DeclareUnicodeCharacter{03B2}{\beta}
 %-------------------------------------------------------------------
 
-\title{Booth's Algorithm for the Multiplication of Signed Binary Numbers}
+\title{Multiplication of Signed Binary Numbers in Computer Hardware}
 \date{\today}
 \author{Christopher Jenkins\\ Trinity University, cjenkin1@trinity.edu
     \and Adam Voss\\ Luther College, vossad01@luther.edu}
@@ -23,15 +23,23 @@
 \pagebreak
 
 \section{Objectives and Preparation}
-After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
-Booth's Multiplication Algorithm provides a simple and relatively efficient algorithm for using machine-register operations for the multiplication of two's complement binary values.
+In this text we will introduce the concept of multiplication of signed binary numbers and work towards a simple but relatively efficient multiplication algorithm known as Booth's Multiplication Algorithm.
+To follow this text you will need to be familiar with two's complement representation of singed binary numbers.
+We will use big-endian ordering for these numbers, meaning the right most bit (bit 0) will be the least significant bit of the number.
 
-This section assumes familiarity with binary addition at the machine level and with the two's complement representations of negative numbers.
-Additionally, it is recommended that a reading of this text be accompanied by Booth's Multiplication Algorithm Visualization, available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
-For information regarding the use of this tool, consult ``A Guide for Visualizing Booth's Multiplication Algorithm''.
+Some background on machine architecture, such as an understanding of registers and primitive operations, will also be helpful.
+
+We recommend this text be used in conjunction with the Booth’s Multiplication Algorithm Visualization available on the Java-Hosted Algorithm Visualization Environment (JHAVE).
+For information regarding the use of this tool, consult ``A Guide for Visualizing Booth’s Multiplication Algorithm''.
+%After completing this section you should understand the Booth's Multiplication Algorithm for the multiplication of signed binary numbers.
+%Booth's Multiplication Algorithm provides a simple and relatively efficient algorithm for using machine-register operations for the multiplication of two's complement binary values.
+
+%This section assumes familiarity with binary addition at the machine level and with the two's complement representations of negative numbers.
+%Additionally, it is recommended that a reading of this text be accompanied by Booth's Multiplication Algorithm Visualization, available on the Java-Hosted Algorithm Visualization Environment (JHAVÉ).
+%For information regarding the use of this tool, consult ``A Guide for Visualizing Booth's Multiplication Algorithm''.
 %Possibly make recommendations here
 
-\section{Introduction}
+\section{Multiplication by Repeated Additions}
 The process of binary multiplication is significantly more computationally complex than that of addition.
 Multiplication is often defined as repeated additions.
 %Consider providing full definition|Perhaps, but it seems implied in the following example
