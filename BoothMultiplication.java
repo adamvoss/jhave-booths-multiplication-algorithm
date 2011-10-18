@@ -823,8 +823,9 @@ public class BoothMultiplication {
                 "Due to the computer architecture connection, machine registers are depicted " +
                 "in this visualization for storage of data.  The exact details of these registers will " +
                 "vary between machine architectures.  " + "<br/><br/>" +
-                "To begin with we will we will store the multiplicand.  " +
-                "This register will not be modified over the course of the algorithm." +
+                "To begin with we will store the multiplicand in register <i>M</i>.  " +
+//                "This register will not be modified over the course of the algorithm." +
+//                This is something that the question asks them, so we shouldn't give it away!
                 "</html>";
     }
 
@@ -858,8 +859,9 @@ public class BoothMultiplication {
                         "loop of the algorithm.  It is initialized to the number of bits " +
                         "used to represent the multiplier: in this case the size of the registers.  " +
                         "<br/><br/>" + "Shown in decimal form for convenience, <i>Count</i> would" +
-                        "also need a register or some other storage.  One possibility would be " +
-                        "to store it and <i>β</i> in a single full-length register." +
+                        "also need a register or some other storage."/* +  " One possibility would be " +
+//While thought provoking, this is extraneous to the algorithm as it is given.
+                        "to store it and <i>β</i> in a single full-length register."*/ +
                         "</html>";
     }
 
@@ -896,7 +898,7 @@ public class BoothMultiplication {
                         "or subtraction executes on <i>A</i>, it is affecting more-significant bits of the result.</html>";
     }
 
-    private static String infoSubtraction() {
+    private static String infoSubtraction() {//seriously? :-)
         return infoAddition();
     }
 
@@ -922,5 +924,6 @@ public class BoothMultiplication {
         return "<html>Now that the execution of the algorithm has complete, " +
                         "the result is the number that spans <i>A</i>,<i>M</i>.</html>";
     }
-
+//Sorry I can't contribute more at the moment, I have a midterm tomorrow.
+//So far so good. Too bad it won't be in use at Oshkosh.
 }
