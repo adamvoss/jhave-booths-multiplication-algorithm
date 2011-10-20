@@ -198,8 +198,8 @@ public class BoothMultiplication {
         REG_SIZE = RegM.getSize();
 
         //----Register A Initialization Frame----
-        init[0] = init[2]+(COL_SPACE);
-        init[2] = init[0]+REG_WIDTH;
+        setStartOfNextRegister(init);
+        setEndOfNextRegister(init);
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
@@ -210,9 +210,8 @@ public class BoothMultiplication {
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
                 null);
 
-        //----Register Q Initialization Frame----
-        init[0] = init[2]+(COL_SPACE);
-        init[2] = init[0]+REG_WIDTH;
+        setStartOfNextRegister(init);
+        setEndOfNextRegister(init);
         trace_labels.add(new GAIGSmonospacedText(
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
@@ -234,9 +233,8 @@ public class BoothMultiplication {
         header.remove(rightArrow);
         header.remove(leftArrow);
 
-        // ----Bit β Initialization Frame----
-        init[0] = init[2] + (COL_SPACE);
-        init[2] = init[0] + FONT_SIZE;
+        setStartOfNextRegister(init);
+        setEndOfNextBit(init);
         trace_labels.add(new GAIGSmonospacedText((init[2] - init[0]) / 2.0
                 + init[0], init[3], GAIGSmonospacedText.HCENTER,
                 GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "β",
@@ -299,6 +297,18 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    private static void setEndOfNextBit(double[] init) {
+        init[2] = init[0] + FONT_SIZE;
+    }
+
+    private static void setEndOfNextRegister(double[] init) {
+        init[2] = init[0]+REG_WIDTH;
+    }
+
+    private static void setStartOfNextRegister(double[] init) {
+        init[0] = init[2]+(COL_SPACE);
     }
 
     private static ColoredResultArithmetic createDecimalMultiplicationDisplay(
