@@ -119,15 +119,13 @@ public class BoothMultiplication {
         title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
         header.add(title);
 
-        GAIGSArithmetic binary = new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
-                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
-        ColoredResultArithmetic decimal = new ColoredResultArithmetic('*', Utilities.toDecimal(args[1]), Utilities.toDecimal(args[2]), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
-                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
+        GAIGSArithmetic binary = createBinaryMultiplicationDisplay(multiplicand, multiplier);
+        header.add(binary);
+        
+        ColoredResultArithmetic decimal = createDecimalMultiplicationDisplay(multiplicand, multiplier);
+        header.add(decimal);
 
         MATH_LABEL_SPACE = header.getWidth() / 20;
-
-        header.add(binary);
-        header.add(decimal);
 
         math = createMathPane();
         math.add(new GAIGSline(new double[] {0,0},
@@ -137,9 +135,7 @@ public class BoothMultiplication {
 
         trace = createAlgorithmTrace();
 
-        main.add(header);
-        main.add(trace);
-        main.add(math);
+        populateMainPane();
 
         GAIGSpane<GAIGSmonospacedText> trace_labels = new GAIGSpane<GAIGSmonospacedText>();
 
@@ -303,6 +299,24 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    private static ColoredResultArithmetic createDecimalMultiplicationDisplay(
+            String multiplicand, String multiplier) {
+        return new ColoredResultArithmetic('*', Utilities.toDecimal(multiplicand), Utilities.toDecimal(multiplier), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
+                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
+    }
+
+    private static TCMultBooth createBinaryMultiplicationDisplay(
+            String multiplicand, String multiplier) {
+        return new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
+                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
+    }
+
+    private static void populateMainPane() {
+        main.add(header);
+        main.add(trace);
+        main.add(math);
     }
 
     private static GAIGSpane<GAIGSpane<?>> createAlgorithmTrace() {
