@@ -201,16 +201,9 @@ public class BoothMultiplication {
         GAIGSarrow rightArrow;
         {
         title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
-        double[] titlebounds = title.getBounds();
-        double[] decbounds = decimal.getBounds();
-        double[] binbounds = binary.getBounds();
         
-        leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
-                new double[]{titlebounds[3], decbounds[3]},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
-        rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
-                new double[]{titlebounds[3], binbounds[3]},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        leftArrow = createLeftArrow(title, decimal);
+        rightArrow = createRightArrow(title, binary);
         }
         header.add(leftArrow);
         header.add(rightArrow);
@@ -256,12 +249,8 @@ public class BoothMultiplication {
         double[] decbounds = decimal.getBounds();
         double[] binbounds = binary.getBounds();
         
-        leftArrow = new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
-                new double[]{titlebounds[3], decbounds[3]-decimal.getFontSize()},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
-        rightArrow = new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
-                new double[]{titlebounds[3], binbounds[3]-binary.getFontSize()},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+        leftArrow = createLeftArrow(decimal, titlebounds, decbounds);
+        rightArrow = createRightArrow(binary, titlebounds, binbounds);
         }
         header.add(leftArrow);
         header.add(rightArrow);
@@ -336,6 +325,64 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    /**
+     * @param rightItem
+     * @param leftItem
+     * @return
+     */
+    private static GAIGSarrow createLeftArrow(MutableGAIGSdatastr rightItem,
+            MutableGAIGSdatastr leftItem) {
+        return createLeftArrow(rightItem, leftItem, 0, 0, 0, 0);
+    }
+    
+    private static GAIGSarrow createRightArrow(MutableGAIGSdatastr leftItem,
+            MutableGAIGSdatastr rightItem) {
+        return createRightArrow(leftItem, rightItem, 0, 0, 0, 0);
+    }
+
+    private static GAIGSarrow createRightArrow(MutableGAIGSdatastr binary,
+            double[] titlebounds, double[] binbounds) {
+        return new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
+                new double[]{titlebounds[3], binbounds[3]-binary.getFontSize()},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+    }
+
+    private static GAIGSarrow createLeftArrow(MutableGAIGSdatastr decimal,
+            double[] titlebounds, double[] decbounds) {
+        return new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
+                new double[]{titlebounds[3], decbounds[3]-decimal.getFontSize()},
+                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+    }
+
+    private static GAIGSarrow createRightArrow(MutableGAIGSdatastr leftItem,
+            MutableGAIGSdatastr rightItem,
+            double sourceXOffset, double sourceYOffset,
+            double destinationXOffset, double destinationYOffset) {
+        double[] titlebounds = leftItem.getBounds();
+        double[] binbounds = rightItem.getBounds();
+        return new GAIGSarrow(new double[] {
+                        titlebounds[2]+sourceXOffset,
+                        (binbounds[0] + binbounds[2]) / 2 + sourceYOffset},
+                    new double[] {
+                        titlebounds[3] + destinationXOffset,
+                        binbounds[3] + destinationYOffset },
+                    FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
+    }
+
+    private static GAIGSarrow createLeftArrow(MutableGAIGSdatastr rightItem,
+            MutableGAIGSdatastr leftItem, double sourceXOffset, double sourceYOffset,
+            double destinationXOffset, double destinationYOffset) {
+        double[] titlebounds = rightItem.getBounds();
+        double[] decbounds =leftItem.getBounds();
+        return new GAIGSarrow(new double[]{
+                        titlebounds[0] + sourceXOffset,
+                        decbounds[2] + sourceYOffset},
+                    new double[]{
+                        titlebounds[3] + destinationXOffset,
+                        decbounds[3] + destinationYOffset},
+                    FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
     }
 
     public static void boothsMultiplication() {
