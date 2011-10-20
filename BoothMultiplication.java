@@ -235,6 +235,14 @@ public class BoothMultiplication {
         boothsMultiplication();
 
         // ----Finished Frame----
+        showFinishedFrame(multiplicand, multiplier, binary, decimal);
+
+        show.close();
+    }
+
+    private static void showFinishedFrame(String multiplicand,
+            String multiplier, GAIGSArithmetic binary,
+            ColoredResultArithmetic decimal) {
         decimal.complete();
         binary.complete();
         RegA.setFillOutlineColor(GREEN);
@@ -247,11 +255,9 @@ public class BoothMultiplication {
                         + RegA
                         + RegQ
                         + "\nwhich is "
-                        + ((Integer.parseInt(Utilities.toDecimal(args[1]))) * (Integer.parseInt(Utilities
-                                .toDecimal(args[2])))) + " in decimal",
+                        + ((Integer.parseInt(Utilities.toDecimal(multiplicand))) * (Integer.parseInt(Utilities
+                                .toDecimal(multiplier)))) + " in decimal",
                 infoFinished(), easyPseudo(-1), null);
-
-        show.close();
     }
 
     private static void showRegisterQInit(GAIGSArithmetic binary,
