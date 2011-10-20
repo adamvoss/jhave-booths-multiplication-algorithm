@@ -812,7 +812,7 @@ public class BoothMultiplication {
         return (GAIGSregister) trace.get(row).get(reg);
     }
 
-    private static void addRow() {
+    private static GAIGSpane<MutableGAIGSdatastr> addRow() {
         currentRow = new GAIGSpane<MutableGAIGSdatastr>();
         currentRow.setName("Row " + rowNumber);
 
@@ -823,6 +823,8 @@ public class BoothMultiplication {
         currentRow.add(RegQ);
         currentRow.add(Q_1);
         currentRow.add(Count);
+        
+        return currentRow;
     }
 
     private static void easySnap(String title, String info, String pseudo,
