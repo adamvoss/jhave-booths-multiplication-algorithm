@@ -197,14 +197,9 @@ public class BoothMultiplication {
         
         
         //Let's draw arrows
-        GAIGSarrow leftArrow;
-        GAIGSarrow rightArrow;
-        {
         title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
-        
-        leftArrow = createLeftArrow(title, decimal);
-        rightArrow = createRightArrow(title, binary);
-        }
+        GAIGSarrow leftArrow = createLeftArrow(title, decimal);
+        GAIGSarrow rightArrow = createRightArrow(title, binary);
         header.add(leftArrow);
         header.add(rightArrow);
         // We are done drawing arrows
@@ -243,15 +238,10 @@ public class BoothMultiplication {
         currentRow.add(RegQ);
         
         //Let's draw arrows
-        {
         title.setText("Q is the Multiplier\nThe final product will span A and Q"); //Must do this here so we get the correct bounds
-        double[] titlebounds = title.getBounds();
-        double[] decbounds = decimal.getBounds();
-        double[] binbounds = binary.getBounds();
         
-        leftArrow = createLeftArrow(decimal, titlebounds, decbounds);
-        rightArrow = createRightArrow(binary, titlebounds, binbounds);
-        }
+        leftArrow = createLeftArrow(title, decimal, 0, 0, 0, -1*decimal.getFontSize());
+        rightArrow = createRightArrow(title, binary, 0, 0, 0, -1*binary.getFontSize());
         header.add(leftArrow);
         header.add(rightArrow);
         // We are done drawing arrows
@@ -340,20 +330,6 @@ public class BoothMultiplication {
     private static GAIGSarrow createRightArrow(MutableGAIGSdatastr leftItem,
             MutableGAIGSdatastr rightItem) {
         return createRightArrow(leftItem, rightItem, 0, 0, 0, 0);
-    }
-
-    private static GAIGSarrow createRightArrow(MutableGAIGSdatastr binary,
-            double[] titlebounds, double[] binbounds) {
-        return new GAIGSarrow(new double[]{titlebounds[2], (binbounds[0]+binbounds[2])/2},
-                new double[]{titlebounds[3], binbounds[3]-binary.getFontSize()},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
-    }
-
-    private static GAIGSarrow createLeftArrow(MutableGAIGSdatastr decimal,
-            double[] titlebounds, double[] decbounds) {
-        return new GAIGSarrow(new double[]{titlebounds[0], decbounds[2]},
-                new double[]{titlebounds[3], decbounds[3]-decimal.getFontSize()},
-                FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
     }
 
     private static GAIGSarrow createRightArrow(MutableGAIGSdatastr leftItem,
