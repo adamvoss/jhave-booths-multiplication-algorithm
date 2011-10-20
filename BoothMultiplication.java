@@ -988,7 +988,7 @@ public class BoothMultiplication {
                         "or subtraction executes on <i>A</i>, it is affecting more-significant bits of the result.</html>";
     }
 
-    private static String infoSubtraction() {//seriously? :-)
+    private static String infoSubtraction() {//seriously? :-) ^_^ Yep, thanks for the chuckle
         return infoAddition();
     }
 
