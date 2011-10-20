@@ -161,11 +161,7 @@ public class BoothMultiplication {
         }
 
         //Initialize Register Location
-        double[] init = new double[] {
-                LEFT_MARGIN,
-                trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
-                LEFT_MARGIN+REG_WIDTH,
-                trace.getHeight()-TOP_MARGIN};
+        double[] init = locationOfFirstRegister();
 
         //**** Initialization Frames ****
         
@@ -210,6 +206,7 @@ public class BoothMultiplication {
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
                 null);
 
+        //----Register Q Initialization Frame----
         setStartOfNextRegister(init);
         setEndOfNextRegister(init);
         trace_labels.add(new GAIGSmonospacedText(
@@ -297,6 +294,14 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    private static double[] locationOfFirstRegister() {
+        return new double[] {
+                LEFT_MARGIN,
+                trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
+                LEFT_MARGIN+REG_WIDTH,
+                trace.getHeight()-TOP_MARGIN};
     }
 
     private static void setEndOfNextBit(double[] init) {
