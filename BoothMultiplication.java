@@ -128,10 +128,7 @@ public class BoothMultiplication {
         MATH_LABEL_SPACE = header.getWidth() / 20;
 
         math = createMathPane();
-        math.add(new GAIGSline(new double[] {0,0},
-                new double[] {math.getHeight()+FONT_SIZE,
-                    math.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + (numLines(multiplier)-REG_SIZE) * (ROW_SPACE/2 + REG_HEIGHT))}));
-        math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Math/ALU"));
+        populateMathPane(multiplier);
 
         trace = createAlgorithmTrace();
 
@@ -294,6 +291,13 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    private static void populateMathPane(String multiplier) {
+        math.add(new GAIGSline(new double[] {0,0},
+                new double[] {math.getHeight()+FONT_SIZE,
+                    math.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + (numLines(multiplier)-REG_SIZE) * (ROW_SPACE/2 + REG_HEIGHT))}));
+        math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Math/ALU"));
     }
 
     private static double[] locationOfFirstRegister() {
