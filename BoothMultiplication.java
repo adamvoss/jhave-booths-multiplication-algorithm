@@ -169,9 +169,6 @@ public class BoothMultiplication {
 
         currentRow.add(RegM);
         
-        
-        GAIGSarrow leftArrow;
-        GAIGSarrow rightArrow;
         showRegisterMInit(binary, decimal);
 
         REG_SIZE = RegM.getSize();
@@ -194,19 +191,9 @@ public class BoothMultiplication {
         RegQ.set(multiplier);
         currentRow.add(RegQ);
         
-        //Let's draw arrows
-        title.setText("Q is the Multiplier\nThe final product will span A and Q"); //Must do this here so we get the correct bounds
-        
-        leftArrow = createLeftArrow(title, decimal, 0, 0, 0, -1*decimal.getFontSize());
-        rightArrow = createRightArrow(title, binary, 0, 0, 0, -1*binary.getFontSize());
-        header.add(leftArrow);
-        header.add(rightArrow);
-        // We are done drawing arrows
+        showRegisterQInit(binary, decimal);
 
-        easySnap(null, infoRegisterQ(), easyPseudo(4), null);
-        header.remove(rightArrow);
-        header.remove(leftArrow);
-
+        //----Bit β Initialization Frame----
         setStartOfNextRegister(init);
         setEndOfNextBit(init);
         addTraceLabel(trace_labels, init, "β");
@@ -265,6 +252,24 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    private static void showRegisterQInit(GAIGSArithmetic binary,
+            ColoredResultArithmetic decimal) {
+        GAIGSarrow leftArrow;
+        GAIGSarrow rightArrow;
+        //Let's draw arrows
+        title.setText("Q is the Multiplier\nThe final product will span A and Q"); //Must do this here so we get the correct bounds
+        
+        leftArrow = createLeftArrow(title, decimal, 0, 0, 0, -1*decimal.getFontSize());
+        rightArrow = createRightArrow(title, binary, 0, 0, 0, -1*binary.getFontSize());
+        header.add(leftArrow);
+        header.add(rightArrow);
+        // We are done drawing arrows
+
+        easySnap(null, infoRegisterQ(), easyPseudo(4), null);
+        header.remove(rightArrow);
+        header.remove(leftArrow);
     }
 
     private static void addTraceLabel(
