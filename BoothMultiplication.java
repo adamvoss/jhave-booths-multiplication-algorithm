@@ -113,16 +113,8 @@ public class BoothMultiplication {
 
         REG_SIZE = multiplicand.length();
 
-        main = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVE_X_MARGIN,
-                0-GAIGSpane.JHAVE_Y_MARGIN,
-                1+GAIGSpane.JHAVE_X_MARGIN,
-                1+GAIGSpane.JHAVE_Y_MARGIN,
-                WINDOW_WIDTH,
-                WINDOW_HEIGHT);
-        main.setName("Main");
-        header = new GAIGSpane<MutableGAIGSdatastr>(0, WINDOW_HEIGHT*(3/4.0),
-                WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
-        header.setName("Header");
+        main = createMainPane();
+        header = createHeaderPane();
 
         title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
         header.add(title);
@@ -137,17 +129,13 @@ public class BoothMultiplication {
         header.add(binary);
         header.add(decimal);
 
-        math = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH * (3 / 4.0), 0,
-                WINDOW_WIDTH, WINDOW_HEIGHT * (8 / 10.0), 1.0, 1.0);
-        math.setName("Math");
-
+        math = createMathPane();
         math.add(new GAIGSline(new double[] {0,0},
                 new double[] {math.getHeight()+FONT_SIZE,
                     math.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + (numLines(multiplier)-REG_SIZE) * (ROW_SPACE/2 + REG_HEIGHT))}));
         math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Math/ALU"));
 
-        trace = new GAIGSpane<GAIGSpane<?>>(0, 0, WINDOW_WIDTH*(3/4.0), math.getBounds()[3], null, 1.0);
-        trace.setName("Trace");
+        trace = createAlgorithmTrace();
 
         main.add(header);
         main.add(trace);
@@ -315,6 +303,38 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    private static GAIGSpane<GAIGSpane<?>> createAlgorithmTrace() {
+        GAIGSpane<GAIGSpane<?>> tracePane = new GAIGSpane<GAIGSpane<?>>(0, 0,
+                WINDOW_WIDTH * (3 / 4.0), math.getBounds()[3], null, 1.0);
+        tracePane.setName("Trace");
+        return tracePane;
+    }
+
+    private static GAIGSpane<MutableGAIGSdatastr> createMathPane() {
+        GAIGSpane<MutableGAIGSdatastr> mathPane = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH * (3 / 4.0), 0,
+                WINDOW_WIDTH, WINDOW_HEIGHT * (8 / 10.0), 1.0, 1.0);
+        mathPane.setName("Math");
+        return mathPane;
+    }
+
+    private static GAIGSpane<MutableGAIGSdatastr> createHeaderPane() {
+        GAIGSpane<MutableGAIGSdatastr> headerPane = new GAIGSpane<MutableGAIGSdatastr>(0, WINDOW_HEIGHT*(3/4.0),
+                WINDOW_WIDTH, WINDOW_HEIGHT, null, 1.0); //Top 1/4 of screen
+        headerPane.setName("Header");
+        return headerPane;
+    }
+
+    private static GAIGSpane<GAIGSpane<?>> createMainPane() {
+        GAIGSpane<GAIGSpane<?>> mainPane = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVE_X_MARGIN,
+                0-GAIGSpane.JHAVE_Y_MARGIN,
+                1+GAIGSpane.JHAVE_X_MARGIN,
+                1+GAIGSpane.JHAVE_Y_MARGIN,
+                WINDOW_WIDTH,
+                WINDOW_HEIGHT);
+        mainPane.setName("Main");
+        return mainPane;
     }
 
     /**
