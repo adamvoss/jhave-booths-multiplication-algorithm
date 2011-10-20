@@ -163,10 +163,7 @@ public class BoothMultiplication {
         //**** Initialization Frames ****
         
         //----Register M Initialization Frame----
-        trace_labels.add(new GAIGSmonospacedText(
-                (init[2]-init[0])/2.0+init[0], init[3],
-                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                COLBL_FONT_SIZE, FONT_COLOR, "M", COLBL_FONT_SIZE/2));
+        addTraceLabel(trace_labels, init, "M");
         RegM= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegM.set(multiplicand);
 
@@ -182,10 +179,7 @@ public class BoothMultiplication {
         //----Register A Initialization Frame----
         setStartOfNextRegister(init);
         setEndOfNextRegister(init);
-        trace_labels.add(new GAIGSmonospacedText(
-                (init[2]-init[0])/2.0+init[0], init[3],
-                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                COLBL_FONT_SIZE, FONT_COLOR, "A", COLBL_FONT_SIZE/2));
+        addTraceLabel(trace_labels, init, "A");
         RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegA.set("0");
         currentRow.add(RegA);
@@ -195,10 +189,7 @@ public class BoothMultiplication {
         //----Register Q Initialization Frame----
         setStartOfNextRegister(init);
         setEndOfNextRegister(init);
-        trace_labels.add(new GAIGSmonospacedText(
-                (init[2]-init[0])/2.0+init[0], init[3],
-                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                COLBL_FONT_SIZE, FONT_COLOR, "Q", COLBL_FONT_SIZE/2));
+        addTraceLabel(trace_labels, init, "Q");
         RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegQ.set(multiplier);
         currentRow.add(RegQ);
@@ -218,10 +209,7 @@ public class BoothMultiplication {
 
         setStartOfNextRegister(init);
         setEndOfNextBit(init);
-        trace_labels.add(new GAIGSmonospacedText((init[2] - init[0]) / 2.0
-                + init[0], init[3], GAIGSmonospacedText.HCENTER,
-                GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "β",
-                COLBL_FONT_SIZE / 2));
+        addTraceLabel(trace_labels, init, "β");
         Q_1 = new GAIGSregister(1, "", DEFAULT_COLOR, FONT_COLOR,
                 OUTLINE_COLOR, init, REG_FONT_SIZE);
         Q_1.set("0");
@@ -232,10 +220,7 @@ public class BoothMultiplication {
         // ----Count Initialization Frame----
         init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
         init[2] = trace.getWidth() - RIGHT_MARGIN;
-        trace_labels.add(new GAIGSmonospacedText((init[2] - init[0]) / 2.0
-                + init[0], init[3], GAIGSmonospacedText.HCENTER,
-                GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR,
-                "Count", COLBL_FONT_SIZE / 2));
+        addTraceLabel(trace_labels, init, "Count");
         Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR,
                 OUTLINE_COLOR, init, REG_FONT_SIZE);
         currentRow.add(Count);
@@ -280,6 +265,15 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    private static void addTraceLabel(
+            GAIGSpane<GAIGSmonospacedText> traceLabels, double[] coords,
+            String displayText) {
+        traceLabels.add(new GAIGSmonospacedText(
+                (coords[2]-coords[0])/2.0+coords[0], coords[3],
+                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
     }
 
     private static void showRegisterMInit(GAIGSArithmetic binary,
