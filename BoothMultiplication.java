@@ -173,20 +173,9 @@ public class BoothMultiplication {
         currentRow.add(RegM);
         
         
-        //Let's draw arrows
-        title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
-        GAIGSarrow leftArrow = createLeftArrow(title, decimal);
-        GAIGSarrow rightArrow = createRightArrow(title, binary);
-        header.add(leftArrow);
-        header.add(rightArrow);
-        // We are done drawing arrows
-
-        easySnap(null, infoRegisterM(), easyPseudo(2), null); // A null title
-                                                              // indicates to
-                                                              // keep
-                                                              // the last one.
-        header.remove(rightArrow);
-        header.remove(leftArrow);
+        GAIGSarrow leftArrow;
+        GAIGSarrow rightArrow;
+        showRegisterMInit(binary, decimal);
 
         REG_SIZE = RegM.getSize();
 
@@ -291,6 +280,24 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
 
         show.close();
+    }
+
+    private static void showRegisterMInit(GAIGSArithmetic binary,
+            ColoredResultArithmetic decimal) {
+        //Let's draw arrows
+        title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
+        GAIGSarrow leftArrow = createLeftArrow(title, decimal);
+        GAIGSarrow rightArrow = createRightArrow(title, binary);
+        header.add(leftArrow);
+        header.add(rightArrow);
+        // We are done drawing arrows
+
+        easySnap(null, infoRegisterM(), easyPseudo(2), null); // A null title
+                                                              // indicates to
+                                                              // keep
+                                                              // the last one.
+        header.remove(rightArrow);
+        header.remove(leftArrow);
     }
 
     private static void populateMathPane(String multiplier) {
