@@ -212,46 +212,19 @@ public class BoothMultiplication {
                 GAIGSmonospacedText discardLabel;
         
                 // Subtraction case
+                GAIGSregister multiplicandRegister = negateValue(RegM);
                 if (cmpVal == 1) {
-                    sum = new DiscardOverflowAddition('+', RegA.toString(),
-                            negateValue(RegM).toString(), 2,
-                            math.getWidth() / 1.4, math.getHeight() / 1.5,
-                            FONT_SIZE + .005, FONT_SIZE + .01, FONT_COLOR,
-                            DARK_GREEN);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]
-                            + MATH_LABEL_SPACE / 2, sum.getBounds()[3]
-                            - sum.getFontSize(), GAIGStext.HCENTER,
-                            GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR,
-                            "(A)\n(-M)", sum.getFontSize() * 1.5);
-                    discardLabel = new GAIGSmonospacedText(sum.getBounds()[0],
-                            sum.getBounds()[3] + sum.getFontSize() / 2,
-                            GAIGSmonospacedText.HLEFT,
-                            GAIGSmonospacedText.VBOTTOM,
-                            sumLabel.getFontSize(), FONT_COLOR,
-                            "Discard any\nOverflow",
-                            sumLabel.getFontSize() * 1.25);
-        
-                    addIntoReg(negateValue(RegM), RegA);
+                    sum = createALUArithmetic(negateValue(RegM));
+                    sumLabel = createArithmeticLabels(sum, "A", "-M");
+                    discardLabel = createDiscardOverflowLabel(sum, sumLabel);
+                    addIntoReg(multiplicandRegister, RegA);
                 }
                 // Addition case
                 else {
-                    sum = new DiscardOverflowAddition('+', RegA.toString(),
-                            RegM.toString(), 2, math.getWidth() / 1.4,
-                            math.getHeight() / 1.5, FONT_SIZE + .005,
-                            FONT_SIZE + .01, FONT_COLOR, DARK_GREEN);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]
-                            + MATH_LABEL_SPACE / 2, sum.getBounds()[3]
-                            - sum.getFontSize(), GAIGStext.HCENTER,
-                            GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR,
-                            "(A)\n(M)", sum.getFontSize() * 1.5);
-                    discardLabel = new GAIGSmonospacedText(sum.getBounds()[0],
-                            sum.getBounds()[3] + sum.getFontSize() / 2,
-                            GAIGSmonospacedText.HLEFT,
-                            GAIGSmonospacedText.VBOTTOM,
-                            sumLabel.getFontSize(), FONT_COLOR,
-                            "Discard any\nOverflow",
-                            sumLabel.getFontSize() * 1.25);
-                    addIntoReg(RegM, RegA);
+                    sum = createALUArithmetic(RegM);
+                    sumLabel = createArithmeticLabels(sum, "A", "M");
+                    discardLabel = createDiscardOverflowLabel(sum, sumLabel);
+                    addIntoReg(multiplicandRegister, RegA);
                 }
         
                 // ----Comparison Frame----
@@ -393,6 +366,35 @@ public class BoothMultiplication {
         showFinishedFrame(multiplicand, multiplier, binary, decimal);
 
         show.close();
+    }
+
+    private static GAIGSmonospacedText createArithmeticLabels(
+            DiscardOverflowAddition sum, String top, String bottom) {
+        return new GAIGSmonospacedText(sum.getBounds()[2]
+                + MATH_LABEL_SPACE / 2, sum.getBounds()[3]
+                - sum.getFontSize(), GAIGStext.HCENTER,
+                GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR,
+                String.format("(%s)\n(%s)", top, bottom), sum.getFontSize() * 1.5);
+    }
+
+    private static GAIGSmonospacedText createDiscardOverflowLabel(
+            DiscardOverflowAddition sum, GAIGSmonospacedText sumLabel) {
+        return new GAIGSmonospacedText(sum.getBounds()[0],
+                sum.getBounds()[3] + sum.getFontSize() / 2,
+                GAIGSmonospacedText.HLEFT,
+                GAIGSmonospacedText.VBOTTOM,
+                sumLabel.getFontSize(), FONT_COLOR,
+                "Discard any\nOverflow",
+                sumLabel.getFontSize() * 1.25);
+    }
+
+    private static DiscardOverflowAddition createALUArithmetic(
+            GAIGSregister multiplicandRegister) {
+        return new DiscardOverflowAddition('+', RegA.toString(),
+                multiplicandRegister.toString(), 2,
+                math.getWidth() / 1.4, math.getHeight() / 1.5,
+                FONT_SIZE + .005, FONT_SIZE + .01, FONT_COLOR,
+                DARK_GREEN);
     }
 
     private static void setupAndShowInitialization(String multiplicand,
