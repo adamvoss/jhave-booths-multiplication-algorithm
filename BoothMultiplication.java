@@ -65,7 +65,7 @@ public class BoothMultiplication {
     public static final String BLUE      = "#AAABFF";
     public static final String YELLOW    = "#FFFF00";
     public static final String GOLD      = "#CDAD00";
-    public static final String PURPLE    = GREEN;
+    public static final String PURPLE    = GREEN; // :S
     public static final String FONT_COLOR      = BLACK;
     public static final String DEFAULT_COLOR   = WHITE;
     public static final String INACTIVE_TEXT   = DARK_GREY;
@@ -116,7 +116,7 @@ public class BoothMultiplication {
         main = createMainPane();
         header = createHeaderPane();
 
-        title=new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
+        title=createTitle();
         header.add(title);
 
         GAIGSArithmetic binary = createBinaryMultiplicationDisplay(multiplicand, multiplier);
@@ -164,8 +164,7 @@ public class BoothMultiplication {
         
         //----Register M Initialization Frame----
         addTraceLabel(trace_labels, init, "M");
-        RegM= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
-        RegM.set(multiplicand);
+        RegM= createRegister(init, multiplicand);
 
         currentRow.add(RegM);
         
@@ -177,8 +176,7 @@ public class BoothMultiplication {
         setStartOfNextRegister(init);
         setEndOfNextRegister(init);
         addTraceLabel(trace_labels, init, "A");
-        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
-        RegA.set("0");
+        RegA= createRegister(init, "0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
                 null);
@@ -187,8 +185,7 @@ public class BoothMultiplication {
         setStartOfNextRegister(init);
         setEndOfNextRegister(init);
         addTraceLabel(trace_labels, init, "Q");
-        RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
-        RegQ.set(multiplier);
+        RegQ= createRegister(init, multiplier);
         currentRow.add(RegQ);
         
         showRegisterQInit(binary, decimal);
@@ -197,9 +194,7 @@ public class BoothMultiplication {
         setStartOfNextRegister(init);
         setEndOfNextBit(init);
         addTraceLabel(trace_labels, init, "β");
-        Q_1 = new GAIGSregister(1, "", DEFAULT_COLOR, FONT_COLOR,
-                OUTLINE_COLOR, init, REG_FONT_SIZE);
-        Q_1.set("0");
+        Q_1 = createBitBeta(init);
         currentRow.add(Q_1);
 
         easySnap("β is initialized to Zero", infoBeta(), easyPseudo(5), null);
@@ -208,8 +203,7 @@ public class BoothMultiplication {
         init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
         init[2] = trace.getWidth() - RIGHT_MARGIN;
         addTraceLabel(trace_labels, init, "Count");
-        Count = new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR,
-                OUTLINE_COLOR, init, REG_FONT_SIZE);
+        Count = createCountBox(init);
         currentRow.add(Count);
 
         easySnap("Count is initialized to\nthe number of bits in a register.",
@@ -238,6 +232,28 @@ public class BoothMultiplication {
         showFinishedFrame(multiplicand, multiplier, binary, decimal);
 
         show.close();
+    }
+
+    private static CountBox createCountBox(double[] position) {
+        return new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR,
+                OUTLINE_COLOR, position, REG_FONT_SIZE);
+    }
+
+    private static GAIGSregister createBitBeta(double[] position) {
+        GAIGSregister beta = new GAIGSregister(1, "", DEFAULT_COLOR, FONT_COLOR,
+                OUTLINE_COLOR, position, REG_FONT_SIZE);
+        beta.set("0");
+        return beta;
+    }
+
+    private static GAIGSregister createRegister(double[] position, String initialValue) {
+        GAIGSregister ret = new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, position, REG_FONT_SIZE);
+        ret.set(initialValue);
+        return ret;
+    }
+
+    private static GAIGSmonospacedText createTitle() {
+        return new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
     }
 
     private static void showFinishedFrame(String multiplicand,
