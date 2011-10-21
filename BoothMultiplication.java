@@ -200,11 +200,6 @@ public class BoothMultiplication {
         
             // ----Start of Comparison and Addition/Subtraction Frame Logic----
         
-            /*
-             * Note: This logic for drawing these frames is dictated by the
-             * QuestionGenerator, not Booth's Multiplication Algorithm. Previous
-             * revisions were cleaner.
-             */
             int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
         
             if (cmpVal == 1 || cmpVal == -1) {
