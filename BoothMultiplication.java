@@ -226,7 +226,221 @@ public class BoothMultiplication {
                 GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR,
                 "Initialization", FONT_SIZE * 0.5));
 
-        boothsMultiplication();
+        // Maybe this should be a function of GAIGSpane
+        double[] unitLengths1 = main.getRealCoordinates(trace
+                .getRealCoordinates(currentRow.getRealCoordinates(new double[] {
+                        0, 0, 1, 1 })));
+        double unitLengthX1 = unitLengths1[2] - unitLengths1[0];
+        double[] last1;
+        boolean did_math = false;
+        
+        while (Count.getCount() >= 0) {
+            // ----Count Frame----
+            Count.setFillColor(YELLOW);
+        
+            easySnap("Check the value of Count", infoCheckCount(),
+                    easyPseudo(8, YELLOW, BLACK), null);
+            // Change color back
+            Count.setFillColor(DEFAULT_COLOR);
+        
+            if (Count.getBit(0) == 0)
+                break; // Thats so we get the final check
+        
+            // ----Start of Comparison and Addition/Subtraction Frame Logic----
+        
+            /*
+             * Note: This logic for drawing these frames is dictated by the
+             * QuestionGenerator, not Booth's Multiplication Algorithm. Previous
+             * revisions were cleaner.
+             */
+            int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
+        
+            if (cmpVal == 1 || cmpVal == -1) {
+                did_math = true;
+                positionMajorRow();// clones all registers
+                addRow();// now we have enough information for question type 3,
+                         // calculations pending
+                DiscardOverflowAddition sum;
+                GAIGSmonospacedText sumLabel;
+                GAIGSmonospacedText discardLabel;
+        
+                // Subtraction case
+                if (cmpVal == 1) {
+                    sum = new DiscardOverflowAddition('+', RegA.toString(),
+                            negateValue(RegM).toString(), 2,
+                            math.getWidth() / 1.4, math.getHeight() / 1.5,
+                            FONT_SIZE + .005, FONT_SIZE + .01, FONT_COLOR,
+                            DARK_GREEN);
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]
+                            + MATH_LABEL_SPACE / 2, sum.getBounds()[3]
+                            - sum.getFontSize(), GAIGStext.HCENTER,
+                            GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR,
+                            "(A)\n(-M)", sum.getFontSize() * 1.5);
+                    discardLabel = new GAIGSmonospacedText(sum.getBounds()[0],
+                            sum.getBounds()[3] + sum.getFontSize() / 2,
+                            GAIGSmonospacedText.HLEFT,
+                            GAIGSmonospacedText.VBOTTOM,
+                            sumLabel.getFontSize(), FONT_COLOR,
+                            "Discard any\nOverflow",
+                            sumLabel.getFontSize() * 1.25);
+        
+                    addIntoReg(negateValue(RegM), RegA);
+                }
+                // Addition case
+                else {
+                    sum = new DiscardOverflowAddition('+', RegA.toString(),
+                            RegM.toString(), 2, math.getWidth() / 1.4,
+                            math.getHeight() / 1.5, FONT_SIZE + .005,
+                            FONT_SIZE + .01, FONT_COLOR, DARK_GREEN);
+                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]
+                            + MATH_LABEL_SPACE / 2, sum.getBounds()[3]
+                            - sum.getFontSize(), GAIGStext.HCENTER,
+                            GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR,
+                            "(A)\n(M)", sum.getFontSize() * 1.5);
+                    discardLabel = new GAIGSmonospacedText(sum.getBounds()[0],
+                            sum.getBounds()[3] + sum.getFontSize() / 2,
+                            GAIGSmonospacedText.HLEFT,
+                            GAIGSmonospacedText.VBOTTOM,
+                            sumLabel.getFontSize(), FONT_COLOR,
+                            "Discard any\nOverflow",
+                            sumLabel.getFontSize() * 1.25);
+                    addIntoReg(RegM, RegA);
+                }
+        
+                // ----Comparison Frame----
+                getRegisterFromRow(trace.size() - 2, REGQ).setFillOutlineColor(
+                        0, BLUE);
+                getRegisterFromRow(trace.size() - 2, Q1).setFillOutlineColor(0,
+                        BLUE);
+        
+                question que = quest.getComparisonQuestion();
+                GAIGSpane<?> temp = trace.remove(trace.size() - 1);
+        
+                easySnap("Determine the operation", infoDetermineOp(),
+                        easyPseudo(10, BLUE, BLACK), que);
+                trace.add(temp);
+        
+                // Reset/deactivate colors
+                fadeRow(trace.size() - 2);
+                RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
+                Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
+        
+                // ----Addition/Subtraction frame----
+                RegA.setFillOutlineColor(GREEN);
+                math.add(sum);
+                math.add(sumLabel);
+                math.add(discardLabel);
+                sum.complete();
+        
+                last1 = currentRow.get(0).getBounds();
+                currentRow
+                        .add(new GAIGSmonospacedText(
+                                0
+                                        - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
+                                        / unitLengthX1, last1[1],
+                                GAIGSmonospacedText.HRIGHT,
+                                GAIGSmonospacedText.VBOTTOM, FONT_SIZE,
+                                FONT_COLOR, (cmpVal == 1 ? "Subtraction"
+                                        : "Addition"), FONT_SIZE * 0.5));
+        
+                easySnap(
+                        (cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A",
+                        (cmpVal == 1 ? infoSubtraction() : infoAddition()),
+                        easyPseudo((cmpVal == 1 ? 11 : 14), GREEN, BLACK),
+                        quest.getAdditionQuestion());
+                // Remove Overflow Label
+                math.remove(math.size() - 1);
+                // Remove Label
+                math.remove(math.size() - 1);
+                // Remove Addition
+                math.remove(math.size() - 1);
+                sumLabel.setText("");
+        
+            } else {
+                // ----Comparison Frame---- (yep, again)
+                // Colors
+                RegQ.setFillOutlineColor(0, BLUE);
+                Q_1.setFillOutlineColor(0, BLUE);
+        
+                // Question pane-hopping
+                trace.add(null);
+                question que = quest.getQuestion(1);
+                trace.remove(trace.size() - 1);
+        
+                easySnap("Determine the operation", infoDetermineNoMath(),
+                        easyPseudo(10, BLUE, BLACK), que);
+        
+                // Reset colors
+                RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
+                Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
+            }
+            // Deactivate text
+            setRowTextColor(INACTIVE_TEXT);
+            setRowOutlineColor(INACTIVE_OUTLINE);
+        
+            // ----Shift Frame----
+            if (did_math) {
+                positionAdditionRow();
+                did_math = false;
+            } else
+                positionMajorRow(); // Remember this clones
+        
+            setRowTextColor(FONT_COLOR);
+            addRow();
+            rightShift(RegA, RegQ, Q_1);
+        
+            // Question and write
+            question que = quest.getShiftQuestion();
+        
+            // Colors
+            getRegisterFromRow(trace.size() - 2, REGA).setFillOutlineColor(
+                    GREEN);
+            getRegisterFromRow(trace.size() - 2, REGQ)
+                    .setFillOutlineColor(BLUE);
+            setRowOutlineColor(OUTLINE_COLOR);
+            RegA.setFillOutlineColor(GREEN);
+            RegQ.setFillOutlineColor(BLUE);
+            RegQ.setFillOutlineColor(REG_SIZE - 1, GREEN);
+            Q_1.setFillOutlineColor(0, BLUE);
+            currentRow.remove(COUNT); // Oops...We don't want Count
+        
+            last1 = currentRow.get(0).getBounds();
+            currentRow
+                    .add(new GAIGSmonospacedText(
+                            0
+                                    - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
+                                    / unitLengthX1, last1[1],
+                            GAIGSmonospacedText.HRIGHT,
+                            GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR,
+                            "Shift", FONT_SIZE * 0.5));
+        
+            easySnap("Sign-Preserving Right Shift", infoShift(),
+                    easyPseudo(19, BLUE, BLACK), que);
+            // RegQ.setTextColor(FONT_COLOR);
+            Q_1.setFillOutlineColor(DEFAULT_COLOR);
+        
+            // Clean Color of A and Q on the previous line
+            getRegisterFromRow(trace.size() - 2, REGA).setFillOutlineColor(
+                    INACTIVE_FILL);
+            getRegisterFromRow(trace.size() - 2, REGQ).setFillOutlineColor(
+                    INACTIVE_FILL);
+            RegA.setFillOutlineColor(DEFAULT_COLOR);
+            RegQ.setFillOutlineColor(DEFAULT_COLOR);
+        
+            // ----Decrement Count Frame---
+            Count.decrement();
+            currentRow.add(COUNT, Count); // Now we do want Count
+            Count.setFillOutlineColor(RED);
+            last1 = currentRow.get(0).getBounds();
+            currentRow.add(new GAIGSline(new double[] { last1[0],
+                    trace.getWidth() }, new double[] { last1[1] - ROW_SPACE / 2,
+                    last1[1] - ROW_SPACE / 2 }));
+        
+            easySnap("Decrement Count", infoDecrement(),
+                    easyPseudo(21, RED, BLACK), null);
+            Count.setFillOutlineColor(DEFAULT_COLOR);
+            // Hey! We're ready to loop!
+        }
 
         // ----Finished Frame----
         showFinishedFrame(multiplicand, multiplier, binary, decimal);
@@ -440,224 +654,6 @@ public class BoothMultiplication {
                         titlebounds[3] + destinationXOffset,
                         decbounds[3] + destinationYOffset},
                     FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
-    }
-
-    public static void boothsMultiplication() {
-        // Maybe this should be a function of GAIGSpane
-        double[] unitLengths = main.getRealCoordinates(trace
-                .getRealCoordinates(currentRow.getRealCoordinates(new double[] {
-                        0, 0, 1, 1 })));
-        double unitLengthX = unitLengths[2] - unitLengths[0];
-        double[] last;
-        boolean did_math = false;
-
-        while (Count.getCount() >= 0) {
-            // ----Count Frame----
-            Count.setFillColor(YELLOW);
-
-            easySnap("Check the value of Count", infoCheckCount(),
-                    easyPseudo(8, YELLOW, BLACK), null);
-            // Change color back
-            Count.setFillColor(DEFAULT_COLOR);
-
-            if (Count.getBit(0) == 0)
-                break; // Thats so we get the final check
-
-            // ----Start of Comparison and Addition/Subtraction Frame Logic----
-
-            /*
-             * Note: This logic for drawing these frames is dictated by the
-             * QuestionGenerator, not Booth's Multiplication Algorithm. Previous
-             * revisions were cleaner.
-             */
-            int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
-
-            if (cmpVal == 1 || cmpVal == -1) {
-                did_math = true;
-                positionMajorRow();// clones all registers
-                addRow();// now we have enough information for question type 3,
-                         // calculations pending
-                DiscardOverflowAddition sum;
-                GAIGSmonospacedText sumLabel;
-                GAIGSmonospacedText discardLabel;
-
-                // Subtraction case
-                if (cmpVal == 1) {
-                    sum = new DiscardOverflowAddition('+', RegA.toString(),
-                            negateValue(RegM).toString(), 2,
-                            math.getWidth() / 1.4, math.getHeight() / 1.5,
-                            FONT_SIZE + .005, FONT_SIZE + .01, FONT_COLOR,
-                            DARK_GREEN);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]
-                            + MATH_LABEL_SPACE / 2, sum.getBounds()[3]
-                            - sum.getFontSize(), GAIGStext.HCENTER,
-                            GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR,
-                            "(A)\n(-M)", sum.getFontSize() * 1.5);
-                    discardLabel = new GAIGSmonospacedText(sum.getBounds()[0],
-                            sum.getBounds()[3] + sum.getFontSize() / 2,
-                            GAIGSmonospacedText.HLEFT,
-                            GAIGSmonospacedText.VBOTTOM,
-                            sumLabel.getFontSize(), FONT_COLOR,
-                            "Discard any\nOverflow",
-                            sumLabel.getFontSize() * 1.25);
-
-                    addIntoReg(negateValue(RegM), RegA);
-                }
-                // Addition case
-                else {
-                    sum = new DiscardOverflowAddition('+', RegA.toString(),
-                            RegM.toString(), 2, math.getWidth() / 1.4,
-                            math.getHeight() / 1.5, FONT_SIZE + .005,
-                            FONT_SIZE + .01, FONT_COLOR, DARK_GREEN);
-                    sumLabel = new GAIGSmonospacedText(sum.getBounds()[2]
-                            + MATH_LABEL_SPACE / 2, sum.getBounds()[3]
-                            - sum.getFontSize(), GAIGStext.HCENTER,
-                            GAIGStext.VTOP, sum.getFontSize(), FONT_COLOR,
-                            "(A)\n(M)", sum.getFontSize() * 1.5);
-                    discardLabel = new GAIGSmonospacedText(sum.getBounds()[0],
-                            sum.getBounds()[3] + sum.getFontSize() / 2,
-                            GAIGSmonospacedText.HLEFT,
-                            GAIGSmonospacedText.VBOTTOM,
-                            sumLabel.getFontSize(), FONT_COLOR,
-                            "Discard any\nOverflow",
-                            sumLabel.getFontSize() * 1.25);
-                    addIntoReg(RegM, RegA);
-                }
-
-                // ----Comparison Frame----
-                getRegisterFromRow(trace.size() - 2, REGQ).setFillOutlineColor(
-                        0, BLUE);
-                getRegisterFromRow(trace.size() - 2, Q1).setFillOutlineColor(0,
-                        BLUE);
-
-                question que = quest.getComparisonQuestion();
-                GAIGSpane<?> temp = trace.remove(trace.size() - 1);
-
-                easySnap("Determine the operation", infoDetermineOp(),
-                        easyPseudo(10, BLUE, BLACK), que);
-                trace.add(temp);
-
-                // Reset/deactivate colors
-                fadeRow(trace.size() - 2);
-                RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
-                Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
-
-                // ----Addition/Subtraction frame----
-                RegA.setFillOutlineColor(GREEN);
-                math.add(sum);
-                math.add(sumLabel);
-                math.add(discardLabel);
-                sum.complete();
-
-                last = currentRow.get(0).getBounds();
-                currentRow
-                        .add(new GAIGSmonospacedText(
-                                0
-                                        - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
-                                        / unitLengthX, last[1],
-                                GAIGSmonospacedText.HRIGHT,
-                                GAIGSmonospacedText.VBOTTOM, FONT_SIZE,
-                                FONT_COLOR, (cmpVal == 1 ? "Subtraction"
-                                        : "Addition"), FONT_SIZE * 0.5));
-
-                easySnap(
-                        (cmpVal == 1 ? "Subtract M from " : "Add M to ") + "A",
-                        (cmpVal == 1 ? infoSubtraction() : infoAddition()),
-                        easyPseudo((cmpVal == 1 ? 11 : 14), GREEN, BLACK),
-                        quest.getAdditionQuestion());
-                // Remove Overflow Label
-                math.remove(math.size() - 1);
-                // Remove Label
-                math.remove(math.size() - 1);
-                // Remove Addition
-                math.remove(math.size() - 1);
-                sumLabel.setText("");
-
-            } else {
-                // ----Comparison Frame---- (yep, again)
-                // Colors
-                RegQ.setFillOutlineColor(0, BLUE);
-                Q_1.setFillOutlineColor(0, BLUE);
-
-                // Question pane-hopping
-                trace.add(null);
-                question que = quest.getQuestion(1);
-                trace.remove(trace.size() - 1);
-
-                easySnap("Determine the operation", infoDetermineNoMath(),
-                        easyPseudo(10, BLUE, BLACK), que);
-
-                // Reset colors
-                RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
-                Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
-            }
-            // Deactivate text
-            setRowTextColor(INACTIVE_TEXT);
-            setRowOutlineColor(INACTIVE_OUTLINE);
-
-            // ----Shift Frame----
-            if (did_math) {
-                positionAdditionRow();
-                did_math = false;
-            } else
-                positionMajorRow(); // Remember this clones
-
-            setRowTextColor(FONT_COLOR);
-            addRow();
-            rightShift(RegA, RegQ, Q_1);
-
-            // Question and write
-            question que = quest.getShiftQuestion();
-
-            // Colors
-            getRegisterFromRow(trace.size() - 2, REGA).setFillOutlineColor(
-                    GREEN);
-            getRegisterFromRow(trace.size() - 2, REGQ)
-                    .setFillOutlineColor(BLUE);
-            setRowOutlineColor(OUTLINE_COLOR);
-            RegA.setFillOutlineColor(GREEN);
-            RegQ.setFillOutlineColor(BLUE);
-            RegQ.setFillOutlineColor(REG_SIZE - 1, GREEN);
-            Q_1.setFillOutlineColor(0, BLUE);
-            currentRow.remove(COUNT); // Oops...We don't want Count
-
-            last = currentRow.get(0).getBounds();
-            currentRow
-                    .add(new GAIGSmonospacedText(
-                            0
-                                    - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
-                                    / unitLengthX, last[1],
-                            GAIGSmonospacedText.HRIGHT,
-                            GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR,
-                            "Shift", FONT_SIZE * 0.5));
-
-            easySnap("Sign-Preserving Right Shift", infoShift(),
-                    easyPseudo(19, BLUE, BLACK), que);
-            // RegQ.setTextColor(FONT_COLOR);
-            Q_1.setFillOutlineColor(DEFAULT_COLOR);
-
-            // Clean Color of A and Q on the previous line
-            getRegisterFromRow(trace.size() - 2, REGA).setFillOutlineColor(
-                    INACTIVE_FILL);
-            getRegisterFromRow(trace.size() - 2, REGQ).setFillOutlineColor(
-                    INACTIVE_FILL);
-            RegA.setFillOutlineColor(DEFAULT_COLOR);
-            RegQ.setFillOutlineColor(DEFAULT_COLOR);
-
-            // ----Decrement Count Frame---
-            Count.decrement();
-            currentRow.add(COUNT, Count); // Now we do want Count
-            Count.setFillOutlineColor(RED);
-            last = currentRow.get(0).getBounds();
-            currentRow.add(new GAIGSline(new double[] { last[0],
-                    trace.getWidth() }, new double[] { last[1] - ROW_SPACE / 2,
-                    last[1] - ROW_SPACE / 2 }));
-
-            easySnap("Decrement Count", infoDecrement(),
-                    easyPseudo(21, RED, BLACK), null);
-            Count.setFillOutlineColor(DEFAULT_COLOR);
-            // Hey! We're ready to loop!
-        }
     }
 
     public static void rightShift(GAIGSregister A, GAIGSregister Q,
