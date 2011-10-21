@@ -32,10 +32,9 @@ public class BoothMultiplication {
     private static GAIGSregister RegQ;
     private static GAIGSregister Q_1;
     private static CountBox Count;
-    private static GAIGSpane<GAIGSpane<?>> main; // Is this the same as
-                                                 // GAIGSpane<GAIGSpane<?
-                                                 // extends
-                                                 // MutableGAIGSdatastr>>?
+    // Is the next varriable's type the same as
+    // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
+    private static GAIGSpane<GAIGSpane<?>> main;
     private static GAIGSpane<MutableGAIGSdatastr> header;
     private static GAIGSpane<MutableGAIGSdatastr> math;
     private static GAIGSpane<GAIGSpane<?>> trace;
@@ -96,11 +95,7 @@ public class BoothMultiplication {
     private static final double COUNT_LEFT_MARGIN = RIGHT_MARGIN * 2;
 
     public static void main(String args[]) throws IOException {
-        // JHAVÉ Stuff
-        show = new ShowFile(args[0]);
-
-        // Load the Pseudocode
-        loadPseudocode();
+        initalizeJhaveComponents(args);
 
         // Our Stuff
         String multiplicand = args[1];
@@ -152,7 +147,7 @@ public class BoothMultiplication {
             COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT - COUNT_LEFT_MARGIN)/3;
         }
 
-        //Initialize Register Location
+        //Initialize Register Locations
         double[] init = locationOfFirstRegister();
 
         //**** Initialization Frames ****
@@ -167,23 +162,16 @@ public class BoothMultiplication {
                         last[1] - ROW_SPACE / 2, last[1] - ROW_SPACE / 2 }));
 
         // Maybe this should be a function of GAIGSpane
-        double[] unitLengths = main.getRealCoordinates(trace
-                .getRealCoordinates(currentRow.getRealCoordinates(new double[] {
-                        0, 0, 1, 1 })));
+        double[] unitLengths = getUnitLength();
         double unitLengthX = unitLengths[2] - unitLengths[0];
 
+        String labelText="Initialization";
         currentRow.add(new GAIGSmonospacedText(0
                 - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
                 / unitLengthX, last[1], GAIGSmonospacedText.HRIGHT,
                 GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR,
-                "Initialization", FONT_SIZE * 0.5));
+                labelText, FONT_SIZE * 0.5));
 
-        // Maybe this should be a function of GAIGSpane
-        double[] unitLengths1 = main.getRealCoordinates(trace
-                .getRealCoordinates(currentRow.getRealCoordinates(new double[] {
-                        0, 0, 1, 1 })));
-        double unitLengthX1 = unitLengths1[2] - unitLengths1[0];
-        double[] last1;
         boolean did_math = false;
         
         while (Count.getCount() >= 0) {
@@ -252,12 +240,12 @@ public class BoothMultiplication {
                 math.add(discardLabel);
                 sum.complete();
         
-                last1 = currentRow.get(0).getBounds();
+                last = currentRow.get(0).getBounds();
                 currentRow
                         .add(new GAIGSmonospacedText(
                                 0
                                         - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
-                                        / unitLengthX1, last1[1],
+                                        / unitLengthX, last[1],
                                 GAIGSmonospacedText.HRIGHT,
                                 GAIGSmonospacedText.VBOTTOM, FONT_SIZE,
                                 FONT_COLOR, (cmpVal == 1 ? "Subtraction"
@@ -324,12 +312,12 @@ public class BoothMultiplication {
             Q_1.setFillOutlineColor(0, BLUE);
             currentRow.remove(COUNT); // Oops...We don't want Count
         
-            last1 = currentRow.get(0).getBounds();
+            last = currentRow.get(0).getBounds();
             currentRow
                     .add(new GAIGSmonospacedText(
                             0
                                     - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
-                                    / unitLengthX1, last1[1],
+                                    / unitLengthX, last[1],
                             GAIGSmonospacedText.HRIGHT,
                             GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR,
                             "Shift", FONT_SIZE * 0.5));
@@ -351,10 +339,10 @@ public class BoothMultiplication {
             Count.decrement();
             currentRow.add(COUNT, Count); // Now we do want Count
             Count.setFillOutlineColor(RED);
-            last1 = currentRow.get(0).getBounds();
-            currentRow.add(new GAIGSline(new double[] { last1[0],
-                    trace.getWidth() }, new double[] { last1[1] - ROW_SPACE / 2,
-                    last1[1] - ROW_SPACE / 2 }));
+            last = currentRow.get(0).getBounds();
+            currentRow.add(new GAIGSline(new double[] { last[0],
+                    trace.getWidth() }, new double[] { last[1] - ROW_SPACE / 2,
+                    last[1] - ROW_SPACE / 2 }));
         
             easySnap("Decrement Count", infoDecrement(),
                     easyPseudo(21, RED, BLACK), null);
@@ -366,6 +354,26 @@ public class BoothMultiplication {
         showFinishedFrame(multiplicand, multiplier, binary, decimal);
 
         show.close();
+    }
+
+    private static void initalizeJhaveComponents(String[] args)
+            throws IOException {
+        // JHAVÉ Stuff
+        show = new ShowFile(args[0]);
+
+        // Load the Pseudocode
+        loadPseudocode();
+    }
+
+    //TODO: Make this a varargs function of GAIGSpanes and make part of GAIGSpane class
+    private static double[] getUnitLength() {
+        return main.getRealCoordinates(trace
+                .getRealCoordinates(currentRow.getRealCoordinates(createStandardUnitLength())));
+    }
+
+    private static double[] createStandardUnitLength() {
+        return new double[] {
+                0, 0, 1, 1 };
     }
 
     private static GAIGSmonospacedText createArithmeticLabels(
@@ -396,7 +404,7 @@ public class BoothMultiplication {
                 FONT_SIZE + .005, FONT_SIZE + .01, FONT_COLOR,
                 DARK_GREEN);
     }
-
+    
     private static void setupAndShowInitialization(String multiplicand,
             String multiplier, GAIGSArithmetic binary,
             ColoredResultArithmetic decimal,
