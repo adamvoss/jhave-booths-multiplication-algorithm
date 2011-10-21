@@ -156,53 +156,10 @@ public class BoothMultiplication {
         double[] init = locationOfFirstRegister();
 
         //**** Initialization Frames ****
+        setupAndShowInitialization(multiplicand, multiplier, binary, decimal,
+                trace_labels, init);
         
-        //----Register M Initialization Frame----
-        addTraceLabel(trace_labels, init, "M");
-        RegM= createRegister(init, multiplicand);
-
-        currentRow.add(RegM);
         
-        showRegisterMInit(binary, decimal);
-
-        REG_SIZE = RegM.getSize();
-
-        //----Register A Initialization Frame----
-        setStartOfNextRegister(init);
-        setEndOfNextRegister(init);
-        addTraceLabel(trace_labels, init, "A");
-        RegA= createRegister(init, "0");
-        currentRow.add(RegA);
-        easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
-                null);
-
-        //----Register Q Initialization Frame----
-        setStartOfNextRegister(init);
-        setEndOfNextRegister(init);
-        addTraceLabel(trace_labels, init, "Q");
-        RegQ= createRegister(init, multiplier);
-        currentRow.add(RegQ);
-        
-        showRegisterQInit(binary, decimal);
-
-        //----Bit β Initialization Frame----
-        setStartOfNextRegister(init);
-        setEndOfNextBit(init);
-        addTraceLabel(trace_labels, init, "β");
-        Q_1 = createBitBeta(init);
-        currentRow.add(Q_1);
-
-        easySnap("β is initialized to Zero", infoBeta(), easyPseudo(5), null);
-
-        // ----Count Initialization Frame----
-        init[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
-        init[2] = trace.getWidth() - RIGHT_MARGIN;
-        addTraceLabel(trace_labels, init, "Count");
-        Count = createCountBox(init);
-        currentRow.add(Count);
-
-        easySnap("Count is initialized to\nthe number of bits in a register.",
-                infoCount(), easyPseudo(6), null);
         double[] last = currentRow.get(0).getBounds();
 
         currentRow.add(new GAIGSline(
@@ -441,6 +398,87 @@ public class BoothMultiplication {
         showFinishedFrame(multiplicand, multiplier, binary, decimal);
 
         show.close();
+    }
+
+    private static void setupAndShowInitialization(String multiplicand,
+            String multiplier, GAIGSArithmetic binary,
+            ColoredResultArithmetic decimal,
+            GAIGSpane<GAIGSmonospacedText> trace_labels, double[] init) {
+        //----Register M Initialization Frame----
+        setupAndShowRegisterMInitialization(multiplicand, binary, decimal, trace_labels, init);
+
+        REG_SIZE = RegM.getSize();
+
+        //----Register A Initialization Frame----
+        setupAndShowRegisterAInitialization(trace_labels, init);
+
+        //----Register Q Initialization Frame----
+        setupAndShowRegisterQInitialization(multiplier, binary, decimal, trace_labels, init);
+
+        //----Bit β Initialization Frame----
+        setupAndShowBitBetaInitialization(trace_labels, init);
+
+        // ----Count Initialization Frame----
+        setupAndShowCountInitialization(trace_labels, init);
+    }
+
+    private static void setupAndShowCountInitialization(
+            GAIGSpane<GAIGSmonospacedText> labels, double[] positions) {
+        positions[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
+        positions[2] = trace.getWidth() - RIGHT_MARGIN;
+        addTraceLabel(labels, positions, "Count");
+        Count = createCountBox(positions);
+        currentRow.add(Count);
+
+        easySnap("Count is initialized to\nthe number of bits in a register.",
+                infoCount(), easyPseudo(6), null);
+    }
+
+    private static void setupAndShowBitBetaInitialization(
+            GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
+        setStartOfNextRegister(position);
+        setEndOfNextBit(position);
+        addTraceLabel(labels, position, "β");
+        Q_1 = createBitBeta(position);
+        currentRow.add(Q_1);
+
+        easySnap("β is initialized to Zero", infoBeta(), easyPseudo(5), null);
+    }
+
+    private static void setupAndShowRegisterQInitialization(String registerValue,
+            GAIGSArithmetic leftCornerObject,
+            ColoredResultArithmetic rightCornerObject,
+            GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
+        setStartOfNextRegister(position);
+        setEndOfNextRegister(position);
+        addTraceLabel(labels, position, "Q");
+        RegQ= createRegister(position, registerValue);
+        currentRow.add(RegQ);
+        
+        showRegisterQInit(leftCornerObject, rightCornerObject);
+    }
+
+    private static void setupAndShowRegisterAInitialization(
+            GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
+        setStartOfNextRegister(position);
+        setEndOfNextRegister(position);
+        addTraceLabel(labels, position, "A");
+        RegA= createRegister(position, "0");
+        currentRow.add(RegA);
+        easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
+                null);
+    }
+
+    private static void setupAndShowRegisterMInitialization(String displayValue,
+            GAIGSArithmetic leftCornerObject,
+            ColoredResultArithmetic RightCornerObject,
+            GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
+        addTraceLabel(labels, position, "M");
+        RegM= createRegister(position, displayValue);
+
+        currentRow.add(RegM);
+        
+        showRegisterMInit(leftCornerObject, RightCornerObject);
     }
 
     private static void loadPseudocode() throws IOException {
