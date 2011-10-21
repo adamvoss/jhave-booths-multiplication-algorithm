@@ -100,12 +100,7 @@ public class BoothMultiplication {
         show = new ShowFile(args[0]);
 
         // Load the Pseudocode
-        try {
-            pseudo = new PseudoCodeDisplay(
-                    "exe/boothsMultiplication/pseudocode.xml");
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        }
+        loadPseudocode();
 
         // Our Stuff
         String multiplicand = args[1];
@@ -446,6 +441,15 @@ public class BoothMultiplication {
         showFinishedFrame(multiplicand, multiplier, binary, decimal);
 
         show.close();
+    }
+
+    private static void loadPseudocode() throws IOException {
+        try {
+            pseudo = new PseudoCodeDisplay(
+                    "exe/boothsMultiplication/pseudocode.xml");
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
     }
 
     private static CountBox createCountBox(double[] position) {
