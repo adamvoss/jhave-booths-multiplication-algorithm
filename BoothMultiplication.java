@@ -27,11 +27,11 @@ import exe.pseudocode.PseudoCodeDisplay;
 public class BoothMultiplication {
     private PseudoCodeDisplay pseudo;
     private QuestionGenerator quest;
-    private static GAIGSregister RegM;
-    private static GAIGSregister RegA;
-    private static GAIGSregister RegQ;
-    private static GAIGSregister Q_1;
-    private static CountBox Count;
+    private GAIGSregister RegM;
+    private GAIGSregister RegA;
+    private GAIGSregister RegQ;
+    private GAIGSregister Q_1;
+    private CountBox Count;
     // Is the next varriable's type the same as
     // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
     private static GAIGSpane<GAIGSpane<?>> main;
@@ -401,7 +401,7 @@ public class BoothMultiplication {
                 sumLabel.getFontSize() * 1.25);
     }
 
-    private static DiscardOverflowAddition createALUArithmetic(
+    private DiscardOverflowAddition createALUArithmetic(
             GAIGSregister multiplicandRegister) {
         return new DiscardOverflowAddition('+', RegA.toString(),
                 multiplicandRegister.toString(), 2,
@@ -806,7 +806,7 @@ public class BoothMultiplication {
         reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
     }
 
-    private static void setRowTextColor(String color) {
+    private void setRowTextColor(String color) {
         RegM.setTextColor(color);
         RegA.setTextColor(color);
         RegQ.setTextColor(color);
@@ -814,7 +814,7 @@ public class BoothMultiplication {
         Count.setTextColor(color);
     }
 
-    private static void setRowOutlineColor(String color) {
+    private void setRowOutlineColor(String color) {
         RegM.setOutlineColor(color);
         RegA.setOutlineColor(color);
         RegQ.setOutlineColor(color);
@@ -852,7 +852,7 @@ public class BoothMultiplication {
         getRegisterFromRow(row, COUNT).setFillColor(color);
     }
 
-    private static void positionMajorRow() {
+    private void positionMajorRow() {
         RegM = RegM.clone();
         RegA = RegA.clone();
         RegQ = RegQ.clone();
@@ -866,7 +866,7 @@ public class BoothMultiplication {
         adjustRegister(Count);
     }
 
-    private static void positionAdditionRow() {
+    private void positionAdditionRow() {
         RegM = RegM.clone();
         RegA = RegA.clone();
         RegQ = RegQ.clone();
@@ -888,7 +888,7 @@ public class BoothMultiplication {
         return (GAIGSregister) trace.get(row).get(reg);
     }
 
-    private static GAIGSpane<MutableGAIGSdatastr> addRow() {
+    private GAIGSpane<MutableGAIGSdatastr> addRow() {
         currentRow = new GAIGSpane<MutableGAIGSdatastr>();
         currentRow.setName("Row " + rowNumber);
 
