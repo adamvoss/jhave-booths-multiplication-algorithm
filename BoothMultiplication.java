@@ -44,8 +44,6 @@ public class BoothMultiplication {
     private static final String DARK_GREEN= "#008800";
     private static final String BLUE      = "#AAABFF";
     private static final String YELLOW    = "#FFFF00";
-    private static final String GOLD      = "#CDAD00";
-    private static final String PURPLE    = GREEN; // :S
     
     //Configuration
     private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVE_X_MARGIN*2;
@@ -1081,6 +1079,4 @@ public class BoothMultiplication {
         return "<html>Now that the execution of the algorithm has complete, " +
                         "the result is the number that spans <i>A</i>,<i>M</i>.</html>";
     }
-//Sorry I can't contribute more at the moment, I have a midterm tomorrow.
-//So far so good. Too bad it won't be in use at Oshkosh.
 }
