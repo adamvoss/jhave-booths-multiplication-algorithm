@@ -45,7 +45,9 @@ public class boothsMultiplication{
             toPass[1] = temp[0];
             toPass[2] = temp[1];
 
-            BoothMultiplication.main(toPass);
+            BoothMultiplication booth = new BoothMultiplication();
+            
+            booth.execute(toPass);
         }
         else if (param.containsKey(BOOTH_EX01) ) {
             if (DEBUG) {

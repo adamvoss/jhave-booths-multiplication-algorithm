@@ -94,7 +94,12 @@ public class BoothMultiplication {
     private static final double TOP_MARGIN        = 0.0;
     private static final double COUNT_LEFT_MARGIN = RIGHT_MARGIN * 2;
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException{
+        BoothMultiplication booth = new BoothMultiplication();
+        booth.execute(args);
+    }
+    
+    public void execute(String args[]) throws IOException {
         initalizeJhaveComponents(args);
 
         // Our Stuff
