@@ -34,11 +34,11 @@ public class BoothMultiplication {
     private CountBox Count;
     // Is the next varriable's type the same as
     // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
-    private static GAIGSpane<GAIGSpane<?>> main;
-    private static GAIGSpane<MutableGAIGSdatastr> header;
-    private static GAIGSpane<MutableGAIGSdatastr> math;
-    private static GAIGSpane<GAIGSpane<?>> trace;
-    private static GAIGSpane<MutableGAIGSdatastr> currentRow;
+    private GAIGSpane<GAIGSpane<?>> main;
+    private GAIGSpane<MutableGAIGSdatastr> header;
+    private GAIGSpane<MutableGAIGSdatastr> math;
+    private GAIGSpane<GAIGSpane<?>> trace;
+    private GAIGSpane<MutableGAIGSdatastr> currentRow;
     private static GAIGSmonospacedText title;
     private static int rowNumber; // This is only used for comments in the XML
     private static ShowFile show;
@@ -371,7 +371,7 @@ public class BoothMultiplication {
     }
 
     //TODO: Make this a varargs function of GAIGSpanes and make part of GAIGSpane class
-    private static double[] getUnitLength() {
+    private double[] getUnitLength() {
         return main.getRealCoordinates(trace
                 .getRealCoordinates(currentRow.getRealCoordinates(createStandardUnitLength())));
     }
@@ -519,7 +519,7 @@ public class BoothMultiplication {
         return ret;
     }
 
-    private static GAIGSmonospacedText createTitle() {
+    private GAIGSmonospacedText createTitle() {
         return new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
     }
 
@@ -588,14 +588,14 @@ public class BoothMultiplication {
         header.remove(leftArrow);
     }
 
-    private static void populateMathPane(String multiplier) {
+    private void populateMathPane(String multiplier) {
         math.add(new GAIGSline(new double[] {0,0},
                 new double[] {math.getHeight()+FONT_SIZE,
                     math.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + (numLines(multiplier)-REG_SIZE) * (ROW_SPACE/2 + REG_HEIGHT))}));
         math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Math/ALU"));
     }
 
-    private static double[] locationOfFirstRegister() {
+    private double[] locationOfFirstRegister() {
         return new double[] {
                 LEFT_MARGIN,
                 trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
@@ -615,25 +615,25 @@ public class BoothMultiplication {
         init[0] = init[2]+(COL_SPACE);
     }
 
-    private static ColoredResultArithmetic createDecimalMultiplicationDisplay(
+    private ColoredResultArithmetic createDecimalMultiplicationDisplay(
             String multiplicand, String multiplier) {
         return new ColoredResultArithmetic('*', Utilities.toDecimal(multiplicand), Utilities.toDecimal(multiplier), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
                 header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
     }
 
-    private static TCMultBooth createBinaryMultiplicationDisplay(
+    private TCMultBooth createBinaryMultiplicationDisplay(
             String multiplicand, String multiplier) {
         return new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
                 header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
     }
 
-    private static void populateMainPane() {
+    private void populateMainPane() {
         main.add(header);
         main.add(trace);
         main.add(math);
     }
 
-    private static GAIGSpane<GAIGSpane<?>> createAlgorithmTrace() {
+    private GAIGSpane<GAIGSpane<?>> createAlgorithmTrace() {
         GAIGSpane<GAIGSpane<?>> tracePane = new GAIGSpane<GAIGSpane<?>>(0, 0,
                 WINDOW_WIDTH * (3 / 4.0), math.getBounds()[3], null, 1.0);
         tracePane.setName("Trace");
@@ -822,13 +822,13 @@ public class BoothMultiplication {
         Count.setOutlineColor(color);
     }
 
-    private static void fadeRow(int row) {
+    private void fadeRow(int row) {
         setRowTextColor(row, INACTIVE_TEXT);
         setRowOutlineColor(row, INACTIVE_OUTLINE);
         setRegRowFillColor(row, INACTIVE_FILL);
     }
 
-    private static void setRowTextColor(int row, String color) {
+    private void setRowTextColor(int row, String color) {
         getRegisterFromRow(row, REGM).setTextColor(color);
         getRegisterFromRow(row, REGA).setTextColor(color);
         getRegisterFromRow(row, REGQ).setTextColor(color);
@@ -836,7 +836,7 @@ public class BoothMultiplication {
         getRegisterFromRow(row, COUNT).setTextColor(color);
     }
 
-    private static void setRowOutlineColor(int row, String color) {
+    private void setRowOutlineColor(int row, String color) {
         getRegisterFromRow(row, REGM).setOutlineColor(color);
         getRegisterFromRow(row, REGA).setOutlineColor(color);
         getRegisterFromRow(row, REGQ).setOutlineColor(color);
@@ -844,7 +844,7 @@ public class BoothMultiplication {
         getRegisterFromRow(row, COUNT).setOutlineColor(color);
     }
 
-    private static void setRegRowFillColor(int row, String color) {
+    private void setRegRowFillColor(int row, String color) {
         getRegisterFromRow(row, REGM).setFillColor(color);
         getRegisterFromRow(row, REGA).setFillColor(color);
         getRegisterFromRow(row, REGQ).setFillColor(color);
@@ -884,7 +884,7 @@ public class BoothMultiplication {
      * Now we are restricted and must be very careful what goes on the trace and
      * currentRow
      */
-    private static GAIGSregister getRegisterFromRow(int row, int reg) {
+    private GAIGSregister getRegisterFromRow(int row, int reg) {
         return (GAIGSregister) trace.get(row).get(reg);
     }
 
@@ -925,7 +925,7 @@ public class BoothMultiplication {
         }
     }
 
-    private static void easySnap(String title, String info, String pseudo,
+    private void easySnap(String title, String info, String pseudo,
             question que) {
         easySnap(title, info, pseudo, que, main);
     }
