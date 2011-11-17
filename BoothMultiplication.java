@@ -26,7 +26,7 @@ import exe.pseudocode.PseudoCodeDisplay;
  */
 public class BoothMultiplication {
     private PseudoCodeDisplay pseudo;
-    private static QuestionGenerator quest;
+    private QuestionGenerator quest;
     private static GAIGSregister RegM;
     private static GAIGSregister RegA;
     private static GAIGSregister RegQ;
