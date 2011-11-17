@@ -25,7 +25,7 @@ import exe.pseudocode.PseudoCodeDisplay;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class BoothMultiplication {
-    private static PseudoCodeDisplay pseudo;
+    private PseudoCodeDisplay pseudo;
     private static QuestionGenerator quest;
     private static GAIGSregister RegM;
     private static GAIGSregister RegA;
@@ -361,13 +361,13 @@ public class BoothMultiplication {
         show.close();
     }
 
-    private static void initalizeJhaveComponents(String[] args)
+    private void initalizeJhaveComponents(String[] args)
             throws IOException {
         // JHAVÉ Stuff
         show = new ShowFile(args[0]);
 
         // Load the Pseudocode
-        loadPseudocode();
+        pseudo = loadPseudocode();
     }
 
     //TODO: Make this a varargs function of GAIGSpanes and make part of GAIGSpane class
@@ -410,7 +410,7 @@ public class BoothMultiplication {
                 DARK_GREEN);
     }
     
-    private static void setupAndShowInitialization(String multiplicand,
+    private void setupAndShowInitialization(String multiplicand,
             String multiplier, GAIGSArithmetic binary,
             ColoredResultArithmetic decimal,
             GAIGSpane<GAIGSmonospacedText> trace_labels, double[] init) {
@@ -432,7 +432,7 @@ public class BoothMultiplication {
         setupAndShowCountInitialization(trace_labels, init);
     }
 
-    private static void setupAndShowCountInitialization(
+    private void setupAndShowCountInitialization(
             GAIGSpane<GAIGSmonospacedText> labels, double[] positions) {
         positions[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
         positions[2] = trace.getWidth() - RIGHT_MARGIN;
@@ -444,7 +444,7 @@ public class BoothMultiplication {
                 infoCount(), easyPseudo(6), null);
     }
 
-    private static void setupAndShowBitBetaInitialization(
+    private void setupAndShowBitBetaInitialization(
             GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
         setStartOfNextRegister(position);
         setEndOfNextBit(position);
@@ -455,7 +455,7 @@ public class BoothMultiplication {
         easySnap("β is initialized to Zero", infoBeta(), easyPseudo(5), null);
     }
 
-    private static void setupAndShowRegisterQInitialization(String registerValue,
+    private void setupAndShowRegisterQInitialization(String registerValue,
             GAIGSArithmetic leftCornerObject,
             ColoredResultArithmetic rightCornerObject,
             GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
@@ -468,7 +468,7 @@ public class BoothMultiplication {
         showRegisterQInit(leftCornerObject, rightCornerObject);
     }
 
-    private static void setupAndShowRegisterAInitialization(
+    private void setupAndShowRegisterAInitialization(
             GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
@@ -479,7 +479,7 @@ public class BoothMultiplication {
                 null);
     }
 
-    private static void setupAndShowRegisterMInitialization(String displayValue,
+    private void setupAndShowRegisterMInitialization(String displayValue,
             GAIGSArithmetic leftCornerObject,
             ColoredResultArithmetic RightCornerObject,
             GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
@@ -491,12 +491,13 @@ public class BoothMultiplication {
         showRegisterMInit(leftCornerObject, RightCornerObject);
     }
 
-    private static void loadPseudocode() throws IOException {
+    private PseudoCodeDisplay loadPseudocode() throws IOException {
         try {
-            pseudo = new PseudoCodeDisplay(
+            return new PseudoCodeDisplay(
                     "exe/boothsMultiplication/pseudocode.xml");
         } catch (JDOMException e) {
             e.printStackTrace();
+            throw new InternalError("IOException");
         }
     }
 
@@ -522,7 +523,7 @@ public class BoothMultiplication {
         return new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
     }
 
-    private static void showFinishedFrame(String multiplicand,
+    private void showFinishedFrame(String multiplicand,
             String multiplier, GAIGSArithmetic binary,
             ColoredResultArithmetic decimal) {
         decimal.complete();
@@ -542,7 +543,7 @@ public class BoothMultiplication {
                 infoFinished(), easyPseudo(-1), null);
     }
 
-    private static void showRegisterQInit(GAIGSArithmetic binary,
+    private void showRegisterQInit(GAIGSArithmetic binary,
             ColoredResultArithmetic decimal) {
         GAIGSarrow leftArrow;
         GAIGSarrow rightArrow;
@@ -569,7 +570,7 @@ public class BoothMultiplication {
                 COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
     }
 
-    private static void showRegisterMInit(GAIGSArithmetic binary,
+    private void showRegisterMInit(GAIGSArithmetic binary,
             ColoredResultArithmetic decimal) {
         //Let's draw arrows
         title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
@@ -934,11 +935,11 @@ public class BoothMultiplication {
         easySnap(title, "<html>hi</html>", pseudo, que, stuff);
     }
 
-    private static void easySnap(String title, String pseudo, question que) {
+    private void easySnap(String title, String pseudo, question que) {
         easySnap(title, pseudo, que, main);
     }
 
-    private static String easyPseudo(int selected) {
+    private String easyPseudo(int selected) {
         try {
             return pseudo.pseudo_uri(new HashMap<String, String>(), selected,
                     GREY, BLACK);
@@ -948,7 +949,7 @@ public class BoothMultiplication {
         return "Something went wrong";
     }
 
-    private static String easyPseudo(int selected, String highlight,
+    private String easyPseudo(int selected, String highlight,
             String textColor) {
         try {
             return pseudo.pseudo_uri(new HashMap<String, String>(), selected,
@@ -959,7 +960,7 @@ public class BoothMultiplication {
         return "Something went wrong";
     }
 
-    private static String easyPseudo(int selected, int lineColor) {
+    private String easyPseudo(int selected, int lineColor) {
         try {
             return pseudo.pseudo_uri(new HashMap<String, String>(), selected,
                     lineColor);
