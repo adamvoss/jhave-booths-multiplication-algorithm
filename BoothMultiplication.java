@@ -25,25 +25,6 @@ import exe.pseudocode.PseudoCodeDisplay;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class BoothMultiplication {
-    private PseudoCodeDisplay pseudo;
-    private QuestionGenerator quest;
-    private GAIGSregister RegM;
-    private GAIGSregister RegA;
-    private GAIGSregister RegQ;
-    private GAIGSregister Q_1;
-    private CountBox Count;
-    // Is the next varriable's type the same as
-    // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
-    private GAIGSpane<GAIGSpane<?>> main;
-    private GAIGSpane<MutableGAIGSdatastr> header;
-    private GAIGSpane<MutableGAIGSdatastr> math;
-    private GAIGSpane<GAIGSpane<?>> trace;
-    private GAIGSpane<MutableGAIGSdatastr> currentRow;
-    private static GAIGSmonospacedText title;
-    private static int rowNumber; // This is only used for comments in the XML
-    private static ShowFile show;
-    private static int REG_SIZE;
-
     public final static int REGM = 0;
     public final static int REGA = 1;
     public final static int REGQ = 2;
@@ -53,25 +34,20 @@ public class BoothMultiplication {
     // Definitions
     private static final boolean DEBUG = false;
 
-    public static final String WHITE     = "#FFFFFF";
-    public static final String BLACK     = "#000000";
-    public static final String LIGHT_GREY= "#DDDDDD";
-    public static final String GREY      = "#BBBBBB";
-    public static final String DARK_GREY = "#666666";
-    public static final String RED       = "#FF9999";
-    public static final String GREEN     = "#55FF55";
-    public static final String DARK_GREEN= "#008800";
-    public static final String BLUE      = "#AAABFF";
-    public static final String YELLOW    = "#FFFF00";
-    public static final String GOLD      = "#CDAD00";
-    public static final String PURPLE    = GREEN; // :S
-    public static final String FONT_COLOR      = BLACK;
-    public static final String DEFAULT_COLOR   = WHITE;
-    public static final String INACTIVE_TEXT   = DARK_GREY;
-    public static final String INACTIVE_OUTLINE= LIGHT_GREY;
-    public static final String INACTIVE_FILL   = WHITE;
-    public static final String OUTLINE_COLOR   = FONT_COLOR;
-
+    private static final String WHITE     = "#FFFFFF";
+    private static final String BLACK     = "#000000";
+    private static final String LIGHT_GREY= "#DDDDDD";
+    private static final String GREY      = "#BBBBBB";
+    private static final String DARK_GREY = "#666666";
+    private static final String RED       = "#FF9999";
+    private static final String GREEN     = "#55FF55";
+    private static final String DARK_GREEN= "#008800";
+    private static final String BLUE      = "#AAABFF";
+    private static final String YELLOW    = "#FFFF00";
+    private static final String GOLD      = "#CDAD00";
+    private static final String PURPLE    = GREEN; // :S
+    
+    //Configuration
     private static final double WINDOW_WIDTH   = 1+GAIGSpane.JHAVE_X_MARGIN*2;
     private static final double WINDOW_HEIGHT  = 1+GAIGSpane.JHAVE_Y_MARGIN*2;
 
@@ -93,6 +69,32 @@ public class BoothMultiplication {
     private static final double RIGHT_MARGIN      = COLBL_FONT_SIZE;
     private static final double TOP_MARGIN        = 0.0;
     private static final double COUNT_LEFT_MARGIN = RIGHT_MARGIN * 2;
+    
+    private PseudoCodeDisplay pseudo;
+    private QuestionGenerator quest;
+    private GAIGSregister RegM;
+    private GAIGSregister RegA;
+    private GAIGSregister RegQ;
+    private GAIGSregister Q_1;
+    private CountBox Count;
+    // Is the next varriable's type the same as
+    // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
+    private GAIGSpane<GAIGSpane<?>> main;
+    private GAIGSpane<MutableGAIGSdatastr> header;
+    private GAIGSpane<MutableGAIGSdatastr> math;
+    private GAIGSpane<GAIGSpane<?>> trace;
+    private GAIGSpane<MutableGAIGSdatastr> currentRow;
+    private GAIGSmonospacedText title;
+    private int rowNumber; // This is only used for comments in the XML
+    private ShowFile show;
+    private int REG_SIZE;
+    
+    private final String FONT_COLOR      = BLACK;
+    private final String DEFAULT_COLOR   = WHITE;
+    private final String INACTIVE_TEXT   = DARK_GREY;
+    private final String INACTIVE_OUTLINE= LIGHT_GREY;
+    private final String INACTIVE_FILL   = WHITE;
+    private final String OUTLINE_COLOR   = FONT_COLOR;
 
     public static void main(String args[]) throws IOException{
         BoothMultiplication booth = new BoothMultiplication();
@@ -381,7 +383,7 @@ public class BoothMultiplication {
                 0, 0, 1, 1 };
     }
 
-    private static GAIGSmonospacedText createArithmeticLabels(
+    private GAIGSmonospacedText createArithmeticLabels(
             DiscardOverflowAddition sum, String top, String bottom) {
         return new GAIGSmonospacedText(sum.getBounds()[2]
                 + MATH_LABEL_SPACE / 2, sum.getBounds()[3]
@@ -390,7 +392,7 @@ public class BoothMultiplication {
                 String.format("(%s)\n(%s)", top, bottom), sum.getFontSize() * 1.5);
     }
 
-    private static GAIGSmonospacedText createDiscardOverflowLabel(
+    private GAIGSmonospacedText createDiscardOverflowLabel(
             DiscardOverflowAddition sum, GAIGSmonospacedText sumLabel) {
         return new GAIGSmonospacedText(sum.getBounds()[0],
                 sum.getBounds()[3] + sum.getFontSize() / 2,
@@ -501,19 +503,19 @@ public class BoothMultiplication {
         }
     }
 
-    private static CountBox createCountBox(double[] position) {
+    private CountBox createCountBox(double[] position) {
         return new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR,
                 OUTLINE_COLOR, position, REG_FONT_SIZE);
     }
 
-    private static GAIGSregister createBitBeta(double[] position) {
+    private GAIGSregister createBitBeta(double[] position) {
         GAIGSregister beta = new GAIGSregister(1, "", DEFAULT_COLOR, FONT_COLOR,
                 OUTLINE_COLOR, position, REG_FONT_SIZE);
         beta.set("0");
         return beta;
     }
 
-    private static GAIGSregister createRegister(double[] position, String initialValue) {
+    private GAIGSregister createRegister(double[] position, String initialValue) {
         GAIGSregister ret = new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, position, REG_FONT_SIZE);
         ret.set(initialValue);
         return ret;
@@ -561,7 +563,7 @@ public class BoothMultiplication {
         header.remove(leftArrow);
     }
 
-    private static void addTraceLabel(
+    private void addTraceLabel(
             GAIGSpane<GAIGSmonospacedText> traceLabels, double[] coords,
             String displayText) {
         traceLabels.add(new GAIGSmonospacedText(
@@ -670,17 +672,17 @@ public class BoothMultiplication {
      * @param leftItem
      * @return
      */
-    private static GAIGSarrow createLeftArrow(MutableGAIGSdatastr rightItem,
+    private GAIGSarrow createLeftArrow(MutableGAIGSdatastr rightItem,
             MutableGAIGSdatastr leftItem) {
         return createLeftArrow(rightItem, leftItem, 0, 0, 0, 0);
     }
     
-    private static GAIGSarrow createRightArrow(MutableGAIGSdatastr leftItem,
+    private GAIGSarrow createRightArrow(MutableGAIGSdatastr leftItem,
             MutableGAIGSdatastr rightItem) {
         return createRightArrow(leftItem, rightItem, 0, 0, 0, 0);
     }
 
-    private static GAIGSarrow createRightArrow(MutableGAIGSdatastr leftItem,
+    private GAIGSarrow createRightArrow(MutableGAIGSdatastr leftItem,
             MutableGAIGSdatastr rightItem,
             double sourceXOffset, double sourceYOffset,
             double destinationXOffset, double destinationYOffset) {
@@ -695,7 +697,7 @@ public class BoothMultiplication {
                     FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
     }
 
-    private static GAIGSarrow createLeftArrow(MutableGAIGSdatastr rightItem,
+    private GAIGSarrow createLeftArrow(MutableGAIGSdatastr rightItem,
             MutableGAIGSdatastr leftItem, double sourceXOffset, double sourceYOffset,
             double destinationXOffset, double destinationYOffset) {
         double[] titlebounds = rightItem.getBounds();
@@ -709,7 +711,7 @@ public class BoothMultiplication {
                     FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
     }
 
-    public static void rightShift(GAIGSregister A, GAIGSregister Q,
+    public void rightShift(GAIGSregister A, GAIGSregister Q,
             GAIGSregister Q_1) {
         if (A.getSize() < 1)
             return;
@@ -734,7 +736,7 @@ public class BoothMultiplication {
      * @param A
      *            Destination Register and addend.
      */
-    public static void addIntoReg(GAIGSregister toAdd, GAIGSregister A) {
+    public void addIntoReg(GAIGSregister toAdd, GAIGSregister A) {
         int carry = 0;
         int sum = 0;
         for (int i = 0; i < REG_SIZE; i++) {
@@ -903,10 +905,10 @@ public class BoothMultiplication {
         return currentRow;
     }
 
-    private static void easySnap(String title, String info, String pseudo,
+    private void easySnap(String title, String info, String pseudo,
             question que, GAIGSdatastr... stuff) {
         if (title != null)
-            BoothMultiplication.title.setText(title);
+            this.title.setText(title);
 
         URI infoURI = null;
         try {
@@ -930,7 +932,7 @@ public class BoothMultiplication {
         easySnap(title, info, pseudo, que, main);
     }
 
-    private static void easySnap(String title, String pseudo, question que,
+    private void easySnap(String title, String pseudo, question que,
             GAIGSdatastr... stuff) {
         easySnap(title, "<html>hi</html>", pseudo, que, stuff);
     }
