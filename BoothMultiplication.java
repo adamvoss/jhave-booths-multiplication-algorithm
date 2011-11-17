@@ -93,19 +93,26 @@ public class BoothMultiplication {
     private final String INACTIVE_OUTLINE= LIGHT_GREY;
     private final String INACTIVE_FILL   = WHITE;
     private final String OUTLINE_COLOR   = FONT_COLOR;
+    private String filename;
+    private String multiplicand;
+    private String multiplier;
 
     public static void main(String args[]) throws IOException{
-        BoothMultiplication booth = new BoothMultiplication();
-        booth.execute(args);
+        BoothMultiplication booth = new BoothMultiplication(args[0], args[1], args[2]);
+        booth.execute();
     }
     
-    public void execute(String args[]) throws IOException {
-        initalizeJhaveComponents(args);
+    public BoothMultiplication(String filename, String multiplicand, String multiplier){
+        this.filename = filename;
+        this.multiplicand = multiplicand;
+        this.multiplier = multiplier;
+        
+    }
+    
+    public void execute() throws IOException {
+        initalizeJhaveComponents(filename);
 
         // Our Stuff
-        String multiplicand = args[1];
-        String multiplier = args[2];
-
         REG_SIZE = multiplicand.length();
 
         main = createMainPane();
@@ -361,10 +368,10 @@ public class BoothMultiplication {
         show.close();
     }
 
-    private void initalizeJhaveComponents(String[] args)
+    private void initalizeJhaveComponents(String outputFileName)
             throws IOException {
         // JHAVÉ Stuff
-        show = new ShowFile(args[0]);
+        show = new ShowFile(outputFileName);
 
         // Load the Pseudocode
         pseudo = loadPseudocode();
