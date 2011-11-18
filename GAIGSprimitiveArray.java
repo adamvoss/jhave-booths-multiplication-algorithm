@@ -48,6 +48,10 @@ public class GAIGSprimitiveArray implements MutableGAIGSdatastr {
 
         this.storage = new Object[length];
         
+        for (int i = 0 ; i < storage.length ; i++){
+            storage[i] = "";
+        }
+        
         int line_width = 1;
 
         wrapped = new GAIGSpane<GAIGSrectangle>(x0, y0, x1, y1, (double) length, 1.0);
@@ -58,7 +62,7 @@ public class GAIGSprimitiveArray implements MutableGAIGSdatastr {
         while (length > 0){
             wrapped.add(new GAIGSrectangle(length-width, 0, length, 1,
                     fillColor, fillColor, fontColor,
-                    "0", fontSize, line_width));
+                    "", fontSize, line_width));
             length--;
         }
 

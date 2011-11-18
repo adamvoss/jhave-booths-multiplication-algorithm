@@ -1,6 +1,6 @@
 package exe.boothsMultiplication;
 
-import exe.GAIGSregister;
+import exe.boothsMultiplication.GAIGSregister;
 
 //THIS IS A VERY UGLY HACK
 //This Should Never Have Used Inheritance Like This

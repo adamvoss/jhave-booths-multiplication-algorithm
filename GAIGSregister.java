@@ -1,7 +1,5 @@
 package exe.boothsMultiplication;
 
-import exe.GAIGSpane;
-import exe.GAIGSrectangle;
 import exe.MutableGAIGSdatastr;
 
 /**
@@ -18,7 +16,7 @@ import exe.MutableGAIGSdatastr;
  */
 
 public class GAIGSregister implements MutableGAIGSdatastr {
-    private GAIGSpane<GAIGSrectangle> wrapped;
+    private GAIGSprimitiveArray wrapped;
 
 
     /**
@@ -26,7 +24,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param The GAIGSregister to be copied
      */
     public GAIGSregister(GAIGSregister source){
-        this.wrapped = new GAIGSpane<GAIGSrectangle>(source.wrapped);
+        this.wrapped = new GAIGSprimitiveArray(source.wrapped);
     }
 
     /**
@@ -45,25 +43,14 @@ public class GAIGSregister implements MutableGAIGSdatastr {
     public GAIGSregister(int length, String name, String fillColor,
             String fontColor, String outlineColor, double x0, double y0,
             double x1, double y1, double fontSize) {
-
-        int line_width = 1;
-
-        wrapped = new GAIGSpane<GAIGSrectangle>(x0, y0, x1, y1, (double) length, 1.0);
-        wrapped.setName("GAIGSregister");
-
-        double width = 1;
-
-        while (length > 0){
-            wrapped.add(new GAIGSrectangle(length-width, 0, length, 1,
-                    fillColor, fillColor, fontColor,
-                    "0", fontSize, line_width));
-            length--;
+        wrapped = new GAIGSprimitiveArray(length, name, fillColor, fontColor,
+                outlineColor, x0, y0, x1, y1, fontSize);
+        
+        for (int loc = 0 ; loc < getSize() ; loc++){
+            setBit(loc, 0);
         }
-
-        //The outline rectangle, here last so it is always on top.
-        wrapped.add(new GAIGSrectangle(0, 0, wrapped.size(), 1,
-                "", fontColor, outlineColor,
-                "", fontSize, line_width));
+        
+        wrapped.setName("GAIGSregister");
     }
 
     /**
@@ -113,7 +100,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @return number of bits in the register.
      */
     public int getSize() {
-        return wrapped.size()-1;
+        return wrapped.getSize();
     }
 
     /**
@@ -123,7 +110,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @return value at the specified location.
      */
     public int getBit(int loc) {
-        return Integer.valueOf(wrapped.get(loc).getLabel());
+        return (Integer)wrapped.get(loc);
     }
 
     /**
@@ -132,7 +119,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param value new value.
      */
     public void setBit(int loc, int value) {
-        this.wrapped.get(loc).setLabel("" + value);
+        this.wrapped.set(value, loc);
     }
 
     /**
@@ -141,7 +128,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param color GAIGS color String.
      */
     public void setTextColor(int loc, String color) {
-        this.wrapped.get(loc).setLabelColor(color);
+        this.wrapped.setTextColor(loc, color);
     }
 
     /**
@@ -149,9 +136,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param color GAIGS color String.
      */
     public void setTextColor(String color) {
-        for (int loc = this.getSize()-1; loc >= 0; loc--){
-            wrapped.get(loc).setLabelColor(color);
-        }
+        wrapped.setTextColor(color);
     }
 
     /**
@@ -160,7 +145,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param color GAIGS color String.
      */
     public void setFillColor(int loc, String color) {
-        this.wrapped.get(loc).setColor(color);
+        this.wrapped.setFillColor(loc, color);
     }
 
     /**
@@ -169,7 +154,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      */
     public void setFillColor(String color) {
         for (int loc = this.getSize()-1; loc >= 0; loc--){
-            wrapped.get(loc).setColor(color);
+            wrapped.setFillColor(color);
         }
     }
 
@@ -179,7 +164,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param color GAIGS color String.
      */
     public void setOutlineColor(int loc, String color) {
-        this.wrapped.get(loc).setOutlineColor(color);
+        this.wrapped.setOutlineColor(color);
     }
 
     /**
@@ -188,7 +173,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      */
     public void setOutlineColor(String color) {
         //The outline is always the last item on the pane
-        wrapped.get(wrapped.size()-1).setOutlineColor(color);
+        wrapped.setOutlineColor(color);
     }
 
     /**
@@ -197,8 +182,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param color GAIGS color String.
      */
     public void setFillOutlineColor(int loc, String color) {
-        wrapped.get(loc).setColor(color);
-        wrapped.get(loc).setOutlineColor(color);
+        wrapped.setFillOutlineColor(loc, color);
     }
 
     /**
@@ -209,10 +193,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param color GAIGS color String.
      */
     public void setFillOutlineColor(String color) {
-        for (int loc = this.getSize()-1; loc >= 0; loc--){
-            wrapped.get(loc).setColor(color);
-            wrapped.get(loc).setOutlineColor(color);
-        }
+        wrapped.setFillOutlineColor(color);
     }
 
 
@@ -271,7 +252,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
         int[] ret = new int[size];
 
         for (int loc = size-1; loc >= 0; loc--){
-            ret[loc] = Integer.valueOf(wrapped.get(loc).getLabel());
+            ret[loc] = this.getBit(loc);
         }
 
         return ret;

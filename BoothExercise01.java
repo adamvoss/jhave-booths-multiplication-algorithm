@@ -12,7 +12,7 @@ import exe.GAIGSdatastr;
 import exe.GAIGSline;
 import exe.GAIGSmonospacedText;
 import exe.GAIGSpane;
-import exe.GAIGSregister;
+import exe.boothsMultiplication.GAIGSregister;
 import exe.GAIGStext;
 import exe.MutableGAIGSdatastr;
 import exe.ShowFile;
