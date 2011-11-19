@@ -388,4 +388,30 @@ public class GAIGSbigEdianRegister implements MutableGAIGSdatastr {
             times--;
         }
     }
+    
+    public void flipBit(int loc){
+        this.setBit(loc, this.getBit(loc) == 0 ? 1 : 0); 
+    }
+    
+    public void flip(){
+        for (int i = 0; i < this.getSize(); i++) {
+            flipBit(i);
+        }
+    }
+    
+    public void twosComplementNegate(){
+        int carry = 1;
+        
+        for (int i = 0; i < this.getSize(); i++) {
+            int negPart;
+
+            if (this.getBit(i) == 0)
+                negPart = 1;
+            else
+                negPart = 0;
+
+            this.setBit(i, (negPart + carry) % 2);
+            carry = (negPart + carry) / 2;
+        }
+    }
 }

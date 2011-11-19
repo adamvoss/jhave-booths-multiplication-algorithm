@@ -720,7 +720,6 @@ public class BoothMultiplication {
             GAIGSbigEdianRegister Q_1) {
         int qDiscard = Q.arithmeticRightShift();
 		Q_1.setBit(0, qDiscard);
-
         int aDiscard = A.arithmeticRightShift();  
         Q.setBit(Q.getSize() - 1, aDiscard);
 		
@@ -734,21 +733,8 @@ public class BoothMultiplication {
      * @return A new register with the negated value.
      */
     public static GAIGSbigEdianRegister negateValue(GAIGSbigEdianRegister M) {
-        int carry = 1;
         GAIGSbigEdianRegister ret = new GAIGSbigEdianRegister(M);
-
-        for (int i = 0; i < M.getSize(); i++) {
-            int negPart = 0;
-
-            if (M.getBit(i) == 0)
-                negPart = 1;
-            else
-                negPart = 0;
-
-            ret.setBit(i, (negPart + carry) % 2);
-            carry = (negPart + carry) / 2;
-        }
-
+        ret.twosComplementNegate();
         return ret;
     }
 
