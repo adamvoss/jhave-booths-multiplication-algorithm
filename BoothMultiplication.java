@@ -25,6 +25,19 @@ import exe.pseudocode.PseudoCodeDisplay;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class BoothMultiplication {
+    public static class RegisterRow {
+        /**
+         * 
+         */
+        public GAIGSpane<MutableGAIGSdatastr> currentRow;
+
+        /**
+         * 
+         */
+        public RegisterRow() {
+        }
+    }
+
     public final static int REGM = 0;
     public final static int REGA = 1;
     public final static int REGQ = 2;
@@ -81,7 +94,7 @@ public class BoothMultiplication {
     private GAIGSpane<MutableGAIGSdatastr> header;
     private GAIGSpane<MutableGAIGSdatastr> math;
     private GAIGSpane<GAIGSpane<?>> trace;
-    private GAIGSpane<MutableGAIGSdatastr> currentRow;
+    private RegisterRow currentRow = new RegisterRow();
     private GAIGSmonospacedText title;
     private int rowNumber; // This is only used for comments in the XML
     private ShowFile show;
@@ -140,10 +153,10 @@ public class BoothMultiplication {
 
         trace.add(trace_labels);
 
-        currentRow = new GAIGSpane<MutableGAIGSdatastr>();
-        currentRow.setName("Row " + rowNumber++);
+        currentRow.currentRow = new GAIGSpane<MutableGAIGSdatastr>();
+        currentRow.currentRow.setName("Row " + rowNumber++);
 
-        trace.add(currentRow);
+        trace.add(currentRow.currentRow);
         //Trace finally defined, can now make the QuestionGenerator
         quest = new QuestionGenerator(show, trace);
 
@@ -167,9 +180,9 @@ public class BoothMultiplication {
                 trace_labels, init);
         
         
-        double[] last = currentRow.get(0).getBounds();
+        double[] last = currentRow.currentRow.get(0).getBounds();
 
-        currentRow.add(new GAIGSline(
+        currentRow.currentRow.add(new GAIGSline(
                 new double[] { last[0], trace.getWidth() }, new double[] {
                         last[1] - ROW_SPACE / 2, last[1] - ROW_SPACE / 2 }));
 
@@ -178,7 +191,7 @@ public class BoothMultiplication {
         double unitLengthX = unitLengths[2] - unitLengths[0];
 
         String labelText="Initialization";
-        currentRow.add(new GAIGSmonospacedText(0
+        currentRow.currentRow.add(new GAIGSmonospacedText(0
                 - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
                 / unitLengthX, last[1], GAIGSmonospacedText.HRIGHT,
                 GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR,
@@ -252,8 +265,8 @@ public class BoothMultiplication {
                 math.add(discardLabel);
                 sum.complete();
         
-                last = currentRow.get(0).getBounds();
-                currentRow
+                last = currentRow.currentRow.get(0).getBounds();
+                currentRow.currentRow
                         .add(new GAIGSmonospacedText(
                                 0
                                         - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
@@ -322,10 +335,10 @@ public class BoothMultiplication {
             RegQ.setFillOutlineColor(BLUE);
             RegQ.setFillOutlineColor(REG_SIZE - 1, GREEN);
             Q_1.setFillOutlineColor(0, BLUE);
-            currentRow.remove(COUNT); // Oops...We don't want Count
+            currentRow.currentRow.remove(COUNT); // Oops...We don't want Count
         
-            last = currentRow.get(0).getBounds();
-            currentRow
+            last = currentRow.currentRow.get(0).getBounds();
+            currentRow.currentRow
                     .add(new GAIGSmonospacedText(
                             0
                                     - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
@@ -349,10 +362,10 @@ public class BoothMultiplication {
         
             // ----Decrement Count Frame---
             Count.decrement();
-            currentRow.add(COUNT, Count); // Now we do want Count
+            currentRow.currentRow.add(COUNT, Count); // Now we do want Count
             Count.setFillOutlineColor(RED);
-            last = currentRow.get(0).getBounds();
-            currentRow.add(new GAIGSline(new double[] { last[0],
+            last = currentRow.currentRow.get(0).getBounds();
+            currentRow.currentRow.add(new GAIGSline(new double[] { last[0],
                     trace.getWidth() }, new double[] { last[1] - ROW_SPACE / 2,
                     last[1] - ROW_SPACE / 2 }));
         
@@ -380,7 +393,7 @@ public class BoothMultiplication {
     //TODO: Make this a varargs function of GAIGSpanes and make part of GAIGSpane class
     private double[] getUnitLength() {
         return main.getRealCoordinates(trace
-                .getRealCoordinates(currentRow.getRealCoordinates(createStandardUnitLength())));
+                .getRealCoordinates(currentRow.currentRow.getRealCoordinates(createStandardUnitLength())));
     }
 
     private static double[] createStandardUnitLength() {
@@ -445,7 +458,7 @@ public class BoothMultiplication {
         positions[2] = trace.getWidth() - RIGHT_MARGIN;
         addTraceLabel(labels, positions, "Count");
         Count = createCountBox(positions);
-        currentRow.add(Count);
+        currentRow.currentRow.add(Count);
 
         easySnap("Count is initialized to\nthe number of bits in a register.",
                 infoCount(), easyPseudo(6), null);
@@ -457,7 +470,7 @@ public class BoothMultiplication {
         setEndOfNextBit(position);
         addTraceLabel(labels, position, "β");
         Q_1 = createBitBeta(position);
-        currentRow.add(Q_1);
+        currentRow.currentRow.add(Q_1);
 
         easySnap("β is initialized to Zero", infoBeta(), easyPseudo(5), null);
     }
@@ -470,7 +483,7 @@ public class BoothMultiplication {
         setEndOfNextRegister(position);
         addTraceLabel(labels, position, "Q");
         RegQ= createRegister(position, registerValue);
-        currentRow.add(RegQ);
+        currentRow.currentRow.add(RegQ);
         
         showRegisterQInit(leftCornerObject, rightCornerObject);
     }
@@ -481,7 +494,7 @@ public class BoothMultiplication {
         setEndOfNextRegister(position);
         addTraceLabel(labels, position, "A");
         RegA= createRegister(position, "0");
-        currentRow.add(RegA);
+        currentRow.currentRow.add(RegA);
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
                 null);
     }
@@ -493,7 +506,7 @@ public class BoothMultiplication {
         addTraceLabel(labels, position, "M");
         RegM= createRegister(position, displayValue);
 
-        currentRow.add(RegM);
+        currentRow.currentRow.add(RegM);
         
         showRegisterMInit(leftCornerObject, RightCornerObject);
     }
@@ -857,18 +870,18 @@ public class BoothMultiplication {
     }
 
     private GAIGSpane<MutableGAIGSdatastr> addRow() {
-        currentRow = new GAIGSpane<MutableGAIGSdatastr>();
-        currentRow.setName("Row " + rowNumber);
+        currentRow.currentRow = new GAIGSpane<MutableGAIGSdatastr>();
+        currentRow.currentRow.setName("Row " + rowNumber);
 
-        trace.add(currentRow);
+        trace.add(currentRow.currentRow);
 
-        currentRow.add(RegM);
-        currentRow.add(RegA);
-        currentRow.add(RegQ);
-        currentRow.add(Q_1);
-        currentRow.add(Count);
+        currentRow.currentRow.add(RegM);
+        currentRow.currentRow.add(RegA);
+        currentRow.currentRow.add(RegQ);
+        currentRow.currentRow.add(Q_1);
+        currentRow.currentRow.add(Count);
         
-        return currentRow;
+        return currentRow.currentRow;
     }
 
     private void easySnap(String title, String info, String pseudo,
