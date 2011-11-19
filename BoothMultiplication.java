@@ -217,14 +217,14 @@ public class BoothMultiplication {
                     sum = createALUArithmetic(negateValue(RegM));
                     sumLabel = createArithmeticLabels(sum, "A", "-M");
                     discardLabel = createDiscardOverflowLabel(sum, sumLabel);
-                    addIntoReg(multiplicandRegister, RegA);
+                    RegA.add(multiplicandRegister);
                 }
                 // Addition case
                 else {
                     sum = createALUArithmetic(RegM);
                     sumLabel = createArithmeticLabels(sum, "A", "M");
                     discardLabel = createDiscardOverflowLabel(sum, sumLabel);
-                    addIntoReg(multiplicandRegister, RegA);
+                    RegA.add(multiplicandRegister);
                 }
         
                 // ----Comparison Frame----
@@ -741,7 +741,7 @@ public class BoothMultiplication {
      * @param A
      *            Destination Register and addend.
      */
-    public void addIntoReg(GAIGSbigEdianRegister toAdd, GAIGSbigEdianRegister A) {
+    public void addIGAIntoReg(GAIGSbigEdianRegister toAdd, GAIGSbigEdianRegister A) {
         int carry = 0;
         int sum = 0;
         for (int i = 0; i < REG_SIZE; i++) {

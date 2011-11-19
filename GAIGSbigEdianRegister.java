@@ -312,4 +312,30 @@ public class GAIGSbigEdianRegister implements MutableGAIGSdatastr {
     public GAIGSbigEdianRegister clone(){
         return new GAIGSbigEdianRegister(this);
     }
+    
+    /**
+     * Adds the value of the second register to this one.
+     * Any overflow is discarded.
+     * 
+     * @param toAdd other addend
+     */
+    public void add(GAIGSbigEdianRegister toAdd){
+        int carry = 0;
+        int sum = 0;
+        for (int i = 0; i < this.getSize(); i++) {
+            sum = carry + this.getBit(i) + toAdd.getBit(i);
+            this.setBit(i, sum % 2);
+            carry = sum / 2;
+        }
+    }
+    
+    public int arithmaticShift(){
+        int ret = getBit(0);
+        
+        for (int i = 0; i < this.getSize() - 1; i++) {
+            this.setBit(i, this.getBit(i + 1));
+        }
+        
+        return ret;
+    }
 }
