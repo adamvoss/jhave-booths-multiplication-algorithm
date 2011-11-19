@@ -12,7 +12,7 @@ import exe.GAIGSdatastr;
 import exe.GAIGSline;
 import exe.GAIGSmonospacedText;
 import exe.GAIGSpane;
-import exe.GAIGSregister;
+import exe.boothsMultiplication.GAIGSbigEdianRegister;
 import exe.GAIGStext;
 import exe.MutableGAIGSdatastr;
 import exe.ShowFile;
@@ -26,10 +26,10 @@ import exe.pseudocode.PseudoCodeDisplay;
 public class BoothExercise02 {
     private static PseudoCodeDisplay pseudo;
     private static URI docURI;
-    private static GAIGSregister RegM;
-    private static GAIGSregister RegA;
-    private static GAIGSregister RegQ;
-    private static GAIGSregister Q_1;
+    private static GAIGSbigEdianRegister RegM;
+    private static GAIGSbigEdianRegister RegA;
+    private static GAIGSbigEdianRegister RegQ;
+    private static GAIGSbigEdianRegister Q_1;
     private static CountBox Count;
     private static GAIGSpane<GAIGSpane<?>> main; //Is this the same as GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>?
     private static GAIGSpane<MutableGAIGSdatastr> header;
@@ -249,7 +249,7 @@ public class BoothExercise02 {
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
                 COLBL_FONT_SIZE, FONT_COLOR, "M", COLBL_FONT_SIZE/2));
-        RegM= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegM= new GAIGSbigEdianRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegM.set(binMultiplicand);
 
         currentRow.add(RegM);
@@ -272,7 +272,7 @@ public class BoothExercise02 {
             (init[2]-init[0])/2.0+init[0], init[3],
             GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
             COLBL_FONT_SIZE, FONT_COLOR, "A", COLBL_FONT_SIZE/2));
-        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegA= new GAIGSbigEdianRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegA.set("0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
@@ -288,7 +288,7 @@ public class BoothExercise02 {
             (init[2]-init[0])/2.0+init[0], init[3],
             GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
             COLBL_FONT_SIZE, FONT_COLOR, "Q", COLBL_FONT_SIZE/2));
-        RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegQ= new GAIGSbigEdianRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegQ.set(binMultiplier);
         currentRow.add(RegQ);
 
@@ -309,7 +309,7 @@ public class BoothExercise02 {
             (init[2]-init[0])/2.0+init[0], init[3],
             GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
             COLBL_FONT_SIZE, FONT_COLOR, "β", COLBL_FONT_SIZE/2));
-        Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        Q_1 = new GAIGSbigEdianRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
         
@@ -660,7 +660,7 @@ public class BoothExercise02 {
         }
     }
 
-    public static void rightShift(GAIGSregister A, GAIGSregister Q, GAIGSregister Q_1) {
+    public static void rightShift(GAIGSbigEdianRegister A, GAIGSbigEdianRegister Q, GAIGSbigEdianRegister Q_1) {
         if (A.getSize() < 1) return;
 
         Q_1.setBit(0, Q.getBit(0));
@@ -679,7 +679,7 @@ public class BoothExercise02 {
      * @param toAdd other addend, not modified by function.
      * @param A	Destination Register and addend.
      */
-    public static void addIntoReg(GAIGSregister toAdd, GAIGSregister A) {
+    public static void addIntoReg(GAIGSbigEdianRegister toAdd, GAIGSbigEdianRegister A) {
         int carry = 0;
         int sum = 0;
         for (int i = 0; i < REG_SIZE; i++) {
@@ -694,9 +694,9 @@ public class BoothExercise02 {
      * @param M The register to negate
      * @return A new register with the negated value.
      */
-    public static GAIGSregister negateValue(GAIGSregister M) {
+    public static GAIGSbigEdianRegister negateValue(GAIGSbigEdianRegister M) {
         int carry = 1;
-        GAIGSregister ret = new GAIGSregister(M);
+        GAIGSbigEdianRegister ret = new GAIGSbigEdianRegister(M);
 
         for (int i = 0; i < M.getSize(); i++) {
             int negPart = 0;
@@ -729,14 +729,14 @@ public class BoothExercise02 {
         return sum;
     }
 
-    private static void adjustRegister(GAIGSregister reg){
+    private static void adjustRegister(GAIGSbigEdianRegister reg){
         double[] bds = reg.getBounds();
         bds[3] = bds[1]-(ROW_SPACE);
         bds[1] = bds[3]-REG_HEIGHT;
         reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
     }
 
-    private static void minorAdjustRegister(GAIGSregister reg){
+    private static void minorAdjustRegister(GAIGSbigEdianRegister reg){
         double[] bds = reg.getBounds();
         bds[3] = bds[1]-(ROW_SPACE/2);
         bds[1] = bds[3]-REG_HEIGHT;
@@ -823,8 +823,8 @@ public class BoothExercise02 {
      * Now we are restricted and must be very careful what goes on the trace and 
      * currentRow
      */
-    private static GAIGSregister getRegisterFromRow(int row, int reg) {
-        return (GAIGSregister) trace.get(row).get(reg);
+    private static GAIGSbigEdianRegister getRegisterFromRow(int row, int reg) {
+        return (GAIGSbigEdianRegister) trace.get(row).get(reg);
     }
 
     private static void addRow(){

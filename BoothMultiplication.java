@@ -13,7 +13,7 @@ import exe.GAIGSdatastr;
 import exe.GAIGSline;
 import exe.GAIGSmonospacedText;
 import exe.GAIGSpane;
-import exe.GAIGSregister;
+import exe.boothsMultiplication.GAIGSbigEdianRegister;
 import exe.GAIGStext;
 import exe.MutableGAIGSdatastr;
 import exe.ShowFile;
@@ -70,10 +70,10 @@ public class BoothMultiplication {
     
     private PseudoCodeDisplay pseudo;
     private QuestionGenerator quest;
-    private GAIGSregister RegM;
-    private GAIGSregister RegA;
-    private GAIGSregister RegQ;
-    private GAIGSregister Q_1;
+    private GAIGSbigEdianRegister RegM;
+    private GAIGSbigEdianRegister RegA;
+    private GAIGSbigEdianRegister RegQ;
+    private GAIGSbigEdianRegister Q_1;
     private CountBox Count;
     // Is the next varriable's type the same as
     // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
@@ -212,19 +212,19 @@ public class BoothMultiplication {
                 GAIGSmonospacedText discardLabel;
         
                 // Subtraction case
-                GAIGSregister multiplicandRegister = negateValue(RegM);
+                GAIGSbigEdianRegister multiplicandRegister = negateValue(RegM);
                 if (cmpVal == 1) {
                     sum = createALUArithmetic(negateValue(RegM));
                     sumLabel = createArithmeticLabels(sum, "A", "-M");
                     discardLabel = createDiscardOverflowLabel(sum, sumLabel);
-                    addIntoReg(multiplicandRegister, RegA);
+                    RegA.add(multiplicandRegister);
                 }
                 // Addition case
                 else {
                     sum = createALUArithmetic(RegM);
                     sumLabel = createArithmeticLabels(sum, "A", "M");
                     discardLabel = createDiscardOverflowLabel(sum, sumLabel);
-                    addIntoReg(multiplicandRegister, RegA);
+                    RegA.add(multiplicandRegister);
                 }
         
                 // ----Comparison Frame----
@@ -409,7 +409,7 @@ public class BoothMultiplication {
     }
 
     private DiscardOverflowAddition createALUArithmetic(
-            GAIGSregister multiplicandRegister) {
+            GAIGSbigEdianRegister multiplicandRegister) {
         return new DiscardOverflowAddition('+', RegA.toString(),
                 multiplicandRegister.toString(), 2,
                 math.getWidth() / 1.4, math.getHeight() / 1.5,
@@ -513,15 +513,15 @@ public class BoothMultiplication {
                 OUTLINE_COLOR, position, REG_FONT_SIZE);
     }
 
-    private GAIGSregister createBitBeta(double[] position) {
-        GAIGSregister beta = new GAIGSregister(1, "", DEFAULT_COLOR, FONT_COLOR,
+    private GAIGSbigEdianRegister createBitBeta(double[] position) {
+        GAIGSbigEdianRegister beta = new GAIGSbigEdianRegister(1, "", DEFAULT_COLOR, FONT_COLOR,
                 OUTLINE_COLOR, position, REG_FONT_SIZE);
         beta.set("0");
         return beta;
     }
 
-    private GAIGSregister createRegister(double[] position, String initialValue) {
-        GAIGSregister ret = new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, position, REG_FONT_SIZE);
+    private GAIGSbigEdianRegister createRegister(double[] position, String initialValue) {
+        GAIGSbigEdianRegister ret = new GAIGSbigEdianRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, position, REG_FONT_SIZE);
         ret.set(initialValue);
         return ret;
     }
@@ -716,39 +716,13 @@ public class BoothMultiplication {
                     FONT_COLOR, FONT_COLOR, "", FONT_SIZE);
     }
 
-    public void rightShift(GAIGSregister A, GAIGSregister Q,
-            GAIGSregister Q_1) {
-        if (A.getSize() < 1)
-            return;
-
-        Q_1.setBit(0, Q.getBit(0));
-        int shiftOverToQ = A.getBit(0);
-
-        for (int i = 0; i < REG_SIZE - 1; i++) {
-            A.setBit(i, A.getBit(i + 1));
-            Q.setBit(i, Q.getBit(i + 1));
-        }
-
-        Q.setBit(REG_SIZE - 1, shiftOverToQ);
-    }
-
-    /**
-     * Adds two registers, storing the result in the second register (a la AT&T
-     * Syntax).
-     * 
-     * @param toAdd
-     *            other addend, not modified by function.
-     * @param A
-     *            Destination Register and addend.
-     */
-    public void addIntoReg(GAIGSregister toAdd, GAIGSregister A) {
-        int carry = 0;
-        int sum = 0;
-        for (int i = 0; i < REG_SIZE; i++) {
-            sum = carry + A.getBit(i) + toAdd.getBit(i);
-            A.setBit(i, sum % 2);
-            carry = sum / 2;
-        }
+    public void rightShift(GAIGSbigEdianRegister A, GAIGSbigEdianRegister Q,
+            GAIGSbigEdianRegister Q_1) {
+        int qDiscard = Q.arithmeticRightShift();
+		Q_1.setBit(0, qDiscard);
+        int aDiscard = A.arithmeticRightShift();  
+        Q.setBit(Q.getSize() - 1, aDiscard);
+		
     }
 
     /**
@@ -758,22 +732,9 @@ public class BoothMultiplication {
      *            The register to negate
      * @return A new register with the negated value.
      */
-    public static GAIGSregister negateValue(GAIGSregister M) {
-        int carry = 1;
-        GAIGSregister ret = new GAIGSregister(M);
-
-        for (int i = 0; i < M.getSize(); i++) {
-            int negPart = 0;
-
-            if (M.getBit(i) == 0)
-                negPart = 1;
-            else
-                negPart = 0;
-
-            ret.setBit(i, (negPart + carry) % 2);
-            carry = (negPart + carry) / 2;
-        }
-
+    public static GAIGSbigEdianRegister negateValue(GAIGSbigEdianRegister M) {
+        GAIGSbigEdianRegister ret = new GAIGSbigEdianRegister(M);
+        ret.twosComplementNegate();
         return ret;
     }
 
@@ -799,14 +760,14 @@ public class BoothMultiplication {
         return sum;
     }
 
-    private static void adjustRegister(GAIGSregister reg) {
+    private static void adjustRegister(GAIGSbigEdianRegister reg) {
         double[] bds = reg.getBounds();
         bds[3] = bds[1] - (ROW_SPACE);
         bds[1] = bds[3] - REG_HEIGHT;
         reg.setBounds(bds[0], bds[1], bds[2], bds[3]);
     }
 
-    private static void minorAdjustRegister(GAIGSregister reg) {
+    private static void minorAdjustRegister(GAIGSbigEdianRegister reg) {
         double[] bds = reg.getBounds();
         bds[3] = bds[1] - (ROW_SPACE / 2);
         bds[1] = bds[3] - REG_HEIGHT;
@@ -891,8 +852,8 @@ public class BoothMultiplication {
      * Now we are restricted and must be very careful what goes on the trace and
      * currentRow
      */
-    private GAIGSregister getRegisterFromRow(int row, int reg) {
-        return (GAIGSregister) trace.get(row).get(reg);
+    private GAIGSbigEdianRegister getRegisterFromRow(int row, int reg) {
+        return (GAIGSbigEdianRegister) trace.get(row).get(reg);
     }
 
     private GAIGSpane<MutableGAIGSdatastr> addRow() {

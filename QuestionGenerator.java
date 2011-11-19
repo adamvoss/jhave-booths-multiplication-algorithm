@@ -3,7 +3,7 @@ package exe.boothsMultiplication;
 import java.util.Random;
 
 import exe.GAIGSpane;
-import exe.GAIGSregister;
+import exe.boothsMultiplication.GAIGSbigEdianRegister;
 import exe.ShowFile;
 import exe.XMLfibQuestion;
 import exe.XMLmcQuestion;
@@ -42,8 +42,8 @@ public class QuestionGenerator {
         else {
             question ret = null;
             if (type == 1){
-                GAIGSregister OldQ   = getRegister(-2, REGQ);//(GAIGSregister)trace.get(trace.size()-2,"RegQ");
-                GAIGSregister OldQ_1 = getRegister(-2, Q1);//(GAIGSregister)trace.get(trace.size()-2,"Q_1");
+                GAIGSbigEdianRegister OldQ   = getRegister(-2, REGQ);//(GAIGSregister)trace.get(trace.size()-2,"RegQ");
+                GAIGSbigEdianRegister OldQ_1 = getRegister(-2, Q1);//(GAIGSregister)trace.get(trace.size()-2,"Q_1");
                 ret = getType1Question(OldQ.getBit(0),
                                         OldQ_1.getBit(0));
             }
@@ -51,16 +51,16 @@ public class QuestionGenerator {
             else if (type == 2) {getType2Question(show);}
             //to be called right after new registers are added, but before they're drawn.
             else if (type == 3) {
-                GAIGSregister OldQ   = getRegister(-2, REGQ);//(GAIGSregister)trace.get(trace.size()-2,"RegQ");
-                GAIGSregister OldQ_1 = getRegister(-2, Q1);//(GAIGSregister)trace.get(trace.size()-2,"Q_1");
+                GAIGSbigEdianRegister OldQ   = getRegister(-2, REGQ);//(GAIGSregister)trace.get(trace.size()-2,"RegQ");
+                GAIGSbigEdianRegister OldQ_1 = getRegister(-2, Q1);//(GAIGSregister)trace.get(trace.size()-2,"Q_1");
 
                 int select  = rand.nextInt(3);
                 String ref  = (select == 0 ? "M": (select == 1 ? "A" : "Q"));
                 String phref= (select == 0 ? "A": (select == 1 ? "Q" : "M"));
 
-                GAIGSregister oldReg = getRegister(-2, select);//(GAIGSregister)trace.get(trace.size()-2, "Reg" + ref);
-                GAIGSregister newReg = getRegister(-1, select);//(GAIGSregister)trace.get("Reg" + ref);
-                GAIGSregister phony  = getRegister(-1, (select+1) % 3);//(GAIGSregister)trace.get("Reg" + phref);
+                GAIGSbigEdianRegister oldReg = getRegister(-2, select);//(GAIGSregister)trace.get(trace.size()-2, "Reg" + ref);
+                GAIGSbigEdianRegister newReg = getRegister(-1, select);//(GAIGSregister)trace.get("Reg" + ref);
+                GAIGSbigEdianRegister phony  = getRegister(-1, (select+1) % 3);//(GAIGSregister)trace.get("Reg" + phref);
 
                ret = getType3Question(OldQ.getBit(0), OldQ_1.getBit(0), oldReg, newReg, phony, ref); 
             }
@@ -191,7 +191,7 @@ public class QuestionGenerator {
 	 * Call at the comparison frame of the loop. 
 	 *
 	 */
-	private question getType3Question(int Q0, int Q_1, GAIGSregister oldReg, GAIGSregister newReg, GAIGSregister phony, 
+	private question getType3Question(int Q0, int Q_1, GAIGSbigEdianRegister oldReg, GAIGSbigEdianRegister newReg, GAIGSbigEdianRegister phony, 
 			String regName) {
 
 		int select = rand.nextInt(4);
@@ -414,11 +414,11 @@ public class QuestionGenerator {
     /** Returns a random number from 0 to range-1*/
     private int getInRange(int range) {return rand.nextInt(range);}
 
-    private GAIGSregister getRegister(int level, int reg) {
+    private GAIGSbigEdianRegister getRegister(int level, int reg) {
     	if (level < 0){ //Get Relative to the length of the trace
-    		return (GAIGSregister)((GAIGSpane)trace.get(trace.size()+level)).get(reg);
+    		return (GAIGSbigEdianRegister)((GAIGSpane)trace.get(trace.size()+level)).get(reg);
     	} //Level 0 is actually labels
-        return (GAIGSregister)((GAIGSpane)trace.get(level+1)).get(reg);
+        return (GAIGSbigEdianRegister)((GAIGSpane)trace.get(level+1)).get(reg);
     }
 
 	//Heavy Duty, t'is even its own class
