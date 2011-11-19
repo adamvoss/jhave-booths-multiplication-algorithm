@@ -1,6 +1,6 @@
 package exe.boothsMultiplication;
 
-import exe.boothsMultiplication.GAIGSregister;
+import exe.boothsMultiplication.GAIGSbigEdianRegister;
 
 //THIS IS A VERY UGLY HACK
 //This Should Never Have Used Inheritance Like This
@@ -16,7 +16,7 @@ import exe.boothsMultiplication.GAIGSregister;
  * @author Adam Voss <vossad01@luther.edu>
  * @version 2011-07-15
  */
-public class CountBox extends GAIGSregister {
+public class CountBox extends GAIGSbigEdianRegister {
     public CountBox(int count, String color, String fontColor, String outlineColor, double x1, double y1, double x2, double y2, double fontSize) {
         super(String.valueOf(count).length(), "", color, fontColor, outlineColor, x1, y1, x2, y2, fontSize);
         this.set(String.valueOf(count));

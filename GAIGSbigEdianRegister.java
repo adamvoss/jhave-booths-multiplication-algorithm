@@ -15,7 +15,7 @@ import exe.MutableGAIGSdatastr;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 
-public class GAIGSregister implements MutableGAIGSdatastr {
+public class GAIGSbigEdianRegister implements MutableGAIGSdatastr {
     private GAIGSprimitiveArray wrapped;
 
 
@@ -23,7 +23,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * A deep-copy constructor
      * @param The GAIGSregister to be copied
      */
-    public GAIGSregister(GAIGSregister source){
+    public GAIGSbigEdianRegister(GAIGSbigEdianRegister source){
         this.wrapped = new GAIGSprimitiveArray(source.wrapped);
     }
 
@@ -40,7 +40,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param y1 upper right-hand corner's y-coordinate.
      * @param fontSize font size of the bits in the register.
      */
-    public GAIGSregister(int length, String name, String fillColor,
+    public GAIGSbigEdianRegister(int length, String name, String fillColor,
             String fontColor, String outlineColor, double x0, double y0,
             double x1, double y1, double fontSize) {
         wrapped = new GAIGSprimitiveArray(length, name, fillColor, fontColor,
@@ -63,7 +63,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @param bounds an array containing x0, y0, x1, y1 in that order.
      * @param fontSize font size of the bits in the register.
      */
-    public GAIGSregister(int length, String name, String fillColor,
+    public GAIGSbigEdianRegister(int length, String name, String fillColor,
             String fontColor, String outlineColor, double[] bounds, double fontSize) {
         this(length, name, fillColor, fontColor, outlineColor , bounds[0], bounds[1], bounds[2], bounds[3], fontSize);
     }
@@ -309,7 +309,7 @@ public class GAIGSregister implements MutableGAIGSdatastr {
      * @see java.lang.Object#clone()
      */
     @Override
-    public GAIGSregister clone(){
-        return new GAIGSregister(this);
+    public GAIGSbigEdianRegister clone(){
+        return new GAIGSbigEdianRegister(this);
     }
 }

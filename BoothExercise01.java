@@ -12,7 +12,7 @@ import exe.GAIGSdatastr;
 import exe.GAIGSline;
 import exe.GAIGSmonospacedText;
 import exe.GAIGSpane;
-import exe.boothsMultiplication.GAIGSregister;
+import exe.boothsMultiplication.GAIGSbigEdianRegister;
 import exe.GAIGStext;
 import exe.MutableGAIGSdatastr;
 import exe.ShowFile;
@@ -29,10 +29,10 @@ public class BoothExercise01 {
     private static PseudoCodeDisplay pseudo;
     private static URI docURI;
     private static QuestionGenerator quest;
-    private static GAIGSregister RegM;
-    private static GAIGSregister RegA;
-    private static GAIGSregister RegQ;
-    private static GAIGSregister Q_1;
+    private static GAIGSbigEdianRegister RegM;
+    private static GAIGSbigEdianRegister RegA;
+    private static GAIGSbigEdianRegister RegQ;
+    private static GAIGSbigEdianRegister Q_1;
     private static CountBox Count;
     private static GAIGSpane<GAIGSpane<?>> main; //Is this the same as GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>?
     private static GAIGSpane<MutableGAIGSdatastr> header;
@@ -237,7 +237,7 @@ public class BoothExercise01 {
                 (init[2]-init[0])/2.0+init[0], init[3],
                 GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
                 COLBL_FONT_SIZE, FONT_COLOR, "M", COLBL_FONT_SIZE/2));
-        RegM= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegM= new GAIGSbigEdianRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegM.set(binMultiplicand);
 
         currentRow.add(RegM);
@@ -261,7 +261,7 @@ public class BoothExercise01 {
             (init[2]-init[0])/2.0+init[0], init[3],
             GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
             COLBL_FONT_SIZE, FONT_COLOR, "A", COLBL_FONT_SIZE/2));
-        RegA= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegA= new GAIGSbigEdianRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegA.set("0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", easyPseudo(3), null);
@@ -277,7 +277,7 @@ public class BoothExercise01 {
             (init[2]-init[0])/2.0+init[0], init[3],
             GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
             COLBL_FONT_SIZE, FONT_COLOR, "Q", COLBL_FONT_SIZE/2));
-        RegQ= new GAIGSregister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        RegQ= new GAIGSbigEdianRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         RegQ.set(binMultiplier);
         currentRow.add(RegQ);
 
@@ -298,7 +298,7 @@ public class BoothExercise01 {
             (init[2]-init[0])/2.0+init[0], init[3],
             GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
             COLBL_FONT_SIZE, FONT_COLOR, "β", COLBL_FONT_SIZE/2));
-        Q_1 = new GAIGSregister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
+        Q_1 = new GAIGSbigEdianRegister(1,       "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, init, REG_FONT_SIZE);
         Q_1.set("0");
         currentRow.add(Q_1);
         
