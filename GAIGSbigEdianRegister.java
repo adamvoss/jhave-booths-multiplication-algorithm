@@ -329,13 +329,63 @@ public class GAIGSbigEdianRegister implements MutableGAIGSdatastr {
         }
     }
     
-    public int arithmaticShift(){
-        int ret = getBit(0);
+    public int arithmeticRightShift(){
+        int discard = getBit(0);
         
         for (int i = 0; i < this.getSize() - 1; i++) {
-            this.setBit(i, this.getBit(i + 1));
+            setBit(i, getBit(i + 1));
+        }
+        
+        return discard;
+    }
+    
+    public void arithmeticRightShift(int times){
+        while (times > 0){
+            arithmeticRightShift();
+            times--;
+        }
+    }
+    
+    public int logicalRightShift(){
+        int ret = arithmeticRightShift();
+        
+        this.setBit(this.getSize()-1, 0);
+        
+        return ret;
+    }
+    
+    public void logicalRightShift(int times){
+        while (times > 0){
+            logicalRightShift();
+            times--;
+        }
+    }
+    
+    public int arithmeticLeftShift(){
+        return logicalLeftShift();
+    }
+    
+    public void arithmeticLeftShift(int times){
+        while (times > 0){
+            arithmeticLeftShift();
+            times--;
+        }
+    }
+    
+    public int logicalLeftShift(){
+        int ret = getBit(0);
+        
+        for (int i = 0; i < this.getSize() - 2; i++) {
+            this.setBit(i + 1, this.getBit(i));
         }
         
         return ret;
+    }
+    
+    public void logicalLeftShift(int times){
+        while (times > 0){
+            arithmeticLeftShift();
+            times--;
+        }
     }
 }

@@ -718,37 +718,12 @@ public class BoothMultiplication {
 
     public void rightShift(GAIGSbigEdianRegister A, GAIGSbigEdianRegister Q,
             GAIGSbigEdianRegister Q_1) {
-        if (A.getSize() < 1)
-            return;
+        int qDiscard = Q.arithmeticRightShift();
+		Q_1.setBit(0, qDiscard);
 
-        Q_1.setBit(0, Q.getBit(0));
-        int shiftOverToQ = A.getBit(0);
-
-        for (int i = 0; i < REG_SIZE - 1; i++) {
-            A.setBit(i, A.getBit(i + 1));
-            Q.setBit(i, Q.getBit(i + 1));
-        }
-
-        Q.setBit(REG_SIZE - 1, shiftOverToQ);
-    }
-
-    /**
-     * Adds two registers, storing the result in the second register (a la AT&T
-     * Syntax).
-     * 
-     * @param toAdd
-     *            other addend, not modified by function.
-     * @param A
-     *            Destination Register and addend.
-     */
-    public void addIGAIntoReg(GAIGSbigEdianRegister toAdd, GAIGSbigEdianRegister A) {
-        int carry = 0;
-        int sum = 0;
-        for (int i = 0; i < REG_SIZE; i++) {
-            sum = carry + A.getBit(i) + toAdd.getBit(i);
-            A.setBit(i, sum % 2);
-            carry = sum / 2;
-        }
+        int aDiscard = A.arithmeticRightShift();  
+        Q.setBit(Q.getSize() - 1, aDiscard);
+		
     }
 
     /**
