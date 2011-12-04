@@ -71,6 +71,11 @@ public class BoothMultiplication {
             currentRow = new GAIGSpane<MutableGAIGSdatastr>();
         }
         
+        public RegisterRow(String name){
+            this();
+            setName(name);
+        }
+        
         public void setName(String name){
             currentRow.setName(name);
         }
@@ -98,6 +103,15 @@ public class BoothMultiplication {
                             new double[] { firstRegPosition[0], traceWidth },
                             new double[] { firstRegPosition[1] - ROW_SPACE / 2,
                             firstRegPosition[1] - ROW_SPACE / 2 }));
+        }
+        
+        public RegisterRow clone(RegisterRow source){
+            GAIGSpane<MutableGAIGSdatastr> srcContentClone = source.currentRow.clone();
+            RegisterRow ret = new RegisterRow();
+            ret.currentRow = srcContentClone;
+            
+            return ret;
+            
         }
     }
 
@@ -931,16 +945,15 @@ public class BoothMultiplication {
     }
 
     private void addRow() {
-        currentRow = new RegisterRow();
-        currentRow.setName("Row " + rowNumber);
-
-        trace.add(currentRow.currentRow);
-
+        currentRow = new RegisterRow( "Row " + rowNumber);
+        
         currentRow.add(RegM);
         currentRow.add(RegA);
         currentRow.add(RegQ);
         currentRow.add(Q_1);
         currentRow.add(Count);
+
+        trace.add(currentRow.currentRow);
     }
 
     private void easySnap(String title, String info, String pseudo,
