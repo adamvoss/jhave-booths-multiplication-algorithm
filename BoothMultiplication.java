@@ -45,6 +45,18 @@ public class BoothMultiplication {
         public void add(MutableGAIGSdatastr register){
             currentRow.add(register);
         }
+        
+        public void addCount(MutableGAIGSdatastr register){
+            currentRow.add(COUNT, register);
+        }
+        
+        public void removeCount(){
+            currentRow.remove(COUNT);
+        }
+        
+        public double[] getFirstRegiterPosition(){
+            return currentRow.get(0).getBounds();
+        }
     }
 
     public final static int REGM = 0;
@@ -189,7 +201,7 @@ public class BoothMultiplication {
                 trace_labels, init);
         
         
-        double[] last = currentRow.currentRow.get(0).getBounds();
+        double[] last = currentRow.getFirstRegiterPosition();
 
         currentRow.add(new GAIGSline(
                 new double[] { last[0], trace.getWidth() }, new double[] {
@@ -274,7 +286,7 @@ public class BoothMultiplication {
                 math.add(discardLabel);
                 sum.complete();
         
-                last = currentRow.currentRow.get(0).getBounds();
+                last = currentRow.getFirstRegiterPosition();
                 currentRow.add(new GAIGSmonospacedText(
                                 0
                                         - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
@@ -343,9 +355,9 @@ public class BoothMultiplication {
             RegQ.setFillOutlineColor(BLUE);
             RegQ.setFillOutlineColor(REG_SIZE - 1, GREEN);
             Q_1.setFillOutlineColor(0, BLUE);
-            currentRow.currentRow.remove(COUNT); // Oops...We don't want Count
+            currentRow.removeCount(); // Oops...We don't want Count
         
-            last = currentRow.currentRow.get(0).getBounds();
+            last = currentRow.getFirstRegiterPosition();
             currentRow.add(new GAIGSmonospacedText(
                             0
                                     - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
@@ -369,9 +381,9 @@ public class BoothMultiplication {
         
             // ----Decrement Count Frame---
             Count.decrement();
-            currentRow.currentRow.add(COUNT, Count); // Now we do want Count
+            currentRow.addCount(Count); // Now we do want Count
             Count.setFillOutlineColor(RED);
-            last = currentRow.currentRow.get(0).getBounds();
+            last = currentRow.getFirstRegiterPosition();
             currentRow.add(new GAIGSline(new double[] { last[0],
                     trace.getWidth() }, new double[] { last[1] - ROW_SPACE / 2,
                     last[1] - ROW_SPACE / 2 }));
