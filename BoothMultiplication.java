@@ -467,7 +467,7 @@ public class BoothMultiplication {
         positions[2] = trace.getWidth() - RIGHT_MARGIN;
         addTraceLabel(labels, positions, "Count");
         Count = createCountBox(positions);
-        currentRow.currentRow.add(Count);
+        currentRow.add(Count);
 
         easySnap("Count is initialized to\nthe number of bits in a register.",
                 infoCount(), easyPseudo(6), null);
@@ -479,7 +479,7 @@ public class BoothMultiplication {
         setEndOfNextBit(position);
         addTraceLabel(labels, position, "β");
         Q_1 = createBitBeta(position);
-        currentRow.currentRow.add(Q_1);
+        currentRow.add(Q_1);
 
         easySnap("β is initialized to Zero", infoBeta(), easyPseudo(5), null);
     }
@@ -492,7 +492,7 @@ public class BoothMultiplication {
         setEndOfNextRegister(position);
         addTraceLabel(labels, position, "Q");
         RegQ= createRegister(position, registerValue);
-        currentRow.currentRow.add(RegQ);
+        currentRow.add(RegQ);
         
         showRegisterQInit(leftCornerObject, rightCornerObject);
     }
@@ -503,7 +503,7 @@ public class BoothMultiplication {
         setEndOfNextRegister(position);
         addTraceLabel(labels, position, "A");
         RegA= createRegister(position, "0");
-        currentRow.currentRow.add(RegA);
+        currentRow.add(RegA);
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
                 null);
     }
@@ -515,7 +515,7 @@ public class BoothMultiplication {
         addTraceLabel(labels, position, "M");
         RegM= createRegister(position, displayValue);
 
-        currentRow.currentRow.add(RegM);
+        currentRow.add(RegM);
         
         showRegisterMInit(leftCornerObject, RightCornerObject);
     }
