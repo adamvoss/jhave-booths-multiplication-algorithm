@@ -162,8 +162,8 @@ public class BoothMultiplication {
 
         trace.add(trace_labels);
 
-        currentRow.currentRow = new GAIGSpane<MutableGAIGSdatastr>();
-        currentRow.currentRow.setName("Row " + rowNumber++);
+        currentRow = new RegisterRow();
+        currentRow.setName("Row " + rowNumber++);
 
         trace.add(currentRow.currentRow);
         //Trace finally defined, can now make the QuestionGenerator
@@ -191,7 +191,7 @@ public class BoothMultiplication {
         
         double[] last = currentRow.currentRow.get(0).getBounds();
 
-        currentRow.currentRow.add(new GAIGSline(
+        currentRow.add(new GAIGSline(
                 new double[] { last[0], trace.getWidth() }, new double[] {
                         last[1] - ROW_SPACE / 2, last[1] - ROW_SPACE / 2 }));
 
@@ -200,7 +200,7 @@ public class BoothMultiplication {
         double unitLengthX = unitLengths[2] - unitLengths[0];
 
         String labelText="Initialization";
-        currentRow.currentRow.add(new GAIGSmonospacedText(0
+        currentRow.add(new GAIGSmonospacedText(0
                 - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
                 / unitLengthX, last[1], GAIGSmonospacedText.HRIGHT,
                 GAIGSmonospacedText.VBOTTOM, FONT_SIZE, FONT_COLOR,
@@ -275,8 +275,7 @@ public class BoothMultiplication {
                 sum.complete();
         
                 last = currentRow.currentRow.get(0).getBounds();
-                currentRow.currentRow
-                        .add(new GAIGSmonospacedText(
+                currentRow.add(new GAIGSmonospacedText(
                                 0
                                         - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
                                         / unitLengthX, last[1],
@@ -347,8 +346,7 @@ public class BoothMultiplication {
             currentRow.currentRow.remove(COUNT); // Oops...We don't want Count
         
             last = currentRow.currentRow.get(0).getBounds();
-            currentRow.currentRow
-                    .add(new GAIGSmonospacedText(
+            currentRow.add(new GAIGSmonospacedText(
                             0
                                     - (GAIGSpane.narwhal_JHAVE_X_MARGIN - GAIGSpane.JHAVE_X_MARGIN)
                                     / unitLengthX, last[1],
@@ -374,7 +372,7 @@ public class BoothMultiplication {
             currentRow.currentRow.add(COUNT, Count); // Now we do want Count
             Count.setFillOutlineColor(RED);
             last = currentRow.currentRow.get(0).getBounds();
-            currentRow.currentRow.add(new GAIGSline(new double[] { last[0],
+            currentRow.add(new GAIGSline(new double[] { last[0],
                     trace.getWidth() }, new double[] { last[1] - ROW_SPACE / 2,
                     last[1] - ROW_SPACE / 2 }));
         
