@@ -26,19 +26,19 @@ import exe.pseudocode.PseudoCodeDisplay;
  */
 public class BoothMultiplication {
     public static class RegisterRowHistoryTrace {
-        /**
-         * 
-         */
         public GAIGSpane<GAIGSpane<?>> trace;
+        
+        private GAIGSpane<GAIGSmonospacedText> labels = new GAIGSpane<GAIGSmonospacedText>(); 
 
-        /**
-         * 
-         */
         public RegisterRowHistoryTrace() {
         }
         
         public void add(GAIGSpane<?> data){
             trace.add(data);
+        }
+        
+        public void addRow(RegisterRow registerRow){
+            trace.add(registerRow.currentRow);            
         }
         
         public double getWidth(){
@@ -55,6 +55,15 @@ public class BoothMultiplication {
         
         public GAIGSpane<?> removeLast(){
             return trace.remove(trace.size() - 1);
+        }
+        
+        public void addLabel(
+                double[] coords,
+                String displayText) {
+            labels.add(new GAIGSmonospacedText(
+                    (coords[2]-coords[0])/2.0+coords[0], coords[3],
+                    GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+                    COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
         }
     }
 
@@ -177,7 +186,7 @@ public class BoothMultiplication {
     private ShowFile show;
     private int REG_SIZE;
     
-    private final String FONT_COLOR      = BLACK;
+    private static final String FONT_COLOR      = BLACK;
     private final String DEFAULT_COLOR   = WHITE;
     private final String INACTIVE_TEXT   = DARK_GREY;
     private final String INACTIVE_OUTLINE= LIGHT_GREY;
@@ -233,7 +242,7 @@ public class BoothMultiplication {
         currentRow = new RegisterRow();
         currentRow.setName("Row " + rowNumber++);
 
-        trace.add(currentRow.currentRow);
+        trace.addRow(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
         quest = new QuestionGenerator(show, trace.trace);
 
@@ -953,7 +962,7 @@ public class BoothMultiplication {
         currentRow.add(Q_1);
         currentRow.add(Count);
 
-        trace.add(currentRow.currentRow);
+        trace.addRow(currentRow);
     }
 
     private void easySnap(String title, String info, String pseudo,
