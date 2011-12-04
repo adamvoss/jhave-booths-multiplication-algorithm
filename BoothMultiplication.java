@@ -90,6 +90,15 @@ public class BoothMultiplication {
         public double[] getFirstRegiterPosition(){
             return currentRow.get(0).getBounds();
         }
+        
+        public void addUnderline(double traceWidth) {
+            double[] firstRegPosition = this.getFirstRegiterPosition();
+            currentRow.add(
+                    new GAIGSline(
+                            new double[] { firstRegPosition[0], traceWidth },
+                            new double[] { firstRegPosition[1] - ROW_SPACE / 2,
+                            firstRegPosition[1] - ROW_SPACE / 2 }));
+        }
     }
 
     public final static int REGM = 0;
@@ -236,9 +245,7 @@ public class BoothMultiplication {
         
         double[] last = currentRow.getFirstRegiterPosition();
 
-        currentRow.add(new GAIGSline(
-                new double[] { last[0], trace.getWidth() }, new double[] {
-                        last[1] - ROW_SPACE / 2, last[1] - ROW_SPACE / 2 }));
+        currentRow.addUnderline(trace.getWidth());
 
         // Maybe this should be a function of GAIGSpane
         double[] unitLengths = getUnitLength();
@@ -416,10 +423,8 @@ public class BoothMultiplication {
             Count.decrement();
             currentRow.addCount(Count); // Now we do want Count
             Count.setFillOutlineColor(RED);
-            last = currentRow.getFirstRegiterPosition();
-            currentRow.add(new GAIGSline(new double[] { last[0],
-                    trace.getWidth() }, new double[] { last[1] - ROW_SPACE / 2,
-                    last[1] - ROW_SPACE / 2 }));
+            
+            currentRow.addUnderline(trace.getWidth());
         
             easySnap("Decrement Count", infoDecrement(),
                     easyPseudo(21, RED, BLACK), null);
