@@ -35,6 +35,15 @@ public class BoothMultiplication {
          * 
          */
         public RegisterRow() {
+            currentRow = new GAIGSpane<MutableGAIGSdatastr>();
+        }
+        
+        public void setName(String name){
+            currentRow.setName(name);
+        }
+        
+        public void add(MutableGAIGSdatastr register){
+            currentRow.add(register);
         }
     }
 
@@ -869,19 +878,17 @@ public class BoothMultiplication {
         return (GAIGSbigEdianRegister) trace.get(row).get(reg);
     }
 
-    private GAIGSpane<MutableGAIGSdatastr> addRow() {
-        currentRow.currentRow = new GAIGSpane<MutableGAIGSdatastr>();
-        currentRow.currentRow.setName("Row " + rowNumber);
+    private void addRow() {
+        currentRow = new RegisterRow();
+        currentRow.setName("Row " + rowNumber);
 
         trace.add(currentRow.currentRow);
 
-        currentRow.currentRow.add(RegM);
-        currentRow.currentRow.add(RegA);
-        currentRow.currentRow.add(RegQ);
-        currentRow.currentRow.add(Q_1);
-        currentRow.currentRow.add(Count);
-        
-        return currentRow.currentRow;
+        currentRow.add(RegM);
+        currentRow.add(RegA);
+        currentRow.add(RegQ);
+        currentRow.add(Q_1);
+        currentRow.add(Count);
     }
 
     private void easySnap(String title, String info, String pseudo,
