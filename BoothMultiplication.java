@@ -179,7 +179,7 @@ public class BoothMultiplication {
         math = createMathPane();
         populateMathPane(multiplier);
 
-        trace.trace = createAlgorithmTrace();
+        trace = createAlgorithmTrace();
 
         populateMainPane();
 
@@ -685,11 +685,15 @@ public class BoothMultiplication {
         main.add(math);
     }
 
-    private GAIGSpane<GAIGSpane<?>> createAlgorithmTrace() {
+    private RegisterRowHistoryTrace createAlgorithmTrace() {
+        RegisterRowHistoryTrace ret = new RegisterRowHistoryTrace();
+        
         GAIGSpane<GAIGSpane<?>> tracePane = new GAIGSpane<GAIGSpane<?>>(0, 0,
                 WINDOW_WIDTH * (3 / 4.0), math.getBounds()[3], null, 1.0);
         tracePane.setName("Trace");
-        return tracePane;
+        ret.trace = tracePane;
+        
+        return ret;
     }
 
     private static GAIGSpane<MutableGAIGSdatastr> createMathPane() {
