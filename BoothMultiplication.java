@@ -36,6 +36,26 @@ public class BoothMultiplication {
          */
         public RegisterRowHistoryTrace() {
         }
+        
+        public void add(GAIGSpane<?> data){
+            trace.add(data);
+        }
+        
+        public double getWidth(){
+            return trace.getWidth();
+        }
+        
+        public double getHeight(){
+            return trace.getHeight();
+        }
+        
+        public int size(){
+            return trace.size();
+        }
+        
+        public GAIGSpane<?> removeLast(){
+            return trace.remove(trace.size() - 1);
+        }
     }
 
     public static class RegisterRow {
@@ -185,12 +205,12 @@ public class BoothMultiplication {
 
         GAIGSpane<GAIGSmonospacedText> trace_labels = new GAIGSpane<GAIGSmonospacedText>();
 
-        trace.trace.add(trace_labels);
+        trace.add(trace_labels);
 
         currentRow = new RegisterRow();
         currentRow.setName("Row " + rowNumber++);
 
-        trace.trace.add(currentRow.currentRow);
+        trace.add(currentRow.currentRow);
         //Trace finally defined, can now make the QuestionGenerator
         quest = new QuestionGenerator(show, trace.trace);
 
@@ -200,10 +220,10 @@ public class BoothMultiplication {
         REG_WIDTH = REG_WIDTH_PER_BIT * REG_SIZE;
         
         
-        COL_SPACE = ((trace.trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT)/4;
+        COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT)/4;
         //We only want to use the Count Margin when it would otherwise be too small
         if (COL_SPACE < COUNT_LEFT_MARGIN){
-            COL_SPACE = ((trace.trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT - COUNT_LEFT_MARGIN)/3;
+            COL_SPACE = ((trace.getWidth()-LEFT_MARGIN-RIGHT_MARGIN-COUNT_WIDTH) - (3* REG_WIDTH) - REG_WIDTH_PER_BIT - COUNT_LEFT_MARGIN)/3;
         }
 
         //Initialize Register Locations
@@ -217,7 +237,7 @@ public class BoothMultiplication {
         double[] last = currentRow.getFirstRegiterPosition();
 
         currentRow.add(new GAIGSline(
-                new double[] { last[0], trace.trace.getWidth() }, new double[] {
+                new double[] { last[0], trace.getWidth() }, new double[] {
                         last[1] - ROW_SPACE / 2, last[1] - ROW_SPACE / 2 }));
 
         // Maybe this should be a function of GAIGSpane
@@ -275,20 +295,20 @@ public class BoothMultiplication {
                 }
         
                 // ----Comparison Frame----
-                getRegisterFromRow(trace.trace.size() - 2, REGQ).setFillOutlineColor(
+                getRegisterFromRow(trace.size() - 2, REGQ).setFillOutlineColor(
                         0, BLUE);
-                getRegisterFromRow(trace.trace.size() - 2, Q1).setFillOutlineColor(0,
+                getRegisterFromRow(trace.size() - 2, Q1).setFillOutlineColor(0,
                         BLUE);
         
                 question que = quest.getComparisonQuestion();
-                GAIGSpane<?> temp = trace.trace.remove(trace.trace.size() - 1);
+                GAIGSpane<?> temp = trace.removeLast();
         
                 easySnap("Determine the operation", infoDetermineOp(),
                         easyPseudo(10, BLUE, BLACK), que);
-                trace.trace.add(temp);
+                trace.add(temp);
         
                 // Reset/deactivate colors
-                fadeRow(trace.trace.size() - 2);
+                fadeRow(trace.size() - 2);
                 RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
                 Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
         
@@ -329,9 +349,9 @@ public class BoothMultiplication {
                 Q_1.setFillOutlineColor(0, BLUE);
         
                 // Question pane-hopping
-                trace.trace.add(null);
+                trace.add(null);
                 question que = quest.getQuestion(1);
-                trace.trace.remove(trace.trace.size() - 1);
+                trace.removeLast();
         
                 easySnap("Determine the operation", infoDetermineNoMath(),
                         easyPseudo(10, BLUE, BLACK), que);
@@ -359,9 +379,9 @@ public class BoothMultiplication {
             question que = quest.getShiftQuestion();
         
             // Colors
-            getRegisterFromRow(trace.trace.size() - 2, REGA).setFillOutlineColor(
+            getRegisterFromRow(trace.size() - 2, REGA).setFillOutlineColor(
                     GREEN);
-            getRegisterFromRow(trace.trace.size() - 2, REGQ)
+            getRegisterFromRow(trace.size() - 2, REGQ)
                     .setFillOutlineColor(BLUE);
             setRowOutlineColor(OUTLINE_COLOR);
             RegA.setFillOutlineColor(GREEN);
@@ -385,9 +405,9 @@ public class BoothMultiplication {
             Q_1.setFillOutlineColor(DEFAULT_COLOR);
         
             // Clean Color of A and Q on the previous line
-            getRegisterFromRow(trace.trace.size() - 2, REGA).setFillOutlineColor(
+            getRegisterFromRow(trace.size() - 2, REGA).setFillOutlineColor(
                     INACTIVE_FILL);
-            getRegisterFromRow(trace.trace.size() - 2, REGQ).setFillOutlineColor(
+            getRegisterFromRow(trace.size() - 2, REGQ).setFillOutlineColor(
                     INACTIVE_FILL);
             RegA.setFillOutlineColor(DEFAULT_COLOR);
             RegQ.setFillOutlineColor(DEFAULT_COLOR);
@@ -398,7 +418,7 @@ public class BoothMultiplication {
             Count.setFillOutlineColor(RED);
             last = currentRow.getFirstRegiterPosition();
             currentRow.add(new GAIGSline(new double[] { last[0],
-                    trace.trace.getWidth() }, new double[] { last[1] - ROW_SPACE / 2,
+                    trace.getWidth() }, new double[] { last[1] - ROW_SPACE / 2,
                     last[1] - ROW_SPACE / 2 }));
         
             easySnap("Decrement Count", infoDecrement(),
@@ -486,8 +506,8 @@ public class BoothMultiplication {
 
     private void setupAndShowCountInitialization(
             GAIGSpane<GAIGSmonospacedText> labels, double[] positions) {
-        positions[0] = trace.trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
-        positions[2] = trace.trace.getWidth() - RIGHT_MARGIN;
+        positions[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
+        positions[2] = trace.getWidth() - RIGHT_MARGIN;
         addTraceLabel(labels, positions, "Count");
         Count = createCountBox(positions);
         currentRow.add(Count);
@@ -650,9 +670,9 @@ public class BoothMultiplication {
     private double[] locationOfFirstRegister() {
         return new double[] {
                 LEFT_MARGIN,
-                trace.trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
+                trace.getHeight()-TOP_MARGIN-REG_HEIGHT,
                 LEFT_MARGIN+REG_WIDTH,
-                trace.trace.getHeight()-TOP_MARGIN};
+                trace.getHeight()-TOP_MARGIN};
     }
 
     private static void setEndOfNextBit(double[] init) {
@@ -909,7 +929,7 @@ public class BoothMultiplication {
         currentRow = new RegisterRow();
         currentRow.setName("Row " + rowNumber);
 
-        trace.trace.add(currentRow.currentRow);
+        trace.add(currentRow.currentRow);
 
         currentRow.add(RegM);
         currentRow.add(RegA);
