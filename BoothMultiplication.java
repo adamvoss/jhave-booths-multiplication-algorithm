@@ -488,10 +488,8 @@ public class BoothMultiplication {
                 }
         
                 // ----Comparison Frame----
-                getRegisterFromRow(trace.size() - 2, REGQ).setFillOutlineColor(
-                        0, BLUE);
-                getRegisterFromRow(trace.size() - 2, Q1).setFillOutlineColor(0,
-                        BLUE);
+                trace.getRow(trace.size() - 2).getRegister(REGQ).setFillOutlineColor(0, BLUE);
+                trace.getRow(trace.size() - 2).getRegister(Q1).setFillOutlineColor(0, BLUE);
         
                 question que = quest.getComparisonQuestion();
                 RegisterRow temp = trace.removeLast();
@@ -572,9 +570,9 @@ public class BoothMultiplication {
             question que = quest.getShiftQuestion();
         
             // Colors
-            getRegisterFromRow(trace.size() - 2, REGA).setFillOutlineColor(
+            trace.getRow(trace.size() - 2).getRegister(REGA).setFillOutlineColor(
                     GREEN);
-            getRegisterFromRow(trace.size() - 2, REGQ)
+            trace.getRow(trace.size() - 2).getRegister(REGQ)
                     .setFillOutlineColor(BLUE);
             setRowOutlineColor(OUTLINE_COLOR);
             RegA.setFillOutlineColor(GREEN);
@@ -598,9 +596,9 @@ public class BoothMultiplication {
             Q_1.setFillOutlineColor(DEFAULT_COLOR);
         
             // Clean Color of A and Q on the previous line
-            getRegisterFromRow(trace.size() - 2, REGA).setFillOutlineColor(
+            trace.getRow(trace.size() - 2).getRegister(REGA).setFillOutlineColor(
                     INACTIVE_FILL);
-            getRegisterFromRow(trace.size() - 2, REGQ).setFillOutlineColor(
+            trace.getRow(trace.size() - 2).getRegister(REGQ).setFillOutlineColor(
                     INACTIVE_FILL);
             RegA.setFillOutlineColor(DEFAULT_COLOR);
             RegQ.setFillOutlineColor(DEFAULT_COLOR);
@@ -1062,14 +1060,6 @@ public class BoothMultiplication {
         minorAdjustRegister(RegQ);
         minorAdjustRegister(Q_1);
         minorAdjustRegister(Count);
-    }
-
-    /*
-     * Now we are restricted and must be very careful what goes on the trace and
-     * currentRow
-     */
-    private GAIGSbigEdianRegister getRegisterFromRow(int row, int reg) {
-        return (GAIGSbigEdianRegister) trace.getRow(row).currentRow.get(reg);
     }
 
     private RegisterRow createRow() {
