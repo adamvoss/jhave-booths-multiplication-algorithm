@@ -66,6 +66,8 @@ public class BoothMultiplication {
             return trace.remove(trace.size() - 1);
         }
         
+        // There is a bug here because labels will be null in the clone.
+        // Doesn't currently affect anything.
         public RegisterRowHistoryTrace clone(){
             RegisterRowHistoryTrace ret = new RegisterRowHistoryTrace(this.getBounds());
             ret.trace = this.trace.clone();
@@ -601,7 +603,7 @@ public class BoothMultiplication {
             RegisterRowHistoryTrace historyTrace, double[] positions) {
         positions[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
         positions[2] = trace.getWidth() - RIGHT_MARGIN;
-        addTraceLabel(historyTrace, positions, "Count");
+        historyTrace.addLabel(positions, "Count");
         Count = createCountBox(positions);
         currentRow.add(Count);
 
@@ -613,7 +615,7 @@ public class BoothMultiplication {
             RegisterRowHistoryTrace historyTrace, double[] position) {
         setStartOfNextRegister(position);
         setEndOfNextBit(position);
-        addTraceLabel(historyTrace, position, "β");
+        historyTrace.addLabel(position, "β");
         Q_1 = createBitBeta(position);
         currentRow.add(Q_1);
 
@@ -626,7 +628,7 @@ public class BoothMultiplication {
             RegisterRowHistoryTrace historyTrace, double[] position) {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
-        addTraceLabel(historyTrace, position, "Q");
+        historyTrace.addLabel(position, "Q");
         RegQ= createRegister(position, registerValue);
         currentRow.add(RegQ);
         
@@ -637,7 +639,7 @@ public class BoothMultiplication {
             RegisterRowHistoryTrace historyTrace, double[] position) {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
-        addTraceLabel(historyTrace, position, "A");
+        historyTrace.addLabel(position, "A");
         RegA= createRegister(position, "0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
@@ -648,7 +650,7 @@ public class BoothMultiplication {
             GAIGSArithmetic leftCornerObject,
             ColoredResultArithmetic RightCornerObject,
             RegisterRowHistoryTrace historyTrace, double[] position) {
-        addTraceLabel(historyTrace, position, "M");
+        historyTrace.addLabel(position, "M");
         RegM= createRegister(position, displayValue);
 
         currentRow.add(RegM);
@@ -724,16 +726,6 @@ public class BoothMultiplication {
         easySnap(null, infoRegisterQ(), easyPseudo(4), null);
         header.remove(rightArrow);
         header.remove(leftArrow);
-    }
-
-    private void addTraceLabel(
-            RegisterRowHistoryTrace historyTrace, double[] coords,
-            String displayText) {
-        historyTrace.addLabel(coords, displayText);
-//        historyTrace.add(new GAIGSmonospacedText(
-//                (coords[2]-coords[0])/2.0+coords[0], coords[3],
-//                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-//                COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
     }
 
     private void showRegisterMInit(GAIGSArithmetic binary,
