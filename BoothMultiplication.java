@@ -26,7 +26,7 @@ import exe.pseudocode.PseudoCodeDisplay;
  */
 public class BoothMultiplication {
     public class RegisterRowHistoryTrace implements MutableGAIGSdatastr {
-        public GAIGSpane<GAIGSpane<?>> trace = new GAIGSpane<GAIGSpane<?>>();
+        public GAIGSpane<MutableGAIGSdatastr> trace = new GAIGSpane<MutableGAIGSdatastr>();
         
         private GAIGSpane<GAIGSmonospacedText> labels = new GAIGSpane<GAIGSmonospacedText>();
         
@@ -34,7 +34,7 @@ public class BoothMultiplication {
         }
 
         public RegisterRowHistoryTrace(double[] bounds) {
-            trace = new GAIGSpane<GAIGSpane<?>>(
+            trace = new GAIGSpane<MutableGAIGSdatastr>(
                     bounds[0], bounds[1],
                     bounds[2], bounds[3],
                     null, 1.0);
@@ -47,7 +47,7 @@ public class BoothMultiplication {
         }
         
         public void addRow(RegisterRow registerRow){
-            trace.add(registerRow.currentRow);            
+            trace.add(registerRow);            
         }
         
         public double getWidth(){
@@ -62,8 +62,15 @@ public class BoothMultiplication {
             return trace.size();
         }
         
-        public GAIGSpane<?> removeLast(){
-            return trace.remove(trace.size() - 1);
+        
+        // TODO: When I can stop worrying about XML being identical,
+        //    change the type of trace to eliminate this cast.
+        public RegisterRow removeLast(){
+            return (RegisterRow) trace.remove(trace.size() - 1);
+        }
+               
+        public RegisterRow getRow(int rowNumber){
+            return (RegisterRow) trace.get(rowNumber);
         }
         
         // There is a bug here because labels will be null in the clone.
@@ -82,10 +89,6 @@ public class BoothMultiplication {
                     COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
         }
         
-//        TODO
-//        public RegisterRow getRow(int rowNumber){
-//            return trace.get(rowNumber);
-//        }
 
         /* (non-Javadoc)
          * @see exe.GAIGSdatastr#toXML()
@@ -445,11 +448,11 @@ public class BoothMultiplication {
                         BLUE);
         
                 question que = quest.getComparisonQuestion();
-                GAIGSpane<?> temp = trace.removeLast();
+                RegisterRow temp = trace.removeLast();
         
                 easySnap("Determine the operation", infoDetermineOp(),
                         easyPseudo(10, BLUE, BLACK), que);
-                trace.add(temp);
+                trace.addRow(temp);
         
                 // Reset/deactivate colors
                 fadeRow(trace.size() - 2);
@@ -1050,7 +1053,7 @@ public class BoothMultiplication {
      * currentRow
      */
     private GAIGSbigEdianRegister getRegisterFromRow(int row, int reg) {
-        return (GAIGSbigEdianRegister) trace.trace.get(row).get(reg);
+        return (GAIGSbigEdianRegister) trace.getRow(row).currentRow.get(reg);
     }
 
     private RegisterRow createRow() {
