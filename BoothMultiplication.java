@@ -176,6 +176,10 @@ public class BoothMultiplication {
             currentRow.remove(COUNT);
         }
         
+        public GAIGSbigEdianRegister getRegister(int register){
+            return (GAIGSbigEdianRegister) currentRow.get(register);
+        }
+        
         public double[] getFirstRegiterPosition(){
             return currentRow.get(0).getBounds();
         }
@@ -243,6 +247,39 @@ public class BoothMultiplication {
         @Override
         public void setFontSize(double fontSize) {
             currentRow.setFontSize(fontSize);
+        }
+
+        /**
+         * @param color
+         */
+        public void setFillColor(String color) {
+            getRegister(REGM).setFillColor(color);
+            getRegister(REGA).setFillColor(color);
+            getRegister(REGQ).setFillColor(color);
+            getRegister(Q1).setFillColor(color);
+            getRegister(COUNT).setFillColor(color);
+        }
+
+        /**
+         * @param color
+         */
+        public void setOutlineColor(String color) {
+            getRegister(REGM).setOutlineColor(color);
+            getRegister(REGA).setOutlineColor(color);
+            getRegister(REGQ).setOutlineColor(color);
+            getRegister(Q1).setOutlineColor(color);
+            getRegister(COUNT).setOutlineColor(color);
+        }
+
+        /**
+         * @param color
+         */
+        public void setTextColor(String color) {
+            getRegister(REGM).setTextColor(color);
+            getRegister(REGA).setTextColor(color);
+            getRegister(REGQ).setTextColor(color);
+            getRegister(Q1).setTextColor(color);
+            getRegister(COUNT).setTextColor(color);
         }
     }
 
@@ -997,27 +1034,15 @@ public class BoothMultiplication {
     }
 
     private void setRowTextColor(int row, String color) {
-        getRegisterFromRow(row, REGM).setTextColor(color);
-        getRegisterFromRow(row, REGA).setTextColor(color);
-        getRegisterFromRow(row, REGQ).setTextColor(color);
-        getRegisterFromRow(row, Q1).setTextColor(color);
-        getRegisterFromRow(row, COUNT).setTextColor(color);
+        trace.getRow(row).setTextColor(color);
     }
 
     private void setRowOutlineColor(int row, String color) {
-        getRegisterFromRow(row, REGM).setOutlineColor(color);
-        getRegisterFromRow(row, REGA).setOutlineColor(color);
-        getRegisterFromRow(row, REGQ).setOutlineColor(color);
-        getRegisterFromRow(row, Q1).setOutlineColor(color);
-        getRegisterFromRow(row, COUNT).setOutlineColor(color);
+        trace.getRow(row).setOutlineColor(color);
     }
 
     private void setRegRowFillColor(int row, String color) {
-        getRegisterFromRow(row, REGM).setFillColor(color);
-        getRegisterFromRow(row, REGA).setFillColor(color);
-        getRegisterFromRow(row, REGQ).setFillColor(color);
-        getRegisterFromRow(row, Q1).setFillColor(color);
-        getRegisterFromRow(row, COUNT).setFillColor(color);
+        trace.getRow(row).setFillColor(color);
     }
 
     private void positionMajorRow() {
