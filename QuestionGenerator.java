@@ -13,7 +13,7 @@ import exe.question;
 import exe.boothsMultiplication.BoothMultiplication;//to access constant RegN defs
 
 
-public class QuestionGenerator {
+public class QuestionGenerator {   
     public static final int REGM = BoothMultiplication.REGM;
     public static final int REGA = BoothMultiplication.REGA;
     public static final int REGQ = BoothMultiplication.REGQ;
@@ -24,7 +24,7 @@ public class QuestionGenerator {
 	private ShowFile show;
     private GAIGSpane  trace;
 	private UniqueIDGen id = new UniqueIDGen();
-    private Random rand    = new Random();
+    private IntGenerator rand = new DummyIntGenerator();
     private boolean[] asked= new boolean[NUMQUESTIONS+1];
 //    private int[]   askTime;
 
@@ -432,4 +432,32 @@ public class QuestionGenerator {
 
 		public String next() {return ("" + id++);}
 	}
+	
+    public interface IntGenerator{
+        public int nextInt(int n);
+    }
+    
+    public class RandomIntGenerator implements IntGenerator{
+        private Random rand = new Random();
+
+        /* (non-Javadoc)
+         * @see exe.boothsMultiplication.QuestionGenerator.RandomRange#nextInt()
+         */
+        @Override
+        public int nextInt(int n) {
+            return rand.nextInt(n);
+        }
+    }
+    
+    private class DummyIntGenerator implements IntGenerator{
+
+        /* (non-Javadoc)
+         * @see exe.boothsMultiplication.QuestionGenerator.IntGenerator#nextInt(int)
+         */
+        @Override
+        public int nextInt(int n) {
+            return 0;
+        }
+        
+    }
 }
