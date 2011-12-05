@@ -89,6 +89,10 @@ public class BoothMultiplication {
                     COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
         }
         
+        public void fadeLastRow(){
+            fadeRow(this.size() - 2);
+        }
+        
         private void fadeRow(int row) {
             getRow(row).setTextColor(INACTIVE_TEXT);
             getRow(row).setOutlineColor(INACTIVE_OUTLINE);
@@ -497,7 +501,7 @@ public class BoothMultiplication {
                 trace.addRow(temp);
         
                 // Reset/deactivate colors
-                trace.fadeRow(trace.size() - 2);
+                trace.fadeLastRow();
                 RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
                 Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
         
