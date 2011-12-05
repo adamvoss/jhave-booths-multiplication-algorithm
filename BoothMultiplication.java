@@ -81,6 +81,11 @@ public class BoothMultiplication {
                     GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
                     COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
         }
+        
+//        TODO
+//        public RegisterRow getRow(int rowNumber){
+//            return trace.get(rowNumber);
+//        }
 
         /* (non-Javadoc)
          * @see exe.GAIGSdatastr#toXML()
@@ -306,8 +311,7 @@ public class BoothMultiplication {
 
         populateMainPane();
 
-        currentRow = new RegisterRow();
-        currentRow.setName("Row " + rowNumber++);
+        currentRow = new RegisterRow("Row " + rowNumber++);
 
         trace.addRow(currentRow);
         //Trace finally defined, can now make the QuestionGenerator
@@ -369,7 +373,7 @@ public class BoothMultiplication {
             if (cmpVal == 1 || cmpVal == -1) {
                 did_math = true;
                 positionMajorRow();// clones all registers
-                addRow();// now we have enough information for question type 3,
+                trace.addRow(createRow());// now we have enough information for question type 3,
                          // calculations pending
                 DiscardOverflowAddition sum;
                 GAIGSmonospacedText sumLabel;
@@ -469,7 +473,7 @@ public class BoothMultiplication {
                 positionMajorRow(); // Remember this clones
         
             setRowTextColor(FONT_COLOR);
-            addRow();
+            trace.addRow(createRow());
             rightShift(RegA, RegQ, Q_1);
         
             // Question and write
@@ -1006,7 +1010,7 @@ public class BoothMultiplication {
         return (GAIGSbigEdianRegister) trace.trace.get(row).get(reg);
     }
 
-    private void addRow() {
+    private RegisterRow createRow() {
         currentRow = new RegisterRow( "Row " + rowNumber);
         
         currentRow.add(RegM);
@@ -1015,7 +1019,7 @@ public class BoothMultiplication {
         currentRow.add(Q_1);
         currentRow.add(Count);
 
-        trace.addRow(currentRow);
+        return currentRow;
     }
 
     private void easySnap(String title, String info, String pseudo,
