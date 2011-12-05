@@ -89,6 +89,11 @@ public class BoothMultiplication {
                     COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
         }
         
+        private void fadeRow(int row) {
+            getRow(row).setTextColor(INACTIVE_TEXT);
+            getRow(row).setOutlineColor(INACTIVE_OUTLINE);
+            getRow(row).setFillColor(INACTIVE_FILL);
+        }
 
         /* (non-Javadoc)
          * @see exe.GAIGSdatastr#toXML()
@@ -492,7 +497,7 @@ public class BoothMultiplication {
                 trace.addRow(temp);
         
                 // Reset/deactivate colors
-                fadeRow(trace.size() - 2);
+                trace.fadeRow(trace.size() - 2);
                 RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
                 Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
         
@@ -1025,12 +1030,6 @@ public class BoothMultiplication {
         RegQ.setOutlineColor(color);
         Q_1.setOutlineColor(color);
         Count.setOutlineColor(color);
-    }
-
-    private void fadeRow(int row) {
-        trace.getRow(row).setTextColor(INACTIVE_TEXT);
-        trace.getRow(row).setOutlineColor(INACTIVE_OUTLINE);
-        trace.getRow(row).setFillColor(INACTIVE_FILL);
     }
 
     private void positionMajorRow() {
