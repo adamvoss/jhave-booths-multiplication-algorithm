@@ -26,11 +26,20 @@ import exe.pseudocode.PseudoCodeDisplay;
  */
 public class BoothMultiplication {
     public class RegisterRowHistoryTrace implements MutableGAIGSdatastr {
-        public GAIGSpane<GAIGSpane<?>> trace;
+        public GAIGSpane<GAIGSpane<?>> trace = new GAIGSpane<GAIGSpane<?>>();
         
-        private GAIGSpane<GAIGSmonospacedText> labels = new GAIGSpane<GAIGSmonospacedText>(); 
-
+        private GAIGSpane<GAIGSmonospacedText> labels = new GAIGSpane<GAIGSmonospacedText>();
+        
         public RegisterRowHistoryTrace() {
+        }
+
+        public RegisterRowHistoryTrace(double[] bounds) {
+            this();
+            trace = new GAIGSpane<GAIGSpane<?>>(
+                    bounds[0], bounds[1],
+                    bounds[2], bounds[3],
+                    null, 1.0);
+            setName("Trace");
         }
         
         public void add(GAIGSpane<?> data){
@@ -58,8 +67,7 @@ public class BoothMultiplication {
         }
         
         public RegisterRowHistoryTrace clone(){
-            RegisterRowHistoryTrace ret = new RegisterRowHistoryTrace();
-            
+            RegisterRowHistoryTrace ret = new RegisterRowHistoryTrace(this.getBounds());
             ret.trace = this.trace.clone();
             
             return ret;
@@ -797,14 +805,9 @@ public class BoothMultiplication {
     }
 
     private RegisterRowHistoryTrace createAlgorithmTrace() {
-        RegisterRowHistoryTrace ret = new RegisterRowHistoryTrace();
-        
-        GAIGSpane<GAIGSpane<?>> tracePane = new GAIGSpane<GAIGSpane<?>>(0, 0,
-                WINDOW_WIDTH * (3 / 4.0), math.getBounds()[3], null, 1.0);
-        tracePane.setName("Trace");
-        ret.trace = tracePane;
-        
-        return ret;
+        return new RegisterRowHistoryTrace(
+                new double[]{0, 0,
+                             WINDOW_WIDTH * (3 / 4.0), math.getBounds()[3]});
     }
 
     private static GAIGSpane<MutableGAIGSdatastr> createMathPane() {
