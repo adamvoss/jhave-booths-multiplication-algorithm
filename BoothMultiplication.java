@@ -1028,21 +1028,9 @@ public class BoothMultiplication {
     }
 
     private void fadeRow(int row) {
-        setRowTextColor(row, INACTIVE_TEXT);
-        setRowOutlineColor(row, INACTIVE_OUTLINE);
-        setRegRowFillColor(row, INACTIVE_FILL);
-    }
-
-    private void setRowTextColor(int row, String color) {
-        trace.getRow(row).setTextColor(color);
-    }
-
-    private void setRowOutlineColor(int row, String color) {
-        trace.getRow(row).setOutlineColor(color);
-    }
-
-    private void setRegRowFillColor(int row, String color) {
-        trace.getRow(row).setFillColor(color);
+        trace.getRow(row).setTextColor(INACTIVE_TEXT);
+        trace.getRow(row).setOutlineColor(INACTIVE_OUTLINE);
+        trace.getRow(row).setFillColor(INACTIVE_FILL);
     }
 
     private void positionMajorRow() {
