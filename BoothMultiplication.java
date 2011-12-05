@@ -144,15 +144,10 @@ public class BoothMultiplication {
         }
     }
 
-    public class RegisterRow {
-        /**
-         * 
-         */
+    public class RegisterRow implements MutableGAIGSdatastr{
+
         public GAIGSpane<MutableGAIGSdatastr> currentRow;
 
-        /**
-         * 
-         */
         public RegisterRow() {
             currentRow = new GAIGSpane<MutableGAIGSdatastr>();
         }
@@ -197,6 +192,54 @@ public class BoothMultiplication {
             
             return ret;
             
+        }
+
+        /* (non-Javadoc)
+         * @see exe.GAIGSdatastr#toXML()
+         */
+        @Override
+        public String toXML() {
+            return currentRow.toXML();
+        }
+
+        /* (non-Javadoc)
+         * @see exe.GAIGSdatastr#getName()
+         */
+        @Override
+        public String getName() {
+            return currentRow.getName();
+        }
+
+        /* (non-Javadoc)
+         * @see exe.MutableGAIGSdatastr#getBounds()
+         */
+        @Override
+        public double[] getBounds() {
+            return currentRow.getBounds();
+        }
+
+        /* (non-Javadoc)
+         * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
+         */
+        @Override
+        public void setBounds(double x0, double y0, double x1, double y1) {
+            currentRow.setBounds(x0, y0, x1, y1);
+        }
+
+        /* (non-Javadoc)
+         * @see exe.MutableGAIGSdatastr#getFontSize()
+         */
+        @Override
+        public double getFontSize() {
+            return currentRow.getFontSize();
+        }
+
+        /* (non-Javadoc)
+         * @see exe.MutableGAIGSdatastr#setFontSize(double)
+         */
+        @Override
+        public void setFontSize(double fontSize) {
+            currentRow.setFontSize(fontSize);
         }
     }
 
