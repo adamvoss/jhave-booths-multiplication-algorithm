@@ -34,11 +34,11 @@ public class BoothMultiplication {
         }
 
         public RegisterRowHistoryTrace(double[] bounds) {
-            this();
             trace = new GAIGSpane<GAIGSpane<?>>(
                     bounds[0], bounds[1],
                     bounds[2], bounds[3],
                     null, 1.0);
+            trace.add(labels);
             setName("Trace");
         }
         
@@ -73,9 +73,7 @@ public class BoothMultiplication {
             return ret;
         }
         
-        public void addLabel(
-                double[] coords,
-                String displayText) {
+        public void addLabel(double[] coords, String displayText) {
             labels.add(new GAIGSmonospacedText(
                     (coords[2]-coords[0])/2.0+coords[0], coords[3],
                     GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
@@ -306,10 +304,6 @@ public class BoothMultiplication {
 
         populateMainPane();
 
-        GAIGSpane<GAIGSmonospacedText> trace_labels = new GAIGSpane<GAIGSmonospacedText>();
-
-        trace.add(trace_labels);
-
         currentRow = new RegisterRow();
         currentRow.setName("Row " + rowNumber++);
 
@@ -334,7 +328,7 @@ public class BoothMultiplication {
 
         //**** Initialization Frames ****
         setupAndShowInitialization(multiplicand, multiplier, binary, decimal,
-                trace_labels, init);
+                trace, init);
         
         
         double[] last = currentRow.getFirstRegiterPosition();
@@ -584,30 +578,30 @@ public class BoothMultiplication {
     private void setupAndShowInitialization(String multiplicand,
             String multiplier, GAIGSArithmetic binary,
             ColoredResultArithmetic decimal,
-            GAIGSpane<GAIGSmonospacedText> trace_labels, double[] init) {
+            RegisterRowHistoryTrace historyTrace, double[] init) {
         //----Register M Initialization Frame----
-        setupAndShowRegisterMInitialization(multiplicand, binary, decimal, trace_labels, init);
+        setupAndShowRegisterMInitialization(multiplicand, binary, decimal, historyTrace, init);
 
         REG_SIZE = RegM.getSize();
 
         //----Register A Initialization Frame----
-        setupAndShowRegisterAInitialization(trace_labels, init);
+        setupAndShowRegisterAInitialization(historyTrace, init);
 
         //----Register Q Initialization Frame----
-        setupAndShowRegisterQInitialization(multiplier, binary, decimal, trace_labels, init);
+        setupAndShowRegisterQInitialization(multiplier, binary, decimal, historyTrace, init);
 
         //----Bit β Initialization Frame----
-        setupAndShowBitBetaInitialization(trace_labels, init);
+        setupAndShowBitBetaInitialization(historyTrace, init);
 
         // ----Count Initialization Frame----
-        setupAndShowCountInitialization(trace_labels, init);
+        setupAndShowCountInitialization(historyTrace, init);
     }
 
     private void setupAndShowCountInitialization(
-            GAIGSpane<GAIGSmonospacedText> labels, double[] positions) {
+            RegisterRowHistoryTrace historyTrace, double[] positions) {
         positions[0] = trace.getWidth() - COUNT_WIDTH - RIGHT_MARGIN;
         positions[2] = trace.getWidth() - RIGHT_MARGIN;
-        addTraceLabel(labels, positions, "Count");
+        addTraceLabel(historyTrace, positions, "Count");
         Count = createCountBox(positions);
         currentRow.add(Count);
 
@@ -616,10 +610,10 @@ public class BoothMultiplication {
     }
 
     private void setupAndShowBitBetaInitialization(
-            GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
+            RegisterRowHistoryTrace historyTrace, double[] position) {
         setStartOfNextRegister(position);
         setEndOfNextBit(position);
-        addTraceLabel(labels, position, "β");
+        addTraceLabel(historyTrace, position, "β");
         Q_1 = createBitBeta(position);
         currentRow.add(Q_1);
 
@@ -629,10 +623,10 @@ public class BoothMultiplication {
     private void setupAndShowRegisterQInitialization(String registerValue,
             GAIGSArithmetic leftCornerObject,
             ColoredResultArithmetic rightCornerObject,
-            GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
+            RegisterRowHistoryTrace historyTrace, double[] position) {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
-        addTraceLabel(labels, position, "Q");
+        addTraceLabel(historyTrace, position, "Q");
         RegQ= createRegister(position, registerValue);
         currentRow.add(RegQ);
         
@@ -640,10 +634,10 @@ public class BoothMultiplication {
     }
 
     private void setupAndShowRegisterAInitialization(
-            GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
+            RegisterRowHistoryTrace historyTrace, double[] position) {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
-        addTraceLabel(labels, position, "A");
+        addTraceLabel(historyTrace, position, "A");
         RegA= createRegister(position, "0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
@@ -653,8 +647,8 @@ public class BoothMultiplication {
     private void setupAndShowRegisterMInitialization(String displayValue,
             GAIGSArithmetic leftCornerObject,
             ColoredResultArithmetic RightCornerObject,
-            GAIGSpane<GAIGSmonospacedText> labels, double[] position) {
-        addTraceLabel(labels, position, "M");
+            RegisterRowHistoryTrace historyTrace, double[] position) {
+        addTraceLabel(historyTrace, position, "M");
         RegM= createRegister(position, displayValue);
 
         currentRow.add(RegM);
@@ -733,12 +727,13 @@ public class BoothMultiplication {
     }
 
     private void addTraceLabel(
-            GAIGSpane<GAIGSmonospacedText> traceLabels, double[] coords,
+            RegisterRowHistoryTrace historyTrace, double[] coords,
             String displayText) {
-        traceLabels.add(new GAIGSmonospacedText(
-                (coords[2]-coords[0])/2.0+coords[0], coords[3],
-                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
+        historyTrace.addLabel(coords, displayText);
+//        historyTrace.add(new GAIGSmonospacedText(
+//                (coords[2]-coords[0])/2.0+coords[0], coords[3],
+//                GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
+//                COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
     }
 
     private void showRegisterMInit(GAIGSArithmetic binary,
