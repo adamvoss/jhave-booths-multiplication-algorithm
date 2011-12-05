@@ -25,7 +25,7 @@ import exe.pseudocode.PseudoCodeDisplay;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class BoothMultiplication {
-    public static class RegisterRowHistoryTrace {
+    public class RegisterRowHistoryTrace implements MutableGAIGSdatastr {
         public GAIGSpane<GAIGSpane<?>> trace;
         
         private GAIGSpane<GAIGSmonospacedText> labels = new GAIGSpane<GAIGSmonospacedText>(); 
@@ -57,6 +57,14 @@ public class BoothMultiplication {
             return trace.remove(trace.size() - 1);
         }
         
+        public RegisterRowHistoryTrace clone(){
+            RegisterRowHistoryTrace ret = new RegisterRowHistoryTrace();
+            
+            ret.trace = this.trace.clone();
+            
+            return ret;
+        }
+        
         public void addLabel(
                 double[] coords,
                 String displayText) {
@@ -65,9 +73,65 @@ public class BoothMultiplication {
                     GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
                     COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
         }
+
+        /* (non-Javadoc)
+         * @see exe.GAIGSdatastr#toXML()
+         */
+        @Override
+        public String toXML() {
+            return trace.toXML();
+        }
+
+        /* (non-Javadoc)
+         * @see exe.GAIGSdatastr#getName()
+         */
+        @Override
+        public String getName() {
+            return trace.getName();
+        }
+
+        /* (non-Javadoc)
+         * @see exe.GAIGSdatastr#setName(java.lang.String)
+         */
+        @Override
+        public void setName(String name) {
+            trace.setName(name);
+        }
+
+        /* (non-Javadoc)
+         * @see exe.MutableGAIGSdatastr#getBounds()
+         */
+        @Override
+        public double[] getBounds() {
+            return trace.getBounds();
+        }
+
+        /* (non-Javadoc)
+         * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
+         */
+        @Override
+        public void setBounds(double x0, double y0, double x1, double y1) {
+            trace.setBounds(x0, y0, x1, y1);
+        }
+
+        /* (non-Javadoc)
+         * @see exe.MutableGAIGSdatastr#getFontSize()
+         */
+        @Override
+        public double getFontSize() {
+            return trace.getFontSize();
+        }
+
+        /* (non-Javadoc)
+         * @see exe.MutableGAIGSdatastr#setFontSize(double)
+         */
+        @Override
+        public void setFontSize(double fontSize) {
+            trace.setFontSize(fontSize);
+        }
     }
 
-    public static class RegisterRow {
+    public class RegisterRow {
         /**
          * 
          */
@@ -114,10 +178,9 @@ public class BoothMultiplication {
                             firstRegPosition[1] - ROW_SPACE / 2 }));
         }
         
-        public RegisterRow clone(RegisterRow source){
-            GAIGSpane<MutableGAIGSdatastr> srcContentClone = source.currentRow.clone();
+        public RegisterRow clone(){
             RegisterRow ret = new RegisterRow();
-            ret.currentRow = srcContentClone;
+            ret.currentRow = this.currentRow.clone();
             
             return ret;
             
@@ -176,7 +239,7 @@ public class BoothMultiplication {
     private CountBox Count;
     // Is the next varriable's type the same as
     // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
-    private GAIGSpane<GAIGSpane<?>> main;
+    private GAIGSpane<MutableGAIGSdatastr> main;
     private GAIGSpane<MutableGAIGSdatastr> header;
     private GAIGSpane<MutableGAIGSdatastr> math;
     private RegisterRowHistoryTrace trace = new RegisterRowHistoryTrace();
@@ -729,7 +792,7 @@ public class BoothMultiplication {
 
     private void populateMainPane() {
         main.add(header);
-        main.add(trace.trace);
+        main.add(trace);
         main.add(math);
     }
 
@@ -758,8 +821,8 @@ public class BoothMultiplication {
         return headerPane;
     }
 
-    private static GAIGSpane<GAIGSpane<?>> createMainPane() {
-        GAIGSpane<GAIGSpane<?>> mainPane = new GAIGSpane<GAIGSpane<?>>(0-GAIGSpane.JHAVE_X_MARGIN,
+    private static GAIGSpane<MutableGAIGSdatastr> createMainPane() {
+        GAIGSpane<MutableGAIGSdatastr> mainPane = new GAIGSpane<MutableGAIGSdatastr>(0-GAIGSpane.JHAVE_X_MARGIN,
                 0-GAIGSpane.JHAVE_Y_MARGIN,
                 1+GAIGSpane.JHAVE_X_MARGIN,
                 1+GAIGSpane.JHAVE_Y_MARGIN,
