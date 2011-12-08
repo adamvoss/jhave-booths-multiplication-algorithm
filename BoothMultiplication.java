@@ -731,7 +731,7 @@ public class BoothMultiplication {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
         historyTrace.addLabel(position, "Q");
-        RegQ= createRegister(position, registerValue);
+        RegQ= new BoothsMultiplicationRegister(position, registerValue);
         currentRow.add(RegQ);
         
         showRegisterQInit(leftCornerObject, rightCornerObject);
@@ -742,7 +742,7 @@ public class BoothMultiplication {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
         historyTrace.addLabel(position, "A");
-        RegA= createRegister(position, "0");
+        RegA= new BoothsMultiplicationRegister(position, "0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
                 null);
@@ -753,7 +753,7 @@ public class BoothMultiplication {
             ColoredResultArithmetic RightCornerObject,
             RegisterRowHistoryTrace historyTrace, double[] position) {
         historyTrace.addLabel(position, "M");
-        RegM= createRegister(position, displayValue);
+        RegM= new BoothsMultiplicationRegister(position, displayValue);
 
         currentRow.add(RegM);
         
@@ -780,10 +780,6 @@ public class BoothMultiplication {
                 OUTLINE_COLOR, position, REG_FONT_SIZE);
         beta.set("0");
         return beta;
-    }
-
-    private GAIGSbigEdianRegister createRegister(double[] position, String initialValue) {
-        return new BoothsMultiplicationRegister(position, initialValue);
     }
 
     private GAIGSmonospacedText createTitle() {
