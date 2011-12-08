@@ -293,16 +293,7 @@ public class BoothMultiplication {
     }
 
     public class BoothsMultiplicationRegister extends GAIGSbigEdianRegister{
-
-        /**
-         * @param length
-         * @param name
-         * @param fillColor
-         * @param fontColor
-         * @param outlineColor
-         * @param bounds
-         * @param fontSize
-         */
+        
         public BoothsMultiplicationRegister(double[] position, String initialValue) {
             super(REG_SIZE, "", BoothMultiplication.DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, position, REG_FONT_SIZE);
             this.set(initialValue);
