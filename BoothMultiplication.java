@@ -295,8 +295,63 @@ public class BoothMultiplication {
     public class BoothsMultiplicationRegister extends GAIGSbigEdianRegister{
         
         public BoothsMultiplicationRegister(double[] position, String initialValue) {
-            super(REG_SIZE, "", BoothMultiplication.DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, position, REG_FONT_SIZE);
+            super(REG_SIZE,
+                    "",
+                    BoothMultiplication.DEFAULT_COLOR,
+                    FONT_COLOR,
+                    OUTLINE_COLOR,
+                    position,
+                    REG_FONT_SIZE);
+            
             this.set(initialValue);
+        }
+    }
+    
+    public class MultiplicandRegister extends BoothsMultiplicationRegister{
+
+        public MultiplicandRegister(double[] position, String initialValue) {
+            super(position, initialValue);
+        }
+    }
+    
+    public class MultiplierRegister extends BoothsMultiplicationRegister{
+
+        public MultiplierRegister(double[] position, String initialValue) {
+            super(position, initialValue);
+        }
+    }
+    
+    public class ProductExtensionRegister extends BoothsMultiplicationRegister{
+
+        public ProductExtensionRegister(double[] position, String initialValue) {
+            super(position, initialValue);
+        }
+    }
+    
+    public class BetaBit extends BoothsMultiplicationRegister{
+
+        public BetaBit(double[] position, String initialValue) {
+            super(position, initialValue);
+        }
+    }
+    
+    public class CountBoxEx extends CountBox{
+
+        /**
+         * @param count
+         * @param color
+         * @param fontColor
+         * @param outlineColor
+         * @param bounds
+         * @param fontSize
+         */
+        public CountBoxEx(int count, double[] position) {
+            super(count,
+                    BoothMultiplication.DEFAULT_COLOR,
+                    FONT_COLOR,
+                    OUTLINE_COLOR,
+                    position,
+                    REG_FONT_SIZE);
         }
     }
     
