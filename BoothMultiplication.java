@@ -293,9 +293,9 @@ public class BoothMultiplication {
     }
 
     public class BoothsMultiplicationRegister extends GAIGSbigEdianRegister{
-        
-        public BoothsMultiplicationRegister(double[] position, String initialValue) {
-            super(REG_SIZE,
+               
+        public BoothsMultiplicationRegister(int regSize, double[] position, String initialValue) {
+            super(regSize,
                     "",
                     BoothMultiplication.DEFAULT_COLOR,
                     FONT_COLOR,
@@ -304,6 +304,10 @@ public class BoothMultiplication {
                     REG_FONT_SIZE);
             
             this.set(initialValue);
+        }
+        
+        public BoothsMultiplicationRegister(double[] position, String initialValue) {
+            this(REG_SIZE, position, initialValue);
         }
     }
     
@@ -331,22 +335,14 @@ public class BoothMultiplication {
     public class BetaBit extends BoothsMultiplicationRegister{
 
         public BetaBit(double[] position, String initialValue) {
-            super(position, initialValue);
+            super(1, position, initialValue);
         }
     }
     
     public class CountBoxEx extends CountBox{
-
-        /**
-         * @param count
-         * @param color
-         * @param fontColor
-         * @param outlineColor
-         * @param bounds
-         * @param fontSize
-         */
-        public CountBoxEx(int count, double[] position) {
-            super(count,
+        
+        public CountBoxEx(double[] position) {
+            super(REG_SIZE,
                     BoothMultiplication.DEFAULT_COLOR,
                     FONT_COLOR,
                     OUTLINE_COLOR,
@@ -786,7 +782,7 @@ public class BoothMultiplication {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
         historyTrace.addLabel(position, "Q");
-        RegQ= new BoothsMultiplicationRegister(position, registerValue);
+        RegQ= new ProductExtensionRegister(position, registerValue);
         currentRow.add(RegQ);
         
         showRegisterQInit(leftCornerObject, rightCornerObject);
@@ -797,7 +793,7 @@ public class BoothMultiplication {
         setStartOfNextRegister(position);
         setEndOfNextRegister(position);
         historyTrace.addLabel(position, "A");
-        RegA= new BoothsMultiplicationRegister(position, "0");
+        RegA= new MultiplierRegister(position, "0");
         currentRow.add(RegA);
         easySnap("A is initialized to Zero", infoRegisterA(), easyPseudo(3),
                 null);
@@ -808,7 +804,7 @@ public class BoothMultiplication {
             ColoredResultArithmetic RightCornerObject,
             RegisterRowHistoryTrace historyTrace, double[] position) {
         historyTrace.addLabel(position, "M");
-        RegM= new BoothsMultiplicationRegister(position, displayValue);
+        RegM= new MultiplicandRegister(position, displayValue);
 
         currentRow.add(RegM);
         
@@ -826,15 +822,11 @@ public class BoothMultiplication {
     }
 
     private CountBox createCountBox(double[] position) {
-        return new CountBox(REG_SIZE, DEFAULT_COLOR, FONT_COLOR,
-                OUTLINE_COLOR, position, REG_FONT_SIZE);
+        return new CountBoxEx(position);
     }
 
     private GAIGSbigEdianRegister createBitBeta(double[] position) {
-        GAIGSbigEdianRegister beta = new GAIGSbigEdianRegister(1, "", DEFAULT_COLOR, FONT_COLOR,
-                OUTLINE_COLOR, position, REG_FONT_SIZE);
-        beta.set("0");
-        return beta;
+        return new BetaBit(position, "0");
     }
 
     private GAIGSmonospacedText createTitle() {
