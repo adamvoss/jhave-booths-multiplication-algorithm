@@ -292,6 +292,23 @@ public class BoothMultiplication {
         }
     }
 
+    public class BoothsMultiplicationRegister extends GAIGSbigEdianRegister{
+
+        /**
+         * @param length
+         * @param name
+         * @param fillColor
+         * @param fontColor
+         * @param outlineColor
+         * @param bounds
+         * @param fontSize
+         */
+        public BoothsMultiplicationRegister(double[] position, String initialValue) {
+            super(REG_SIZE, "", BoothMultiplication.DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, position, REG_FONT_SIZE);
+            this.set(initialValue);
+        }
+    }
+    
     public final static int REGM = 0;
     public final static int REGA = 1;
     public final static int REGQ = 2;
@@ -355,7 +372,7 @@ public class BoothMultiplication {
     private int REG_SIZE;
     
     private static final String FONT_COLOR      = BLACK;
-    private final String DEFAULT_COLOR   = WHITE;
+    private static final String DEFAULT_COLOR   = WHITE;
     private final String INACTIVE_TEXT   = DARK_GREY;
     private final String INACTIVE_OUTLINE= LIGHT_GREY;
     private final String INACTIVE_FILL   = WHITE;
@@ -775,9 +792,7 @@ public class BoothMultiplication {
     }
 
     private GAIGSbigEdianRegister createRegister(double[] position, String initialValue) {
-        GAIGSbigEdianRegister ret = new GAIGSbigEdianRegister(REG_SIZE, "", DEFAULT_COLOR, FONT_COLOR, OUTLINE_COLOR, position, REG_FONT_SIZE);
-        ret.set(initialValue);
-        return ret;
+        return new BoothsMultiplicationRegister(position, initialValue);
     }
 
     private GAIGSmonospacedText createTitle() {
