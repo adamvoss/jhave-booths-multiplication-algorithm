@@ -416,9 +416,9 @@ public class QuestionGenerator {
 
     private GAIGSbigEdianRegister getRegister(int level, int reg) {
     	if (level < 0){ //Get Relative to the length of the trace
-    		return (GAIGSbigEdianRegister)((BoothMultiplication.RegisterRow)trace.get(trace.size()+level)).currentRow.get(reg);
+    		return (GAIGSbigEdianRegister)((RegisterRow)trace.get(trace.size()+level)).currentRow.get(reg);
     	} //Level 0 is actually labels
-        return (GAIGSbigEdianRegister)((BoothMultiplication.RegisterRow)trace.get(level+1)).currentRow.get(reg);
+        return (GAIGSbigEdianRegister)((RegisterRow)trace.get(level+1)).currentRow.get(reg);
     }
 
 	//Heavy Duty, t'is even its own class

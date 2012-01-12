@@ -25,310 +25,24 @@ import exe.pseudocode.PseudoCodeDisplay;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class BoothMultiplication {
-    public class RegisterRowHistoryTrace implements MutableGAIGSdatastr {
-        public GAIGSpane<MutableGAIGSdatastr> trace = new GAIGSpane<MutableGAIGSdatastr>();
-        
-        private GAIGSpane<GAIGSmonospacedText> labels = new GAIGSpane<GAIGSmonospacedText>();
-        
-        public RegisterRowHistoryTrace() {
-        }
-
-        public RegisterRowHistoryTrace(double[] bounds) {
-            trace = new GAIGSpane<MutableGAIGSdatastr>(
-                    bounds[0], bounds[1],
-                    bounds[2], bounds[3],
-                    null, 1.0);
-            trace.add(labels);
-            setName("Trace");
-        }
-        
-        public void add(GAIGSpane<?> data){
-            trace.add(data);
-        }
-        
-        public void addRow(RegisterRow registerRow){
-            trace.add(registerRow);            
-        }
-        
-        public double getWidth(){
-            return trace.getWidth();
-        }
-        
-        public double getHeight(){
-            return trace.getHeight();
-        }
-        
-        public int size(){
-            return trace.size();
-        }
-        
-        
-        // TODO: When I can stop worrying about XML being identical,
-        //    change the type of trace to eliminate this cast.
-        public RegisterRow removeLast(){
-            return (RegisterRow) trace.remove(trace.size() - 1);
-        }
-               
-        public RegisterRow getRow(int rowNumber){
-            return (RegisterRow) trace.get(rowNumber);
-        }
-        
-        // There is a bug here because labels will be null in the clone.
-        // Doesn't currently affect anything.
-        public RegisterRowHistoryTrace clone(){
-            RegisterRowHistoryTrace ret = new RegisterRowHistoryTrace(this.getBounds());
-            ret.trace = this.trace.clone();
-            
-            return ret;
-        }
-        
-        public void addLabel(double[] coords, String displayText) {
-            labels.add(new GAIGSmonospacedText(
-                    (coords[2]-coords[0])/2.0+coords[0], coords[3],
-                    GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM,
-                    COLBL_FONT_SIZE, FONT_COLOR, displayText, COLBL_FONT_SIZE/2));
-        }
-        
-        public void fadeLastRow(){
-            fadeRow(this.size() - 2);
-        }
-        
-        private void fadeRow(int row) {
-            getRow(row).setTextColor(INACTIVE_TEXT);
-            getRow(row).setOutlineColor(INACTIVE_OUTLINE);
-            getRow(row).setFillColor(INACTIVE_FILL);
-        }
-
-        /* (non-Javadoc)
-         * @see exe.GAIGSdatastr#toXML()
-         */
-        @Override
-        public String toXML() {
-            return trace.toXML();
-        }
-
-        /* (non-Javadoc)
-         * @see exe.GAIGSdatastr#getName()
-         */
-        @Override
-        public String getName() {
-            return trace.getName();
-        }
-
-        /* (non-Javadoc)
-         * @see exe.GAIGSdatastr#setName(java.lang.String)
-         */
-        @Override
-        public void setName(String name) {
-            trace.setName(name);
-        }
-
-        /* (non-Javadoc)
-         * @see exe.MutableGAIGSdatastr#getBounds()
-         */
-        @Override
-        public double[] getBounds() {
-            return trace.getBounds();
-        }
-
-        /* (non-Javadoc)
-         * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
-         */
-        @Override
-        public void setBounds(double x0, double y0, double x1, double y1) {
-            trace.setBounds(x0, y0, x1, y1);
-        }
-
-        /* (non-Javadoc)
-         * @see exe.MutableGAIGSdatastr#getFontSize()
-         */
-        @Override
-        public double getFontSize() {
-            return trace.getFontSize();
-        }
-
-        /* (non-Javadoc)
-         * @see exe.MutableGAIGSdatastr#setFontSize(double)
-         */
-        @Override
-        public void setFontSize(double fontSize) {
-            trace.setFontSize(fontSize);
-        }
-    }
-
-    public class RegisterRow implements MutableGAIGSdatastr{
-
-        public GAIGSpane<MutableGAIGSdatastr> currentRow;
-
-        public RegisterRow() {
-            currentRow = new GAIGSpane<MutableGAIGSdatastr>();
-        }
-        
-        public RegisterRow(String name){
-            this();
-            setName(name);
-        }
-        
-        public void setName(String name){
-            currentRow.setName(name);
-        }
-        
-        public void add(MutableGAIGSdatastr register){
-            currentRow.add(register);
-        }
-        
-        public void addCount(MutableGAIGSdatastr register){
-            currentRow.add(COUNT, register);
-        }
-        
-        public void removeCount(){
-            currentRow.remove(COUNT);
-        }
-        
-        public GAIGSbigEdianRegister getRegister(int register){
-            return (GAIGSbigEdianRegister) currentRow.get(register);
-        }
-        
-        public double[] getFirstRegiterPosition(){
-            return currentRow.get(0).getBounds();
-        }
-        
-        public void addUnderline(double traceWidth) {
-            double[] firstRegPosition = this.getFirstRegiterPosition();
-            currentRow.add(
-                    new GAIGSline(
-                            new double[] { firstRegPosition[0], traceWidth },
-                            new double[] { firstRegPosition[1] - ROW_SPACE / 2,
-                            firstRegPosition[1] - ROW_SPACE / 2 }));
-        }
-        
-        public RegisterRow clone(){
-            RegisterRow ret = new RegisterRow();
-            ret.currentRow = this.currentRow.clone();
-            
-            return ret;
-            
-        }
-
-        /* (non-Javadoc)
-         * @see exe.GAIGSdatastr#toXML()
-         */
-        @Override
-        public String toXML() {
-            return currentRow.toXML();
-        }
-
-        /* (non-Javadoc)
-         * @see exe.GAIGSdatastr#getName()
-         */
-        @Override
-        public String getName() {
-            return currentRow.getName();
-        }
-
-        /* (non-Javadoc)
-         * @see exe.MutableGAIGSdatastr#getBounds()
-         */
-        @Override
-        public double[] getBounds() {
-            return currentRow.getBounds();
-        }
-
-        /* (non-Javadoc)
-         * @see exe.MutableGAIGSdatastr#setBounds(double, double, double, double)
-         */
-        @Override
-        public void setBounds(double x0, double y0, double x1, double y1) {
-            currentRow.setBounds(x0, y0, x1, y1);
-        }
-
-        /* (non-Javadoc)
-         * @see exe.MutableGAIGSdatastr#getFontSize()
-         */
-        @Override
-        public double getFontSize() {
-            return currentRow.getFontSize();
-        }
-
-        /* (non-Javadoc)
-         * @see exe.MutableGAIGSdatastr#setFontSize(double)
-         */
-        @Override
-        public void setFontSize(double fontSize) {
-            currentRow.setFontSize(fontSize);
-        }
-
-        /**
-         * @param color
-         */
-        public void setFillColor(String color) {
-            getRegister(REGM).setFillColor(color);
-            getRegister(REGA).setFillColor(color);
-            getRegister(REGQ).setFillColor(color);
-            getRegister(Q1).setFillColor(color);
-            getRegister(COUNT).setFillColor(color);
-        }
-
-        /**
-         * @param color
-         */
-        public void setOutlineColor(String color) {
-            getRegister(REGM).setOutlineColor(color);
-            getRegister(REGA).setOutlineColor(color);
-            getRegister(REGQ).setOutlineColor(color);
-            getRegister(Q1).setOutlineColor(color);
-            getRegister(COUNT).setOutlineColor(color);
-        }
-
-        /**
-         * @param color
-         */
-        public void setTextColor(String color) {
-            getRegister(REGM).setTextColor(color);
-            getRegister(REGA).setTextColor(color);
-            getRegister(REGQ).setTextColor(color);
-            getRegister(Q1).setTextColor(color);
-            getRegister(COUNT).setTextColor(color);
-        }
-    }
-
-    public class BoothsMultiplicationRegister extends GAIGSbigEdianRegister{
-               
-        public BoothsMultiplicationRegister(int regSize, double[] position, String initialValue) {
-            super(regSize,
-                    "",
-                    BoothMultiplication.DEFAULT_COLOR,
-                    FONT_COLOR,
-                    OUTLINE_COLOR,
-                    position,
-                    REG_FONT_SIZE);
-            
-            this.set(initialValue);
-        }
-        
-        public BoothsMultiplicationRegister(double[] position, String initialValue) {
-            this(REG_SIZE, position, initialValue);
-        }
-    }
-    
     public class MultiplicandRegister extends BoothsMultiplicationRegister{
 
         public MultiplicandRegister(double[] position, String initialValue) {
-            super(position, initialValue);
+            super(position, initialValue, REG_SIZE);
         }
     }
     
     public class MultiplierRegister extends BoothsMultiplicationRegister{
 
         public MultiplierRegister(double[] position, String initialValue) {
-            super(position, initialValue);
+            super(position, initialValue, REG_SIZE);
         }
     }
     
     public class ProductExtensionRegister extends BoothsMultiplicationRegister{
 
         public ProductExtensionRegister(double[] position, String initialValue) {
-            super(position, initialValue);
+            super(position, initialValue, REG_SIZE);
         }
     }
     
@@ -377,8 +91,8 @@ public class BoothMultiplication {
 
     private static       double MATH_LABEL_SPACE;
     private static final double FONT_SIZE         = 0.05;//was 0.05
-    private static final double COLBL_FONT_SIZE   = FONT_SIZE+0.01;
-    private static final double REG_FONT_SIZE     = FONT_SIZE-0.01;
+    static final double COLBL_FONT_SIZE   = FONT_SIZE+0.01;
+    static final double REG_FONT_SIZE     = FONT_SIZE-0.01;
     
     private static final double REG_WIDTH_PER_BIT = REG_FONT_SIZE;
     private static final double COUNT_WIDTH       = REG_WIDTH_PER_BIT;
@@ -386,7 +100,7 @@ public class BoothMultiplication {
     
     private static final double REG_HEIGHT        = 0.06;
     private static       double REG_WIDTH;
-    private static final double ROW_SPACE         = 0.03;
+    static final double ROW_SPACE         = 0.03;
     private static       double COL_SPACE         = 0.00;
 
     private static final double LEFT_MARGIN       = 0.0;
@@ -413,12 +127,12 @@ public class BoothMultiplication {
     private ShowFile show;
     private int REG_SIZE;
     
-    private static final String FONT_COLOR      = BLACK;
-    private static final String DEFAULT_COLOR   = WHITE;
-    private final String INACTIVE_TEXT   = DARK_GREY;
-    private final String INACTIVE_OUTLINE= LIGHT_GREY;
-    private final String INACTIVE_FILL   = WHITE;
-    private final String OUTLINE_COLOR   = FONT_COLOR;
+    static final String FONT_COLOR      = BLACK;
+    static final String DEFAULT_COLOR   = WHITE;
+    static final String INACTIVE_TEXT   = DARK_GREY;
+    static final String INACTIVE_OUTLINE= LIGHT_GREY;
+    static final String INACTIVE_FILL   = WHITE;
+    static final String OUTLINE_COLOR   = FONT_COLOR;
     private String filename;
     private String multiplicand;
     private String multiplier;
