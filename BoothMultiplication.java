@@ -25,6 +25,37 @@ import exe.pseudocode.PseudoCodeDisplay;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class BoothMultiplication {
+    public class MathPane {
+        /**
+         * 
+         */
+        public GAIGSpane<MutableGAIGSdatastr> math;
+
+        /**
+         * @param multiplier TODO
+         * 
+         */
+        public MathPane(String multiplier) {
+            math = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH * (3 / 4.0),
+                    0, WINDOW_WIDTH, WINDOW_HEIGHT * (8 / 10.0), 1.0, 1.0);
+            math.setName("Math");
+
+            math.add(new GAIGSline(
+                    new double[] { 0, 0 },
+                    new double[] {
+                            math.getHeight() + FONT_SIZE,
+                            math.getHeight()
+                                    - ((REG_SIZE + 1)
+                                            * (REG_HEIGHT + ROW_SPACE)
+                                            - ROW_SPACE / 2 + (numLines(multiplier) - REG_SIZE)
+                                            * (ROW_SPACE / 2 + REG_HEIGHT)) }));
+            math.add(new GAIGSmonospacedText(math.getWidth() / 2, math
+                    .getHeight(), GAIGSmonospacedText.HCENTER,
+                    GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR,
+                    "Math/ALU"));
+        }
+    }
+
     public class MultiplicandRegister extends BoothsMultiplicationRegister{
 
         public MultiplicandRegister(double[] position, String initialValue) {
@@ -119,7 +150,7 @@ public class BoothMultiplication {
     // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
     private GAIGSpane<MutableGAIGSdatastr> main;
     private GAIGSpane<MutableGAIGSdatastr> header;
-    private GAIGSpane<MutableGAIGSdatastr> math;
+    private MathPane math;
     private RegisterRowHistoryTrace trace = new RegisterRowHistoryTrace();
     private RegisterRow currentRow = new RegisterRow();
     private GAIGSmonospacedText title;
@@ -169,8 +200,7 @@ public class BoothMultiplication {
 
         MATH_LABEL_SPACE = header.getWidth() / 20;
 
-        math = createMathPane();
-        populateMathPane(multiplier);
+		math = new MathPane(multiplier);
 
         trace = createAlgorithmTrace();
 
@@ -278,9 +308,9 @@ public class BoothMultiplication {
         
                 // ----Addition/Subtraction frame----
                 RegA.setFillOutlineColor(GREEN);
-                math.add(sum);
-                math.add(sumLabel);
-                math.add(discardLabel);
+                math.math.add(sum);
+                math.math.add(sumLabel);
+                math.math.add(discardLabel);
                 sum.complete();
         
                 last = currentRow.getFirstRegiterPosition();
@@ -299,11 +329,11 @@ public class BoothMultiplication {
                         easyPseudo((cmpVal == 1 ? 11 : 14), GREEN, BLACK),
                         quest.getAdditionQuestion());
                 // Remove Overflow Label
-                math.remove(math.size() - 1);
+                math.math.remove(math.math.size() - 1);
                 // Remove Label
-                math.remove(math.size() - 1);
+                math.math.remove(math.math.size() - 1);
                 // Remove Addition
-                math.remove(math.size() - 1);
+                math.math.remove(math.math.size() - 1);
                 sumLabel.setText("");
         
             } else {
@@ -439,7 +469,7 @@ public class BoothMultiplication {
             GAIGSbigEdianRegister multiplicandRegister) {
         return new DiscardOverflowAddition('+', RegA.toString(),
                 multiplicandRegister.toString(), 2,
-                math.getWidth() / 1.4, math.getHeight() / 1.5,
+                math.math.getWidth() / 1.4, math.math.getHeight() / 1.5,
                 FONT_SIZE + .005, FONT_SIZE + .01, FONT_COLOR,
                 DARK_GREEN);
     }
@@ -602,14 +632,7 @@ public class BoothMultiplication {
         header.remove(rightArrow);
         header.remove(leftArrow);
     }
-
-    private void populateMathPane(String multiplier) {
-        math.add(new GAIGSline(new double[] {0,0},
-                new double[] {math.getHeight()+FONT_SIZE,
-                    math.getHeight() - ( (REG_SIZE+1) * (REG_HEIGHT+ ROW_SPACE) - ROW_SPACE/2 + (numLines(multiplier)-REG_SIZE) * (ROW_SPACE/2 + REG_HEIGHT))}));
-        math.add(new GAIGSmonospacedText(math.getWidth()/2, math.getHeight(), GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VBOTTOM, COLBL_FONT_SIZE, FONT_COLOR, "Math/ALU"));
-    }
-
+    
     private double[] locationOfFirstRegister() {
         return new double[] {
                 LEFT_MARGIN,
@@ -645,20 +668,13 @@ public class BoothMultiplication {
     private void populateMainPane() {
         main.add(header);
         main.add(trace);
-        main.add(math);
+        main.add(math.math);
     }
 
     private RegisterRowHistoryTrace createAlgorithmTrace() {
         return new RegisterRowHistoryTrace(
                 new double[]{0, 0,
-                             WINDOW_WIDTH * (3 / 4.0), math.getBounds()[3]});
-    }
-
-    private static GAIGSpane<MutableGAIGSdatastr> createMathPane() {
-        GAIGSpane<MutableGAIGSdatastr> mathPane = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH * (3 / 4.0), 0,
-                WINDOW_WIDTH, WINDOW_HEIGHT * (8 / 10.0), 1.0, 1.0);
-        mathPane.setName("Math");
-        return mathPane;
+                             WINDOW_WIDTH * (3 / 4.0), math.math.getBounds()[3]});
     }
 
     private static GAIGSpane<MutableGAIGSdatastr> createHeaderPane() {
