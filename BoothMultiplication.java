@@ -245,9 +245,9 @@ public class BoothMultiplication {
                 GAIGSmonospacedText discardLabel;
         
                 // Subtraction case
-                GAIGSbigEdianRegister multiplicandRegister = negateValue(RegM);
+                GAIGSbigEdianRegister multiplicandRegister = clonedNegation(RegM);
                 if (cmpVal == 1) {
-                    sum = createALUArithmetic(negateValue(RegM));
+                    sum = createALUArithmetic(clonedNegation(RegM));
                     sumLabel = createArithmeticLabels(sum, "A", "-M");
                     discardLabel = createDiscardOverflowLabel(sum, sumLabel);
                     RegA.add(multiplicandRegister);
@@ -739,7 +739,7 @@ public class BoothMultiplication {
      *            The register to negate
      * @return A new register with the negated value.
      */
-    public static GAIGSbigEdianRegister negateValue(GAIGSbigEdianRegister M) {
+    public static GAIGSbigEdianRegister clonedNegation(GAIGSbigEdianRegister M) {
         GAIGSbigEdianRegister ret = new GAIGSbigEdianRegister(M);
         ret.twosComplementNegate();
         return ret;
