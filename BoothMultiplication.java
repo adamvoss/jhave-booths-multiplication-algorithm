@@ -331,7 +331,6 @@ public class BoothMultiplication {
                 GAIGSmonospacedText discardLabel;
         
                 // Subtraction case
-                GAIGSbigEdianRegister multiplicandRegister = clonedNegation(RegM);
                 if (cmpVal == 1) {
                     sum = math.createALUArithmetic(clonedNegation(RegM), RegA);
                     sumLabel = math.createArithmeticLabels(sum, "A", "-M");
@@ -343,7 +342,8 @@ public class BoothMultiplication {
                     sumLabel = math.createArithmeticLabels(sum, "A", "M");
                     discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
                 }
-                RegA.add(multiplicandRegister);
+                
+                RegA.add(clonedNegation(RegM));
         
                 // ----Comparison Frame----
                 trace.getRow(trace.size() - 2).getRegister(REGQ).setFillOutlineColor(0, BLUE);
