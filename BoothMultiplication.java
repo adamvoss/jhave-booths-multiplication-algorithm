@@ -336,15 +336,14 @@ public class BoothMultiplication {
                     sum = math.createALUArithmetic(clonedNegation(RegM));
                     sumLabel = math.createArithmeticLabels(sum, "A", "-M");
                     discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
-                    RegA.add(multiplicandRegister);
                 }
                 // Addition case
                 else {
                     sum = math.createALUArithmetic(RegM);
                     sumLabel = math.createArithmeticLabels(sum, "A", "M");
                     discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
-                    RegA.add(multiplicandRegister);
                 }
+                RegA.add(multiplicandRegister);
         
                 // ----Comparison Frame----
                 trace.getRow(trace.size() - 2).getRegister(REGQ).setFillOutlineColor(0, BLUE);
