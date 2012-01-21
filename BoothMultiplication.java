@@ -103,8 +103,8 @@ public class BoothMultiplication {
         }
 
         private DiscardOverflowAddition createALUArithmetic(
-                GAIGSbigEdianRegister multiplicandRegister) {
-            return new DiscardOverflowAddition('+', RegA.toString(),
+                GAIGSbigEdianRegister multiplicandRegister, GAIGSbigEdianRegister sumRegister) {
+            return new DiscardOverflowAddition('+', sumRegister.toString(),
                     multiplicandRegister.toString(), 2,
                     math.getWidth() / 1.4, math.getHeight() / 1.5,
                     FONT_SIZE + .005, FONT_SIZE + .01, FONT_COLOR,
@@ -333,13 +333,13 @@ public class BoothMultiplication {
                 // Subtraction case
                 GAIGSbigEdianRegister multiplicandRegister = clonedNegation(RegM);
                 if (cmpVal == 1) {
-                    sum = math.createALUArithmetic(clonedNegation(RegM));
+                    sum = math.createALUArithmetic(clonedNegation(RegM), RegA);
                     sumLabel = math.createArithmeticLabels(sum, "A", "-M");
                     discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
                 }
                 // Addition case
                 else {
-                    sum = math.createALUArithmetic(RegM);
+                    sum = math.createALUArithmetic(RegM, RegA);
                     sumLabel = math.createArithmeticLabels(sum, "A", "M");
                     discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
                 }
