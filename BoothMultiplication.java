@@ -322,25 +322,25 @@ public class BoothMultiplication {
             int cmpVal = RegQ.getBit(0) - Q_1.getBit(0);
         
             if (cmpVal == 1 || cmpVal == -1) {
+                //Do addition/subtraction
+                
                 did_math = true;
                 positionMajorRow();// clones all registers
                 trace.addRow(createRow());// now we have enough information for question type 3,
                          // calculations pending
+                
                 DiscardOverflowAddition sum;
                 GAIGSmonospacedText sumLabel;
-                GAIGSmonospacedText discardLabel;
-        
+
                 // Subtraction case
                 if (cmpVal == 1) {
                     sum = math.createALUArithmetic(clonedNegation(RegM), RegA);
                     sumLabel = math.createArithmeticLabels(sum, "A", "-M");
-                    discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
                 }
                 // Addition case
                 else {
                     sum = math.createALUArithmetic(RegM, RegA);
                     sumLabel = math.createArithmeticLabels(sum, "A", "M");
-                    discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
                 }
                 
                 RegA.add(clonedNegation(RegM));
@@ -362,6 +362,8 @@ public class BoothMultiplication {
                 Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
         
                 // ----Addition/Subtraction frame----
+                GAIGSmonospacedText discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
+                
                 RegA.setFillOutlineColor(GREEN);
                 math.add(sum);
                 math.add(sumLabel);
@@ -392,6 +394,8 @@ public class BoothMultiplication {
                 sumLabel.setText("");
         
             } else {
+                // Do comparison
+                
                 // ----Comparison Frame---- (yep, again)
                 // Colors
                 RegQ.setFillOutlineColor(0, BLUE);
