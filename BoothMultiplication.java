@@ -2,6 +2,8 @@ package exe.boothsMultiplication;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -25,7 +27,13 @@ import exe.pseudocode.PseudoCodeDisplay;
  * @author Chris Jenkins <cjenkin1@trinity.edu>
  */
 public class BoothMultiplication {
+    
+    /*
+     * Needs Cleaning
+     */
     public class MathPane extends WrappedGAIGSpane<MutableGAIGSdatastr>{
+
+        private Queue<MutableGAIGSdatastr> toShow = new LinkedList<MutableGAIGSdatastr>();
 
         public MathPane(String multiplier) {
             pane = new GAIGSpane<MutableGAIGSdatastr>(WINDOW_WIDTH * (3 / 4.0),
@@ -47,6 +55,22 @@ public class BoothMultiplication {
                     "Math/ALU"));
         }
 
+        public void LoadSubtraction( GAIGSbigEdianRegister multiplicand, GAIGSbigEdianRegister sumRegister ){
+            DiscardOverflowAddition sum = createALUArithmetic(clonedNegation(multiplicand), sumRegister);
+            this.toShow.add(sum);
+            GAIGSmonospacedText sumLabel = createArithmeticLabels(sum, "A", "-M");
+            this.toShow.add(sumLabel);
+            this.toShow.add(createDiscardOverflowLabel(sum, sumLabel));
+        }
+        
+        public void LoadAddition( GAIGSbigEdianRegister multiplicand, GAIGSbigEdianRegister sumRegister ){
+            DiscardOverflowAddition sum = createALUArithmetic(multiplicand, sumRegister);
+            this.toShow.add(sum);
+            GAIGSmonospacedText sumLabel = createArithmeticLabels(sum, "A", "M");
+            this.toShow.add(sumLabel);
+            this.toShow.add(createDiscardOverflowLabel(sum, sumLabel));
+        }
+        
         /**
          * Clone constructor
          * @param mathPane
