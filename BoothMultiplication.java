@@ -28,6 +28,26 @@ import exe.pseudocode.PseudoCodeDisplay;
  */
 public class BoothMultiplication {
     
+    public static class Header extends WrappedGAIGSpane<MutableGAIGSdatastr> {
+        
+        @Deprecated
+        public GAIGSpane<MutableGAIGSdatastr> pane;
+
+        /**
+         * 
+         */
+        public Header() {
+        }
+
+        /* (non-Javadoc)
+         * @see exe.boothsMultiplication.WrappedGAIGSpane#clone()
+         */
+        @Override
+        public WrappedGAIGSpane<MutableGAIGSdatastr> clone() {
+            return null;
+        }
+    }
+
     /*
      * Needs Cleanup
      */
@@ -221,7 +241,7 @@ public class BoothMultiplication {
     // Is the next varriable's type the same as
     // GAIGSpane<GAIGSpane<? extends MutableGAIGSdatastr>>  ?
     private GAIGSpane<MutableGAIGSdatastr> main;
-    private GAIGSpane<MutableGAIGSdatastr> header;
+    private Header header = new Header();
     private MathPane math;
     private RegisterRowHistoryTrace trace = new RegisterRowHistoryTrace();
     private RegisterRow currentRow = new RegisterRow();
@@ -259,18 +279,18 @@ public class BoothMultiplication {
         REG_SIZE = multiplicand.length();
 
         main = createMainPane();
-        header = createHeaderPane();
+        header.pane = createHeaderPane();
 
         title=createTitle();
-        header.add(title);
+        header.pane.add(title);
 
         GAIGSArithmetic binary = createBinaryMultiplicationDisplay(multiplicand, multiplier);
-        header.add(binary);
+        header.pane.add(binary);
         
         ColoredResultArithmetic decimal = createDecimalMultiplicationDisplay(multiplicand, multiplier);
-        header.add(decimal);
+        header.pane.add(decimal);
 
-        MATH_LABEL_SPACE = header.getWidth() / 20;
+        MATH_LABEL_SPACE = header.pane.getWidth() / 20;
 
 		math = new MathPane(multiplier);
 
@@ -343,13 +363,11 @@ public class BoothMultiplication {
                 did_math = true;
                 positionMajorRow();// clones all registers
                 trace.addRow(createRow());// now we have enough information for question type 3,
-                         // calculations pending
+                // calculations pending
                 
-                // Subtraction case
                 if (cmpVal == 1) {
                     math.LoadSubtraction(RegM, RegA);
                 }
-                // Addition case
                 else {
                     math.LoadAddition(RegM, RegA);
                 }
@@ -604,7 +622,7 @@ public class BoothMultiplication {
     }
 
     private GAIGSmonospacedText createTitle() {
-        return new GAIGSmonospacedText(header.getWidth()/2, header.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
+        return new GAIGSmonospacedText(header.pane.getWidth()/2, header.pane.getHeight()-FONT_SIZE*1.5, GAIGSmonospacedText.HCENTER, GAIGSmonospacedText.VTOP, .25, FONT_COLOR, "", .1);
     }
 
     private void showFinishedFrame(String multiplicand,
@@ -636,13 +654,13 @@ public class BoothMultiplication {
         
         leftArrow = createLeftArrow(title, decimal, 0, 0, 0, -1*decimal.getFontSize());
         rightArrow = createRightArrow(title, binary, 0, 0, 0, -1*binary.getFontSize());
-        header.add(leftArrow);
-        header.add(rightArrow);
+        header.pane.add(leftArrow);
+        header.pane.add(rightArrow);
         // We are done drawing arrows
 
         easySnap(null, infoRegisterQ(), easyPseudo(4), null);
-        header.remove(rightArrow);
-        header.remove(leftArrow);
+        header.pane.remove(rightArrow);
+        header.pane.remove(leftArrow);
     }
 
     private void showRegisterMInit(GAIGSArithmetic binary,
@@ -651,16 +669,16 @@ public class BoothMultiplication {
         title.setText("M is the multiplicand"); //Must do this here so we get the correct bounds
         GAIGSarrow leftArrow = createLeftArrow(title, decimal);
         GAIGSarrow rightArrow = createRightArrow(title, binary);
-        header.add(leftArrow);
-        header.add(rightArrow);
+        header.pane.add(leftArrow);
+        header.pane.add(rightArrow);
         // We are done drawing arrows
 
         easySnap(null, infoRegisterM(), easyPseudo(2), null); // A null title
                                                               // indicates to
                                                               // keep
                                                               // the last one.
-        header.remove(rightArrow);
-        header.remove(leftArrow);
+        header.pane.remove(rightArrow);
+        header.pane.remove(leftArrow);
     }
     
     private double[] locationOfFirstRegister() {
@@ -685,18 +703,18 @@ public class BoothMultiplication {
 
     private ColoredResultArithmetic createDecimalMultiplicationDisplay(
             String multiplicand, String multiplier) {
-        return new ColoredResultArithmetic('*', Utilities.toDecimal(multiplicand), Utilities.toDecimal(multiplier), 10, 10*FONT_SIZE, header.getHeight()-FONT_SIZE*1.5, 
-                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
+        return new ColoredResultArithmetic('*', Utilities.toDecimal(multiplicand), Utilities.toDecimal(multiplier), 10, 10*FONT_SIZE, header.pane.getHeight()-FONT_SIZE*1.5, 
+                header.pane.getHeight()/6, header.pane.getHeight()/13, FONT_COLOR, DARK_GREEN);
     }
 
     private TCMultBooth createBinaryMultiplicationDisplay(
             String multiplicand, String multiplier) {
-        return new TCMultBooth(multiplicand, multiplier, header.getWidth(), header.getHeight()-FONT_SIZE*1.5, 
-                header.getHeight()/6, header.getHeight()/13, FONT_COLOR, DARK_GREEN);
+        return new TCMultBooth(multiplicand, multiplier, header.pane.getWidth(), header.pane.getHeight()-FONT_SIZE*1.5, 
+                header.pane.getHeight()/6, header.pane.getHeight()/13, FONT_COLOR, DARK_GREEN);
     }
 
     private void populateMainPane() {
-        main.add(header);
+        main.add(header.pane);
         main.add(trace);
         main.add(math);
     }
