@@ -29,7 +29,7 @@ import exe.pseudocode.PseudoCodeDisplay;
 public class BoothMultiplication {
     
     /*
-     * Needs Cleaning
+     * Needs Cleanup
      */
     public class MathPane extends WrappedGAIGSpane<MutableGAIGSdatastr>{
 
@@ -61,6 +61,7 @@ public class BoothMultiplication {
             GAIGSmonospacedText sumLabel = createArithmeticLabels(sum, "A", "-M");
             this.toShow.add(sumLabel);
             this.toShow.add(createDiscardOverflowLabel(sum, sumLabel));
+            sum.complete();
         }
         
         public void LoadAddition( GAIGSbigEdianRegister multiplicand, GAIGSbigEdianRegister sumRegister ){
@@ -69,6 +70,12 @@ public class BoothMultiplication {
             GAIGSmonospacedText sumLabel = createArithmeticLabels(sum, "A", "M");
             this.toShow.add(sumLabel);
             this.toShow.add(createDiscardOverflowLabel(sum, sumLabel));
+            sum.complete();
+        }
+        
+        public void clear() {
+            pane.removeAll(toShow);
+            toShow.clear();
         }
         
         /**
@@ -78,6 +85,10 @@ public class BoothMultiplication {
         public MathPane(MathPane mathPane) {
             this.pane = mathPane.pane.clone();
         }
+        
+        public void show(){
+            pane.addAll(this.toShow);
+        }
 
         /* (non-Javadoc)
          * @see exe.boothsMultiplication.WrappedGAIGSpane#clone()
@@ -85,25 +96,6 @@ public class BoothMultiplication {
         @Override
         public MathPane clone() {
             return new MathPane(this);
-        }
-        
-        @Deprecated
-        public void add(MutableGAIGSdatastr toAdd){
-            pane.add(toAdd);
-        }
-        
-        @Deprecated
-        public void remove(int index){
-            pane.remove(index);
-        }
-        
-        @Deprecated
-        public int size(){
-            return pane.size();
-        }
-        
-        public void setDisplay(){
-            
         }
         
         private GAIGSmonospacedText createArithmeticLabels(
@@ -353,18 +345,13 @@ public class BoothMultiplication {
                 trace.addRow(createRow());// now we have enough information for question type 3,
                          // calculations pending
                 
-                DiscardOverflowAddition sum;
-                GAIGSmonospacedText sumLabel;
-
                 // Subtraction case
                 if (cmpVal == 1) {
-                    sum = math.createALUArithmetic(clonedNegation(RegM), RegA);
-                    sumLabel = math.createArithmeticLabels(sum, "A", "-M");
+                    math.LoadSubtraction(RegM, RegA);
                 }
                 // Addition case
                 else {
-                    sum = math.createALUArithmetic(RegM, RegA);
-                    sumLabel = math.createArithmeticLabels(sum, "A", "M");
+                    math.LoadAddition(RegM, RegA);
                 }
                 
                 RegA.add(clonedNegation(RegM));
@@ -385,15 +372,10 @@ public class BoothMultiplication {
                 RegQ.setFillOutlineColor(0, DEFAULT_COLOR);
                 Q_1.setFillOutlineColor(0, DEFAULT_COLOR);
         
-                // ----Addition/Subtraction frame----
-                GAIGSmonospacedText discardLabel = math.createDiscardOverflowLabel(sum, sumLabel);
-                
+                // ----Addition/Subtraction frame---
                 RegA.setFillOutlineColor(GREEN);
-                math.add(sum);
-                math.add(sumLabel);
-                math.add(discardLabel);
-                sum.complete();
-        
+                math.show();
+
                 last = currentRow.getFirstRegiterPosition();
                 currentRow.add(new GAIGSmonospacedText(
                                 0
@@ -409,13 +391,7 @@ public class BoothMultiplication {
                         (cmpVal == 1 ? infoSubtraction() : infoAddition()),
                         easyPseudo((cmpVal == 1 ? 11 : 14), GREEN, BLACK),
                         quest.getAdditionQuestion());
-                // Remove Overflow Label
-                math.remove(math.size() - 1);
-                // Remove Label
-                math.remove(math.size() - 1);
-                // Remove Addition
-                math.remove(math.size() - 1);
-                sumLabel.setText("");
+                math.clear();
         
             } else {
                 // Do comparison
